@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,8 +12,9 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal;
     private float rotationSpeed = 100f;
     private float playerSpeed = 20.0f;
-    private float jumpHeight = 1.0f;
+    private float jumpHeight = .01f;
     private float gravityValue = -9.81f;
+    private bool hasJumped = false;
 
     private void Start()
     {
@@ -21,9 +23,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        vertical = Input.GetAxis("Vertical");
-        horizontal = Input.GetAxis("Horizontal");
-
 
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -36,9 +35,9 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(Vector3.up * horizontal * rotationSpeed * Time.deltaTime);
 
         // Changes the height position of the player..
-        if (Input.GetButtonDown("Jump") && groundedPlayer)
+        if (hasJumped && groundedPlayer)
         {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -1f * gravityValue);
         }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
@@ -55,6 +54,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.tag == "Ground")
             groundedPlayer = false;
+    }
+
+    /// <summary>
+    /// Gets Input from user.
+    /// </summary>
+    /// <param name="context"></param>
+    public void Move(InputAction.CallbackContext context)
+    {
+        horizontal = context.ReadValue<Vector2>().x;
+        vertical = context.ReadValue<Vector2>().y;
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        hasJumped = context.ReadValueAsButton();
     }
 
 }
