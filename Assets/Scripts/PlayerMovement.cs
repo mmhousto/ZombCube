@@ -6,14 +6,15 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
-    private Vector3 playerVelocity;
+    private Rigidbody rb;
+    private Vector3 playerVelocity = Vector3.zero;
     private bool groundedPlayer;
     private float vertical;
     private float horizontal;
     private float rotationSpeed = 100f;
     private float playerSpeed = 20.0f;
-    private float jumpHeight = .01f;
-    private float gravityValue = -9.81f;
+    private float jumpHeight = .5f;
+    private float gravityValue = -20f;
     private bool hasJumped = false;
 
     private void Start()
@@ -37,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         // Changes the height position of the player..
         if (hasJumped && groundedPlayer)
         {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -1f * gravityValue);
+            playerVelocity.y += jumpHeight;
         }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
