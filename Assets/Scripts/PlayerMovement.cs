@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal;
     private float rotationSpeed = 100f;
     private float playerSpeed = 20.0f;
-    private float jumpHeight = .5f;
+    private float jumpHeight = .7f;
     private float gravityValue = -20f;
     private bool hasJumped = false;
 
