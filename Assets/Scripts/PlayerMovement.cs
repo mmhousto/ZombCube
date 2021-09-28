@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal;
     private float rotationSpeed = 100f;
     private float playerSpeed = 20.0f;
-    private float jumpHeight = .7f;
+    private float jumpHeight = .6f;
     private float gravityValue = -20f;
     private bool hasJumped = false;
 
@@ -30,10 +30,10 @@ public class PlayerMovement : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
-        Vector3 move = transform.forward * vertical;
+        Vector3 move = transform.forward * vertical + transform.right * horizontal;
         controller.Move(move * Time.deltaTime * playerSpeed);
 
-        transform.Rotate(Vector3.up * horizontal * rotationSpeed * Time.deltaTime);
+        //transform.Rotate(Vector3.up * horizontal * rotationSpeed * Time.deltaTime);
 
         // Changes the height position of the player..
         if (hasJumped && groundedPlayer)

@@ -9,13 +9,14 @@ public class MouseLook : MonoBehaviour
 
     [SerializeField]private Vector2 mouseSensitivity;
     [SerializeField]private float pitch; // y-axis
+    [SerializeField]private float yInput; // y-axis
     [SerializeField]private float yaw; // x-axis
+    [SerializeField]private float xInput; // x-axis
     [SerializeField]private float maxVerticalAngle;
 
     public Transform playerBody;
 
     private float xRotation = 0f;
-    private Vector2 velocity;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +27,14 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        pitch *= mouseSensitivity.y * Time.deltaTime;
-        yaw *= mouseSensitivity.x * Time.deltaTime;
+        yInput = pitch * mouseSensitivity.y * Time.deltaTime;
+        xInput = yaw * mouseSensitivity.x * Time.deltaTime;
 
-        xRotation -= pitch;
+        xRotation -= yInput;
         xRotation = ClampVerticalAngle(xRotation);
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * yaw);
-        
+        playerBody.Rotate(Vector3.up * xInput);
 
     }
 
