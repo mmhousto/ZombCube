@@ -8,7 +8,6 @@ public class Spawner : MonoBehaviour
     private int cubesToSpawn = 5;
     public GameObject[] spawnPoints;
     public GameObject enemy;
-    public GameManager gm;
 
 
     // Start is called before the first frame update
@@ -24,7 +23,7 @@ public class Spawner : MonoBehaviour
         if (!GameObject.FindWithTag("Enemy"))
         {
             cubesToSpawn += 5;
-            gm.NextWave();
+            GameManager.Instance.NextWave();
             Spawn();
         }
     }

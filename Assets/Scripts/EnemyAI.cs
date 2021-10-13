@@ -21,4 +21,13 @@ public class EnemyAI : MonoBehaviour
     {
         ai.SetDestination(target.position);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
+            PlayerManager.Instance.Damage(20);
+        }
+    }
 }

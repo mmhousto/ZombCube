@@ -5,10 +5,28 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager _instance;
 
+    public static GameManager Instance { get { return _instance; } }
     private static int CurrentRound { get; set; }
     public TextMeshProUGUI waveTxt;
     public GameObject onScreenControls;
+    public GameObject gameOverScreen;
+   
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+        Time.timeScale = 1;
+
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +43,7 @@ public class GameManager : MonoBehaviour
 
 #endif
 
+        gameOverScreen.SetActive(false);
         CurrentRound = 1;
         waveTxt.text = "Wave: " + CurrentRound.ToString();
     }
@@ -38,5 +57,12 @@ public class GameManager : MonoBehaviour
     public void NextWave()
     {
         CurrentRound += 1;
+    }
+
+    public void GameOver()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Time.timeScale = 0;
+        gameOverScreen.SetActive(true);
     }
 }
