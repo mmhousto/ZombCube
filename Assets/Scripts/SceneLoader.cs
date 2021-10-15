@@ -1,17 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public static class SceneLoader
 {
     
-    public void ToMainMenu()
+    public static void ToMainMenu()
     {
         SceneManager.LoadScene(0);
     }
 
-    public void PlayGame()
+    public static void PlayGame()
     {
         SceneManager.LoadScene(1);
     }

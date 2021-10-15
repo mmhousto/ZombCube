@@ -65,4 +65,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         gameOverScreen.SetActive(true);
     }
+
+    public void Restart()
+    {
+        SceneLoader.PlayGame();
+    }
+
+    public void GoHome()
+    {
+        SceneLoader.ToMainMenu();
+    }
 }

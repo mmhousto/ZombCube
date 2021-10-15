@@ -18,7 +18,6 @@ public class PlayerManager : MonoBehaviour, IDamageable<float>
 
     private float healthPoints = 100f;
     private bool isGameOver;
-    private int currentBlaster = 0;
 
     private void Awake()
     {
@@ -31,12 +30,12 @@ public class PlayerManager : MonoBehaviour, IDamageable<float>
             _instance = this;
         }
 
-        currentBlaster = DataManager.Instance.GetBlaster();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        LoadPlayerData();
         currentPoints = 0;
         healthBar.value = healthPoints;
         scoreText.text = "Score: " + currentPoints.ToString();
@@ -45,7 +44,7 @@ public class PlayerManager : MonoBehaviour, IDamageable<float>
 
         foreach(GameObject item in blaster)
         {
-            item.GetComponent<MeshRenderer>().material = blasterMaterial[currentBlaster];
+            item.GetComponent<MeshRenderer>().material = blasterMaterial[Player.Instance.currentBlaster];
         }
     }
 
@@ -59,6 +58,7 @@ public class PlayerManager : MonoBehaviour, IDamageable<float>
         {
             healthPoints = 0;
             UpdateTotalPoints();
+            SavePlayerData();
             GameManager.Instance.GameOver();
             isGameOver = true;
         }
@@ -74,8 +74,25 @@ public class PlayerManager : MonoBehaviour, IDamageable<float>
         healthPoints -= damageTaken;
     }
 
-    public void UpdateTotalPoints()
+    private void UpdateTotalPoints()
     {
-        PlayerPrefs.SetInt("Points", DataManager.Instance.GetPoints() + currentPoints);
+        Player.Instance.points += currentPoints;
+    }
+
+    public void SavePlayerData()
+    {
+        SaveSystem.SavePlayer(Player.Instance);
+    }
+
+    public void LoadPlayerData()
+    {
+        SaveData data = SaveSystem.LoadPlayer();
+
+        Player.Instance.playerName = data.playerName;
+        Player.Instance.coins = data.coins;
+        Player.Instance.points = data.points;
+        Player.Instance.highestWave = data.highestWave;
+        Player.Instance.currentBlaster = data.currentBlaster;
+        Player.Instance.ownedBlasters = data.ownedBlasters;
     }
 }

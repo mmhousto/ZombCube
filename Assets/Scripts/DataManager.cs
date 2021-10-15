@@ -12,14 +12,6 @@ public class DataManager : MonoBehaviour
     public TextMeshProUGUI coinsText;
     public TextMeshProUGUI pointsText;
 
-    public int[] ownedBlasters;
-    private int coins = 0;
-    private int points = 0;
-    private int bestRound = 0;
-    private int currentBlaster = 0;
-    private float musicVolume;
-    private float masterVolume;
-
     /// <summary>
     /// Singleton implementation
     /// </summary>
@@ -34,33 +26,20 @@ public class DataManager : MonoBehaviour
             _instance = this;
         }
 
-        ownedBlasters = new int[] {1,
-                                PlayerPrefs.GetInt("Blaster1", 0),
-                                PlayerPrefs.GetInt("Blaster2", 0),
-                                PlayerPrefs.GetInt("Blaster3", 0),
-                                PlayerPrefs.GetInt("Blaster4", 0),
-                                PlayerPrefs.GetInt("Blaster5", 0),
-                                PlayerPrefs.GetInt("Blaster6", 0) };
-}
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        coins = GetCoins();
-        points = GetPoints();
-        bestRound = GetBestRound();
-        currentBlaster = GetBlaster();
-        musicVolume = GetMusicVolume();
-        masterVolume = GetMasterVolume();
 
         if (coinsText)
         {
-            coinsText.text = "Coins: " + coins;
+            coinsText.text = "Coins: " + Player.Instance.coins;
         }
 
         if (pointsText)
         {
-            pointsText.text = "Points: " + points;
+            pointsText.text = "Points: " + Player.Instance.points;
         }
         
     }
@@ -68,52 +47,16 @@ public class DataManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        coins = GetCoins();
-        points = GetPoints();
-        bestRound = GetBestRound();
-        currentBlaster = GetBlaster();
-        musicVolume = GetMusicVolume();
-        masterVolume = GetMasterVolume();
 
         if (coinsText)
         {
-            coinsText.text = "Coins: " + coins;
+            coinsText.text = "Coins: " + Player.Instance.coins;
         }
 
         if (pointsText)
         {
-            pointsText.text = "Points: " + points;
+            pointsText.text = "Points: " + Player.Instance.points;
         }
-    }
-
-    public int GetCoins()
-    {
-        return PlayerPrefs.GetInt("Coins", 0);
-    }
-
-    public int GetPoints()
-    {
-        return PlayerPrefs.GetInt("Points", 0);
-    }
-
-    public int GetBestRound()
-    {
-        return PlayerPrefs.GetInt("BestRound", 0);
-    }
-
-    public int GetBlaster()
-    {
-        return PlayerPrefs.GetInt("Blaster", 0);
-    }
-
-    public float GetMusicVolume()
-    {
-        return PlayerPrefs.GetFloat("MusicVolume", 1);
-    }
-
-    public float GetMasterVolume()
-    {
-        return PlayerPrefs.GetFloat("MasterVolume", 1);
     }
 
 

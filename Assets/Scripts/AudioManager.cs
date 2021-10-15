@@ -27,14 +27,14 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        masterMixer.SetFloat("MasterVol", DataManager.Instance.GetMasterVolume());
-        masterMixer.SetFloat("MusicVol", DataManager.Instance.GetMusicVolume());
+        masterMixer.SetFloat("MasterVol", PlayerPrefs.GetFloat("MasterVolume", 0));
+        masterMixer.SetFloat("MusicVol", PlayerPrefs.GetFloat("MusicVolume", 0));
 
         if(musicSlider)
-            musicSlider.value = DataManager.Instance.GetMusicVolume();
+            musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0);
 
         if(masterSlider)
-            masterSlider.value = DataManager.Instance.GetMasterVolume();
+            masterSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0);
     }
 
     public void ChangeSoundVolume(float soundLevel)

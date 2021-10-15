@@ -7,7 +7,8 @@ public class PurchaseFulfillment : MonoBehaviour
 
     public void GrantCoins(int credits)
     {
-        PlayerPrefs.SetInt("Coins", DataManager.Instance.GetCoins() + credits);
+        Player.Instance.coins += credits;
+        SaveSystem.SavePlayer(Player.Instance);
         Debug.Log("You received " + credits + " Coins!");
     }
 }
