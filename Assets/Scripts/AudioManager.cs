@@ -27,25 +27,25 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        masterMixer.SetFloat("MasterVol", PlayerPrefs.GetFloat("MasterVolume", 0));
-        masterMixer.SetFloat("MusicVol", PlayerPrefs.GetFloat("MusicVolume", 0));
+        masterMixer.SetFloat("MasterVol", PreferencesManager.GetMasterVolume());
+        masterMixer.SetFloat("MusicVol", PreferencesManager.GetMusicVolume());
 
         if(musicSlider)
-            musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0);
+            musicSlider.value = PreferencesManager.GetMusicVolume();
 
         if(masterSlider)
-            masterSlider.value = PlayerPrefs.GetFloat("MasterVolume", 0);
+            masterSlider.value = PreferencesManager.GetMasterVolume();
     }
 
     public void ChangeSoundVolume(float soundLevel)
     {
         masterMixer.SetFloat("MasterVol", soundLevel);
-        PlayerPrefs.SetFloat("MasterVolume", soundLevel);
+        PreferencesManager.SetMasterVolume(soundLevel);
     }
 
     public void ChangeMusicVolume(float soundLevel)
     {
         masterMixer.SetFloat("MusicVol", soundLevel);
-        PlayerPrefs.SetFloat("MusicVolume", soundLevel);
+        PreferencesManager.SetMusicVolume(soundLevel);
     }
 }
