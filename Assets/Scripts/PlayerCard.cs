@@ -7,16 +7,20 @@ using DapperDino.UMT.Lobby.UI;
 
 public class PlayerCard : MonoBehaviour
 {
-    public GameObject[] blaster;
+    [Tooltip("GameObject array that holds blaster components.")] public GameObject[] blaster;
 
     [Header("Panels")]
-    [SerializeField] private GameObject waitingForPlayerPanel;
-    [SerializeField] private GameObject playerDataPanel;
+    [SerializeField] [Tooltip("UI GameObject that holds 'Waiting For Player' text.")] private GameObject waitingForPlayerPanel;
+    [SerializeField] [Tooltip("UI GameObject that holds player data.")] private GameObject playerDataPanel;
 
     [Header("Data Display")]
-    [SerializeField] private TextMeshProUGUI playerName;
-    [SerializeField] private Toggle isReadyToggle;
+    [SerializeField] [Tooltip("UI Text that holds player's name.")] private TextMeshProUGUI playerName;
+    [SerializeField] [Tooltip("UI Toggle that tells if player is ready or not.")] private Toggle isReadyToggle;
 
+    /// <summary>
+    /// Updates the Player Card with the players data.
+    /// </summary>
+    /// <param name="lobbyPlayerState"></param>
     public void UpdateDisplay(LobbyPlayerState lobbyPlayerState)
     {
         playerName.text = lobbyPlayerState.PlayerName;
@@ -31,18 +35,13 @@ public class PlayerCard : MonoBehaviour
         playerDataPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Disables the display and sets the waiting for player text to active.
+    /// </summary>
     public void DisableDisplay()
     {
         waitingForPlayerPanel.SetActive(true);
         playerDataPanel.SetActive(false);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-        
-    
     }
 
 }

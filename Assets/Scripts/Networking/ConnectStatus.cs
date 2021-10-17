@@ -1,5 +1,8 @@
 namespace DapperDino.UMT.Lobby.Networking
 {
+    /// <summary>
+    /// List of connection status'
+    /// </summary>
     public enum ConnectStatus
     {
         Undefined,

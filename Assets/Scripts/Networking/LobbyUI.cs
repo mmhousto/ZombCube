@@ -12,11 +12,14 @@ namespace DapperDino.UMT.Lobby.UI
     public class LobbyUI : NetworkBehaviour
     {
         [Header("References")]
-        [SerializeField] private PlayerCard[] lobbyPlayerCards;
-        [SerializeField] private Button startGameButton;
+        [SerializeField] [Tooltip("Array of PlayerCards.")] private PlayerCard[] lobbyPlayerCards;
+        [SerializeField] [Tooltip("UI button to start the game.")] private Button startGameButton;
 
         private NetworkList<LobbyPlayerState> lobbyPlayers = new NetworkList<LobbyPlayerState>();
 
+        /// <summary>
+        /// Adds methods to callbacks on network start.
+        /// </summary>
         public override void NetworkStart()
         {
             if (IsClient)
@@ -38,6 +41,9 @@ namespace DapperDino.UMT.Lobby.UI
             }
         }
 
+        /// <summary>
+        /// Removes methods from callbacks.
+        /// </summary>
         private void OnDestroy()
         {
             lobbyPlayers.OnListChanged -= HandleLobbyPlayersStateChanged;
@@ -49,9 +55,16 @@ namespace DapperDino.UMT.Lobby.UI
             }
         }
 
+        /// <summary>
+        /// Determines if everone is ready.
+        /// If there is less than 1 player then return false.
+        /// If any player is not ready, then return false.
+        /// else return true.
+        /// </summary>
+        /// <returns></returns>
         private bool IsEveryoneReady()
         {
-            if (lobbyPlayers.Count < 2)
+            if (lobbyPlayers.Count < 1)
             {
                 return false;
             }
@@ -67,6 +80,10 @@ namespace DapperDino.UMT.Lobby.UI
             return true;
         }
 
+        /// <summary>
+        /// When client is connected, adds their player card based on their player data.
+        /// </summary>
+        /// <param name="clientId"></param>
         private void HandleClientConnected(ulong clientId)
         {
             var playerData = ServerGameNetPortal.Instance.GetPlayerData(clientId);
@@ -81,6 +98,10 @@ namespace DapperDino.UMT.Lobby.UI
             ));
         }
 
+        /// <summary>
+        /// Disconnects a player based on clientId and removes their PlayerCard.
+        /// </summary>
+        /// <param name="clientId"></param>
         private void HandleClientDisconnect(ulong clientId)
         {
             for (int i = 0; i < lobbyPlayers.Count; i++)
@@ -93,6 +114,10 @@ namespace DapperDino.UMT.Lobby.UI
             }
         }
 
+        /// <summary>
+        /// Sets the players toggle over the network.
+        /// </summary>
+        /// <param name="serverRpcParams"></param>
         [ServerRpc(RequireOwnership = false)]
         private void ToggleReadyServerRpc(ServerRpcParams serverRpcParams = default)
         {
@@ -110,6 +135,10 @@ namespace DapperDino.UMT.Lobby.UI
             }
         }
 
+        /// <summary>
+        /// If host and everone is ready, asks the server to start the game.
+        /// </summary>
+        /// <param name="serverRpcParams"></param>
         [ServerRpc(RequireOwnership = false)]
         private void StartGameServerRpc(ServerRpcParams serverRpcParams = default)
         {
@@ -120,21 +149,35 @@ namespace DapperDino.UMT.Lobby.UI
             ServerGameNetPortal.Instance.StartGame();
         }
 
+        /// <summary>
+        /// Requests to disconnect from lobby.
+        /// </summary>
         public void OnLeaveClicked()
         {
             GameNetPortal.Instance.RequestDisconnect();
         }
 
+        /// <summary>
+        /// Calls method to set your ready toggle over the network.
+        /// </summary>
         public void OnReadyClicked()
         {
             ToggleReadyServerRpc();
         }
 
+        /// <summary>
+        /// Asks the server to start the game.
+        /// </summary>
         public void OnStartGameClicked()
         {
             StartGameServerRpc();
         }
 
+        /// <summary>
+        /// Updates player cards when someone enters, leaves, or ready's up.
+        /// Updates start game button when all players are ready.
+        /// </summary>
+        /// <param name="lobbyState"></param>
         private void HandleLobbyPlayersStateChanged(NetworkListEvent<LobbyPlayerState> lobbyState)
         {
             for (int i = 0; i < lobbyPlayerCards.Length; i++)

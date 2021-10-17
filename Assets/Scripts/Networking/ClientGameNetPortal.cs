@@ -20,6 +20,9 @@ namespace DapperDino.UMT.Lobby.Networking
 
         private GameNetPortal gameNetPortal;
 
+        /// <summary>
+        /// Singleton Pattern
+        /// </summary>
         private void Awake()
         {
             if (instance != null && instance != this)
@@ -36,6 +39,7 @@ namespace DapperDino.UMT.Lobby.Networking
         {
             gameNetPortal = GetComponent<GameNetPortal>();
 
+            // Adds methods to callbacks
             gameNetPortal.OnNetworkReadied += HandleNetworkReadied;
             gameNetPortal.OnConnectionFinished += HandleConnectionFinished;
             gameNetPortal.OnDisconnectReasonReceived += HandleDisconnectReasonReceived;
@@ -46,6 +50,7 @@ namespace DapperDino.UMT.Lobby.Networking
         {
             if (gameNetPortal == null) { return; }
 
+            // Removes methods from callbacks.
             gameNetPortal.OnNetworkReadied -= HandleNetworkReadied;
             gameNetPortal.OnConnectionFinished -= HandleConnectionFinished;
             gameNetPortal.OnDisconnectReasonReceived -= HandleDisconnectReasonReceived;
@@ -55,15 +60,18 @@ namespace DapperDino.UMT.Lobby.Networking
             NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnect;
         }
 
+        /// <summary>
+        /// Passes through information through bytes and the ConnectionData.
+        /// Calls StartClient to authenticate password.
+        /// </summary>
         public void StartClient()
         {
-            SaveData data = SaveSystem.LoadPlayer();
             var payload = JsonUtility.ToJson(new ConnectionPayload()
             {
                 clientGUID = Guid.NewGuid().ToString(),
                 clientScene = SceneManager.GetActiveScene().buildIndex,
-                playerName = data.playerName,
-                currentBlaster = data.currentBlaster,
+                playerName = Player.Instance.playerName,
+                currentBlaster = Player.Instance.currentBlaster,
                 password = Player.Instance.password
             });
 
@@ -74,6 +82,11 @@ namespace DapperDino.UMT.Lobby.Networking
             NetworkManager.Singleton.StartClient();
         }
 
+        /// <summary>
+        /// If you are not the client returns.
+        /// If you are not the host, adds HandleUserDisconnectRequested method to OnUserDisconnectRequested callback.
+        /// Adds HandleSceneLoaded method to sceneLoaded callback.
+        /// </summary>
         private void HandleNetworkReadied()
         {
             if (!NetworkManager.Singleton.IsClient) { return; }
@@ -86,11 +99,19 @@ namespace DapperDino.UMT.Lobby.Networking
             SceneManager.sceneLoaded += HandleSceneLoaded;
         }
 
+        /// <summary>
+        /// Handles scene to load with build index.
+        /// </summary>
+        /// <param name="scene"></param>
+        /// <param name="mode"></param>
         private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             gameNetPortal.ClientToServerSceneChanged(SceneManager.GetActiveScene().buildIndex);
         }
 
+        /// <summary>
+        /// Disconnects user and stops the client and returns player to Main Menu.
+        /// </summary>
         private void HandleUserDisconnectRequested()
         {
             DisconnectReason.SetDisconnectReason(ConnectStatus.UserRequestedDisconnect);
@@ -101,6 +122,11 @@ namespace DapperDino.UMT.Lobby.Networking
             SceneManager.LoadScene("MainMenu");
         }
 
+        /// <summary>
+        /// If connection is not successfull, calls and sets disconnect reason.
+        /// Invokes OnConnectionFinished action.
+        /// </summary>
+        /// <param name="status">The connection status.</param>
         private void HandleConnectionFinished(ConnectStatus status)
         {
             if (status != ConnectStatus.Success)
@@ -111,11 +137,19 @@ namespace DapperDino.UMT.Lobby.Networking
             OnConnectionFinished?.Invoke(status);
         }
 
+        /// <summary>
+        /// Calls and sets the disconnect reason.
+        /// </summary>
+        /// <param name="status">The connection status.</param>
         private void HandleDisconnectReasonReceived(ConnectStatus status)
         {
             DisconnectReason.SetDisconnectReason(status);
         }
 
+        /// <summary>
+        /// Diconnects client and sends them to Main Menu scene if they are not there.
+        /// </summary>
+        /// <param name="clientId"></param>
         private void HandleClientDisconnect(ulong clientId)
         {
             if (!NetworkManager.Singleton.IsConnectedClient && !NetworkManager.Singleton.IsHost)

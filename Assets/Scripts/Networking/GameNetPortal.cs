@@ -9,6 +9,7 @@ namespace DapperDino.UMT.Lobby.Networking
 {
     public class GameNetPortal : MonoBehaviour
     {
+        // Singleton
         public static GameNetPortal Instance => instance;
         private static GameNetPortal instance;
 
@@ -20,7 +21,11 @@ namespace DapperDino.UMT.Lobby.Networking
         public event Action<ulong, int> OnClientSceneChanged;
 
         public event Action OnUserDisconnectRequested;
-
+        
+        /// <summary>
+        /// Singleton Implementation.
+        /// Do Not Destroy on load.
+        /// </summary>
         private void Awake()
         {
             if (instance != null && instance != this)
@@ -35,8 +40,8 @@ namespace DapperDino.UMT.Lobby.Networking
 
         private void Start()
         {
-            NetworkManager.Singleton.OnServerStarted += HandleNetworkReady;
-            NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
+            NetworkManager.Singleton.OnServerStarted += HandleNetworkReady; // Calls HandleNetworkReady method on server start
+            NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected; // When Client is connected calls HandleClientConnected method.
 
             RegisterClientMessageHandlers();
             RegisterServerMessageHandlers();
@@ -44,26 +49,38 @@ namespace DapperDino.UMT.Lobby.Networking
 
         private void OnDestroy()
         {
+            // If the instance is not null, removes the methods
             if (NetworkManager.Singleton != null)
             {
                 NetworkManager.Singleton.OnServerStarted -= HandleNetworkReady;
                 NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
             }
 
+            // Unregisters messages
             UnregisterClientMessageHandlers();
             UnregisterServerMessageHandlers();
         }
 
+        /// <summary>
+        /// Starts a room.
+        /// </summary>
         public void StartHost()
         {
             NetworkManager.Singleton.StartHost();
         }
 
+        /// <summary>
+        /// Requests to disconnect
+        /// </summary>
         public void RequestDisconnect()
         {
             OnUserDisconnectRequested?.Invoke();
         }
 
+        /// <summary>
+        /// If clientId is not the local user then return else, call HandleNetworkReady.
+        /// </summary>
+        /// <param name="clientId">The players client id.</param>
         private void HandleClientConnected(ulong clientId)
         {
             if (clientId != NetworkManager.Singleton.LocalClientId) { return; }
@@ -71,6 +88,9 @@ namespace DapperDino.UMT.Lobby.Networking
             HandleNetworkReady();
         }
 
+        /// <summary>
+        /// If host, sets connection status to success. Invokes the OnNetworkReadied Action.
+        /// </summary>
         private void HandleNetworkReady()
         {
             if (NetworkManager.Singleton.IsHost)
@@ -83,6 +103,9 @@ namespace DapperDino.UMT.Lobby.Networking
 
         #region Message Handlers
 
+        /// <summary>
+        /// Registers client connection status messages over the network.
+        /// </summary>
         private void RegisterClientMessageHandlers()
         {
             CustomMessagingManager.RegisterNamedMessageHandler("ServerToClientConnectResult", (senderClientId, stream) =>
@@ -106,6 +129,9 @@ namespace DapperDino.UMT.Lobby.Networking
             });
         }
 
+        /// <summary>
+        /// Registers server scene messages over the network.
+        /// </summary>
         private void RegisterServerMessageHandlers()
         {
             CustomMessagingManager.RegisterNamedMessageHandler("ClientToServerSceneChanged", (senderClientId, stream) =>
@@ -119,12 +145,18 @@ namespace DapperDino.UMT.Lobby.Networking
             });
         }
 
+        /// <summary>
+        /// Unregisters client messages.
+        /// </summary>
         private void UnregisterClientMessageHandlers()
         {
             CustomMessagingManager.UnregisterNamedMessageHandler("ServerToClientConnectResult");
             CustomMessagingManager.UnregisterNamedMessageHandler("ServerToClientSetDisconnectReason");
         }
 
+        /// <summary>
+        /// Unregisters server messages.
+        /// </summary>
         private void UnregisterServerMessageHandlers()
         {
             CustomMessagingManager.UnregisterNamedMessageHandler("ClientToServerSceneChanged");
@@ -134,6 +166,11 @@ namespace DapperDino.UMT.Lobby.Networking
 
         #region Message Senders
 
+        /// <summary>
+        /// Sends connection status over the network to client.
+        /// </summary>
+        /// <param name="netId"></param>
+        /// <param name="status"></param>
         public void ServerToClientConnectResult(ulong netId, ConnectStatus status)
         {
             using (var buffer = PooledNetworkBuffer.Get())
@@ -146,6 +183,11 @@ namespace DapperDino.UMT.Lobby.Networking
             }
         }
 
+        /// <summary>
+        /// Sets disconnect reason over the network to client.
+        /// </summary>
+        /// <param name="netId"></param>
+        /// <param name="status"></param>
         public void ServerToClientSetDisconnectReason(ulong netId, ConnectStatus status)
         {
             using (var buffer = PooledNetworkBuffer.Get())
@@ -158,6 +200,10 @@ namespace DapperDino.UMT.Lobby.Networking
             }
         }
 
+        /// <summary>
+        /// Client sends new scene to server to change to.
+        /// </summary>
+        /// <param name="newScene"></param>
         public void ClientToServerSceneChanged(int newScene)
         {
             if (NetworkManager.Singleton.IsHost)

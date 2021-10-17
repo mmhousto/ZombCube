@@ -13,20 +13,23 @@ namespace DapperDino.UMT.Lobby.Networking
     public class ServerGameNetPortal : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField] private int maxPlayers = 4;
+        [SerializeField] [Tooltip("Max players allowed in a game.")] private int maxPlayers = 4;
 
         public static ServerGameNetPortal Instance => instance;
         private static ServerGameNetPortal instance;
 
-        private Dictionary<string, PlayerData> clientData;
-        private Dictionary<ulong, string> clientIdToGuid;
-        private Dictionary<ulong, int> clientSceneMap;
-        private bool gameInProgress;
+        private Dictionary<string, PlayerData> clientData; // stores players in room.
+        private Dictionary<ulong, string> clientIdToGuid; // stores players client id
+        private Dictionary<ulong, int> clientSceneMap; // stores scene
+        private bool gameInProgress; // Is the game in progress?
 
         private const int MaxConnectionPayload = 1024;
 
         private GameNetPortal gameNetPortal;
 
+        /// <summary>
+        /// Signleton Pattern
+        /// </summary>
         private void Awake()
         {
             if (instance != null && instance != this)
@@ -39,6 +42,10 @@ namespace DapperDino.UMT.Lobby.Networking
             DontDestroyOnLoad(gameObject);
         }
 
+        /// <summary>
+        /// Adds methods to callbacks.
+        /// Creates server data dictionary for scene, player data, and client id.
+        /// </summary>
         private void Start()
         {
             gameNetPortal = GetComponent<GameNetPortal>();
@@ -52,6 +59,9 @@ namespace DapperDino.UMT.Lobby.Networking
             clientSceneMap = new Dictionary<ulong, int>();
         }
 
+        /// <summary>
+        /// Removes methods from callbacks.
+        /// </summary>
         private void OnDestroy()
         {
             if (gameNetPortal == null) { return; }
@@ -64,6 +74,11 @@ namespace DapperDino.UMT.Lobby.Networking
             NetworkManager.Singleton.OnServerStarted -= HandleServerStarted;
         }
 
+        /// <summary>
+        /// Tries to get the players data based on clientId.
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
         public PlayerData? GetPlayerData(ulong clientId)
         {
             if (clientIdToGuid.TryGetValue(clientId, out string clientGuid))
@@ -85,6 +100,9 @@ namespace DapperDino.UMT.Lobby.Networking
             return null;
         }
 
+        /// <summary>
+        /// Starts the game.
+        /// </summary>
         public void StartGame()
         {
             gameInProgress = true;
@@ -92,6 +110,9 @@ namespace DapperDino.UMT.Lobby.Networking
             NetworkSceneManager.SwitchScene("GameScene");
         }
 
+        /// <summary>
+        /// Ends round and returns players to the lobby.
+        /// </summary>
         public void EndRound()
         {
             gameInProgress = false;
@@ -99,6 +120,10 @@ namespace DapperDino.UMT.Lobby.Networking
             NetworkSceneManager.SwitchScene("LobbyScene");
         }
 
+        /// <summary>
+        /// When connected to the network and room, switches you to the lobby scene and adds methods to callbacks.
+        /// Sets client scene data for host.
+        /// </summary>
         private void HandleNetworkReadied()
         {
             if (!NetworkManager.Singleton.IsServer) { return; }
@@ -115,6 +140,10 @@ namespace DapperDino.UMT.Lobby.Networking
             }
         }
 
+        /// <summary>
+        /// Removes client from server data and removes methods from callbacks.
+        /// </summary>
+        /// <param name="clientId"></param>
         private void HandleClientDisconnect(ulong clientId)
         {
             clientSceneMap.Remove(clientId);
@@ -137,11 +166,19 @@ namespace DapperDino.UMT.Lobby.Networking
             }
         }
 
+        /// <summary>
+        /// Changes scene data for that client.
+        /// </summary>
+        /// <param name="clientId">The users id.</param>
+        /// <param name="sceneIndex">The scene number they are in.</param>
         private void HandleClientSceneChanged(ulong clientId, int sceneIndex)
         {
             clientSceneMap[clientId] = sceneIndex;
         }
 
+        /// <summary>
+        /// Disconnects host and clears server data and return to MainMenu scene.
+        /// </summary>
         private void HandleUserDisconnectRequested()
         {
             HandleClientDisconnect(NetworkManager.Singleton.LocalClientId);
@@ -153,6 +190,9 @@ namespace DapperDino.UMT.Lobby.Networking
             SceneManager.LoadScene("MainMenu");
         }
 
+        /// <summary>
+        /// Creates the server and adds the host to client data.
+        /// </summary>
         private void HandleServerStarted()
         {
             if (!NetworkManager.Singleton.IsHost) { return; }
@@ -165,6 +205,9 @@ namespace DapperDino.UMT.Lobby.Networking
             clientIdToGuid.Add(NetworkManager.Singleton.LocalClientId, clientGuid);
         }
 
+        /// <summary>
+        /// Clears server data.
+        /// </summary>
         private void ClearData()
         {
             clientData.Clear();
@@ -174,6 +217,18 @@ namespace DapperDino.UMT.Lobby.Networking
             gameInProgress = false;
         }
 
+        /// <summary>
+        /// Returns if connectionData length is greater than MaxConnectionPayLoad.
+        /// Gets connection data and stores it in a variable.
+        /// Gets password from user and compares it with server password.
+        /// If passwords match success, else wrong password and disconnects.
+        /// If server is full, disconnects.
+        /// If game is in progress, disconnects.
+        /// If success, tells server connection status and adds player data to client data array. 
+        /// </summary>
+        /// <param name="connectionData"></param>
+        /// <param name="clientId"></param>
+        /// <param name="callback"></param>
         private void ApprovalCheck(byte[] connectionData, ulong clientId, NetworkManager.ConnectionApprovedDelegate callback)
         {
             if (connectionData.Length > MaxConnectionPayload)
@@ -231,6 +286,12 @@ namespace DapperDino.UMT.Lobby.Networking
             }
         }
 
+        /// <summary>
+        /// Tells client reason of disconnect, then kicks client.
+        /// </summary>
+        /// <param name="clientId">The id of the client.</param>
+        /// <param name="reason">ConnectStatus reason for disconnect.</param>
+        /// <returns></returns>
         private IEnumerator WaitToDisconnectClient(ulong clientId, ConnectStatus reason)
         {
             gameNetPortal.ServerToClientSetDisconnectReason(clientId, reason);
@@ -240,6 +301,10 @@ namespace DapperDino.UMT.Lobby.Networking
             KickClient(clientId);
         }
 
+        /// <summary>
+        /// Kicks client from game based on clientId.
+        /// </summary>
+        /// <param name="clientId">The id of the client.</param>
         private void KickClient(ulong clientId)
         {
             NetworkObject networkObject = NetworkSpawnManager.GetPlayerNetworkObject(clientId);

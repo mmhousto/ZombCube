@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     public int[] ownedBlasters = { 1, 0, 0, 0, 0, 0, 0};
     public Material[] materials;
 
+    /// <summary>
+    /// Singleton Pattern.
+    /// </summary>
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -29,12 +32,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets playerName to name and saves the player data.
+    /// </summary>
+    /// <param name="name">The Name Input Field</param>
     public void SetPlayerName(string name)
     {
         playerName = name;
         SaveSystem.SavePlayer(_instance);
     }
 
+    /// <summary>
+    /// Sets password to word.
+    /// </summary>
+    /// <param name="word">The Password Input Field</param>
     public void SetPassword(string word)
     {
         password = word;
