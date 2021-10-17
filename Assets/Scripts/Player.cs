@@ -13,7 +13,9 @@ public class Player : MonoBehaviour
     public int currentBlaster = 0;
     public int highestWave = 0;
     public string playerName = "PlayerName";
+    public string password = "";
     public int[] ownedBlasters = { 1, 0, 0, 0, 0, 0, 0};
+    public Material[] materials;
 
     private void Awake()
     {
@@ -25,6 +27,17 @@ public class Player : MonoBehaviour
         {
             _instance = this;
         }
+    }
+
+    public void SetPlayerName(string name)
+    {
+        playerName = name;
+        SaveSystem.SavePlayer(_instance);
+    }
+
+    public void SetPassword(string word)
+    {
+        password = word;
     }
 
 }

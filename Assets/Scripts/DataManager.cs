@@ -11,6 +11,7 @@ public class DataManager : MonoBehaviour
 
     public TextMeshProUGUI coinsText;
     public TextMeshProUGUI pointsText;
+    public TMP_InputField nameInputField;
 
     /// <summary>
     /// Singleton implementation
@@ -41,6 +42,9 @@ public class DataManager : MonoBehaviour
         {
             pointsText.text = "Points: " + Player.Instance.points;
         }
+
+        if (nameInputField)
+            nameInputField.text = Player.Instance.playerName;
         
     }
 
@@ -57,6 +61,7 @@ public class DataManager : MonoBehaviour
         {
             pointsText.text = "Points: " + Player.Instance.points;
         }
+
     }
 
 

@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1463338011}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Blaster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 1528857563}
   m_Layer: 0
   m_Name: Blaster
-  m_TagString: Untagged
+  m_TagString: Blaster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -239,6 +239,8 @@ GameObject:
   - component: {fileID: 2812065823337649146}
   - component: {fileID: 777121368}
   - component: {fileID: 6060195563491696939}
+  - component: {fileID: -1835763293017448524}
+  - component: {fileID: 7073962704297218136}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -255,7 +257,7 @@ Transform:
   m_GameObject: {fileID: 2812065823337649139}
   m_LocalRotation: {x: 0, y: -0.40178797, z: 0, w: 0.91573274}
   m_LocalPosition: {x: 17.33, y: 2.34, z: 0}
-  m_LocalScale: {x: 1, y: 1.7, z: 1}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 2812065823642933555}
   m_Father: {fileID: 0}
@@ -529,7 +531,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17baddb889096048a8f96267008749b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blasterMaterial:
+  - {fileID: 2100000, guid: 6c235270166d20047b30425b1edf8d70, type: 2}
+  - {fileID: 2100000, guid: 03e60a291a043834db2e4ba57a84de24, type: 2}
+  - {fileID: 2100000, guid: 4a6cc66bceeb4544584d30a62e398057, type: 2}
+  - {fileID: 2100000, guid: ee23a89c41c51764dbe7acbe0340f3e1, type: 2}
+  - {fileID: 2100000, guid: 0bef1cfa449270d4eb9cf4ee6b87e261, type: 2}
+  - {fileID: 2100000, guid: d28d6244d2f2679439734e9662944224, type: 2}
+  - {fileID: 2100000, guid: c0bded7d132cf994b8b0933f52437cc9, type: 2}
+  currentPoints: 0
   scoreText: {fileID: 0}
+  healthBar: {fileID: 0}
+--- !u!114 &-1835763293017448524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812065823337649139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkInstanceId: 0
+  PrefabHash: 1897319656204293034
+  PrefabHashGenerator: Player
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+--- !u!114 &7073962704297218136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812065823337649139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94846b638995ccd4f9c48985664d98b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: 0
+  coins: 0
+  currentBlaster: 0
+  highestWave: 0
+  playerName: PlayerName
+  ownedBlasters: 01000000000000000000000000000000000000000000000000000000
 --- !u!1 &2812065823642933558
 GameObject:
   m_ObjectHideFlags: 0
