@@ -13,8 +13,8 @@ public class PlayerManager : MonoBehaviour, IDamageable<float>
     public Material[] blasterMaterial;
 
     public int currentPoints = 0;
-    public TextMeshProUGUI scoreText;
-    public Slider healthBar;
+    private TextMeshProUGUI scoreText;
+    private Slider healthBar;
 
     private float healthPoints = 100f;
     private bool isGameOver;
@@ -36,6 +36,8 @@ public class PlayerManager : MonoBehaviour, IDamageable<float>
     void Start()
     {
         LoadPlayerData();
+        healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
+        scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
         currentPoints = 0;
         healthBar.value = healthPoints;
         scoreText.text = "Score: " + currentPoints.ToString();

@@ -10,7 +10,7 @@ public static class SceneLoader
 
     public static void PlayGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("GameScene");
     }
 
 }
