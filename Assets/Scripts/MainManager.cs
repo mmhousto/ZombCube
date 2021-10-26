@@ -6,6 +6,8 @@ using UnityEngine;
 public class MainManager : MonoBehaviour
 {
 
+    public Player player;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -35,18 +37,18 @@ public class MainManager : MonoBehaviour
 
     public void SavePlayerData()
     {
-        SaveSystem.SavePlayer(Player.Instance);
+        SaveSystem.SavePlayer(player);
     }
 
     public void LoadPlayerData()
     {
         SaveData data = SaveSystem.LoadPlayer();
 
-        Player.Instance.playerName = data.playerName;
-        Player.Instance.coins = data.coins;
-        Player.Instance.points = data.points;
-        Player.Instance.highestWave = data.highestWave;
-        Player.Instance.currentBlaster = data.currentBlaster;
-        Player.Instance.ownedBlasters = data.ownedBlasters;
+        player.playerName = data.playerName;
+        player.coins = data.coins;
+        player.points = data.points;
+        player.highestWave = data.highestWave;
+        player.currentBlaster = data.currentBlaster;
+        player.ownedBlasters = data.ownedBlasters;
     }
 }

@@ -620,6 +620,7 @@ MonoBehaviour:
   - {fileID: 745442869}
   - {fileID: 244476159}
   - {fileID: 1261855243}
+  player: {fileID: 1191253952}
 --- !u!1 &113302620
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +691,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayers: 4
+  playerData: {fileID: 1191253952}
+  player: {fileID: 2812065823337649139, guid: 2f98d0f657e923049aacb315e55bc20f, type: 3}
+  networkPlayer: {fileID: 7198934554025558216, guid: 4e15d60164dfe734498c2ea88801e150, type: 3}
+  currentPlayers: 0
 --- !u!114 &128742500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,6 +707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05dff64e12990d4449bd981bbc6a6c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1191253952}
 --- !u!114 &128742501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2591,6 +2597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restoreButton: {fileID: 1997136969}
+  player: {fileID: 1191253952}
 --- !u!1 &342502182
 GameObject:
   m_ObjectHideFlags: 0
@@ -7432,6 +7439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7249c368eab5c9d41aeabf3deac4ace6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1191253952}
   coinsText: {fileID: 581284026}
   pointsText: {fileID: 194652912}
   nameInputField: {fileID: 991337097}
@@ -7755,8 +7763,8 @@ MonoBehaviour:
   points: 0
   coins: 0
   currentBlaster: 0
-  highestWave: 10
-  playerName: MMSix
+  highestWave: 0
+  playerName: PlayerName
   password: 
   ownedBlasters: 01000000000000000000000000000000000000000000000000000000
   materials:
@@ -8062,11 +8070,15 @@ MonoBehaviour:
     RegisteredScenes:
     - MainMenu
     - LobbyScene
-    - GameScene
+    - NetworkGameScene
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
     - Prefab: {fileID: 7198934554025558216, guid: 4e15d60164dfe734498c2ea88801e150, type: 3}
       PlayerPrefab: 1
+    - Prefab: {fileID: 2086898392220273118, guid: 36fcac3688b511f4083259eb5cf5b941, type: 3}
+      PlayerPrefab: 0
+    - Prefab: {fileID: 3254192116359450282, guid: 588b23a28085fd94bb2ff0d83731d761, type: 3}
+      PlayerPrefab: 0
     PlayerPrefabHash:
       id: 0
     CreatePlayerPrefab: 0
@@ -13109,6 +13121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad44965d81983d241a7973bb20ab6697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1191253952}
 --- !u!4 &2028947005
 Transform:
   m_ObjectHideFlags: 0

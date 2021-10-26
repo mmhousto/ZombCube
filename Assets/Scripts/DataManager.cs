@@ -9,6 +9,8 @@ public class DataManager : MonoBehaviour
 
     public static DataManager Instance { get { return _instance; } }
 
+    public Player player;
+
     public TextMeshProUGUI coinsText;
     public TextMeshProUGUI pointsText;
     public TMP_InputField nameInputField;
@@ -35,16 +37,16 @@ public class DataManager : MonoBehaviour
 
         if (coinsText)
         {
-            coinsText.text = "Coins: " + Player.Instance.coins;
+            coinsText.text = "Coins: " + player.coins;
         }
 
         if (pointsText)
         {
-            pointsText.text = "Points: " + Player.Instance.points;
+            pointsText.text = "Points: " + player.points;
         }
 
         if (nameInputField)
-            nameInputField.text = Player.Instance.playerName;
+            nameInputField.text = player.playerName;
         
     }
 
@@ -54,12 +56,12 @@ public class DataManager : MonoBehaviour
 
         if (coinsText)
         {
-            coinsText.text = "Coins: " + Player.Instance.coins;
+            coinsText.text = "Coins: " + player.coins;
         }
 
         if (pointsText)
         {
-            pointsText.text = "Points: " + Player.Instance.points;
+            pointsText.text = "Points: " + player.points;
         }
 
     }

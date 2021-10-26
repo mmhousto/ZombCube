@@ -12,6 +12,8 @@ namespace DapperDino.UMT.Lobby.Networking
         public static ClientGameNetPortal Instance => instance;
         private static ClientGameNetPortal instance;
 
+        public Player player;
+
         public DisconnectReason DisconnectReason { get; private set; } = new DisconnectReason();
 
         public event Action<ConnectStatus> OnConnectionFinished;
@@ -70,9 +72,9 @@ namespace DapperDino.UMT.Lobby.Networking
             {
                 clientGUID = Guid.NewGuid().ToString(),
                 clientScene = SceneManager.GetActiveScene().buildIndex,
-                playerName = Player.Instance.playerName,
-                currentBlaster = Player.Instance.currentBlaster,
-                password = Player.Instance.password
+                playerName = player.playerName,
+                currentBlaster = player.currentBlaster,
+                password = player.password
             });
 
             byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);

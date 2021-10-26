@@ -21,7 +21,7 @@ public class Projectile : MonoBehaviour
         if(collision.gameObject.tag == "Enemy")
         {
             Destroy(collision.gameObject);
-            PlayerManager.Instance.AddPoints(10);
+            GameManager.Instance.AddPoints(10);
         }
         Destroy(gameObject);
     }
