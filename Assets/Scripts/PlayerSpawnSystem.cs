@@ -54,6 +54,7 @@ public class PlayerSpawnSystem : NetworkBehaviour
     private void SpawnPlayer()
     {
         Instantiate(player, new Vector3(30f, 3f, -47f), Quaternion.Euler(new Vector3(0, -160f, 0)));
+        GameManager.Instance.GameStart();
 
     }
 
@@ -69,6 +70,8 @@ public class PlayerSpawnSystem : NetworkBehaviour
         if(loadingClients.Count != 0) { return; }
 
         Debug.Log("Everyone Is Ready");
+
+        GameManager.Instance.GameStartServerRpc();
 
     }
 
@@ -100,6 +103,8 @@ public class PlayerSpawnSystem : NetworkBehaviour
                 Debug.Log("Player 4 spawned");
                 break;
         }
+
+        Debug.Log(clientID);
 
 
     }

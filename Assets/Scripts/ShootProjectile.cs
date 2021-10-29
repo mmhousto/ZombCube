@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using MLAPI;
+using MLAPI.Messaging;
 
-public class ShootProjectile : MonoBehaviour
+public class ShootProjectile : NetworkBehaviour
 {
     public Transform firePosition;
     private bool isFiring;
@@ -14,6 +16,8 @@ public class ShootProjectile : MonoBehaviour
 
     public GameObject projectile;
 
+    [SerializeField] public GameObject networkProjectile;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,27 +27,52 @@ public class ShootProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        fireTime -= Time.deltaTime;
+        if (SceneLoader.GetCurrentScene() == "GameScene" || IsLocalPlayer)
+        {
+            fireTime -= Time.deltaTime;
 
-        if(fireTime <= 0)
-        {
-            canFire = true;
-            fireTime = 0;
-        } else
-        {
-            canFire = false;
-        }
+            if (fireTime <= 0)
+            {
+                canFire = true;
+                fireTime = 0;
+            }
+            else
+            {
+                canFire = false;
+            }
 
-        if (isFiring & canFire)
-        {
-            GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
-            clone.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, launchVelocity));
-            fireTime = fireRate;
+            if (isFiring & canFire && SceneLoader.GetCurrentScene() == "GameScene")
+            {
+                SpawnProjectile();
+                fireTime = fireRate;
+            }
+            else if (isFiring & canFire && SceneLoader.GetCurrentScene() == "NetworkGameScene")
+            {
+                SpawnProjectileServerRpc();
+                fireTime = fireRate;
+            }
         }
     }
 
     public void Fire(InputAction.CallbackContext context)
     {
-        isFiring = context.ReadValueAsButton();
+        if (SceneLoader.GetCurrentScene() == "GameScene" || IsLocalPlayer)
+        {
+            isFiring = context.ReadValueAsButton();
+        }
+    }
+
+    private void SpawnProjectile()
+    {
+        GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
+        clone.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, launchVelocity));
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnProjectileServerRpc()
+    {
+        GameObject clone = Instantiate(networkProjectile, firePosition.position, firePosition.rotation);
+        clone.GetComponent<NetworkObject>().Spawn();
+        clone.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, launchVelocity));
     }
 }

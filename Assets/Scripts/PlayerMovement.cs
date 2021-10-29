@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using MLAPI;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     private CharacterController controller;
     private Rigidbody rb;
@@ -24,25 +25,28 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
-        if (groundedPlayer && playerVelocity.y < 0)
+        if (SceneLoader.GetCurrentScene() == "GameScene" || IsLocalPlayer)
         {
-            playerVelocity.y = 0f;
+
+            if (groundedPlayer && playerVelocity.y < 0)
+            {
+                playerVelocity.y = 0f;
+            }
+
+            Vector3 move = transform.forward * vertical + transform.right * horizontal;
+            controller.Move(move * Time.deltaTime * playerSpeed);
+
+            //transform.Rotate(Vector3.up * horizontal * rotationSpeed * Time.deltaTime);
+
+            // Changes the height position of the player..
+            if (hasJumped && groundedPlayer)
+            {
+                playerVelocity.y += jumpHeight;
+            }
+
+            playerVelocity.y += gravityValue * Time.deltaTime;
+            controller.Move(playerVelocity * Time.deltaTime);
         }
-
-        Vector3 move = transform.forward * vertical + transform.right * horizontal;
-        controller.Move(move * Time.deltaTime * playerSpeed);
-
-        //transform.Rotate(Vector3.up * horizontal * rotationSpeed * Time.deltaTime);
-
-        // Changes the height position of the player..
-        if (hasJumped && groundedPlayer)
-        {
-            playerVelocity.y += jumpHeight;
-        }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
     }
 
     private void OnTriggerStay(Collider other)
@@ -63,8 +67,12 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="context"></param>
     public void Move(InputAction.CallbackContext context)
     {
-        horizontal = context.ReadValue<Vector2>().x;
-        vertical = context.ReadValue<Vector2>().y;
+        if (SceneLoader.GetCurrentScene() == "GameScene" || IsLocalPlayer)
+        {
+            horizontal = context.ReadValue<Vector2>().x;
+            vertical = context.ReadValue<Vector2>().y;
+        }
+        
     }
 
     public void Jump(InputAction.CallbackContext context)
