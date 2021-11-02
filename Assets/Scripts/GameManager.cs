@@ -11,16 +11,12 @@ public class GameManager : NetworkBehaviour
     private static GameManager _instance;
 
     public static GameManager Instance { get { return _instance; } }
-    private int CurrentRound { get; set; }
+    private static int CurrentRound { get; set; }
     public int currentPoints = 0;
     public TextMeshProUGUI waveTxt;
     private TextMeshProUGUI scoreText;
     public GameObject onScreenControls;
     public GameObject gameOverScreen;
-
-    [SerializeField] public bool gameStarted = false;
-
-    private bool gameOver = false;
    
 
     private void Awake()
@@ -65,16 +61,6 @@ public class GameManager : NetworkBehaviour
     {
         waveTxt.text = "Wave: " + CurrentRound.ToString();
         scoreText.text = "Score: " + currentPoints.ToString();
-
-        if (gameStarted && !gameOver)
-        {
-            gameOverScreen.SetActive(false);
-        }
-        else if(gameOver && gameStarted)
-        {
-            gameOverScreen.SetActive(true);
-        }
-        
     }
 
     public void NextWave()
@@ -82,34 +68,20 @@ public class GameManager : NetworkBehaviour
         CurrentRound += 1;
     }
 
-    public void GameStart()
-    {
-        gameStarted = true;
-    }
-
     public void GameOver()
     {
-        gameOver = true;
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 0;
+        gameOverScreen.SetActive(true);
     }
-
 
     public void Restart()
     {
-        gameOver = false;
-        gameStarted = false;
-        Destroy(this.gameObject);
-        Destroy(Spawner.Instance.gameObject);
         SceneLoader.PlayGame();
     }
 
     public void GoHome()
     {
-        gameOver = false;
-        gameStarted = false;
-        Destroy(this.gameObject);
-        Destroy(Spawner.Instance.gameObject);
         SceneLoader.ToMainMenu();
     }
 
@@ -121,35 +93,20 @@ public class GameManager : NetworkBehaviour
     [ServerRpc]
     public void GameOverServerRpc()
     {
-        gameOver = true;
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 0;
         gameOverScreen.SetActive(true);
     }
 
     [ServerRpc]
-    public void GameStartServerRpc()
-    {
-        gameStarted = true;
-    }
-
-    [ServerRpc]
     public void RestartServerRpc()
     {
-        gameOver = false;
-        gameStarted = false;
-        Destroy(this.gameObject);
-        Destroy(Spawner.Instance.gameObject);
         ServerGameNetPortal.Instance.StartGame();
     }
 
     [ServerRpc]
     public void GoHomeServerRpc()
     {
-        gameOver = false;
-        gameStarted = false;
-        Destroy(this.gameObject);
-        Destroy(Spawner.Instance.gameObject);
         ServerGameNetPortal.Instance.EndRound();
     }
 

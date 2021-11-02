@@ -10,7 +10,7 @@ public static class SceneLoader
 
     public static void PlayGame()
     {
-        SceneManager.LoadSceneAsync("GameScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     public static string GetCurrentScene()

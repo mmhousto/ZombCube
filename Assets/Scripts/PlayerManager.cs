@@ -17,7 +17,7 @@ public class PlayerManager : NetworkBehaviour
     public int currentPoints = 0;
     private Slider healthBar;
 
-    public static float healthPoints = 100f;
+    private static float healthPoints = 100f;
     private bool isGameOver;
 
     private Player player;
@@ -27,9 +27,6 @@ public class PlayerManager : NetworkBehaviour
     void Start()
     {
         player = GetComponent<Player>();
-        currentPoints = 0;
-        isGameOver = false;
-        healthPoints = 100f;
 
         if (IsServer)
         {

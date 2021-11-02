@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Physics.IgnoreLayerCollision(3, 3);
+        
     }
 
     // Update is called once per frame
@@ -23,11 +23,6 @@ public class Projectile : MonoBehaviour
             Destroy(collision.gameObject);
             GameManager.Instance.AddPoints(10);
         }
-        if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "Blaster")
-        {
-            return;
-        }
-        Debug.Log(collision.gameObject.name);
         Destroy(gameObject);
     }
 }
