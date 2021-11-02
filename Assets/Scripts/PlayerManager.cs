@@ -3,142 +3,98 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using MLAPI;
-using MLAPI.Messaging;
-using DapperDino.UMT.Lobby.Networking;
 
-public class PlayerManager : NetworkBehaviour
+public class PlayerManager : MonoBehaviour, IDamageable<float>
 {
+    private static PlayerManager _instance;
+
+    public static PlayerManager Instance { get { return _instance; } }
 
     public Material[] blasterMaterial;
 
-    public TextMeshProUGUI playerNameText;
-
     public int currentPoints = 0;
+    private TextMeshProUGUI scoreText;
     private Slider healthBar;
 
-    private static float healthPoints = 100f;
+    private float healthPoints = 100f;
     private bool isGameOver;
 
-    private Player player;
+    private void Awake()
+    {
+        if(_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
 
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<Player>();
+        LoadPlayerData();
+        healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
+        scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
+        currentPoints = 0;
+        healthBar.value = healthPoints;
+        scoreText.text = "Score: " + currentPoints.ToString();
 
-        if (IsServer)
+        GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
+
+        foreach(GameObject item in blaster)
         {
-            healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
-            
-            currentPoints = 0;
-            healthBar.value = healthPoints;
-            
+            item.GetComponent<MeshRenderer>().material = blasterMaterial[Player.Instance.currentBlaster];
         }
-        
-        if (IsClient)
-        {
-            LoadPlayerData();
-            playerNameText.text = player.GetPlayerName();
-            
-            
-
-            GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
-
-            foreach (GameObject item in blaster)
-            {
-                item.GetComponent<MeshRenderer>().material = blasterMaterial[player.currentBlaster];
-            }
-        }
-        else if (SceneLoader.GetCurrentScene() == "GameScene")
-        {
-            healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
-            LoadPlayerData();
-            playerNameText.text = player.GetPlayerName();
-
-            currentPoints = 0;
-            healthBar.value = healthPoints;
-
-            GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
-
-            foreach (GameObject item in blaster)
-            {
-                item.GetComponent<MeshRenderer>().material = blasterMaterial[player.currentBlaster];
-            }
-        }
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IsServer)
-        {
-            healthBar.value = healthPoints;
-            
-        }
+        healthBar.value = healthPoints;
+        scoreText.text = "Score: " + currentPoints.ToString();
 
-        if (IsClient)
+        if(healthPoints <= 0 && !isGameOver)
         {
-            
-
-            if (healthPoints <= 0 && !isGameOver)
-            {
-                healthPoints = 0;
-                UpdateTotalPoints();
-                SavePlayerData();
-                GameManager.Instance.GameOver();
-                isGameOver = true;
-            }
+            healthPoints = 0;
+            UpdateTotalPoints();
+            SavePlayerData();
+            GameManager.Instance.GameOver();
+            isGameOver = true;
         }
-        else if(SceneLoader.GetCurrentScene() == "GameScene")
-        {
-            healthBar.value = healthPoints;
-
-            if (healthPoints <= 0 && !isGameOver)
-            {
-                healthPoints = 0;
-                UpdateTotalPoints();
-                SavePlayerData();
-                GameManager.Instance.GameOver();
-                isGameOver = true;
-            }
-        }
-        
     }
 
-    public static void Damage(float damageTaken)
+    public void AddPoints(int pointsToAdd)
     {
-        healthPoints -= damageTaken;
+        currentPoints += pointsToAdd;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void NetworkDamageServerRpc(float damageTaken)
+    public void Damage(float damageTaken)
     {
         healthPoints -= damageTaken;
     }
 
     private void UpdateTotalPoints()
     {
-        player.points += GameManager.Instance.currentPoints;
+        Player.Instance.points += currentPoints;
     }
 
     public void SavePlayerData()
     {
-        SaveSystem.SavePlayer(GetComponent<Player>());
+        SaveSystem.SavePlayer(Player.Instance);
     }
 
     public void LoadPlayerData()
     {
         SaveData data = SaveSystem.LoadPlayer();
 
-        player.playerName = data.playerName;
-        player.coins = data.coins;
-        player.points = data.points;
-        player.highestWave = data.highestWave;
-        player.currentBlaster = data.currentBlaster;
-        player.ownedBlasters = data.ownedBlasters;
+        Player.Instance.playerName = data.playerName;
+        Player.Instance.coins = data.coins;
+        Player.Instance.points = data.points;
+        Player.Instance.highestWave = data.highestWave;
+        Player.Instance.currentBlaster = data.currentBlaster;
+        Player.Instance.ownedBlasters = data.ownedBlasters;
     }
-
 }

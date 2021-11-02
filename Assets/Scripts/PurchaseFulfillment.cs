@@ -5,7 +5,6 @@ using UnityEngine;
 public class PurchaseFulfillment : MonoBehaviour
 {
     public GameObject restoreButton;
-    public Player player;
 
     private void Awake()
     {
@@ -18,8 +17,8 @@ public class PurchaseFulfillment : MonoBehaviour
 
     public void GrantCoins(int credits)
     {
-        player.coins += credits;
-        SaveSystem.SavePlayer(player);
+        Player.Instance.coins += credits;
+        SaveSystem.SavePlayer(Player.Instance);
         Debug.Log("You received " + credits + " Coins!");
     }
 }

@@ -27,14 +27,6 @@ namespace DapperDino.UMT.Lobby.Networking
 
         private GameNetPortal gameNetPortal;
 
-        public Player playerData;
-
-        public GameObject player;
-
-        [SerializeField] public GameObject networkPlayer;
-
-        [SerializeField] private int currentPlayers = 0;
-
         /// <summary>
         /// Signleton Pattern
         /// </summary>
@@ -115,7 +107,7 @@ namespace DapperDino.UMT.Lobby.Networking
         {
             gameInProgress = true;
 
-            NetworkSceneManager.SwitchScene("NetworkGameScene");
+            NetworkSceneManager.SwitchScene("GameScene");
         }
 
         /// <summary>
@@ -206,8 +198,8 @@ namespace DapperDino.UMT.Lobby.Networking
             if (!NetworkManager.Singleton.IsHost) { return; }
 
             string clientGuid = Guid.NewGuid().ToString();
-            string playerName = playerData.playerName;
-            int currentBlaster = playerData.currentBlaster;
+            string playerName = Player.Instance.playerName;
+            int currentBlaster = Player.Instance.currentBlaster;
 
             clientData.Add(clientGuid, new PlayerData(playerName, NetworkManager.Singleton.LocalClientId, currentBlaster));
             clientIdToGuid.Add(NetworkManager.Singleton.LocalClientId, clientGuid);
@@ -248,7 +240,7 @@ namespace DapperDino.UMT.Lobby.Networking
             string payload = Encoding.UTF8.GetString(connectionData);
             var connectionPayload = JsonUtility.FromJson<ConnectionPayload>(payload);
 
-            string password = playerData.password;
+            string password = Player.Instance.password;
 
             bool approveConnection = password == connectionPayload.password;
 

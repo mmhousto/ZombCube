@@ -12,14 +12,12 @@ public class PointsCollected : MonoBehaviour
     void Start()
     {
         pointsCollected = GetComponent<TextMeshProUGUI>();
-        if(GameManager.Instance)
-            pointsCollected.text = "Score: " + GameManager.Instance.currentPoints.ToString();
+        pointsCollected.text = "Score: " + PlayerManager.Instance.currentPoints.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance)
-            pointsCollected.text = "Score: " + GameManager.Instance.currentPoints.ToString();
+        pointsCollected.text = "Score: " + PlayerManager.Instance.currentPoints.ToString();
     }
 }

@@ -8,20 +8,18 @@ public class InventoryManager : MonoBehaviour, IBuyable, IUseable
 
     public GameObject[] blasterItems;
 
-    public Player player;
-
     private void Start()
     {
         for(int i = 0; i < blasterItems.Length; i++)
         {
-            if(player.currentBlaster == i)
+            if(Player.Instance.currentBlaster == i)
             {
                 blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
             }
-            else if(player.ownedBlasters[i] == 1)
+            else if(Player.Instance.ownedBlasters[i] == 1)
             {
                 blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
-            } else if (player.ownedBlasters[i] == 0)
+            } else if (Player.Instance.ownedBlasters[i] == 0)
             {
                 blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
             }
@@ -33,15 +31,15 @@ public class InventoryManager : MonoBehaviour, IBuyable, IUseable
     {
         for (int i = 0; i < blasterItems.Length; i++)
         {
-            if (player.currentBlaster == i)
+            if (Player.Instance.currentBlaster == i)
             {
                 blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
             }
-            else if (player.ownedBlasters[i] == 1)
+            else if (Player.Instance.ownedBlasters[i] == 1)
             {
                 blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
             }
-            else if (player.ownedBlasters[i] == 0)
+            else if (Player.Instance.ownedBlasters[i] == 0)
             {
                 blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
             }
@@ -54,18 +52,18 @@ public class InventoryManager : MonoBehaviour, IBuyable, IUseable
         if(index >= 5)
         {
             price = 10;
-            if (price <= player.coins)
+            if (price <= Player.Instance.coins)
             {
-                player.ownedBlasters[index] = 1;
-                player.coins -= price;
+                Player.Instance.ownedBlasters[index] = 1;
+                Player.Instance.coins -= price;
             }
         } else
         {
             price = 500;
-            if (price <= player.points)
+            if (price <= Player.Instance.points)
             {
-                player.ownedBlasters[index] = 1;
-                player.points -= price;
+                Player.Instance.ownedBlasters[index] = 1;
+                Player.Instance.points -= price;
             }
         }
         
@@ -73,22 +71,22 @@ public class InventoryManager : MonoBehaviour, IBuyable, IUseable
 
     public void Use(int index)
     {
-        player.currentBlaster = index;
+        Player.Instance.currentBlaster = index;
     }
 
     public void SelectBlaster(int index)
     {
-        if (player.ownedBlasters[index] == 1)
+        if (Player.Instance.ownedBlasters[index] == 1)
         {
             Use(index);
             blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
         }
-        else if (player.ownedBlasters[index] == 0)
+        else if (Player.Instance.ownedBlasters[index] == 0)
         {
             BuyBlaster(index);
             blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
         }
-        SaveSystem.SavePlayer(player);
+        SaveSystem.SavePlayer(Player.Instance);
     }
 
 }

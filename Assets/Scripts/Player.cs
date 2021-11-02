@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private static Player _instance;
+
+    public static Player Instance { get { return _instance; } }
 
     public int points = 0;
     public int coins = 0;
@@ -15,13 +18,28 @@ public class Player : MonoBehaviour
     public Material[] materials;
 
     /// <summary>
+    /// Singleton Pattern.
+    /// </summary>
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
+    /// <summary>
     /// Sets playerName to name and saves the player data.
     /// </summary>
     /// <param name="name">The Name Input Field</param>
     public void SetPlayerName(string name)
     {
         playerName = name;
-        SaveSystem.SavePlayer(this);
+        SaveSystem.SavePlayer(_instance);
     }
 
     /// <summary>
@@ -31,11 +49,6 @@ public class Player : MonoBehaviour
     public void SetPassword(string word)
     {
         password = word;
-    }
-
-    public string GetPlayerName()
-    {
-        return playerName;
     }
 
 }

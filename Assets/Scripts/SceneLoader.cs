@@ -13,9 +13,4 @@ public static class SceneLoader
         SceneManager.LoadScene("GameScene");
     }
 
-    public static string GetCurrentScene()
-    {
-        return SceneManager.GetActiveScene().name;
-    }
-
 }

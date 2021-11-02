@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Advertisements;
-//using UnityEditor.Advertisements;
+using UnityEditor.Advertisements;
 using UnityEngine.Purchasing;
 
 public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener

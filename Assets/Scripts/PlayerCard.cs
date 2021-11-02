@@ -17,8 +17,6 @@ public class PlayerCard : MonoBehaviour
     [SerializeField] [Tooltip("UI Text that holds player's name.")] private TextMeshProUGUI playerName;
     [SerializeField] [Tooltip("UI Toggle that tells if player is ready or not.")] private Toggle isReadyToggle;
 
-    public Material[] materials;
-
     /// <summary>
     /// Updates the Player Card with the players data.
     /// </summary>
@@ -30,7 +28,7 @@ public class PlayerCard : MonoBehaviour
 
         foreach (GameObject item in blaster)
         {
-            item.GetComponent<MeshRenderer>().material = materials[lobbyPlayerState.CurrentBlaster];
+            item.GetComponent<MeshRenderer>().material = Player.Instance.materials[lobbyPlayerState.CurrentBlaster];
         }
 
         waitingForPlayerPanel.SetActive(false);
