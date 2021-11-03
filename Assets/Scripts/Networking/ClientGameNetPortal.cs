@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using MLAPI;
+using MLAPI.Transports.UNET;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,8 @@ namespace DapperDino.UMT.Lobby.Networking
         public event Action OnNetworkTimedOut;
 
         private GameNetPortal gameNetPortal;
+
+        private UNetTransport transport;
 
         /// <summary>
         /// Singleton Pattern
@@ -66,16 +69,20 @@ namespace DapperDino.UMT.Lobby.Networking
         /// </summary>
         public void StartClient()
         {
+            transport = NetworkManager.Singleton.GetComponent<UNetTransport>();
+            transport.ConnectAddress = Player.Instance.ipAddress;
+
             var payload = JsonUtility.ToJson(new ConnectionPayload()
             {
                 clientGUID = Guid.NewGuid().ToString(),
                 clientScene = SceneManager.GetActiveScene().buildIndex,
                 playerName = Player.Instance.playerName,
                 currentBlaster = Player.Instance.currentBlaster,
-                password = Player.Instance.password
+                password = Player.Instance.ipAddress
             });
 
             byte[] payloadBytes = Encoding.UTF8.GetBytes(payload);
+
 
             NetworkManager.Singleton.NetworkConfig.ConnectionData = payloadBytes;
 

@@ -3,6 +3,7 @@ using MLAPI;
 using MLAPI.Messaging;
 using MLAPI.Serialization.Pooled;
 using MLAPI.Transports;
+using MLAPI.Transports.UNET;
 using UnityEngine;
 
 namespace DapperDino.UMT.Lobby.Networking
@@ -21,6 +22,8 @@ namespace DapperDino.UMT.Lobby.Networking
         public event Action<ulong, int> OnClientSceneChanged;
 
         public event Action OnUserDisconnectRequested;
+
+        private UNetTransport transport;
         
         /// <summary>
         /// Singleton Implementation.
@@ -66,6 +69,8 @@ namespace DapperDino.UMT.Lobby.Networking
         /// </summary>
         public void StartHost()
         {
+            transport = NetworkManager.Singleton.GetComponent<UNetTransport>();
+            transport.ConnectAddress = Player.Instance.ipAddress;
             NetworkManager.Singleton.StartHost();
         }
 

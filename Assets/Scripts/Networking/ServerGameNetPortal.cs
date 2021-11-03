@@ -5,6 +5,7 @@ using System.Text;
 using MLAPI;
 using MLAPI.SceneManagement;
 using MLAPI.Spawning;
+using MLAPI.Transports.UNET;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,6 +27,8 @@ namespace DapperDino.UMT.Lobby.Networking
         private const int MaxConnectionPayload = 1024;
 
         private GameNetPortal gameNetPortal;
+
+        private UNetTransport transport;
 
         /// <summary>
         /// Signleton Pattern
@@ -240,7 +243,7 @@ namespace DapperDino.UMT.Lobby.Networking
             string payload = Encoding.UTF8.GetString(connectionData);
             var connectionPayload = JsonUtility.FromJson<ConnectionPayload>(payload);
 
-            string password = Player.Instance.password;
+            string password = Player.Instance.ipAddress;
 
             bool approveConnection = password == connectionPayload.password;
 

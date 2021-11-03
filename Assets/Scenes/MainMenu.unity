@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1623,7 +1623,7 @@ GameObject:
   - component: {fileID: 249999832}
   - component: {fileID: 249999831}
   m_Layer: 5
-  m_Name: PasswordField
+  m_Name: IPField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1731,7 +1731,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1191253952}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: SetPassword
+        m_MethodName: SetIPAddress
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1875,7 +1875,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter lobby password...
+  m_text: Enter Host Address...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7757,7 +7757,7 @@ MonoBehaviour:
   currentBlaster: 0
   highestWave: 10
   playerName: MMSix
-  password: 
+  ipAddress: 
   ownedBlasters: 01000000000000000000000000000000000000000000000000000000
   materials:
   - {fileID: 2100000, guid: 6c235270166d20047b30425b1edf8d70, type: 2}
