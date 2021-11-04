@@ -1,59 +1,87 @@
 using System;
 using DapperDino.UMT.Lobby.Networking;
-using MLAPI;
-using MLAPI.Connection;
-using MLAPI.Messaging;
-using MLAPI.NetworkVariable.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using System.Collections.Generic;
+using System.Collections;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace DapperDino.UMT.Lobby.UI
 {
-    public class LobbyUI : NetworkBehaviour
+    public class LobbyUI : MonoBehaviourPunCallbacks
     {
         [Header("References")]
         [SerializeField] [Tooltip("Array of PlayerCards.")] private PlayerCard[] lobbyPlayerCards;
         [SerializeField] [Tooltip("UI button to start the game.")] private Button startGameButton;
 
-        private NetworkList<LobbyPlayerState> lobbyPlayers = new NetworkList<LobbyPlayerState>();
+        bool playerExists = false;
+
+        private List<LobbyPlayerState> lobbyPlayers = new List<LobbyPlayerState>();
+
+        Hashtable hash = new Hashtable();
+
+        public override void OnJoinedRoom()
+        {
+            
+        }
+
+        public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+        {
+            
+        }
+
+        public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+        {
+            /*for (int i = 0; i < lobbyPlayers.Count; i++)
+            {
+                if (lobbyPlayers[i].ActorId == otherPlayer.ActorNumber)
+                {
+                    lobbyPlayers.RemoveAt(i);
+                    break;
+                }
+            }*/
+            photonView.RPC("HandleLobbyPlayersStateChangedRpc", RpcTarget.AllBuffered);
+        }
 
         /// <summary>
         /// Adds methods to callbacks on network start.
         /// </summary>
-        public override void NetworkStart()
+        void Start()
         {
-            if (IsClient)
-            {
-                lobbyPlayers.OnListChanged += HandleLobbyPlayersStateChanged;
-            }
+            PhotonView photonView = PhotonView.Get(this);
 
-            if (IsServer)
+            if (PhotonNetwork.IsMasterClient)
             {
                 startGameButton.gameObject.SetActive(true);
-
-                NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
-                NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnect;
-
-                foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClientsList)
-                {
-                    HandleClientConnected(client.ClientId);
-                }
             }
+
+            var playerData = SaveSystem.LoadPlayer();
+
+            Debug.Log(playerData.playerName);
+
+            
+
+            hash.Add("PlayerId", PhotonNetwork.LocalPlayer.ActorNumber);
+            hash.Add("PlayerName", playerData.playerName);
+            hash.Add("IsReady", false);
+            hash.Add("Blaster", playerData.currentBlaster);
+
+
+
+            if (playerData.Equals(null)) { return; }
+
+            PhotonNetwork.SetPlayerCustomProperties(hash);
+
+            
         }
 
-        /// <summary>
-        /// Removes methods from callbacks.
-        /// </summary>
-        private void OnDestroy()
+        public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
         {
-            lobbyPlayers.OnListChanged -= HandleLobbyPlayersStateChanged;
-
-            if (NetworkManager.Singleton)
-            {
-                NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
-                NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnect;
-            }
+            photonView.RPC("HandleLobbyPlayersStateChangedRpc", RpcTarget.AllBuffered);
+            
         }
+
 
         /// <summary>
         /// Determines if everone is ready.
@@ -64,14 +92,14 @@ namespace DapperDino.UMT.Lobby.UI
         /// <returns></returns>
         private bool IsEveryoneReady()
         {
-            if (lobbyPlayers.Count < 1)
+            if (PhotonNetwork.PlayerList.Length < 1)
             {
                 return false;
             }
 
-            foreach (var player in lobbyPlayers)
+            foreach (var player in PhotonNetwork.PlayerList)
             {
-                if (!player.IsReady)
+                if ((bool)player.CustomProperties["IsReady"] == false)
                 {
                     return false;
                 }
@@ -81,56 +109,18 @@ namespace DapperDino.UMT.Lobby.UI
         }
 
         /// <summary>
-        /// When client is connected, adds their player card based on their player data.
-        /// </summary>
-        /// <param name="clientId"></param>
-        private void HandleClientConnected(ulong clientId)
-        {
-            var playerData = ServerGameNetPortal.Instance.GetPlayerData(clientId);
-
-            if (!playerData.HasValue) { return; }
-
-            lobbyPlayers.Add(new LobbyPlayerState(
-                clientId,
-                playerData.Value.PlayerName,
-                false,
-                playerData.Value.CurrentBlaster
-            ));
-        }
-
-        /// <summary>
-        /// Disconnects a player based on clientId and removes their PlayerCard.
-        /// </summary>
-        /// <param name="clientId"></param>
-        private void HandleClientDisconnect(ulong clientId)
-        {
-            for (int i = 0; i < lobbyPlayers.Count; i++)
-            {
-                if (lobbyPlayers[i].ClientId == clientId)
-                {
-                    lobbyPlayers.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-
-        /// <summary>
         /// Sets the players toggle over the network.
         /// </summary>
-        /// <param name="serverRpcParams"></param>
-        [ServerRpc(RequireOwnership = false)]
-        private void ToggleReadyServerRpc(ServerRpcParams serverRpcParams = default)
+        [PunRPC]
+        private void ToggleReadyRpc(int playerId)
         {
             for (int i = 0; i < lobbyPlayers.Count; i++)
             {
-                if (lobbyPlayers[i].ClientId == serverRpcParams.Receive.SenderClientId)
+                if (lobbyPlayers[i].ActorId == playerId)
                 {
-                    lobbyPlayers[i] = new LobbyPlayerState(
-                        lobbyPlayers[i].ClientId,
-                        lobbyPlayers[i].PlayerName,
-                        !lobbyPlayers[i].IsReady,
-                        lobbyPlayers[i].CurrentBlaster
-                    );
+                    hash["IsReady"] = !lobbyPlayers[i].IsReady;
+
+                    PhotonNetwork.SetPlayerCustomProperties(hash);
                 }
             }
         }
@@ -138,15 +128,14 @@ namespace DapperDino.UMT.Lobby.UI
         /// <summary>
         /// If host and everone is ready, asks the server to start the game.
         /// </summary>
-        /// <param name="serverRpcParams"></param>
-        [ServerRpc(RequireOwnership = false)]
-        private void StartGameServerRpc(ServerRpcParams serverRpcParams = default)
+        [PunRPC]
+        private void StartGameServerRpc(int playerId)
         {
-            if (serverRpcParams.Receive.SenderClientId != NetworkManager.Singleton.LocalClientId) { return; }
+            if (playerId != PhotonNetwork.LocalPlayer.ActorNumber) { return; }
 
             if (!IsEveryoneReady()) { return; }
 
-            ServerGameNetPortal.Instance.StartGame();
+            PhotonNetwork.LoadLevel("NetworkGameScene");
         }
 
         /// <summary>
@@ -154,7 +143,7 @@ namespace DapperDino.UMT.Lobby.UI
         /// </summary>
         public void OnLeaveClicked()
         {
-            GameNetPortal.Instance.RequestDisconnect();
+            PhotonNetwork.Disconnect();
         }
 
         /// <summary>
@@ -162,7 +151,10 @@ namespace DapperDino.UMT.Lobby.UI
         /// </summary>
         public void OnReadyClicked()
         {
-            ToggleReadyServerRpc();
+            //photonView.RPC("ToggleReadyRpc", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
+            hash["IsReady"] = !(bool)hash["IsReady"];
+            PhotonNetwork.SetPlayerCustomProperties(hash);
+            
         }
 
         /// <summary>
@@ -170,7 +162,7 @@ namespace DapperDino.UMT.Lobby.UI
         /// </summary>
         public void OnStartGameClicked()
         {
-            StartGameServerRpc();
+            photonView.RPC("StartGameServerRpc", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
         }
 
         /// <summary>
@@ -178,13 +170,14 @@ namespace DapperDino.UMT.Lobby.UI
         /// Updates start game button when all players are ready.
         /// </summary>
         /// <param name="lobbyState"></param>
-        private void HandleLobbyPlayersStateChanged(NetworkListEvent<LobbyPlayerState> lobbyState)
+        [PunRPC]
+        private void HandleLobbyPlayersStateChangedRpc()
         {
             for (int i = 0; i < lobbyPlayerCards.Length; i++)
             {
-                if (lobbyPlayers.Count > i)
+                if (PhotonNetwork.PlayerList.Length > i)
                 {
-                    lobbyPlayerCards[i].UpdateDisplay(lobbyPlayers[i]);
+                    lobbyPlayerCards[i].UpdateDisplay(PhotonNetwork.PlayerList[i]);
                 }
                 else
                 {
@@ -192,10 +185,18 @@ namespace DapperDino.UMT.Lobby.UI
                 }
             }
 
-            if(IsHost)
+            if(PhotonNetwork.IsMasterClient)
             {
                 startGameButton.interactable = IsEveryoneReady();
             }
         }
+
+        public override void OnDisconnected(Photon.Realtime.DisconnectCause cause)
+        {
+            Debug.Log(cause);
+            SceneLoader.ToMainMenu();
+        }
+
+
     }
 }

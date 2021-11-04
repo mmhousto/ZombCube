@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     public int currentBlaster = 0;
     public int highestWave = 0;
     public string playerName = "PlayerName";
-    public string ipAddress = "127.0.0.1";
     public int[] ownedBlasters = { 1, 0, 0, 0, 0, 0, 0};
     public Material[] materials;
 
@@ -42,13 +41,5 @@ public class Player : MonoBehaviour
         SaveSystem.SavePlayer(_instance);
     }
 
-    /// <summary>
-    /// Sets password to word.
-    /// </summary>
-    /// <param name="word">The Password Input Field</param>
-    public void SetIPAddress(string ip)
-    {
-        ipAddress = ip;
-    }
 
 }

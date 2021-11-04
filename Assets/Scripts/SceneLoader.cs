@@ -8,6 +8,16 @@ public static class SceneLoader
         SceneManager.LoadScene(0);
     }
 
+    public static void ToLobby()
+    {
+        SceneManager.LoadScene("LobbyScene");
+    }
+
+    public static void ToLoading()
+    {
+        SceneManager.LoadScene("LoadingScene");
+    }
+
     public static void PlayGame()
     {
         SceneManager.LoadScene("GameScene");

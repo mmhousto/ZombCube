@@ -33,6 +33,16 @@ public class MainManager : MonoBehaviour
         SceneLoader.PlayGame();
     }
 
+    public void StartMultiplayer()
+    {
+        if (string.IsNullOrEmpty(Player.Instance.playerName))
+        {
+            Debug.LogError("Player Name is null or empty!");
+            return;
+        }
+        SceneLoader.ToLoading();
+    }
+
     public void SavePlayerData()
     {
         SaveSystem.SavePlayer(Player.Instance);

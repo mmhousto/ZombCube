@@ -21,14 +21,14 @@ public class PlayerCard : MonoBehaviour
     /// Updates the Player Card with the players data.
     /// </summary>
     /// <param name="lobbyPlayerState"></param>
-    public void UpdateDisplay(LobbyPlayerState lobbyPlayerState)
+    public void UpdateDisplay(Photon.Realtime.Player lobbyPlayerState)
     {
-        playerName.text = lobbyPlayerState.PlayerName;
-        isReadyToggle.isOn = lobbyPlayerState.IsReady;
+        playerName.text = (string)lobbyPlayerState.CustomProperties["PlayerName"];
+        isReadyToggle.isOn = (bool)lobbyPlayerState.CustomProperties["IsReady"];
 
         foreach (GameObject item in blaster)
         {
-            item.GetComponent<MeshRenderer>().material = Player.Instance.materials[lobbyPlayerState.CurrentBlaster];
+            item.GetComponent<MeshRenderer>().material = Player.Instance.materials[(int)lobbyPlayerState.CustomProperties["Blaster"]];
         }
 
         waitingForPlayerPanel.SetActive(false);
