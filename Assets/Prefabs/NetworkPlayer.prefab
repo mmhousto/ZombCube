@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 4963448523072077155}
   - component: {fileID: 1223736529300894224}
   - component: {fileID: 2795175968766640995}
-  - component: {fileID: 4826651161596597701}
+  - component: {fileID: 1974527743273112066}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -642,9 +642,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0bef1cfa449270d4eb9cf4ee6b87e261, type: 2}
   - {fileID: 2100000, guid: d28d6244d2f2679439734e9662944224, type: 2}
   - {fileID: 2100000, guid: c0bded7d132cf994b8b0933f52437cc9, type: 2}
-  currentPoints: 0
-  scoreText: {fileID: 0}
-  healthBar: {fileID: 0}
 --- !u!114 &2795175968766640995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,10 +659,9 @@ MonoBehaviour:
   currentBlaster: 0
   highestWave: 0
   playerName: PlayerName
-  password: 
   ownedBlasters: 01000000000000000000000000000000000000000000000000000000
   materials: []
---- !u!114 &4826651161596597701
+--- !u!114 &1974527743273112066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -674,11 +670,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7198934554025558216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkInstanceId: 0
-  PrefabHash: 12678914256364931730
-  PrefabHashGenerator: NetworkPlayer
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

@@ -3,60 +3,82 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainManager : MonoBehaviour
+namespace Com.MorganHouston.ZombCube
 {
 
-    // Start is called before the first frame update
-    void Awake()
+    public class MainManager : MonoBehaviour
     {
-        try
+        [Tooltip("The players data object.")]
+        public Player player;
+
+        /// <summary>
+        /// Tries to load the players data.
+        /// </summary>
+        void Awake()
         {
-            LoadPlayerData();
+            try
+            {
+                LoadPlayerData();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+
         }
-        catch (Exception e)
+
+
+        // Update is called once per frame
+        void Update()
         {
-            Debug.Log(e);
+
         }
-        
-    }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-    public void StartSoloGame()
-    {
-        SceneLoader.PlayGame();
-    }
-
-    public void StartMultiplayer()
-    {
-        if (string.IsNullOrEmpty(Player.Instance.playerName))
+        /// <summary>
+        /// Starts solo version of game.
+        /// </summary>
+        public void StartSoloGame()
         {
-            Debug.LogError("Player Name is null or empty!");
-            return;
+            SceneLoader.PlayGame();
         }
-        SceneLoader.ToLoading();
+
+        /// <summary>
+        /// Starts Pun multiplayer if player name field is not empty.
+        /// Loads the loading screne.
+        /// </summary>
+        public void StartMultiplayer()
+        {
+            if (string.IsNullOrEmpty(player.playerName))
+            {
+                Debug.LogError("Player Name is null or empty!");
+                return;
+            }
+            SceneLoader.ToLoading();
+        }
+
+        /// <summary>
+        /// Saves the players data to file.
+        /// </summary>
+        public void SavePlayerData()
+        {
+            SaveSystem.SavePlayer(player);
+        }
+
+        /// <summary>
+        /// Loads the players data and sets it to the player.
+        /// </summary>
+        public void LoadPlayerData()
+        {
+            SaveData data = SaveSystem.LoadPlayer();
+
+            player.playerName = data.playerName;
+            player.coins = data.coins;
+            player.points = data.points;
+            player.highestWave = data.highestWave;
+            player.currentBlaster = data.currentBlaster;
+            player.ownedBlasters = data.ownedBlasters;
+        }
     }
 
-    public void SavePlayerData()
-    {
-        SaveSystem.SavePlayer(Player.Instance);
-    }
-
-    public void LoadPlayerData()
-    {
-        SaveData data = SaveSystem.LoadPlayer();
-
-        Player.Instance.playerName = data.playerName;
-        Player.Instance.coins = data.coins;
-        Player.Instance.points = data.points;
-        Player.Instance.highestWave = data.highestWave;
-        Player.Instance.currentBlaster = data.currentBlaster;
-        Player.Instance.ownedBlasters = data.ownedBlasters;
-    }
 }

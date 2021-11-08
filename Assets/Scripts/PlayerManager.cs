@@ -4,97 +4,90 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class PlayerManager : MonoBehaviour, IDamageable<float>
+namespace Com.MorganHouston.ZombCube
 {
-    private static PlayerManager _instance;
 
-    public static PlayerManager Instance { get { return _instance; } }
-
-    public Material[] blasterMaterial;
-
-    public int currentPoints = 0;
-    private TextMeshProUGUI scoreText;
-    private Slider healthBar;
-
-    private float healthPoints = 100f;
-    private bool isGameOver;
-
-    private void Awake()
+    public class PlayerManager : MonoBehaviour
     {
-        if(_instance != null && _instance != this)
+
+        public Material[] blasterMaterial;
+
+        public Player player;
+
+        public static int currentPoints = 0;
+
+        private TextMeshProUGUI scoreText;
+        private Slider healthBar;
+
+        private static float healthPoints = 100f;
+        private bool isGameOver;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            Destroy(this.gameObject);
+            LoadPlayerData();
+            healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
+            scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
+            healthPoints = 100f;
+            currentPoints = 0;
+            healthBar.value = healthPoints;
+            scoreText.text = "Score: " + currentPoints.ToString();
+
+            GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
+
+            foreach (GameObject item in blaster)
+            {
+                item.GetComponent<MeshRenderer>().material = blasterMaterial[player.currentBlaster];
+            }
         }
-        else
+
+        // Update is called once per frame
+        void Update()
         {
-            _instance = this;
+            healthBar.value = healthPoints;
+            scoreText.text = "Score: " + currentPoints.ToString();
+
+            if (healthPoints <= 0 && !isGameOver)
+            {
+                healthPoints = 0;
+                UpdateTotalPoints();
+                SavePlayerData();
+                GameManager.Instance.GameOver();
+                isGameOver = true;
+            }
         }
 
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        LoadPlayerData();
-        healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
-        scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
-        currentPoints = 0;
-        healthBar.value = healthPoints;
-        scoreText.text = "Score: " + currentPoints.ToString();
-
-        GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
-
-        foreach(GameObject item in blaster)
+        public static void AddPoints(int pointsToAdd)
         {
-            item.GetComponent<MeshRenderer>().material = blasterMaterial[Player.Instance.currentBlaster];
+            currentPoints += pointsToAdd;
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        healthBar.value = healthPoints;
-        scoreText.text = "Score: " + currentPoints.ToString();
-
-        if(healthPoints <= 0 && !isGameOver)
+        public static void Damage(float damageTaken)
         {
-            healthPoints = 0;
-            UpdateTotalPoints();
-            SavePlayerData();
-            GameManager.Instance.GameOver();
-            isGameOver = true;
+            healthPoints -= damageTaken;
+        }
+
+        private void UpdateTotalPoints()
+        {
+            player.points += currentPoints;
+        }
+
+        public void SavePlayerData()
+        {
+            SaveSystem.SavePlayer(player);
+        }
+
+        public void LoadPlayerData()
+        {
+            SaveData data = SaveSystem.LoadPlayer();
+
+            player.playerName = data.playerName;
+            player.coins = data.coins;
+            player.points = data.points;
+            player.highestWave = data.highestWave;
+            player.currentBlaster = data.currentBlaster;
+            player.ownedBlasters = data.ownedBlasters;
         }
     }
 
-    public void AddPoints(int pointsToAdd)
-    {
-        currentPoints += pointsToAdd;
-    }
-
-    public void Damage(float damageTaken)
-    {
-        healthPoints -= damageTaken;
-    }
-
-    private void UpdateTotalPoints()
-    {
-        Player.Instance.points += currentPoints;
-    }
-
-    public void SavePlayerData()
-    {
-        SaveSystem.SavePlayer(Player.Instance);
-    }
-
-    public void LoadPlayerData()
-    {
-        SaveData data = SaveSystem.LoadPlayer();
-
-        Player.Instance.playerName = data.playerName;
-        Player.Instance.coins = data.coins;
-        Player.Instance.points = data.points;
-        Player.Instance.highestWave = data.highestWave;
-        Player.Instance.currentBlaster = data.currentBlaster;
-        Player.Instance.ownedBlasters = data.ownedBlasters;
-    }
 }

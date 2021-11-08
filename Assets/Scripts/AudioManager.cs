@@ -4,48 +4,53 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class AudioManager : MonoBehaviour
+namespace Com.MorganHouston.ZombCube
 {
-    private static AudioManager _instance;
 
-    public static AudioManager Instance { get { return _instance; } }
-
-    public AudioMixer masterMixer;
-    public Slider musicSlider, masterSlider;
-
-    private void Awake()
+    public class AudioManager : MonoBehaviour
     {
-        if(_instance != null && _instance != this)
+        private static AudioManager _instance;
+
+        public static AudioManager Instance { get { return _instance; } }
+
+        public AudioMixer masterMixer;
+        public Slider musicSlider, masterSlider;
+
+        private void Awake()
         {
-            Destroy(this.gameObject);
-        } else
-        {
-            _instance = this;
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
+            DontDestroyOnLoad(this.gameObject);
         }
-        DontDestroyOnLoad(this.gameObject);
-    }
 
-    private void Start()
-    {
-        masterMixer.SetFloat("MasterVol", PreferencesManager.GetMasterVolume());
-        masterMixer.SetFloat("MusicVol", PreferencesManager.GetMusicVolume());
+        private void Start()
+        {
+            masterMixer.SetFloat("MasterVol", PreferencesManager.GetMasterVolume());
+            masterMixer.SetFloat("MusicVol", PreferencesManager.GetMusicVolume());
 
-        if(musicSlider)
-            musicSlider.value = PreferencesManager.GetMusicVolume();
+            if (musicSlider)
+                musicSlider.value = PreferencesManager.GetMusicVolume();
 
-        if(masterSlider)
-            masterSlider.value = PreferencesManager.GetMasterVolume();
-    }
+            if (masterSlider)
+                masterSlider.value = PreferencesManager.GetMasterVolume();
+        }
 
-    public void ChangeSoundVolume(float soundLevel)
-    {
-        masterMixer.SetFloat("MasterVol", soundLevel);
-        PreferencesManager.SetMasterVolume(soundLevel);
-    }
+        public void ChangeSoundVolume(float soundLevel)
+        {
+            masterMixer.SetFloat("MasterVol", soundLevel);
+            PreferencesManager.SetMasterVolume(soundLevel);
+        }
 
-    public void ChangeMusicVolume(float soundLevel)
-    {
-        masterMixer.SetFloat("MusicVol", soundLevel);
-        PreferencesManager.SetMusicVolume(soundLevel);
+        public void ChangeMusicVolume(float soundLevel)
+        {
+            masterMixer.SetFloat("MusicVol", soundLevel);
+            PreferencesManager.SetMusicVolume(soundLevel);
+        }
     }
 }

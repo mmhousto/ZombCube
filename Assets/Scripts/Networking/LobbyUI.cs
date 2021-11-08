@@ -1,13 +1,9 @@
-using System;
-using DapperDino.UMT.Lobby.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using System.Collections.Generic;
-using System.Collections;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-namespace DapperDino.UMT.Lobby.UI
+namespace Com.MorganHouston.ZombCube
 {
     public class LobbyUI : MonoBehaviourPunCallbacks
     {
@@ -15,42 +11,18 @@ namespace DapperDino.UMT.Lobby.UI
         [SerializeField] [Tooltip("Array of PlayerCards.")] private PlayerCard[] lobbyPlayerCards;
         [SerializeField] [Tooltip("UI button to start the game.")] private Button startGameButton;
 
-        bool playerExists = false;
-
-        private List<LobbyPlayerState> lobbyPlayers = new List<LobbyPlayerState>();
-
         Hashtable hash = new Hashtable();
 
-        public override void OnJoinedRoom()
-        {
-            
-        }
 
-        public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
-        {
-            
-        }
+        #region MonoBehaviour Methods
 
-        public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
-        {
-            /*for (int i = 0; i < lobbyPlayers.Count; i++)
-            {
-                if (lobbyPlayers[i].ActorId == otherPlayer.ActorNumber)
-                {
-                    lobbyPlayers.RemoveAt(i);
-                    break;
-                }
-            }*/
-            photonView.RPC("HandleLobbyPlayersStateChangedRpc", RpcTarget.AllBuffered);
-        }
 
         /// <summary>
-        /// Adds methods to callbacks on network start.
+        /// Loads the player and saves properties in custom player properties with a hash table.
+        /// If is host, then activates the start game button.
         /// </summary>
         void Start()
         {
-            PhotonView photonView = PhotonView.Get(this);
-
             if (PhotonNetwork.IsMasterClient)
             {
                 startGameButton.gameObject.SetActive(true);
@@ -58,16 +30,10 @@ namespace DapperDino.UMT.Lobby.UI
 
             var playerData = SaveSystem.LoadPlayer();
 
-            Debug.Log(playerData.playerName);
-
-            
-
             hash.Add("PlayerId", PhotonNetwork.LocalPlayer.ActorNumber);
             hash.Add("PlayerName", playerData.playerName);
             hash.Add("IsReady", false);
             hash.Add("Blaster", playerData.currentBlaster);
-
-
 
             if (playerData.Equals(null)) { return; }
 
@@ -76,11 +42,11 @@ namespace DapperDino.UMT.Lobby.UI
             
         }
 
-        public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
-        {
-            photonView.RPC("HandleLobbyPlayersStateChangedRpc", RpcTarget.AllBuffered);
-            
-        }
+
+        #endregion
+
+
+        #region Private Methods
 
 
         /// <summary>
@@ -108,35 +74,12 @@ namespace DapperDino.UMT.Lobby.UI
             return true;
         }
 
-        /// <summary>
-        /// Sets the players toggle over the network.
-        /// </summary>
-        [PunRPC]
-        private void ToggleReadyRpc(int playerId)
-        {
-            for (int i = 0; i < lobbyPlayers.Count; i++)
-            {
-                if (lobbyPlayers[i].ActorId == playerId)
-                {
-                    hash["IsReady"] = !lobbyPlayers[i].IsReady;
 
-                    PhotonNetwork.SetPlayerCustomProperties(hash);
-                }
-            }
-        }
+        #endregion
 
-        /// <summary>
-        /// If host and everone is ready, asks the server to start the game.
-        /// </summary>
-        [PunRPC]
-        private void StartGameServerRpc(int playerId)
-        {
-            if (playerId != PhotonNetwork.LocalPlayer.ActorNumber) { return; }
 
-            if (!IsEveryoneReady()) { return; }
+        #region Public Methods
 
-            PhotonNetwork.LoadLevel("NetworkGameScene");
-        }
 
         /// <summary>
         /// Requests to disconnect from lobby.
@@ -151,7 +94,6 @@ namespace DapperDino.UMT.Lobby.UI
         /// </summary>
         public void OnReadyClicked()
         {
-            //photonView.RPC("ToggleReadyRpc", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
             hash["IsReady"] = !(bool)hash["IsReady"];
             PhotonNetwork.SetPlayerCustomProperties(hash);
             
@@ -162,7 +104,27 @@ namespace DapperDino.UMT.Lobby.UI
         /// </summary>
         public void OnStartGameClicked()
         {
-            photonView.RPC("StartGameServerRpc", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+            this.photonView.RPC("StartGameServerRpc", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+
+
+        #endregion
+
+
+        #region PunRpc's
+
+
+        /// <summary>
+        /// If host and everone is ready, asks the server to start the game.
+        /// </summary>
+        [PunRPC]
+        private void StartGameServerRpc(int playerId)
+        {
+            if (playerId != PhotonNetwork.LocalPlayer.ActorNumber) { return; }
+
+            if (!IsEveryoneReady()) { return; }
+
+            PhotonNetwork.LoadLevel("NetworkGameScene");
         }
 
         /// <summary>
@@ -191,12 +153,44 @@ namespace DapperDino.UMT.Lobby.UI
             }
         }
 
+
+        #endregion
+
+
+        #region PunCallbacks
+
+        /// <summary>
+        /// Calls HandleLobbyplayersStateChangedRpc when a players leaves the room.
+        /// </summary>
+        /// <param name="otherPlayer"></param>
+        public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+        {
+            this.photonView.RPC("HandleLobbyPlayersStateChangedRpc", RpcTarget.AllBuffered);
+        }
+
+        /// <summary>
+        /// Calls HandleLobbyplayersStateChangedRpc when a players properties are updated.
+        /// </summary>
+        /// <param name="targetPlayer"></param>
+        /// <param name="changedProps"></param>
+        public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
+        {
+            this.photonView.RPC("HandleLobbyPlayersStateChangedRpc", RpcTarget.AllBuffered);
+
+        }
+
+        /// <summary>
+        /// When a player disconnects, the main menu scene is loaded.
+        /// </summary>
+        /// <param name="cause"></param>
         public override void OnDisconnected(Photon.Realtime.DisconnectCause cause)
         {
             Debug.Log(cause);
             SceneLoader.ToMainMenu();
         }
 
+
+        #endregion
 
     }
 }

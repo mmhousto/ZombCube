@@ -3,90 +3,99 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class InventoryManager : MonoBehaviour, IBuyable, IUseable
+namespace Com.MorganHouston.ZombCube
 {
 
-    public GameObject[] blasterItems;
-
-    private void Start()
+    public class InventoryManager : MonoBehaviour, IBuyable, IUseable
     {
-        for(int i = 0; i < blasterItems.Length; i++)
+        [Tooltip("The cosmetic blaster colors you can buy with coins or points.")]
+        public GameObject[] blasterItems;
+
+        [Tooltip("The players data object.")]
+        public Player player;
+
+        private void Start()
         {
-            if(Player.Instance.currentBlaster == i)
+            for (int i = 0; i < blasterItems.Length; i++)
             {
-                blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
+                if (player.currentBlaster == i)
+                {
+                    blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
+                }
+                else if (player.ownedBlasters[i] == 1)
+                {
+                    blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
+                }
+                else if (player.ownedBlasters[i] == 0)
+                {
+                    blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
+                }
             }
-            else if(Player.Instance.ownedBlasters[i] == 1)
+
+        }
+
+        void Update()
+        {
+            for (int i = 0; i < blasterItems.Length; i++)
             {
-                blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
-            } else if (Player.Instance.ownedBlasters[i] == 0)
-            {
-                blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
+                if (player.currentBlaster == i)
+                {
+                    blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
+                }
+                else if (player.ownedBlasters[i] == 1)
+                {
+                    blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
+                }
+                else if (player.ownedBlasters[i] == 0)
+                {
+                    blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
+                }
             }
         }
 
-    }
-
-    void Update()
-    {
-        for (int i = 0; i < blasterItems.Length; i++)
+        public void BuyBlaster(int index)
         {
-            if (Player.Instance.currentBlaster == i)
+            var price = 0;
+            if (index >= 5)
             {
-                blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
+                price = 10;
+                if (price <= player.coins)
+                {
+                    player.ownedBlasters[index] = 1;
+                    player.coins -= price;
+                }
             }
-            else if (Player.Instance.ownedBlasters[i] == 1)
+            else
             {
-                blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
+                price = 500;
+                if (price <= player.points)
+                {
+                    player.ownedBlasters[index] = 1;
+                    player.points -= price;
+                }
             }
-            else if (Player.Instance.ownedBlasters[i] == 0)
-            {
-                blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
-            }
+
         }
-    }
 
-    public void BuyBlaster(int index)
-    {
-        var price = 0;
-        if(index >= 5)
+        public void Use(int index)
         {
-            price = 10;
-            if (price <= Player.Instance.coins)
+            player.currentBlaster = index;
+        }
+
+        public void SelectBlaster(int index)
+        {
+            if (player.ownedBlasters[index] == 1)
             {
-                Player.Instance.ownedBlasters[index] = 1;
-                Player.Instance.coins -= price;
+                Use(index);
+                blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
             }
-        } else
-        {
-            price = 500;
-            if (price <= Player.Instance.points)
+            else if (player.ownedBlasters[index] == 0)
             {
-                Player.Instance.ownedBlasters[index] = 1;
-                Player.Instance.points -= price;
+                BuyBlaster(index);
+                blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
             }
+            SaveSystem.SavePlayer(player);
         }
-        
-    }
 
-    public void Use(int index)
-    {
-        Player.Instance.currentBlaster = index;
     }
-
-    public void SelectBlaster(int index)
-    {
-        if (Player.Instance.ownedBlasters[index] == 1)
-        {
-            Use(index);
-            blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
-        }
-        else if (Player.Instance.ownedBlasters[index] == 0)
-        {
-            BuyBlaster(index);
-            blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
-        }
-        SaveSystem.SavePlayer(Player.Instance);
-    }
-
 }

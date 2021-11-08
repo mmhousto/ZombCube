@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PointsCollected : MonoBehaviour
+namespace Com.MorganHouston.ZombCube
 {
 
-    private TextMeshProUGUI pointsCollected;
-
-    // Start is called before the first frame update
-    void Start()
+    public class PointsCollected : MonoBehaviour
     {
-        pointsCollected = GetComponent<TextMeshProUGUI>();
-        pointsCollected.text = "Score: " + PlayerManager.Instance.currentPoints.ToString();
+
+        private TextMeshProUGUI pointsCollected;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            pointsCollected = GetComponent<TextMeshProUGUI>();
+            pointsCollected.text = "Score: " + PlayerManager.currentPoints.ToString();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            pointsCollected.text = "Score: " + PlayerManager.currentPoints.ToString();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        pointsCollected.text = "Score: " + PlayerManager.Instance.currentPoints.ToString();
-    }
 }

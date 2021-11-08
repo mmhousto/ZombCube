@@ -2,23 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PurchaseFulfillment : MonoBehaviour
+namespace Com.MorganHouston.ZombCube
 {
-    public GameObject restoreButton;
 
-    private void Awake()
+    public class PurchaseFulfillment : MonoBehaviour
     {
-        #if UNITY_IOS
+        public GameObject restoreButton;
+
+        public Player player;
+
+        private void Awake()
+        {
+#if UNITY_IOS
             restoreButton.SetActive(true);
-        #else
+#else
             restoreButton.SetActive(false);
-        #endif
+#endif
+        }
+
+        public void GrantCoins(int credits)
+        {
+            player.coins += credits;
+            SaveSystem.SavePlayer(player);
+            Debug.Log("You received " + credits + " Coins!");
+        }
     }
 
-    public void GrantCoins(int credits)
-    {
-        Player.Instance.coins += credits;
-        SaveSystem.SavePlayer(Player.Instance);
-        Debug.Log("You received " + credits + " Coins!");
-    }
 }

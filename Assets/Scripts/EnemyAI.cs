@@ -3,31 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+namespace Com.MorganHouston.ZombCube
 {
 
-    private Transform target;
-    private NavMeshAgent ai;
-
-    // Start is called before the first frame update
-    void Start()
+    public class EnemyAI : MonoBehaviour
     {
-        ai = GetComponent<NavMeshAgent>();
-        target = GameObject.FindWithTag("Player").transform;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        ai.SetDestination(target.position);
-    }
+        private Transform target;
+        private NavMeshAgent ai;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Player")
+        // Start is called before the first frame update
+        void Start()
         {
-            Destroy(gameObject);
-            PlayerManager.Instance.Damage(20);
+            ai = GetComponent<NavMeshAgent>();
+            target = GameObject.FindWithTag("Player").transform;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            ai.SetDestination(target.position);
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.tag == "Player")
+            {
+                Destroy(gameObject);
+                PlayerManager.Damage(20);
+            }
         }
     }
+
 }

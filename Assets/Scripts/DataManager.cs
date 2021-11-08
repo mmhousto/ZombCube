@@ -3,66 +3,77 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DataManager : MonoBehaviour
+namespace Com.MorganHouston.ZombCube
 {
-    private static DataManager _instance;
 
-    public static DataManager Instance { get { return _instance; } }
-
-    public TextMeshProUGUI coinsText;
-    public TextMeshProUGUI pointsText;
-    public TMP_InputField nameInputField;
-
-    /// <summary>
-    /// Singleton implementation
-    /// </summary>
-    private void Awake()
+    public class DataManager : MonoBehaviour
     {
-        if (_instance != null && _instance != this)
+        private static DataManager _instance;
+
+        public static DataManager Instance { get { return _instance; } }
+
+        [Tooltip("The players data object.")]
+        public Player player;
+
+        [Tooltip("The text that displays number of coins the player owns.")]
+        public TextMeshProUGUI coinsText;
+        [Tooltip("The text that displays number of points the player owns.")]
+        public TextMeshProUGUI pointsText;
+        [Tooltip("The input field players type their name in.")]
+        public TMP_InputField nameInputField;
+
+        /// <summary>
+        /// Singleton implementation
+        /// </summary>
+        private void Awake()
         {
-            Destroy(this.gameObject);
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
+
         }
-        else
+
+        // Start is called before the first frame update
+        void Start()
         {
-            _instance = this;
+
+            if (coinsText)
+            {
+                coinsText.text = "Coins: " + player.coins;
+            }
+
+            if (pointsText)
+            {
+                pointsText.text = "Points: " + player.points;
+            }
+
+            if (nameInputField)
+                nameInputField.text = player.playerName;
+
         }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+            if (coinsText)
+            {
+                coinsText.text = "Coins: " + player.coins;
+            }
+
+            if (pointsText)
+            {
+                pointsText.text = "Points: " + player.points;
+            }
+
+        }
+
 
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-        if (coinsText)
-        {
-            coinsText.text = "Coins: " + Player.Instance.coins;
-        }
-
-        if (pointsText)
-        {
-            pointsText.text = "Points: " + Player.Instance.points;
-        }
-
-        if (nameInputField)
-            nameInputField.text = Player.Instance.playerName;
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        if (coinsText)
-        {
-            coinsText.text = "Coins: " + Player.Instance.coins;
-        }
-
-        if (pointsText)
-        {
-            pointsText.text = "Points: " + Player.Instance.points;
-        }
-
-    }
-
 
 }

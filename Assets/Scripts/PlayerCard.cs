@@ -1,47 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using DapperDino.UMT.Lobby.UI;
 
-public class PlayerCard : MonoBehaviour
+namespace Com.MorganHouston.ZombCube
 {
-    [Tooltip("GameObject array that holds blaster components.")] public GameObject[] blaster;
 
-    [Header("Panels")]
-    [SerializeField] [Tooltip("UI GameObject that holds 'Waiting For Player' text.")] private GameObject waitingForPlayerPanel;
-    [SerializeField] [Tooltip("UI GameObject that holds player data.")] private GameObject playerDataPanel;
-
-    [Header("Data Display")]
-    [SerializeField] [Tooltip("UI Text that holds player's name.")] private TextMeshProUGUI playerName;
-    [SerializeField] [Tooltip("UI Toggle that tells if player is ready or not.")] private Toggle isReadyToggle;
-
-    /// <summary>
-    /// Updates the Player Card with the players data.
-    /// </summary>
-    /// <param name="lobbyPlayerState"></param>
-    public void UpdateDisplay(Photon.Realtime.Player lobbyPlayerState)
+    public class PlayerCard : MonoBehaviour
     {
-        playerName.text = (string)lobbyPlayerState.CustomProperties["PlayerName"];
-        isReadyToggle.isOn = (bool)lobbyPlayerState.CustomProperties["IsReady"];
+        [Tooltip("GameObject array that holds blaster components.")] public GameObject[] blaster;
 
-        foreach (GameObject item in blaster)
+        [Header("Panels")]
+        [SerializeField] [Tooltip("UI GameObject that holds 'Waiting For Player' text.")] private GameObject waitingForPlayerPanel;
+        [SerializeField] [Tooltip("UI GameObject that holds player data.")] private GameObject playerDataPanel;
+
+        [Header("Data Display")]
+        [SerializeField] [Tooltip("UI Text that holds player's name.")] private TextMeshProUGUI playerName;
+        [SerializeField] [Tooltip("UI Toggle that tells if player is ready or not.")] private Toggle isReadyToggle;
+
+        public Com.MorganHouston.ZombCube.Player playerP;
+
+        /// <summary>
+        /// Updates the Player Card with the players data.
+        /// </summary>
+        /// <param name="player">Player properties to update and display</param>
+        public void UpdateDisplay(Photon.Realtime.Player player)
         {
-            item.GetComponent<MeshRenderer>().material = Player.Instance.materials[(int)lobbyPlayerState.CustomProperties["Blaster"]];
+            playerName.text = (string)player.CustomProperties["PlayerName"];
+            isReadyToggle.isOn = (bool)player.CustomProperties["IsReady"];
+
+            foreach (GameObject item in blaster)
+            {
+                item.GetComponent<MeshRenderer>().material = playerP.materials[(int)player.CustomProperties["Blaster"]];
+            }
+
+            waitingForPlayerPanel.SetActive(false);
+            playerDataPanel.SetActive(true);
         }
 
-        waitingForPlayerPanel.SetActive(false);
-        playerDataPanel.SetActive(true);
-    }
+        /// <summary>
+        /// Disables the display and sets the waiting for player text to active.
+        /// </summary>
+        public void DisableDisplay()
+        {
+            waitingForPlayerPanel.SetActive(true);
+            playerDataPanel.SetActive(false);
+        }
 
-    /// <summary>
-    /// Disables the display and sets the waiting for player text to active.
-    /// </summary>
-    public void DisableDisplay()
-    {
-        waitingForPlayerPanel.SetActive(true);
-        playerDataPanel.SetActive(false);
     }
-
 }
