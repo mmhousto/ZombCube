@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -26,7 +27,15 @@ namespace Com.MorganHouston.ZombCube
         /// </summary>
         void Start()
         {
-            LoadPlayerData();
+            try
+            {
+                LoadPlayerData();
+            }
+            catch(Exception e)
+            {
+                Debug.Log("No data found!");
+            }
+            
 
             PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.ConnectUsingSettings();
