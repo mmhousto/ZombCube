@@ -132,8 +132,7 @@ namespace Com.MorganHouston.ZombCube
         /// Updates start game button when all players are ready.
         /// </summary>
         /// <param name="lobbyState"></param>
-        [PunRPC]
-        private void HandleLobbyPlayersStateChangedRpc()
+        private void HandleLobbyPlayersStateChanged()
         {
             for (int i = 0; i < lobbyPlayerCards.Length; i++)
             {
@@ -165,7 +164,7 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="otherPlayer"></param>
         public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
         {
-            this.photonView.RPC("HandleLobbyPlayersStateChangedRpc", RpcTarget.AllBuffered);
+            HandleLobbyPlayersStateChanged();
         }
 
         /// <summary>
@@ -175,7 +174,7 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="changedProps"></param>
         public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
         {
-            this.photonView.RPC("HandleLobbyPlayersStateChangedRpc", RpcTarget.AllBuffered);
+            HandleLobbyPlayersStateChanged();
 
         }
 

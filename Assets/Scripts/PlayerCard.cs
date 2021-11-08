@@ -17,8 +17,6 @@ namespace Com.MorganHouston.ZombCube
         [SerializeField] [Tooltip("UI Text that holds player's name.")] private TextMeshProUGUI playerName;
         [SerializeField] [Tooltip("UI Toggle that tells if player is ready or not.")] private Toggle isReadyToggle;
 
-        public Com.MorganHouston.ZombCube.Player playerP;
-
         /// <summary>
         /// Updates the Player Card with the players data.
         /// </summary>
@@ -30,7 +28,7 @@ namespace Com.MorganHouston.ZombCube
 
             foreach (GameObject item in blaster)
             {
-                item.GetComponent<MeshRenderer>().material = playerP.materials[(int)player.CustomProperties["Blaster"]];
+                item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Blaster"]];
             }
 
             waitingForPlayerPanel.SetActive(false);

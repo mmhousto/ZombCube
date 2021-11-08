@@ -620,6 +620,7 @@ MonoBehaviour:
   - {fileID: 745442869}
   - {fileID: 244476159}
   - {fileID: 1261855243}
+  player: {fileID: 1191253952}
 --- !u!1 &113302620
 GameObject:
   m_ObjectHideFlags: 0
@@ -2179,6 +2180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restoreButton: {fileID: 1997136969}
+  player: {fileID: 1191253952}
 --- !u!1 &342502182
 GameObject:
   m_ObjectHideFlags: 0
@@ -6688,6 +6690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7249c368eab5c9d41aeabf3deac4ace6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1191253952}
   coinsText: {fileID: 581284026}
   pointsText: {fileID: 194652912}
   nameInputField: {fileID: 991337097}
@@ -6816,6 +6819,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1191253953}
   - component: {fileID: 1191253952}
+  - component: {fileID: 1191253954}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -6840,16 +6844,7 @@ MonoBehaviour:
   currentBlaster: 0
   highestWave: 10
   playerName: MMSix
-  ipAddress: 
   ownedBlasters: 01000000000000000000000000000000000000000000000000000000
-  materials:
-  - {fileID: 2100000, guid: 6c235270166d20047b30425b1edf8d70, type: 2}
-  - {fileID: 2100000, guid: 03e60a291a043834db2e4ba57a84de24, type: 2}
-  - {fileID: 2100000, guid: 4a6cc66bceeb4544584d30a62e398057, type: 2}
-  - {fileID: 2100000, guid: ee23a89c41c51764dbe7acbe0340f3e1, type: 2}
-  - {fileID: 2100000, guid: 0bef1cfa449270d4eb9cf4ee6b87e261, type: 2}
-  - {fileID: 2100000, guid: d28d6244d2f2679439734e9662944224, type: 2}
-  - {fileID: 2100000, guid: c0bded7d132cf994b8b0933f52437cc9, type: 2}
 --- !u!4 &1191253953
 Transform:
   m_ObjectHideFlags: 0
@@ -6864,6 +6859,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1191253954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191253951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6782c64c15f53a14e9c3371a3d6524cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 6c235270166d20047b30425b1edf8d70, type: 2}
+  - {fileID: 2100000, guid: 03e60a291a043834db2e4ba57a84de24, type: 2}
+  - {fileID: 2100000, guid: 4a6cc66bceeb4544584d30a62e398057, type: 2}
+  - {fileID: 2100000, guid: ee23a89c41c51764dbe7acbe0340f3e1, type: 2}
+  - {fileID: 2100000, guid: 0bef1cfa449270d4eb9cf4ee6b87e261, type: 2}
+  - {fileID: 2100000, guid: d28d6244d2f2679439734e9662944224, type: 2}
+  - {fileID: 2100000, guid: c0bded7d132cf994b8b0933f52437cc9, type: 2}
 --- !u!1 &1218566663
 GameObject:
   m_ObjectHideFlags: 0
@@ -11531,6 +11546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad44965d81983d241a7973bb20ab6697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1191253952}
 --- !u!4 &2028947005
 Transform:
   m_ObjectHideFlags: 0

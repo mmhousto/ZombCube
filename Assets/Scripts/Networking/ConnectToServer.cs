@@ -11,8 +11,15 @@ namespace Com.MorganHouston.ZombCube
         [Tooltip("The players data object.")]
         public Player player;
 
+        private string gameVersion = "0.1";
+
         #region MonoBehaviour Methods
 
+
+        private void Awake()
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+        }
 
         /// <summary>
         /// Loads player data and connects to server using specified settings.
@@ -21,8 +28,9 @@ namespace Com.MorganHouston.ZombCube
         {
             LoadPlayerData();
 
-            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.ConnectUsingSettings();
+            
         }
 
 
@@ -61,8 +69,11 @@ namespace Com.MorganHouston.ZombCube
         /// </summary>
         public override void OnConnectedToMaster()
         {
+            Debug.Log("Connected to Master " + PhotonNetwork.ServerAddress);
             PhotonNetwork.JoinLobby();
+            PhotonNetwork.AutomaticallySyncScene = true;
         }
+
 
         /// <summary>
         /// Loads the lobby scene and sets NickName to player's name, after joining successfully.
@@ -71,7 +82,7 @@ namespace Com.MorganHouston.ZombCube
         {
             SceneLoader.ToLobby();
             PhotonNetwork.NickName = player.playerName;
-            Debug.Log(PhotonNetwork.NickName);
+            Debug.Log(PhotonNetwork.ServerAddress);
         }
 
 

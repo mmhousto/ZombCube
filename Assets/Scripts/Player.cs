@@ -14,7 +14,6 @@ namespace Com.MorganHouston.ZombCube
         public int highestWave = 0;
         public string playerName = "PlayerName";
         public int[] ownedBlasters = { 1, 0, 0, 0, 0, 0, 0 };
-        public Material[] materials;
 
         /// <summary>
         /// Sets playerName to name and saves the player data.
