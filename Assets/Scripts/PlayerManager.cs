@@ -12,7 +12,7 @@ namespace Com.MorganHouston.ZombCube
 
         public Material[] blasterMaterial;
 
-        public Player player;
+        private Player player;
 
         public static int currentPoints = 0;
 
@@ -25,6 +25,7 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            player = GetComponent<Player>();
             LoadPlayerData();
             healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
             scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
