@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2086898392220273115}
   - component: {fileID: 2086898392220273112}
   - component: {fileID: 2086898392220273113}
-  - component: {fileID: 2086898392220273108}
-  - component: {fileID: 2429404886906870408}
-  - component: {fileID: -448233448528033426}
+  - component: {fileID: 7785753345144571353}
+  - component: {fileID: 3789367499412513347}
+  - component: {fileID: -1701363122935943390}
   m_Layer: 0
   m_Name: NetworkEnemy
   m_TagString: Enemy
@@ -121,7 +121,7 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2086898392220273108
+--- !u!114 &7785753345144571353
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,10 +130,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 2086898392220273118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a39b404b62956f40b5d00d5fd764a84, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2429404886906870408
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 3789367499412513347}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &3789367499412513347
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,15 +153,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2086898392220273118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkInstanceId: 0
-  PrefabHash: 17223652038686721335
-  PrefabHashGenerator: NetworkEnemy
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
---- !u!114 &-448233448528033426
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &-1701363122935943390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,11 +169,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2086898392220273118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43b86c65774f4494ba4e5878d5df9bcd, type: 3}
+  m_Script: {fileID: 11500000, guid: feebb302ac21fb5459588aff77086069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnableProximity: 0
-  ProximityRange: 50
-  CorrectionDelay: 3
-  DriftCorrectionPercentage: 0.1
-  WarpOnDestinationChange: 0

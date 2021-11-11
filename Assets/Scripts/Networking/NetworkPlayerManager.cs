@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Photon.Pun;
 
 namespace Com.MorganHouston.ZombCube
 {
 
-    public class PlayerManager : MonoBehaviour
+    public class NetworkPlayerManager : MonoBehaviour
     {
 
         public Material[] blasterMaterial;
 
         private Player player;
+
+        private PhotonView view;
 
         private GameObject onScreenControls;
 
@@ -27,6 +30,7 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            view = GetComponent<PhotonView>();
             onScreenControls = GameObject.FindWithTag("ScreenControls");
 
 #if UNITY_ANDROID
@@ -66,10 +70,16 @@ namespace Com.MorganHouston.ZombCube
             if (healthPoints <= 0 && !isGameOver)
             {
                 healthPoints = 0;
+                NetworkGameManager.Instance.EliminatePlayer();
                 UpdateTotalPoints();
                 SavePlayerData();
-                GameManager.Instance.GameOver();
-                isGameOver = true;
+                if (NetworkGameManager.Instance.playersEliminated == PhotonNetwork.CurrentRoom.PlayerCount)
+                {
+                    NetworkSpawner.Instance.gameOver = true;
+                    NetworkGameManager.Instance.CallGameOver();
+                    isGameOver = true;
+                }
+                
             }
         }
 
