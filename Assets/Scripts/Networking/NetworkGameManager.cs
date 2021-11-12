@@ -13,12 +13,19 @@ namespace Com.MorganHouston.ZombCube
         private static NetworkGameManager _instance;
 
         public static NetworkGameManager Instance { get { return _instance; } }
+
+        public Camera cam;
+
         private static int CurrentRound { get; set; }
 
         public int playersEliminated = 0;
 
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen;
+
+        public static int playersSpawned = 0;
+
+        public bool isGameOver = false;
 
 
         private void Awake()
@@ -40,8 +47,10 @@ namespace Com.MorganHouston.ZombCube
         {
             gameOverScreen.SetActive(false);
             playersEliminated = 0;
+            playersSpawned = 0;
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
+            isGameOver = false;
             StartGame();
         }
 
@@ -82,8 +91,8 @@ namespace Com.MorganHouston.ZombCube
         [PunRPC]
         public void GameOver()
         {
+            isGameOver = true;
             Cursor.lockState = CursorLockMode.Confined;
-            Time.timeScale = 0;
             gameOverScreen.SetActive(true);
         }
 
@@ -100,15 +109,48 @@ namespace Com.MorganHouston.ZombCube
             StartCoroutine(DisconnectAndLoad());
         }
 
+        public void ActivateCamera()
+        {
+            cam.gameObject.SetActive(true);
+        }
+
+        public void DeactivateCamera()
+        {
+            cam.gameObject.SetActive(false);
+        }
+
         IEnumerator DisconnectAndLoad()
         {
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.Disconnect();
-            while (PhotonNetwork.IsConnected)
+            while (PhotonNetwork.InRoom)
                 yield return null;
+            Debug.Log("Disconnected from room!!!!!!");
+        }
+
+        public override void OnConnectedToMaster()
+        {
+            PhotonNetwork.Disconnect();
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            LeaveServer();
+        }
+
+        public void LeaveServer()
+        {
             SceneLoader.ToMainMenu();
         }
 
+        public static void PlayerSpawned()
+        {
+            playersSpawned++;
+        }
+
+        public bool IsGameOver()
+        {
+            return isGameOver;
+        }
 
     }
 }

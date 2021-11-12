@@ -14,10 +14,13 @@ namespace Com.MorganHouston.ZombCube
         private Transform target;
         private NavMeshAgent ai;
 
+        public static bool isGameOver = false;
+
         // Start is called before the first frame update
         void Start()
         {
             ai = GetComponent<NavMeshAgent>();
+            isGameOver = NetworkGameManager.Instance.IsGameOver();
             players = GameObject.FindGameObjectsWithTag("Player");
             target = GetClosestPlayer(players);
         }
@@ -25,9 +28,15 @@ namespace Com.MorganHouston.ZombCube
         // Update is called once per frame
         void Update()
         {
-            target = GetClosestPlayer(players);
-            if(target)
-                ai.SetDestination(target.position);
+            isGameOver = NetworkGameManager.Instance.IsGameOver();
+
+            if (isGameOver == false)
+            {
+                target = GetClosestPlayer(players);
+                if (target)
+                    ai.SetDestination(target.position);
+            }
+                
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -35,7 +44,7 @@ namespace Com.MorganHouston.ZombCube
             if (collision.gameObject.tag == "Player")
             {
                 PhotonNetwork.Destroy(gameObject);
-                NetworkPlayerManager.Damage(20);
+                collision.gameObject.GetComponent<NetworkPlayerManager>().Damage(20);
             }
         }
 

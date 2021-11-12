@@ -7,7 +7,7 @@ using Photon.Pun;
 namespace Com.MorganHouston.ZombCube
 {
 
-    public class MouseLook : MonoBehaviourPun
+    public class NetworkMouseLook : MonoBehaviourPun
     {
 
         [SerializeField] private Vector2 mouseSensitivity;
@@ -20,12 +20,21 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            if (!photonView.IsMine)
+            {
+                Camera.main.gameObject.SetActive(false);
+                return;
+            }
             Cursor.lockState = CursorLockMode.Locked;
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
             yInput = pitch * mouseSensitivity.y * Time.deltaTime;
             xInput = yaw * mouseSensitivity.x * Time.deltaTime;
 
@@ -38,6 +47,10 @@ namespace Com.MorganHouston.ZombCube
 
         public void Look(InputAction.CallbackContext context)
         {
+            if (!photonView.IsMine)
+            {
+                return;
+            }
             pitch = context.ReadValue<Vector2>().y;
             yaw = context.ReadValue<Vector2>().x;
         }

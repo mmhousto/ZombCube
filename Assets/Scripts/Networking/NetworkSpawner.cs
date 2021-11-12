@@ -12,6 +12,8 @@ namespace Com.MorganHouston.ZombCube
 
         public static NetworkSpawner Instance { get { return _instance; } }
 
+        public NetworkGameManager gameManager;
+
         private int cubesToSpawn = 5;
         public GameObject[] spawnPoints;
         public GameObject enemy;
@@ -53,7 +55,7 @@ namespace Com.MorganHouston.ZombCube
             if (!GameObject.FindWithTag("Enemy") && hasStarted == true && gameOver == false)
             {
                 cubesToSpawn += 5;
-                NetworkGameManager.Instance.NextWave();
+                gameManager.NextWave();
                 Spawn();
             }
         }

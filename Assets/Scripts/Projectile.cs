@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -21,12 +22,24 @@ namespace Com.MorganHouston.ZombCube
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.tag == "Enemy")
+            if(SceneLoader.GetCurrentScene().name == "GameScene")
             {
-                Destroy(collision.gameObject);
-                PlayerManager.AddPoints(10);
+                if (collision.gameObject.tag == "Enemy")
+                {
+                    Destroy(collision.gameObject);
+                    PlayerManager.AddPoints(10);
+                }
+                Destroy(gameObject);
+            }else
+            {
+                if (collision.gameObject.tag == "Enemy")
+                {
+                    PhotonNetwork.Destroy(collision.gameObject);
+                    PlayerManager.AddPoints(10);
+                }
+                PhotonNetwork.Destroy(gameObject);
             }
-            Destroy(gameObject);
+            
         }
     }
 

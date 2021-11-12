@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
 namespace Com.MorganHouston.ZombCube
 {
 
-    public class PlayerMovement : MonoBehaviour
+    public class NetworkPlayerMovement : MonoBehaviourPunCallbacks
     {
         private CharacterController controller;
         private Rigidbody rb;
@@ -22,13 +23,23 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
-                controller = GetComponent<CharacterController>();
-            
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
+
+            controller = GetComponent<CharacterController>();
+
         }
 
         void Update()
         {
-                if (groundedPlayer && playerVelocity.y < 0)
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
+
+            if (groundedPlayer && playerVelocity.y < 0)
                 {
                     playerVelocity.y = 0f;
                 }
@@ -51,14 +62,22 @@ namespace Com.MorganHouston.ZombCube
 
         private void OnTriggerStay(Collider other)
         {
-                if (other.tag == "Ground")
-                    groundedPlayer = true;
+            if (!photonView.IsMine)
+            {
+                return;
+            }
+            if (other.tag == "Ground")
+                groundedPlayer = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
-                if (other.tag == "Ground")
-                    groundedPlayer = false;
+            if (!photonView.IsMine)
+            {
+                return;
+            }
+            if (other.tag == "Ground")
+                groundedPlayer = false;
         }
 
         /// <summary>
@@ -67,13 +86,21 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="context"></param>
         public void Move(InputAction.CallbackContext context)
         {
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
             horizontal = context.ReadValue<Vector2>().x;
             vertical = context.ReadValue<Vector2>().y;
-                
+
         }
 
         public void Jump(InputAction.CallbackContext context)
         {
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
             hasJumped = context.ReadValueAsButton();
         }
 

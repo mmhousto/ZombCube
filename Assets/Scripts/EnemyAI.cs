@@ -9,6 +9,7 @@ namespace Com.MorganHouston.ZombCube
     public class EnemyAI : MonoBehaviour
     {
 
+
         private Transform target;
         private NavMeshAgent ai;
 
@@ -30,7 +31,7 @@ namespace Com.MorganHouston.ZombCube
             if (collision.gameObject.tag == "Player")
             {
                 Destroy(gameObject);
-                PlayerManager.Damage(20);
+                collision.gameObject.GetComponent<PlayerManager>().Damage(20);
             }
         }
     }

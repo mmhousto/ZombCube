@@ -21,7 +21,7 @@ namespace Com.MorganHouston.ZombCube
         private TextMeshProUGUI scoreText;
         private Slider healthBar;
 
-        private static float healthPoints = 100f;
+        private float healthPoints = 100f;
         private bool isGameOver;
 
         // Start is called before the first frame update
@@ -78,7 +78,7 @@ namespace Com.MorganHouston.ZombCube
             currentPoints += pointsToAdd;
         }
 
-        public static void Damage(float damageTaken)
+        public void Damage(float damageTaken)
         {
             healthPoints -= damageTaken;
         }

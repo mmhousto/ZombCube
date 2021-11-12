@@ -742,7 +742,8 @@ GameObject:
   - component: {fileID: 7198934553786108424}
   - component: {fileID: 7198934553786108431}
   - component: {fileID: 7198934553786108430}
-  - component: {fileID: 4963448521567476350}
+  - component: {fileID: 5868811450442763691}
+  - component: {fileID: 4809514541009740435}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -817,7 +818,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7198934553786108429}
   m_Enabled: 1
---- !u!114 &4963448521567476350
+--- !u!114 &5868811450442763691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -826,7 +827,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 7198934553786108429}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b32cba1438ce7e74caac41ea09d224d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &4809514541009740435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198934553786108429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2abb044953e42b4e90c495bae2c1042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: {x: 20, y: 20}
@@ -848,13 +865,13 @@ GameObject:
   - component: {fileID: 7198934554025558219}
   - component: {fileID: 7198934554025558218}
   - component: {fileID: 7198934554025558217}
-  - component: {fileID: 7198934554025558208}
   - component: {fileID: 7198934554025558209}
   - component: {fileID: 4963448523072077155}
   - component: {fileID: 2795175968766640995}
   - component: {fileID: 1974527743273112066}
   - component: {fileID: -6025508298264463850}
   - component: {fileID: -5116944552661198888}
+  - component: {fileID: -4992949897302118650}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -974,18 +991,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.1
   m_Center: {x: 0, y: -1, z: 0}
---- !u!114 &7198934554025558208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7198934554025558216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d688d3606b9f504cac424cc8c680c03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7198934554025558209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1013,7 +1018,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7198934554025558208}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 0
@@ -1029,7 +1034,7 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4963448521567476350}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MouseLook, Assembly-CSharp
         m_MethodName: Look
         m_Mode: 0
@@ -1061,7 +1066,7 @@ MonoBehaviour:
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7198934554025558208}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
         m_MethodName: Jump
         m_Mode: 0
@@ -1172,6 +1177,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: -6025508298264463850}
+  - {fileID: 5868811450442763691}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1211,3 +1217,15 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0bef1cfa449270d4eb9cf4ee6b87e261, type: 2}
   - {fileID: 2100000, guid: d28d6244d2f2679439734e9662944224, type: 2}
   - {fileID: 2100000, guid: c0bded7d132cf994b8b0933f52437cc9, type: 2}
+--- !u!114 &-4992949897302118650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198934554025558216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca8859c88ba69540bd13414cd67c75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
