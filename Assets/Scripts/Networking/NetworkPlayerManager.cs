@@ -19,11 +19,17 @@ namespace Com.MorganHouston.ZombCube
 
         public static int currentPoints = 0;
 
+        public TextMeshProUGUI playerName;
+
+        public Slider playerHealth;
+
         private TextMeshProUGUI scoreText;
         private Slider healthBar;
 
         private float healthPoints = 100f;
         private bool isGameOver;
+
+        private bool isAlive = true;
 
         public static GameObject LocalPlayerInstance;
 
@@ -46,6 +52,7 @@ namespace Com.MorganHouston.ZombCube
 
             if (photonView.IsMine)
             {
+                isAlive = true;
                 onScreenControls = GameObject.FindWithTag("ScreenControls");
 
 #if UNITY_ANDROID
@@ -60,12 +67,15 @@ namespace Com.MorganHouston.ZombCube
 #endif
 
                 player = GetComponent<Player>();
+                playerName.text = PhotonNetwork.LocalPlayer.NickName;
                 LoadPlayerData();
+                Debug.Log("Loaded Player Data");
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
                 healthPoints = 100f;
                 currentPoints = 0;
                 healthBar.value = healthPoints;
+                playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
 
                 GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
@@ -81,37 +91,42 @@ namespace Com.MorganHouston.ZombCube
         // Update is called once per frame
         void Update()
         {
-            if (!photonView.IsMine)
-            {
-                return;
-            }
+            UpdateStats();
+            CheckIfAlive();
+        }
+
+        public void CheckIfAlive()
+        {
             if (photonView.IsMine)
             {
-
-                if (isGameOver)
-                {
-                    healthBar.value = healthPoints;
-                    scoreText.text = "Score: " + currentPoints.ToString();
-                }
-
-
-                if (healthPoints <= 0 && !isGameOver)
+                if (healthPoints <= 0 && !isGameOver && isAlive == true)
                 {
                     healthPoints = 0;
                     NetworkGameManager.Instance.EliminatePlayer();
+                    Debug.Log(NetworkGameManager.Instance.playersEliminated);
+                    isAlive = false;
                     UpdateTotalPoints();
                     SavePlayerData();
                     PhotonNetwork.Destroy(this.gameObject);
                     NetworkGameManager.Instance.ActivateCamera();
                     if (NetworkGameManager.Instance.playersEliminated == PhotonNetwork.CurrentRoom.PlayerCount)
                     {
-                        NetworkSpawner.Instance.gameOver = true;
-                        NetworkEnemy.isGameOver = true;
                         NetworkGameManager.Instance.CallGameOver();
                         isGameOver = true;
                     }
 
                 }
+            }
+            
+        }
+
+        public void UpdateStats()
+        {
+            if (photonView.IsMine)
+            {
+                healthBar.value = healthPoints;
+                playerHealth.value = healthPoints;
+                scoreText.text = "Score: " + currentPoints.ToString();
             }
         }
 

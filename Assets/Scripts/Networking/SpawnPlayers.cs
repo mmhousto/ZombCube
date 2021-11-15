@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Com.MorganHouston.ZombCube;
 
-public class SpawnPlayers : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
+public class SpawnPlayers : MonoBehaviourPun
 {
     public GameObject playerPrefab;
     public Transform[] spawnLocations;
@@ -43,10 +43,5 @@ public class SpawnPlayers : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallb
         }
     }
 
-    public void OnPhotonInstantiate(PhotonMessageInfo info)
-    {
-        // e.g. store this gameobject as this player's charater in Player.TagObject
-        info.Sender.TagObject = this.gameObject;
-    }
 
 }

@@ -6,7 +6,7 @@ using Photon.Pun;
 namespace Com.MorganHouston.ZombCube
 {
 
-    public class Projectile : MonoBehaviour
+    public class Projectile : MonoBehaviourPun
     {
         // Start is called before the first frame update
         void Start()

@@ -7,7 +7,7 @@ using Photon.Pun;
 namespace Com.MorganHouston.ZombCube
 {
 
-    public class NetworkPlayerMovement : MonoBehaviourPunCallbacks
+    public class NetworkPlayerMovement : MonoBehaviourPun
     {
         private CharacterController controller;
         private Rigidbody rb;
@@ -34,12 +34,17 @@ namespace Com.MorganHouston.ZombCube
 
         void Update()
         {
-            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-            {
-                return;
-            }
+            MovePlayer();
 
-            if (groundedPlayer && playerVelocity.y < 0)
+            
+            
+        }
+
+        private void MovePlayer()
+        {
+            if (photonView.IsMine)
+            {
+                if (groundedPlayer && playerVelocity.y < 0)
                 {
                     playerVelocity.y = 0f;
                 }
@@ -57,7 +62,7 @@ namespace Com.MorganHouston.ZombCube
 
                 playerVelocity.y += gravityValue * Time.deltaTime;
                 controller.Move(playerVelocity * Time.deltaTime);
-            
+            }
         }
 
         private void OnTriggerStay(Collider other)
@@ -86,10 +91,6 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="context"></param>
         public void Move(InputAction.CallbackContext context)
         {
-            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-            {
-                return;
-            }
             horizontal = context.ReadValue<Vector2>().x;
             vertical = context.ReadValue<Vector2>().y;
 
@@ -97,10 +98,6 @@ namespace Com.MorganHouston.ZombCube
 
         public void Jump(InputAction.CallbackContext context)
         {
-            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-            {
-                return;
-            }
             hasJumped = context.ReadValueAsButton();
         }
 

@@ -92,6 +92,8 @@ namespace Com.MorganHouston.ZombCube
         public void GameOver()
         {
             isGameOver = true;
+            NetworkSpawner.Instance.gameOver = isGameOver;
+            NetworkEnemy.isGameOver = isGameOver;
             Cursor.lockState = CursorLockMode.Confined;
             gameOverScreen.SetActive(true);
         }
