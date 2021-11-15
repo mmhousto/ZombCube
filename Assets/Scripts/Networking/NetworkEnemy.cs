@@ -7,7 +7,7 @@ using Photon.Pun;
 namespace Com.MorganHouston.ZombCube
 {
 
-    public class NetworkEnemy : MonoBehaviour
+    public class NetworkEnemy : MonoBehaviourPun
     {
         private GameObject[] players;
 
@@ -33,8 +33,12 @@ namespace Com.MorganHouston.ZombCube
             if (isGameOver == false)
             {
                 target = GetClosestPlayer(players);
-                if (target)
+                if (target == null) { return; }
+                else
+                {
                     ai.SetDestination(target.position);
+                }
+                    
             }
                 
         }
@@ -43,7 +47,8 @@ namespace Com.MorganHouston.ZombCube
         {
             if (collision.gameObject.tag == "Player")
             {
-                PhotonNetwork.Destroy(gameObject);
+                if (photonView.IsMine)
+                    PhotonNetwork.Destroy(gameObject);
                 collision.gameObject.GetComponent<NetworkPlayerManager>().Damage(20);
             }
         }
@@ -55,6 +60,7 @@ namespace Com.MorganHouston.ZombCube
             Vector3 currentPos = transform.position;
             foreach (GameObject player in players)
             {
+                if(player == null || currentPos == null) { return null; }
                 float dist = Vector3.Distance(player.transform.position, currentPos);
                 if (dist < minDist)
                 {

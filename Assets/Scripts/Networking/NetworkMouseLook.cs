@@ -15,14 +15,18 @@ namespace Com.MorganHouston.ZombCube
         private float yInput, xInput;
         private float xRotation = 0f;
 
+        private Camera cam;
+
         public Transform playerBody;
 
         // Start is called before the first frame update
         void Start()
         {
+            
             if (!photonView.IsMine)
             {
-                Camera.main.gameObject.SetActive(false);
+                cam = GetComponent<Camera>();
+                cam.gameObject.SetActive(false);
                 return;
             }
             Cursor.lockState = CursorLockMode.Locked;
@@ -31,26 +35,27 @@ namespace Com.MorganHouston.ZombCube
         // Update is called once per frame
         void Update()
         {
-            if (!photonView.IsMine)
+            LookAround();
+            
+        }
+
+        public void LookAround()
+        {
+            if (photonView.IsMine)
             {
-                return;
+                yInput = pitch * mouseSensitivity.y * Time.deltaTime;
+                xInput = yaw * mouseSensitivity.x * Time.deltaTime;
+
+                xRotation -= yInput;
+                xRotation = ClampVerticalAngle(xRotation);
+
+                transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+                playerBody.Rotate(Vector3.up * xInput);
             }
-            yInput = pitch * mouseSensitivity.y * Time.deltaTime;
-            xInput = yaw * mouseSensitivity.x * Time.deltaTime;
-
-            xRotation -= yInput;
-            xRotation = ClampVerticalAngle(xRotation);
-
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            playerBody.Rotate(Vector3.up * xInput);
         }
 
         public void Look(InputAction.CallbackContext context)
         {
-            if (!photonView.IsMine)
-            {
-                return;
-            }
             pitch = context.ReadValue<Vector2>().y;
             yaw = context.ReadValue<Vector2>().x;
         }

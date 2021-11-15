@@ -23,7 +23,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
-            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            if (this.photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             {
                 return;
             }
@@ -42,11 +42,11 @@ namespace Com.MorganHouston.ZombCube
 
         private void MovePlayer()
         {
-            if (photonView.IsMine)
+            if (this.photonView.IsMine)
             {
                 if (groundedPlayer && playerVelocity.y < 0)
                 {
-                    playerVelocity.y = 0f;
+                    playerVelocity.y = -2f;
                 }
 
                 Vector3 move = transform.forward * vertical + transform.right * horizontal;
@@ -67,7 +67,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void OnTriggerStay(Collider other)
         {
-            if (!photonView.IsMine)
+            if (!this.photonView.IsMine)
             {
                 return;
             }
@@ -77,7 +77,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if (!photonView.IsMine)
+            if (!this.photonView.IsMine)
             {
                 return;
             }
@@ -93,6 +93,9 @@ namespace Com.MorganHouston.ZombCube
         {
             horizontal = context.ReadValue<Vector2>().x;
             vertical = context.ReadValue<Vector2>().y;
+
+            Debug.Log("Horizontal: " + horizontal);
+            Debug.Log("Vertical: " + vertical);
 
         }
 

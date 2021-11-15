@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -17,7 +18,7 @@ namespace Com.MorganHouston.ZombCube
 
         private GameObject onScreenControls;
 
-        public static int currentPoints = 0;
+        public int currentPoints = 0;
 
         public TextMeshProUGUI playerName;
 
@@ -31,18 +32,10 @@ namespace Com.MorganHouston.ZombCube
 
         private bool isAlive = true;
 
-        public static GameObject LocalPlayerInstance;
 
         private void Awake()
         {
-            if (!photonView.IsMine)
-            {
-                return;
-            }
-            if (photonView.IsMine)
-            {
-                NetworkPlayerManager.LocalPlayerInstance = this.gameObject;
-            }
+
         }
 
         // Start is called before the first frame update
@@ -67,8 +60,8 @@ namespace Com.MorganHouston.ZombCube
 #endif
 
                 player = GetComponent<Player>();
-                playerName.text = PhotonNetwork.LocalPlayer.NickName;
                 LoadPlayerData();
+                playerName.text = PhotonNetwork.LocalPlayer.NickName;
                 Debug.Log("Loaded Player Data");
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
@@ -82,7 +75,7 @@ namespace Com.MorganHouston.ZombCube
 
                 foreach (GameObject item in blaster)
                 {
-                    item.GetComponent<MeshRenderer>().material = blasterMaterial[player.currentBlaster];
+                    item.GetComponent<MeshRenderer>().material = blasterMaterial[(int)PhotonNetwork.LocalPlayer.CustomProperties["Blaster"]];
                 }
             }
             
@@ -102,7 +95,7 @@ namespace Com.MorganHouston.ZombCube
                 if (healthPoints <= 0 && !isGameOver && isAlive == true)
                 {
                     healthPoints = 0;
-                    NetworkGameManager.Instance.EliminatePlayer();
+                    NetworkGameManager.Instance.CallEliminatePlayer();
                     Debug.Log(NetworkGameManager.Instance.playersEliminated);
                     isAlive = false;
                     UpdateTotalPoints();
@@ -130,7 +123,23 @@ namespace Com.MorganHouston.ZombCube
             }
         }
 
-        public static void AddPoints(int pointsToAdd)
+        void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                //We own this player: send the others our data
+                stream.SendNext(healthPoints);
+                stream.SendNext(playerName);
+            }
+            else
+            {
+                //Network player, receive data
+                healthPoints = (int)stream.ReceiveNext();
+                playerName.text = (string)stream.ReceiveNext();
+            }
+        }
+
+        public void AddPoints(int pointsToAdd)
         {
             currentPoints += pointsToAdd;
         }
@@ -154,11 +163,11 @@ namespace Com.MorganHouston.ZombCube
         {
             SaveData data = SaveSystem.LoadPlayer();
 
-            player.playerName = data.playerName;
+            player.playerName = PhotonNetwork.LocalPlayer.NickName;
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
-            player.currentBlaster = data.currentBlaster;
+            player.currentBlaster = (int)PhotonNetwork.LocalPlayer.CustomProperties["Blaster"];
             player.ownedBlasters = data.ownedBlasters;
         }
 

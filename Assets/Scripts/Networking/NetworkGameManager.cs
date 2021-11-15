@@ -16,14 +16,14 @@ namespace Com.MorganHouston.ZombCube
 
         public Camera cam;
 
-        private static int CurrentRound { get; set; }
+        private int CurrentRound { get; set; }
 
         public int playersEliminated = 0;
 
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen;
 
-        public static int playersSpawned = 0;
+        public int playersSpawned = 0;
 
         public bool isGameOver = false;
 
@@ -38,20 +38,24 @@ namespace Com.MorganHouston.ZombCube
             {
                 _instance = this;
             }
-            Time.timeScale = 0;
 
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            gameOverScreen.SetActive(false);
-            playersEliminated = 0;
-            playersSpawned = 0;
-            CurrentRound = 1;
-            waveTxt.text = "Wave: " + CurrentRound.ToString();
-            isGameOver = false;
-            StartGame();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                photonView.RPC(nameof(RPC_CreatePlayers), RpcTarget.AllBuffered);
+            }
+                gameOverScreen.SetActive(false);
+                playersEliminated = 0;
+                playersSpawned = 0;
+                CurrentRound = 1;
+                waveTxt.text = "Wave: " + CurrentRound.ToString();
+                isGameOver = false;
+                StartGame();
+            
         }
 
         // Update is called once per frame
@@ -60,11 +64,29 @@ namespace Com.MorganHouston.ZombCube
             waveTxt.text = "Wave: " + CurrentRound.ToString();
         }
 
-        public void EliminatePlayer()
+        [PunRPC]
+        public void RPC_CreatePlayers()
+        {
+            PhotonNetwork.Instantiate("PhotonNetworkObject", transform.position, transform.rotation, 0);
+        }
+
+        public void CallEliminatePlayer()
+        {
+            photonView.RPC(nameof(RPC_EliminatePlayer), RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void RPC_EliminatePlayer()
         {
             playersEliminated++;
         }
 
+        public void NextWaveCall()
+        {
+            photonView.RPC(nameof(NextWave), RpcTarget.All);
+        }
+
+        [PunRPC]
         public void NextWave()
         {
             CurrentRound += 1;
@@ -144,7 +166,13 @@ namespace Com.MorganHouston.ZombCube
             SceneLoader.ToMainMenu();
         }
 
-        public static void PlayerSpawned()
+        public void CallPlayerSpawned()
+        {
+            photonView.RPC(nameof(RPC_PlayerSpawned), RpcTarget.All);
+        }
+
+        [PunRPC]
+        public void RPC_PlayerSpawned()
         {
             playersSpawned++;
         }

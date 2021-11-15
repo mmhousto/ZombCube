@@ -48,7 +48,7 @@ namespace Com.MorganHouston.ZombCube
 
                 if (isFiring & canFire)
                 {
-                    GameObject clone = PhotonNetwork.InstantiateRoomObject(projectile.name, firePosition.position, firePosition.rotation);
+                    GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
                     clone.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, launchVelocity));
                     fireTime = fireRate;
                 }

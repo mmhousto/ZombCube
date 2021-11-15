@@ -6,13 +6,11 @@ using Photon.Pun;
 namespace Com.MorganHouston.ZombCube
 {
 
-    public class NetworkSpawner : MonoBehaviour
+    public class NetworkSpawner : MonoBehaviourPun
     {
         private static NetworkSpawner _instance;
 
         public static NetworkSpawner Instance { get { return _instance; } }
-
-        public NetworkGameManager gameManager;
 
         private int cubesToSpawn = 5;
         public GameObject[] spawnPoints;
@@ -31,6 +29,7 @@ namespace Com.MorganHouston.ZombCube
                 Destroy(this.gameObject);
             }else
             {
+                
                 _instance = this;
             }
         }
@@ -38,10 +37,12 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            if (!PhotonNetwork.IsMasterClient) { return; }
             cubesToSpawn = 5;
             hasStarted = false;
             cubesToSpawn *= PhotonNetwork.CurrentRoom.PlayerCount;
-            spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            
         }
 
         // Update is called once per frame
@@ -52,21 +53,26 @@ namespace Com.MorganHouston.ZombCube
 
         private void CheckForEnemies()
         {
-            if (!GameObject.FindWithTag("Enemy") && hasStarted == true && gameOver == false)
+            if (PhotonNetwork.IsMasterClient)
             {
-                cubesToSpawn += 5;
-                gameManager.NextWave();
-                Spawn();
+                if (!GameObject.FindWithTag("Enemy") && hasStarted == true && gameOver == false)
+                {
+                    cubesToSpawn += 5;
+                    NetworkGameManager.Instance.NextWaveCall();
+                    Spawn();
+                }
             }
+            
         }
 
         public void Spawn()
         {
-            for (int i = 0; i < cubesToSpawn; i++)
-            {
-                int j = Random.Range(0, spawnPoints.Length);
-                GameObject enemyClone = PhotonNetwork.Instantiate("NetworkEnemy", spawnPoints[j].transform.position, spawnPoints[j].transform.rotation);
-            }
+                for (int i = 0; i < cubesToSpawn; i++)
+                {
+                    int j = Random.Range(0, spawnPoints.Length);
+                    PhotonNetwork.Instantiate("NetworkEnemy", spawnPoints[j].transform.position, spawnPoints[j].transform.rotation);
+                }
+            
 
         }
 

@@ -2,45 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using Com.MorganHouston.ZombCube;
 
 public class SpawnPlayers : MonoBehaviourPun
 {
     public GameObject playerPrefab;
     public Transform[] spawnLocations;
-    private int numOfPlayers;
+
+    Photon.Realtime.Player[] allPlayers;
+    int index;
+    GameObject myPlayer;
+    PhotonView pv;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-        {
-            return;
-        }
+        pv = GetComponent<PhotonView>();
 
-        numOfPlayers = NetworkGameManager.playersSpawned;
-        Debug.Log("Number of Players: " + numOfPlayers);
-        switch (numOfPlayers)
+        allPlayers = PhotonNetwork.PlayerList;
+        foreach(Photon.Realtime.Player player in allPlayers)
         {
-            case 0:
-                PhotonNetwork.Instantiate(this.playerPrefab.name, spawnLocations[0].position, spawnLocations[0].rotation);
-                NetworkGameManager.PlayerSpawned();
-                break;
-            case 1:
-                PhotonNetwork.Instantiate(this.playerPrefab.name, spawnLocations[1].position, spawnLocations[1].rotation);
-                NetworkGameManager.PlayerSpawned();
-                break;
-            case 2:
-                PhotonNetwork.Instantiate(this.playerPrefab.name, spawnLocations[2].position, spawnLocations[2].rotation);
-                NetworkGameManager.PlayerSpawned();
-                break;
-            case 3:
-                PhotonNetwork.Instantiate(this.playerPrefab.name, spawnLocations[3].position, spawnLocations[3].rotation);
-                NetworkGameManager.PlayerSpawned();
-                break;
-
+            if(player != PhotonNetwork.LocalPlayer)
+            {
+                index++;
+            }
         }
+        Debug.Log(index);
+        if (pv.IsMine)
+        {
+            myPlayer = PhotonNetwork.Instantiate(this.playerPrefab.name, spawnLocations[index].position, spawnLocations[index].rotation, 0);
+        }
+        
+         
     }
 
 

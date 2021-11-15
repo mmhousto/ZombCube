@@ -34,10 +34,12 @@ namespace Com.MorganHouston.ZombCube
             {
                 if (collision.gameObject.tag == "Enemy")
                 {
-                    PhotonNetwork.Destroy(collision.gameObject);
+                    if(PhotonNetwork.IsMasterClient)
+                        PhotonNetwork.Destroy(collision.gameObject);
                     PlayerManager.AddPoints(10);
                 }
-                PhotonNetwork.Destroy(gameObject);
+                if (photonView.IsMine)
+                    PhotonNetwork.Destroy(gameObject);
             }
             
         }
