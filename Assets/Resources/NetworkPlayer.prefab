@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 4963448522151876390}
   - component: {fileID: 4963448522151876391}
   - component: {fileID: 4963448522151876384}
+  - component: {fileID: 1955715970370651883}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Blaster
@@ -605,6 +606,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1955715970370651883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4963448522151876386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &4963448522219491553
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,6 +634,7 @@ GameObject:
   - component: {fileID: 4963448522219491558}
   - component: {fileID: 4963448522219491559}
   - component: {fileID: 4963448522219491552}
+  - component: {fileID: 3983277416371149925}
   m_Layer: 0
   m_Name: Blaster
   m_TagString: Blaster
@@ -701,6 +719,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3983277416371149925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4963448522219491553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &4963448523027511481
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,6 +1201,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: -6025508298264463850}
   - {fileID: 5868811450442763691}
+  - {fileID: 3983277416371149925}
+  - {fileID: 1955715970370651883}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1206,8 +1242,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0bef1cfa449270d4eb9cf4ee6b87e261, type: 2}
   - {fileID: 2100000, guid: d28d6244d2f2679439734e9662944224, type: 2}
   - {fileID: 2100000, guid: c0bded7d132cf994b8b0933f52437cc9, type: 2}
-  playerName: {fileID: 885563611729888467}
+  playerNameText: {fileID: 885563611729888467}
+  playerName: 
   playerHealth: {fileID: 5103094513037115617}
+  healthPoints: 100
 --- !u!114 &-4992949897302118650
 MonoBehaviour:
   m_ObjectHideFlags: 0

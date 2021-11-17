@@ -14,11 +14,13 @@ namespace Com.MorganHouston.ZombCube
         private Transform target;
         private NavMeshAgent ai;
 
-        public static bool isGameOver = false;
+        public bool isGameOver = false;
 
         // Start is called before the first frame update
         void Start()
         {
+            if (!this.photonView.IsMine) { return; }
+
             ai = GetComponent<NavMeshAgent>();
             isGameOver = NetworkGameManager.Instance.IsGameOver();
             players = GameObject.FindGameObjectsWithTag("Player");
@@ -28,6 +30,8 @@ namespace Com.MorganHouston.ZombCube
         // Update is called once per frame
         void Update()
         {
+            if (!this.photonView.IsMine) { return; }
+
             isGameOver = NetworkGameManager.Instance.IsGameOver();
 
             if (isGameOver == false)
@@ -38,7 +42,11 @@ namespace Com.MorganHouston.ZombCube
                 {
                     ai.SetDestination(target.position);
                 }
-                    
+
+            }
+            else
+            {
+                ai.isStopped = true;
             }
                 
         }
@@ -47,9 +55,19 @@ namespace Com.MorganHouston.ZombCube
         {
             if (collision.gameObject.tag == "Player")
             {
-                if (photonView.IsMine)
-                    PhotonNetwork.Destroy(gameObject);
                 collision.gameObject.GetComponent<NetworkPlayerManager>().Damage(20);
+                
+                if(this.photonView.IsMine)
+                    PhotonNetwork.Destroy(this.photonView);
+                Debug.Log("ENEMY HIT PLAYER");
+            }
+            
+            if (collision.gameObject.tag == "Projectile")
+            {
+                if (this.photonView.IsMine)
+                    PhotonNetwork.Destroy(this.photonView);
+
+
             }
         }
 

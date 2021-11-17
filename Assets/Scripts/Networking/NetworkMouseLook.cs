@@ -23,7 +23,7 @@ namespace Com.MorganHouston.ZombCube
         void Start()
         {
             
-            if (!photonView.IsMine)
+            if (!this.photonView.IsMine)
             {
                 cam = GetComponent<Camera>();
                 cam.gameObject.SetActive(false);
@@ -41,7 +41,7 @@ namespace Com.MorganHouston.ZombCube
 
         public void LookAround()
         {
-            if (photonView.IsMine)
+            if (this.photonView.IsMine)
             {
                 yInput = pitch * mouseSensitivity.y * Time.deltaTime;
                 xInput = yaw * mouseSensitivity.x * Time.deltaTime;
@@ -56,6 +56,7 @@ namespace Com.MorganHouston.ZombCube
 
         public void Look(InputAction.CallbackContext context)
         {
+            if(!this.photonView.IsMine) { return; }
             pitch = context.ReadValue<Vector2>().y;
             yaw = context.ReadValue<Vector2>().x;
         }

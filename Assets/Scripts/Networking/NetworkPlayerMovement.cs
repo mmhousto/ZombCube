@@ -21,6 +21,15 @@ namespace Com.MorganHouston.ZombCube
         private float gravityValue = -20f;
         private bool hasJumped = false;
 
+        private void Awake()
+        {
+            if (!this.photonView.IsMine && this != null)
+            {
+                Destroy(this);
+                Destroy(GetComponent<PlayerInput>());
+            }
+        }
+
         private void Start()
         {
             if (this.photonView.IsMine == false && PhotonNetwork.IsConnected == true)
@@ -28,7 +37,8 @@ namespace Com.MorganHouston.ZombCube
                 return;
             }
 
-            controller = GetComponent<CharacterController>();
+            if(this.photonView.IsMine)
+                controller = GetComponent<CharacterController>();
 
         }
 
@@ -71,7 +81,7 @@ namespace Com.MorganHouston.ZombCube
             {
                 return;
             }
-            if (other.tag == "Ground")
+            if (other.CompareTag("Ground"))
                 groundedPlayer = true;
         }
 
@@ -81,7 +91,7 @@ namespace Com.MorganHouston.ZombCube
             {
                 return;
             }
-            if (other.tag == "Ground")
+            if (other.CompareTag("Ground"))
                 groundedPlayer = false;
         }
 
@@ -91,17 +101,25 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="context"></param>
         public void Move(InputAction.CallbackContext context)
         {
-            horizontal = context.ReadValue<Vector2>().x;
-            vertical = context.ReadValue<Vector2>().y;
+            if (this.photonView.IsMine)
+            {
+                horizontal = context.ReadValue<Vector2>().x;
+                vertical = context.ReadValue<Vector2>().y;
 
-            Debug.Log("Horizontal: " + horizontal);
-            Debug.Log("Vertical: " + vertical);
+                Debug.Log("Horizontal: " + horizontal);
+                Debug.Log("Vertical: " + vertical);
+            }
+            
 
         }
 
         public void Jump(InputAction.CallbackContext context)
         {
-            hasJumped = context.ReadValueAsButton();
+            if (this.photonView.IsMine)
+            {
+                hasJumped = context.ReadValueAsButton();
+            }
+            
         }
 
     }

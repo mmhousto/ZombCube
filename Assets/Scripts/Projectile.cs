@@ -22,7 +22,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void OnCollisionEnter(Collision collision)
         {
-            if(SceneLoader.GetCurrentScene().name == "GameScene")
+            if (SceneLoader.GetCurrentScene().name == "GameScene")
             {
                 if (collision.gameObject.tag == "Enemy")
                 {
@@ -30,19 +30,23 @@ namespace Com.MorganHouston.ZombCube
                     PlayerManager.AddPoints(10);
                 }
                 Destroy(gameObject);
-            }else
-            {
-                if (collision.gameObject.tag == "Enemy")
-                {
-                    if(PhotonNetwork.IsMasterClient)
-                        PhotonNetwork.Destroy(collision.gameObject);
-                    PlayerManager.AddPoints(10);
-                }
-                if (photonView.IsMine)
-                    PhotonNetwork.Destroy(gameObject);
             }
+            else
+            {
+                if (this.photonView.IsMine)
+                {
+                    if (collision.gameObject.tag == "Enemy")
+                    {
+                        NetworkPlayerManager.AddPoints(10);
+
+                    }
+                    PhotonNetwork.Destroy(this.gameObject);
+                }
+            }
+                    
             
         }
+
     }
 
 }

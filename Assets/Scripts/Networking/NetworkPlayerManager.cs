@@ -18,25 +18,22 @@ namespace Com.MorganHouston.ZombCube
 
         private GameObject onScreenControls;
 
-        public int currentPoints = 0;
+        public static int currentPoints = 0;
 
-        public TextMeshProUGUI playerName;
+        public TextMeshProUGUI playerNameText;
+
+        public string playerName;
 
         public Slider playerHealth;
 
         private TextMeshProUGUI scoreText;
         private Slider healthBar;
 
-        private float healthPoints = 100f;
+        public float healthPoints = 100f;
         private bool isGameOver;
 
         private bool isAlive = true;
 
-
-        private void Awake()
-        {
-
-        }
 
         // Start is called before the first frame update
         void Start()
@@ -61,7 +58,8 @@ namespace Com.MorganHouston.ZombCube
 
                 player = GetComponent<Player>();
                 LoadPlayerData();
-                playerName.text = PhotonNetwork.LocalPlayer.NickName;
+                playerName = PhotonNetwork.LocalPlayer.NickName;
+                playerNameText.text = playerName;
                 Debug.Log("Loaded Player Data");
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
@@ -90,7 +88,7 @@ namespace Com.MorganHouston.ZombCube
 
         public void CheckIfAlive()
         {
-            if (photonView.IsMine)
+            if (this.photonView.IsMine)
             {
                 if (healthPoints <= 0 && !isGameOver && isAlive == true)
                 {
@@ -123,7 +121,7 @@ namespace Com.MorganHouston.ZombCube
             }
         }
 
-        void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
             {
@@ -135,11 +133,11 @@ namespace Com.MorganHouston.ZombCube
             {
                 //Network player, receive data
                 healthPoints = (int)stream.ReceiveNext();
-                playerName.text = (string)stream.ReceiveNext();
+                playerName = (string)stream.ReceiveNext();
             }
-        }
+        }*/
 
-        public void AddPoints(int pointsToAdd)
+        public static void AddPoints(int pointsToAdd)
         {
             currentPoints += pointsToAdd;
         }

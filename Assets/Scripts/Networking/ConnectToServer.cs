@@ -19,7 +19,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void Awake()
         {
-            PhotonNetwork.AutomaticallySyncScene = true;
+            
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace Com.MorganHouston.ZombCube
             {
                 Debug.Log("No data found!");
             }
-            
 
+            PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.ConnectUsingSettings();
             
