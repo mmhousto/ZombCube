@@ -32,6 +32,8 @@ namespace Com.MorganHouston.ZombCube
         {
             if (!this.photonView.IsMine) { return; }
 
+            players = GameObject.FindGameObjectsWithTag("Player");
+
             isGameOver = NetworkGameManager.Instance.IsGameOver();
 
             if (isGameOver == false)
@@ -48,7 +50,7 @@ namespace Com.MorganHouston.ZombCube
             {
                 ai.isStopped = true;
             }
-                
+
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -56,17 +58,13 @@ namespace Com.MorganHouston.ZombCube
             if (collision.gameObject.tag == "Player")
             {
                 collision.gameObject.GetComponent<NetworkPlayerManager>().Damage(20);
-                
-                if(this.photonView.IsMine)
-                    PhotonNetwork.Destroy(this.photonView);
-                Debug.Log("ENEMY HIT PLAYER");
+
+                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
             }
-            
+
             if (collision.gameObject.tag == "Projectile")
             {
-                Debug.Log("PROJECTILE HIT ENEMY");
-                if (PhotonNetwork.IsMasterClient)
-                    PhotonNetwork.Destroy(this.photonView);
+                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
 
             }
         }
@@ -78,7 +76,7 @@ namespace Com.MorganHouston.ZombCube
             Vector3 currentPos = transform.position;
             foreach (GameObject player in players)
             {
-                if(player == null || currentPos == null) { return null; }
+                if (player == null || currentPos == null) { return null; }
                 float dist = Vector3.Distance(player.transform.position, currentPos);
                 if (dist < minDist)
                 {
@@ -87,6 +85,13 @@ namespace Com.MorganHouston.ZombCube
                 }
             }
             return tMin;
+        }
+
+
+        [PunRPC]
+        public void DestroyEnemy()
+        {
+            PhotonNetwork.Destroy(this.gameObject);
         }
     }
 
