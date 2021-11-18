@@ -64,9 +64,9 @@ namespace Com.MorganHouston.ZombCube
             
             if (collision.gameObject.tag == "Projectile")
             {
-                if (this.photonView.IsMine)
+                Debug.Log("PROJECTILE HIT ENEMY");
+                if (PhotonNetwork.IsMasterClient)
                     PhotonNetwork.Destroy(this.photonView);
-
 
             }
         }

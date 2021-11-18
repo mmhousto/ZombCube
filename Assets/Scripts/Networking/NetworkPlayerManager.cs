@@ -113,7 +113,7 @@ namespace Com.MorganHouston.ZombCube
 
         public void UpdateStats()
         {
-            if (photonView.IsMine)
+            if (this.photonView.IsMine)
             {
                 healthBar.value = healthPoints;
                 playerHealth.value = healthPoints;
@@ -121,7 +121,7 @@ namespace Com.MorganHouston.ZombCube
             }
         }
 
-        /*public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
             {
@@ -132,10 +132,10 @@ namespace Com.MorganHouston.ZombCube
             else
             {
                 //Network player, receive data
-                healthPoints = (int)stream.ReceiveNext();
-                playerName = (string)stream.ReceiveNext();
+                this.healthPoints = (int)stream.ReceiveNext();
+                this.playerName = (string)stream.ReceiveNext();
             }
-        }*/
+        }
 
         public static void AddPoints(int pointsToAdd)
         {

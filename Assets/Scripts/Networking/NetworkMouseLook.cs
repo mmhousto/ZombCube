@@ -26,7 +26,7 @@ namespace Com.MorganHouston.ZombCube
             if (!this.photonView.IsMine)
             {
                 cam = GetComponent<Camera>();
-                cam.gameObject.SetActive(false);
+                cam.enabled = false;
                 return;
             }
             Cursor.lockState = CursorLockMode.Locked;
