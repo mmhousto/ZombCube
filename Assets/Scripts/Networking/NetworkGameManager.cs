@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using Photon.Pun.UtilityScripts;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -94,11 +93,8 @@ namespace Com.MorganHouston.ZombCube
 
         public void StartGame()
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                NetworkSpawner.Instance.Spawn();
-                NetworkSpawner.Instance.hasStarted = true;
-            }
+            NetworkSpawner.Instance.Spawn();
+            NetworkSpawner.Instance.hasStarted = true;
             CustomAnalytics.SendGameStart();
 
         }

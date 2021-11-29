@@ -38,7 +38,9 @@ namespace Com.MorganHouston.ZombCube
             for (int i = 0; i < cubesToSpawn; i++)
             {
                 int j = Random.Range(0, spawnPoints.Length);
-                GameObject enemyClone = Instantiate(enemy, spawnPoints[j].transform.position, spawnPoints[j].transform.rotation);
+                GameObject enemyClone = Instantiate(enemy,
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
             }
 
         }

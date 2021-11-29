@@ -26,8 +26,10 @@ namespace Com.MorganHouston.ZombCube
             players = GameObject.FindGameObjectsWithTag("Player");
             target = GetClosestPlayer(players);
         }
-
-        // Update is called once per frame
+        
+        /// <summary>
+        /// This method does this.
+        /// </summary>
         void Update()
         {
             if (!this.photonView.IsMine) { return; }

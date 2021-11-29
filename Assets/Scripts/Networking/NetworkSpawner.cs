@@ -39,8 +39,6 @@ namespace Com.MorganHouston.ZombCube
         {
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             if (!PhotonNetwork.IsMasterClient) { return; }
-            cubesToSpawn = 5;
-            hasStarted = false;
             cubesToSpawn *= PhotonNetwork.CurrentRoom.PlayerCount;
             gameOver = NetworkGameManager.Instance.IsGameOver();
             
@@ -74,7 +72,9 @@ namespace Com.MorganHouston.ZombCube
                 for (int i = 0; i < cubesToSpawn; i++)
                 {
                     int j = Random.Range(0, spawnPoints.Length);
-                    PhotonNetwork.InstantiateRoomObject("NetworkEnemy", spawnPoints[j].transform.position, spawnPoints[j].transform.rotation);
+                    PhotonNetwork.InstantiateRoomObject("NetworkEnemy",
+                        spawnPoints[j].transform.position,
+                        spawnPoints[j].transform.rotation);
                 }
             
 
