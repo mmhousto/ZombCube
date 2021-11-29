@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -8,7 +9,7 @@ namespace Com.MorganHouston.ZombCube
     public class Spawner : MonoBehaviour
     {
 
-        private int cubesToSpawn = 5;
+        private int cubesToSpawn;
         public GameObject[] spawnPoints;
         public GameObject enemy;
 
@@ -16,6 +17,7 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            cubesToSpawn = RemoteConfig.Instance.cubesToSpawn;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             Spawn();
         }
@@ -25,7 +27,7 @@ namespace Com.MorganHouston.ZombCube
         {
             if (!GameObject.FindWithTag("Enemy"))
             {
-                cubesToSpawn += 5;
+                cubesToSpawn += (cubesToSpawn / GameManager.Instance.CurrentRound);
                 GameManager.Instance.NextWave();
                 Spawn();
             }

@@ -11,7 +11,7 @@ namespace Com.MorganHouston.ZombCube
         private static GameManager _instance;
 
         public static GameManager Instance { get { return _instance; } }
-        private static int CurrentRound { get; set; }
+        public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
         public GameObject onScreenControls;
         public GameObject gameOverScreen;
@@ -49,6 +49,7 @@ namespace Com.MorganHouston.ZombCube
             gameOverScreen.SetActive(false);
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
+            CustomAnalytics.SendGameStart();
         }
 
         // Update is called once per frame
@@ -67,6 +68,7 @@ namespace Com.MorganHouston.ZombCube
             Cursor.lockState = CursorLockMode.Confined;
             Time.timeScale = 0;
             gameOverScreen.SetActive(true);
+            CustomAnalytics.SendGameOver();
         }
 
         public void Restart()

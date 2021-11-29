@@ -26,6 +26,11 @@ namespace Com.MorganHouston.ZombCube
             SaveSystem.SavePlayer(player);
             Debug.Log("You received " + credits + " Coins!");
         }
+
+        public void CallIAPAnalyticsEvent()
+        {
+            CustomAnalytics.SendIAPComplete();
+        }
     }
 
 }

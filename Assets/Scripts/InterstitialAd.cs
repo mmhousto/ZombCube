@@ -55,7 +55,13 @@ public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
         Debug.Log($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
     }
 
-    public void OnUnityAdsShowStart(string adUnitId) { }
+    public void OnUnityAdsShowStart(string adUnitId) 
+    {
+        CustomAnalytics.SendAdStarted();
+    }
     public void OnUnityAdsShowClick(string adUnitId) { }
-    public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState) { }
+    public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState) 
+    {
+        CustomAnalytics.SendAdCompleted();
+    }
 }

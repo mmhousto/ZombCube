@@ -3,7 +3,7 @@ using UnityEngine.Advertisements;
 //using UnityEditor.Advertisements;
 using UnityEngine.Purchasing;
 
-public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
+public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsListener
 {
     [SerializeField] string _androidGameId;
     [SerializeField] string _iOsGameId;
@@ -36,4 +36,25 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
     {
         Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
     }
+
+    public void OnUnityAdsReady(string placementId)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnUnityAdsDidError(string message)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnUnityAdsDidStart(string placementId)
+    {
+        CustomAnalytics.SendAdStarted();
+    }
+
+    public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
+    {
+        CustomAnalytics.SendAdCompleted();
+    }
+
 }
