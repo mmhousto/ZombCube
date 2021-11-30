@@ -16,8 +16,6 @@ namespace Com.MorganHouston.ZombCube
 
         private Player player;
 
-        private GameObject onScreenControls;
-
         public static int currentPoints = 0;
 
         public TextMeshProUGUI playerNameText;
@@ -43,18 +41,6 @@ namespace Com.MorganHouston.ZombCube
             if (photonView.IsMine)
             {
                 isAlive = true;
-                onScreenControls = GameObject.FindWithTag("ScreenControls");
-
-#if UNITY_ANDROID
-    onScreenControls.SetActive(true);
-
-#elif UNITY_IOS
-    onScreenControls.SetActive(true);
-
-#else
-                onScreenControls.SetActive(false);
-
-#endif
 
                 player = GetComponent<Player>();
                 LoadPlayerData();

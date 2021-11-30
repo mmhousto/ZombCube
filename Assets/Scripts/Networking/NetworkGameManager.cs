@@ -49,17 +49,19 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            if (photonView.IsMine)
+            {
+                #if UNITY_ANDROID
+                    onScreenControls.SetActive(true);
 
-#if UNITY_ANDROID
-    onScreenControls.SetActive(true);
+                #elif UNITY_IOS
+                    onScreenControls.SetActive(true);
 
-#elif UNITY_IOS
-    onScreenControls.SetActive(true);
+                #else
+                    onScreenControls.SetActive(false);
 
-#else
-            onScreenControls.SetActive(false);
-
-#endif
+                #endif
+            }
 
             
             gameOverScreen.SetActive(false);
