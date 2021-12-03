@@ -14,7 +14,6 @@ namespace Com.MorganHouston.ZombCube
 
         private int cubesToSpawn = 5;
         public GameObject[] spawnPoints;
-        public GameObject enemy;
 
         public bool hasStarted = false;
         public bool gameOver = false;

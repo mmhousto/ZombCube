@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
-using Photon.Realtime;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -33,10 +32,12 @@ namespace Com.MorganHouston.ZombCube
         private bool isAlive = true;
 
 
+        #region MonoBehaviour Methods
+
+
         // Start is called before the first frame update
         void Start()
         {
-            
 
             if (photonView.IsMine)
             {
@@ -72,56 +73,12 @@ namespace Com.MorganHouston.ZombCube
             CheckIfAlive();
         }
 
-        public void CheckIfAlive()
-        {
-            if (this.photonView.IsMine)
-            {
-                if (healthPoints <= 0 && !isGameOver && isAlive == true)
-                {
-                    healthPoints = 0;
-                    NetworkGameManager.Instance.CallEliminatePlayer();
-                    Debug.Log(NetworkGameManager.Instance.playersEliminated);
-                    isAlive = false;
-                    UpdateTotalPoints();
-                    SavePlayerData();
-                    PhotonNetwork.Destroy(this.gameObject);
-                    NetworkGameManager.Instance.ActivateCamera();
-                    if (NetworkGameManager.Instance.playersEliminated == PhotonNetwork.CurrentRoom.PlayerCount)
-                    {
-                        NetworkGameManager.Instance.CallGameOver();
-                        isGameOver = true;
-                    }
 
-                }
-            }
-            
-        }
+        #endregion
 
-        public void UpdateStats()
-        {
-            if (this.photonView.IsMine)
-            {
-                healthBar.value = healthPoints;
-                playerHealth.value = healthPoints;
-                scoreText.text = "Score: " + currentPoints.ToString();
-            }
-        }
 
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.IsWriting)
-            {
-                //We own this player: send the others our data
-                stream.SendNext(healthPoints);
-                stream.SendNext(playerName);
-            }
-            else
-            {
-                //Network player, receive data
-                this.healthPoints = (int)stream.ReceiveNext();
-                this.playerName = (string)stream.ReceiveNext();
-            }
-        }
+        #region Public Methods
+
 
         public static void AddPoints(int pointsToAdd)
         {
@@ -131,11 +88,6 @@ namespace Com.MorganHouston.ZombCube
         public void Damage(float damageTaken)
         {
             healthPoints -= damageTaken;
-        }
-
-        private void UpdateTotalPoints()
-        {
-            player.points += currentPoints;
         }
 
         public void SavePlayerData()
@@ -154,6 +106,78 @@ namespace Com.MorganHouston.ZombCube
             player.currentBlaster = (int)PhotonNetwork.LocalPlayer.CustomProperties["Blaster"];
             player.ownedBlasters = data.ownedBlasters;
         }
+
+
+        #endregion
+
+
+        #region Private Methods
+
+
+        private void CheckIfAlive()
+        {
+            if (this.photonView.IsMine)
+            {
+                if (healthPoints <= 0 && !isGameOver && isAlive == true)
+                {
+                    healthPoints = 0;
+                    NetworkGameManager.Instance.CallEliminatePlayer();
+                    isAlive = false;
+                    UpdateTotalPoints();
+                    SavePlayerData();
+                    PhotonNetwork.Destroy(this.gameObject);
+                    NetworkGameManager.Instance.ActivateCamera();
+                    if (NetworkGameManager.Instance.playersEliminated == PhotonNetwork.CurrentRoom.PlayerCount)
+                    {
+                        NetworkGameManager.Instance.CallGameOver();
+                        isGameOver = true;
+                    }
+
+                }
+            }
+            
+        }
+
+        private void UpdateStats()
+        {
+            if (this.photonView.IsMine)
+            {
+                healthBar.value = healthPoints;
+                playerHealth.value = healthPoints;
+                scoreText.text = "Score: " + currentPoints.ToString();
+            }
+        }
+
+        private void UpdateTotalPoints()
+        {
+            player.points += currentPoints;
+        }
+
+
+        #endregion
+
+
+        #region Pun Methods
+
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                //We own this player: send the others our data
+                stream.SendNext(healthPoints);
+                stream.SendNext(playerName);
+            }
+            else
+            {
+                //Network player, receive data
+                this.healthPoints = (int)stream.ReceiveNext();
+                this.playerName = (string)stream.ReceiveNext();
+            }
+        }
+
+
+        #endregion
 
 
     }

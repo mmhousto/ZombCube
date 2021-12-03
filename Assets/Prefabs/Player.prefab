@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 777121368}
   - component: {fileID: 6060195563491696939}
   - component: {fileID: 7073962704297218136}
+  - component: {fileID: 690516304750937087}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -538,9 +539,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0bef1cfa449270d4eb9cf4ee6b87e261, type: 2}
   - {fileID: 2100000, guid: d28d6244d2f2679439734e9662944224, type: 2}
   - {fileID: 2100000, guid: c0bded7d132cf994b8b0933f52437cc9, type: 2}
-  currentPoints: 0
-  scoreText: {fileID: 0}
-  healthBar: {fileID: 0}
 --- !u!114 &7073962704297218136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,9 +556,21 @@ MonoBehaviour:
   currentBlaster: 0
   highestWave: 0
   playerName: PlayerName
-  password: 
   ownedBlasters: 01000000000000000000000000000000000000000000000000000000
-  materials: []
+--- !u!136 &690516304750937087
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812065823337649139}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.6
+  m_Height: 1.9999999
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2812065823642933558
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,6 @@ namespace Com.MorganHouston.ZombCube
         private bool groundedPlayer;
         private float vertical;
         private float horizontal;
-        private float rotationSpeed = 100f;
         private float playerSpeed = 20.0f;
         private float jumpHeight = .6f;
         private float gravityValue = -20f;

@@ -57,17 +57,20 @@ namespace Com.MorganHouston.ZombCube
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.tag == "Player")
+            if (collision.gameObject.CompareTag("Projectile"))
             {
-                collision.gameObject.GetComponent<NetworkPlayerManager>().Damage(20);
-
                 photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
+
             }
+        }
 
-            if (collision.gameObject.tag == "Projectile")
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
             {
-                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
+                other.gameObject.GetComponent<NetworkPlayerManager>().Damage(20);
 
+                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
             }
         }
 

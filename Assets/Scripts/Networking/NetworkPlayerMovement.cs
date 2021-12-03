@@ -9,17 +9,27 @@ namespace Com.MorganHouston.ZombCube
 
     public class NetworkPlayerMovement : MonoBehaviourPun
     {
+
+
+        #region Private Fields 
+
+
         private CharacterController controller;
-        private Rigidbody rb;
         private Vector3 playerVelocity = Vector3.zero;
         private bool groundedPlayer;
         private float vertical;
         private float horizontal;
-        private float rotationSpeed = 100f;
         private float playerSpeed = 20.0f;
-        private float jumpHeight = .6f;
+        private float jumpHeight = 1f;
         private float gravityValue = -20f;
         private bool hasJumped = false;
+
+
+        #endregion
+
+
+        #region MonoBehaviour Methods
+
 
         private void Awake()
         {
@@ -45,10 +55,34 @@ namespace Com.MorganHouston.ZombCube
         void Update()
         {
             MovePlayer();
-
-            
-            
         }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (!this.photonView.IsMine)
+            {
+                return;
+            }
+            if (other.CompareTag("Ground"))
+                groundedPlayer = true;
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (!this.photonView.IsMine)
+            {
+                return;
+            }
+            if (other.CompareTag("Ground"))
+                groundedPlayer = false;
+        }
+
+
+        #endregion
+
+
+        #region Private Methods
+
 
         private void MovePlayer()
         {
@@ -75,25 +109,12 @@ namespace Com.MorganHouston.ZombCube
             }
         }
 
-        private void OnTriggerStay(Collider other)
-        {
-            if (!this.photonView.IsMine)
-            {
-                return;
-            }
-            if (other.CompareTag("Ground"))
-                groundedPlayer = true;
-        }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (!this.photonView.IsMine)
-            {
-                return;
-            }
-            if (other.CompareTag("Ground"))
-                groundedPlayer = false;
-        }
+        #endregion
+
+
+        #region Public Dynamic Methods for Input
+
 
         /// <summary>
         /// Gets Input from user.
@@ -106,8 +127,6 @@ namespace Com.MorganHouston.ZombCube
                 horizontal = context.ReadValue<Vector2>().x;
                 vertical = context.ReadValue<Vector2>().y;
 
-                Debug.Log("Horizontal: " + horizontal);
-                Debug.Log("Vertical: " + vertical);
             }
             
 
@@ -118,9 +137,13 @@ namespace Com.MorganHouston.ZombCube
             if (this.photonView.IsMine)
             {
                 hasJumped = context.ReadValueAsButton();
+                Debug.Log(hasJumped);
             }
             
         }
+
+
+        #endregion
 
     }
 

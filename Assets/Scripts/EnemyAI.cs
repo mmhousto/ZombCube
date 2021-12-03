@@ -26,12 +26,12 @@ namespace Com.MorganHouston.ZombCube
             ai.SetDestination(target.position);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.gameObject.tag == "Player")
+            if (other.CompareTag("Player"))
             {
                 Destroy(gameObject);
-                collision.gameObject.GetComponent<PlayerManager>().Damage(20);
+                other.gameObject.GetComponent<PlayerManager>().Damage(20);
             }
         }
     }
