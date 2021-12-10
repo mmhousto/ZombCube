@@ -8,7 +8,7 @@ using Photon.Pun;
 namespace Com.MorganHouston.ZombCube
 {
 
-    public class NetworkPlayerManager : MonoBehaviourPunCallbacks
+    public class NetworkPlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
 
         public Material[] blasterMaterial;
@@ -79,15 +79,14 @@ namespace Com.MorganHouston.ZombCube
 
         #region Public Methods
 
+        public void DamagePlayerCall()
+        {
+            photonView.RPC(nameof(Damage), RpcTarget.All, 20f);
+        }
 
         public static void AddPoints(int pointsToAdd)
         {
             currentPoints += pointsToAdd;
-        }
-
-        public void Damage(float damageTaken)
-        {
-            healthPoints -= damageTaken;
         }
 
         public void SavePlayerData()
@@ -166,14 +165,19 @@ namespace Com.MorganHouston.ZombCube
             {
                 //We own this player: send the others our data
                 stream.SendNext(healthPoints);
-                stream.SendNext(playerName);
             }
             else
             {
                 //Network player, receive data
-                this.healthPoints = (int)stream.ReceiveNext();
-                this.playerName = (string)stream.ReceiveNext();
+                this.healthPoints = (float)stream.ReceiveNext();
             }
+        }
+
+        [PunRPC]
+        public void Damage(float damageTaken)
+        {
+            this.healthPoints -= damageTaken;
+            this.playerHealth.value = healthPoints;
         }
 
 

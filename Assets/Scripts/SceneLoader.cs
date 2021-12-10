@@ -26,6 +26,11 @@ namespace Com.MorganHouston.ZombCube
             SceneManager.LoadScene("GameScene");
         }
 
+        public static void LoadThisScene(string sceneToLoad)
+        {
+            SceneManager.LoadScene(sceneToLoad);
+        }
+
         public static Scene GetCurrentScene()
         {
             return SceneManager.GetActiveScene();

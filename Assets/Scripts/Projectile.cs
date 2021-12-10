@@ -27,7 +27,6 @@ namespace Com.MorganHouston.ZombCube
                     if (collision.gameObject.tag == "Enemy")
                     {
                         NetworkPlayerManager.AddPoints(10);
-
                     }
                     PhotonNetwork.Destroy(this.gameObject);
                 }

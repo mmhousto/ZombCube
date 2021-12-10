@@ -15,7 +15,7 @@ namespace Com.MorganHouston.ZombCube
         private float vertical;
         private float horizontal;
         private float playerSpeed = 20.0f;
-        private float jumpHeight = .6f;
+        private float jumpHeight = 1.5f;
         private float gravityValue = -20f;
         private bool hasJumped = false;
 

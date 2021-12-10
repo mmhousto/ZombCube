@@ -56,7 +56,6 @@ namespace Com.MorganHouston.ZombCube
 
         public void Look(InputAction.CallbackContext context)
         {
-            if(!this.photonView.IsMine) { return; }
             pitch = context.ReadValue<Vector2>().y;
             yaw = context.ReadValue<Vector2>().x;
         }

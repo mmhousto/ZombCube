@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -14,11 +15,11 @@ namespace Com.MorganHouston.ZombCube
 
         private Player player;
 
-        private GameObject onScreenControls;
+        public GameObject onScreenControls;
 
         public static int currentPoints = 0;
 
-        private TextMeshProUGUI scoreText;
+        public TextMeshProUGUI scoreText;
         private Slider healthBar;
 
         private float healthPoints = 100f;
@@ -27,7 +28,6 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            onScreenControls = GameObject.FindWithTag("ScreenControls");
 
 #if UNITY_ANDROID
     onScreenControls.SetActive(true);
@@ -41,9 +41,17 @@ namespace Com.MorganHouston.ZombCube
 #endif
 
             player = GetComponent<Player>();
-            LoadPlayerData();
+
+            try
+            {
+                LoadPlayerData();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+
             healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
-            scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
             healthPoints = 100f;
             currentPoints = 0;
             healthBar.value = healthPoints;

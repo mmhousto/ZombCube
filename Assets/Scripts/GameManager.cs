@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -15,6 +16,8 @@ namespace Com.MorganHouston.ZombCube
         public TextMeshProUGUI waveTxt;
         public GameObject onScreenControls;
         public GameObject gameOverScreen;
+
+        private bool isPaused = false;
 
 
         private void Awake()
@@ -56,6 +59,18 @@ namespace Com.MorganHouston.ZombCube
         void Update()
         {
             waveTxt.text = "Wave: " + CurrentRound.ToString();
+
+            if (isPaused)
+            {
+                Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Time.timeScale = 1;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+           
         }
 
         public void NextWave()
@@ -79,6 +94,11 @@ namespace Com.MorganHouston.ZombCube
         public void GoHome()
         {
             SceneLoader.ToMainMenu();
+        }
+
+        public void Pause(InputAction.CallbackContext context)
+        {
+            isPaused = !isPaused;
         }
     }
 }

@@ -14,6 +14,8 @@ namespace Com.MorganHouston.ZombCube
         private Transform target;
         private NavMeshAgent ai;
 
+        private bool hasHit = false;
+
         public bool isGameOver = false;
 
         // Start is called before the first frame update
@@ -66,9 +68,10 @@ namespace Com.MorganHouston.ZombCube
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && hasHit == false)
             {
-                other.gameObject.GetComponent<NetworkPlayerManager>().Damage(20);
+                other.gameObject.GetComponent<NetworkPlayerManager>().DamagePlayerCall();
+                hasHit = true;
 
                 photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
             }

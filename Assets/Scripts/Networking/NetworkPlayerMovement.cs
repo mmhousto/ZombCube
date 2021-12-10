@@ -122,23 +122,16 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="context"></param>
         public void Move(InputAction.CallbackContext context)
         {
-            if (this.photonView.IsMine)
-            {
                 horizontal = context.ReadValue<Vector2>().x;
                 vertical = context.ReadValue<Vector2>().y;
-
-            }
             
 
         }
 
         public void Jump(InputAction.CallbackContext context)
         {
-            if (this.photonView.IsMine)
-            {
                 hasJumped = context.ReadValueAsButton();
                 Debug.Log(hasJumped);
-            }
             
         }
 
