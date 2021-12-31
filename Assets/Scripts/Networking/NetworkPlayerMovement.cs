@@ -13,14 +13,13 @@ namespace Com.MorganHouston.ZombCube
 
         #region Private Fields 
 
-
         private CharacterController controller;
         private Vector3 playerVelocity = Vector3.zero;
         private bool groundedPlayer;
         private float vertical;
         private float horizontal;
         private float playerSpeed = 20.0f;
-        private float jumpHeight = 1f;
+        private float jumpHeight = 4f;
         private float gravityValue = -20f;
         private bool hasJumped = false;
 
@@ -102,6 +101,7 @@ namespace Com.MorganHouston.ZombCube
                 if (hasJumped && groundedPlayer)
                 {
                     playerVelocity.y += jumpHeight;
+                    groundedPlayer = false;
                 }
 
                 playerVelocity.y += gravityValue * Time.deltaTime;

@@ -23,6 +23,8 @@ namespace Com.MorganHouston.ZombCube
 
         public Slider playerHealth;
 
+        private GameObject onScreenControls;
+
         private TextMeshProUGUI scoreText;
         private Slider healthBar;
 
@@ -38,15 +40,28 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-
             if (photonView.IsMine)
             {
+                onScreenControls = GameObject.FindWithTag("ScreenControls");
+
+#if UNITY_ANDROID
+                    onScreenControls.SetActive(true);
+
+#elif UNITY_IOS
+                    onScreenControls.SetActive(true);
+
+#else
+                onScreenControls.SetActive(false);
+
+#endif
+
                 isAlive = true;
 
                 player = GetComponent<Player>();
                 LoadPlayerData();
-                playerName = PhotonNetwork.LocalPlayer.NickName;
-                playerNameText.text = playerName;
+
+                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.currentBlaster);
+                
                 Debug.Log("Loaded Player Data");
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
@@ -56,12 +71,7 @@ namespace Com.MorganHouston.ZombCube
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-                GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
-
-                foreach (GameObject item in blaster)
-                {
-                    item.GetComponent<MeshRenderer>().material = blasterMaterial[(int)PhotonNetwork.LocalPlayer.CustomProperties["Blaster"]];
-                }
+                
             }
             
         }
@@ -69,8 +79,8 @@ namespace Com.MorganHouston.ZombCube
         // Update is called once per frame
         void Update()
         {
-            UpdateStats();
             CheckIfAlive();
+            UpdateStats();
         }
 
 
@@ -169,17 +179,30 @@ namespace Com.MorganHouston.ZombCube
             else
             {
                 //Network player, receive data
-                this.healthPoints = (float)stream.ReceiveNext();
+                healthPoints = (float)stream.ReceiveNext();
             }
         }
 
         [PunRPC]
-        public void Damage(float damageTaken)
+        public void Damage(float damageTaken, PhotonMessageInfo info)
         {
-            this.healthPoints -= damageTaken;
-            this.playerHealth.value = healthPoints;
+            healthPoints -= damageTaken;
+            playerHealth.value = healthPoints;
         }
 
+        [PunRPC]
+        public void SetPlayerInfo(string name, int blasterIndex)
+        {
+            playerName = name;
+            playerNameText.text = playerName;
+
+            MeshRenderer[] blaster = GetComponentsInChildren<MeshRenderer>();
+
+            for(int i = 1; i < blaster.Length; i++)
+            {
+                blaster[i].material = blasterMaterial[blasterIndex];
+            }
+        }
 
         #endregion
 

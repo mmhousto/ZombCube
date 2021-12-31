@@ -18,7 +18,6 @@ namespace Com.MorganHouston.ZombCube
 
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject onScreenControls;
         public GameObject gameOverScreen;
 
         public int playersEliminated = 0;
@@ -49,19 +48,7 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            if (photonView.IsMine)
-            {
-                #if UNITY_ANDROID
-                    onScreenControls.SetActive(true);
-
-                #elif UNITY_IOS
-                    onScreenControls.SetActive(true);
-
-                #else
-                    onScreenControls.SetActive(false);
-
-                #endif
-            }
+            
 
             
             gameOverScreen.SetActive(false);
