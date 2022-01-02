@@ -131,7 +131,6 @@ namespace Com.MorganHouston.ZombCube
         public void Jump(InputAction.CallbackContext context)
         {
                 hasJumped = context.ReadValueAsButton();
-                Debug.Log(hasJumped);
             
         }
 

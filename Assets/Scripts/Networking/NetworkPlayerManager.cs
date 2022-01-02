@@ -184,7 +184,7 @@ namespace Com.MorganHouston.ZombCube
         }
 
         [PunRPC]
-        public void Damage(float damageTaken, PhotonMessageInfo info)
+        public void Damage(float damageTaken)
         {
             healthPoints -= damageTaken;
             playerHealth.value = healthPoints;
