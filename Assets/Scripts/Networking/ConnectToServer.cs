@@ -10,7 +10,7 @@ namespace Com.MorganHouston.ZombCube
     public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         [Tooltip("The players data object.")]
-        public Player player;
+        private Player player;
 
         private string gameVersion = "0.1";
 
@@ -19,7 +19,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void Awake()
         {
-            
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
         }
 
         /// <summary>

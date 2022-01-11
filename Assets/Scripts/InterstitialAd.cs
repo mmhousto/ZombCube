@@ -59,7 +59,10 @@ public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
     {
         CustomAnalytics.SendAdStarted();
     }
-    public void OnUnityAdsShowClick(string adUnitId) { }
+    public void OnUnityAdsShowClick(string adUnitId) 
+    { 
+    
+    }
     public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState) 
     {
         CustomAnalytics.SendAdCompleted();

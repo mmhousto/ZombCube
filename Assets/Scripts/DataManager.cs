@@ -13,7 +13,7 @@ namespace Com.MorganHouston.ZombCube
         public static DataManager Instance { get { return _instance; } }
 
         [Tooltip("The players data object.")]
-        public Player player;
+        private Player player;
 
         [Tooltip("The text that displays number of coins the player owns.")]
         public TextMeshProUGUI coinsText;
@@ -41,6 +41,7 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 
             if (coinsText)
             {

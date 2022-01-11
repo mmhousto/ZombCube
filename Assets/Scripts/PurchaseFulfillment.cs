@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Com.MorganHouston.ZombCube
@@ -9,7 +10,7 @@ namespace Com.MorganHouston.ZombCube
     {
         public GameObject restoreButton;
 
-        public Player player;
+        private Player player;
 
         private void Awake()
         {
@@ -18,19 +19,23 @@ namespace Com.MorganHouston.ZombCube
 #else
             restoreButton.SetActive(false);
 #endif
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
         }
 
-        public void GrantCoins(int credits)
+        public async void GrantCoins(int credits)
         {
             player.coins += credits;
             SaveSystem.SavePlayer(player);
             Debug.Log("You received " + credits + " Coins!");
+
+            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
         }
 
         public void CallIAPAnalyticsEvent()
         {
             CustomAnalytics.SendIAPComplete();
         }
+
     }
 
 }

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Services.Authentication;
+using Unity.Services.CloudSave;
+using System.Threading.Tasks;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -12,10 +15,12 @@ namespace Com.MorganHouston.ZombCube
         public GameObject[] blasterItems;
 
         [Tooltip("The players data object.")]
-        public Player player;
+        private Player player;
 
         private void Start()
         {
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+
             for (int i = 0; i < blasterItems.Length; i++)
             {
                 if (player.currentBlaster == i)
@@ -82,7 +87,7 @@ namespace Com.MorganHouston.ZombCube
             player.currentBlaster = index;
         }
 
-        public void SelectBlaster(int index)
+        public async void SelectBlaster(int index)
         {
             if (player.ownedBlasters[index] == 1)
             {
@@ -95,6 +100,8 @@ namespace Com.MorganHouston.ZombCube
                 blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
             }
             SaveSystem.SavePlayer(player);
+
+            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
         }
 
     }

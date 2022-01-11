@@ -13,6 +13,10 @@ namespace Com.MorganHouston.ZombCube
 
         Hashtable hash = new Hashtable();
 
+        Player player;
+
+        GameObject[] playerData;
+
 
         #region MonoBehaviour Methods
 
@@ -28,14 +32,25 @@ namespace Com.MorganHouston.ZombCube
                 startGameButton.gameObject.SetActive(true);
             }
 
-            var playerData = SaveSystem.LoadPlayer();
+            playerData = GameObject.FindGameObjectsWithTag("PlayerData");
+
+            foreach(GameObject playerDataObject in playerData)
+            {
+                player = playerDataObject.GetComponent<Player>();
+                if (player.playerName != PhotonNetwork.LocalPlayer.NickName)
+                {
+                    Destroy(playerDataObject);
+                }
+            }
+
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 
             hash.Add("PlayerId", PhotonNetwork.LocalPlayer.ActorNumber);
-            hash.Add("PlayerName", playerData.playerName);
+            hash.Add("PlayerName", player.playerName);
             hash.Add("IsReady", false);
-            hash.Add("Blaster", playerData.currentBlaster);
+            hash.Add("Blaster", player.currentBlaster);
 
-            if (playerData.Equals(null)) { return; }
+            if (player.Equals(null)) { return; }
 
             PhotonNetwork.SetPlayerCustomProperties(hash);
 
@@ -150,6 +165,19 @@ namespace Com.MorganHouston.ZombCube
             {
                 startGameButton.interactable = IsEveryoneReady();
             }
+
+            playerData = GameObject.FindGameObjectsWithTag("PlayerData");
+
+            foreach (GameObject playerDataObject in playerData)
+            {
+                player = playerDataObject.GetComponent<Player>();
+                if (player.playerName != PhotonNetwork.LocalPlayer.NickName)
+                {
+                    Destroy(playerDataObject);
+                }
+            }
+
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
         }
 
 

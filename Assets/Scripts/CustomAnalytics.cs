@@ -29,4 +29,14 @@ static public class CustomAnalytics
     {
         AnalyticsEvent.IAPTransaction("Coins_10", 0.99f, "com.morganhouston.zombcube.coins_10");
     }
+
+    static public void StoreVisit()
+    {
+        AnalyticsEvent.ScreenVisit("Store");
+    }
+
+    static public void SendPlayerName(Dictionary<string, object> customParameters)
+    {
+        AnalyticsEvent.Custom("Player Name", customParameters);
+    }
 }

@@ -57,8 +57,7 @@ namespace Com.MorganHouston.ZombCube
 
                 isAlive = true;
 
-                player = GetComponent<Player>();
-                LoadPlayerData();
+                player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 
                 photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.currentBlaster);
                 

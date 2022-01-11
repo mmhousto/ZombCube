@@ -2,44 +2,57 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Services.CloudSave;
+using TMPro;
 
 namespace Com.MorganHouston.ZombCube
 {
 
     public class MainManager : MonoBehaviour
     {
+
         [Tooltip("The players data object.")]
-        public Player player;
+        private Player player;
+
+        private Dictionary<string, object> analyticParams;
+
+        public TMP_InputField playerNameText;
 
         /// <summary>
         /// Tries to load the players data.
         /// </summary>
         void Awake()
         {
-            try
-            {
-                LoadPlayerData();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-            }
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 
+            CloudSaveSample.CloudSaveSample.Instance.SignIn();
+
+            
+
+        }
+
+        private void Start()
+        {
+            analyticParams = new Dictionary<string, object>();
+            analyticParams.Add("PlayerName", player.playerName);
+
+            CustomAnalytics.SendPlayerName(analyticParams);
         }
 
 
         // Update is called once per frame
         void Update()
         {
-
+            playerNameText.text = player.playerName;
         }
 
 
         /// <summary>
         /// Starts solo version of game.
         /// </summary>
-        public void StartSoloGame()
+        public async void StartSoloGame()
         {
+            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
             SceneLoader.PlayGame();
         }
 
@@ -55,6 +68,11 @@ namespace Com.MorganHouston.ZombCube
                 return;
             }
             SceneLoader.ToLoading();
+        }
+
+        public void CallStoreVisit()
+        {
+            CustomAnalytics.StoreVisit();
         }
 
         /// <summary>

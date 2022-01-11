@@ -46,7 +46,6 @@ namespace Com.MorganHouston.ZombCube
 
 #else
             onScreenControls.SetActive(false);
-
 #endif
 
             gameOverScreen.SetActive(false);
@@ -78,12 +77,14 @@ namespace Com.MorganHouston.ZombCube
             CurrentRound += 1;
         }
 
-        public void GameOver()
+        public async void GameOver()
         {
             Cursor.lockState = CursorLockMode.Confined;
             Time.timeScale = 0;
             gameOverScreen.SetActive(true);
             CustomAnalytics.SendGameOver();
+
+            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
         }
 
         public void Restart()

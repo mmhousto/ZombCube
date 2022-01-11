@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Threading.Tasks;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -40,16 +41,7 @@ namespace Com.MorganHouston.ZombCube
 
 #endif
 
-            player = GetComponent<Player>();
-
-            try
-            {
-                LoadPlayerData();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-            }
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 
             healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
             healthPoints = 100f;
