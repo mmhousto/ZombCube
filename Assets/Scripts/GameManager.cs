@@ -19,6 +19,8 @@ namespace Com.MorganHouston.ZombCube
 
         private bool isPaused = false;
 
+        private bool isGameOver = false;
+
 
         private void Awake()
         {
@@ -64,7 +66,7 @@ namespace Com.MorganHouston.ZombCube
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
             }
-            else
+            else if(isPaused == false && isGameOver == false)
             {
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -79,6 +81,7 @@ namespace Com.MorganHouston.ZombCube
 
         public async void GameOver()
         {
+            isGameOver = true;
             Cursor.lockState = CursorLockMode.Confined;
             Time.timeScale = 0;
             gameOverScreen.SetActive(true);
