@@ -62,9 +62,25 @@ namespace CloudSaveSample
             var results = SaveData.LoadAsync(hashSet);
             if (results != null)
             {
-                Com.MorganHouston.ZombCube.SaveData incomingSample = await RetrieveSpecificData<Com.MorganHouston.ZombCube.SaveData>(playerID);
-                Debug.Log($"Loaded object: {incomingSample.playerName}, {incomingSample.points}, {incomingSample.currentBlaster}");
-                LoadPlayerData(incomingSample);
+                try
+                {
+                    Com.MorganHouston.ZombCube.SaveData incomingSample = await RetrieveSpecificData<Com.MorganHouston.ZombCube.SaveData>(playerID);
+                    Debug.Log($"Loaded object: {incomingSample.playerName}, {incomingSample.points}, {incomingSample.currentBlaster}");
+                    LoadPlayerData(incomingSample);
+                }
+                catch
+                {
+                    Debug.Log("No profile to download from the cloud! Try to download local profile.");
+                    try
+                    {
+                        LoadPlayerData();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log($"Error: {e}\nNew Player");
+                    }
+                }
+                
             }
             else
             {
@@ -75,7 +91,7 @@ namespace CloudSaveSample
                 }
                 catch (Exception e)
                 {
-                    Debug.Log(e);
+                    Debug.Log($"Error: {e}\nNew Player");
                 }
             }
             //await ForceSaveObjectData(playerID, data);
