@@ -19,8 +19,11 @@ namespace Com.MorganHouston.ZombCube
         private float vertical;
         private float horizontal;
         private float playerSpeed = 20.0f;
-        private float jumpHeight = 4f;
+        private float jumpHeight = 1.7f;
         private float gravityValue = -20f;
+        private float jumpTime = 1f;
+        private float jumpTimer;
+        private bool canJump = true;
         private bool hasJumped = false;
 
 
@@ -46,8 +49,12 @@ namespace Com.MorganHouston.ZombCube
                 return;
             }
 
-            if(this.photonView.IsMine)
+            if (this.photonView.IsMine)
+            {
+                jumpTimer = 0.0f;
                 controller = GetComponent<CharacterController>();
+            }
+                
 
         }
 
@@ -62,7 +69,7 @@ namespace Com.MorganHouston.ZombCube
             {
                 return;
             }
-            if (other.CompareTag("Ground"))
+            if (other.gameObject.layer == 7)
                 groundedPlayer = true;
         }
 
@@ -72,7 +79,7 @@ namespace Com.MorganHouston.ZombCube
             {
                 return;
             }
-            if (other.CompareTag("Ground"))
+            if (other.gameObject.layer == 7)
                 groundedPlayer = false;
         }
 
@@ -92,15 +99,32 @@ namespace Com.MorganHouston.ZombCube
                     playerVelocity.y = -2f;
                 }
 
+                // Decreases jump timer when player can not jump.
+                if (!canJump)
+                {
+                    jumpTimer -= Time.deltaTime;
+                }
+
+                // When timer is up (reaches 0), sets timer to 0 and canJump to true. Else timer is greater than 0, set canJump to false.
+                if (jumpTimer <= 0)
+                {
+                    jumpTimer = 0;
+                    canJump = true;
+                }
+                else
+                {
+                    canJump = false;
+                }
+
                 Vector3 move = transform.forward * vertical + transform.right * horizontal;
                 controller.Move(move * Time.deltaTime * playerSpeed);
 
-                //transform.Rotate(Vector3.up * horizontal * rotationSpeed * Time.deltaTime);
-
                 // Changes the height position of the player..
-                if (hasJumped && groundedPlayer)
+                if (hasJumped && groundedPlayer && canJump)
                 {
-                    playerVelocity.y += jumpHeight;
+                    playerVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
+                    jumpTimer = jumpTime;
+                    canJump = false;
                     groundedPlayer = false;
                 }
 

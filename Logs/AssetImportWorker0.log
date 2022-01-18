@@ -1,0 +1,1079 @@
+Using pre-set license
+Built from '2020.3/staging' branch; Version is '2020.3.10f1 (297d780c91bc) revision 2719096'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Pro; OS build 19043.1348; Version 2009; 64bit' Language: 'en' Physical Memory: 65169 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2020.3.10f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Users/mhouston/Documents/GitHub/ZombCube
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+55433
+Successfully changed project path to: C:/Users/mhouston/Documents/GitHub/ZombCube
+C:/Users/mhouston/Documents/GitHub/ZombCube
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 108.03 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.3.10f1 (297d780c91bc)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/mhouston/Documents/GitHub/ZombCube/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA Quadro RTX 5000 (ID=0x1eb5)
+    Vendor:   
+    VRAM:     16170 MB
+    Driver:   27.21.14.6230
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56832
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001791 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 139.39 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.013 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.010910 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 116.65 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  2.112 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 1.70 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5638 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 223.0 MB.
+System memory in use after: 223.4 MB.
+
+Unloading 82 unused Assets to reduce memory usage. Loaded Objects now: 6032.
+Total: 5.889000 ms (FindLiveObjects: 0.491500 ms CreateObjectMapping: 0.387300 ms MarkObjects: 4.844900 ms  DeleteObjects: 0.164600 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Scripts/ShootProjectile.cs
+  artifactKey: Guid(18ca52efdcaa63a4983726ca0a9254a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ShootProjectile.cs using Guid(18ca52efdcaa63a4983726ca0a9254a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2c0b03b0f9de676aebd6a1f140440991') in 0.025157 seconds
+  Import took 0.033711 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 47.565887 seconds.
+  path: Assets/Scenes/GameScene.unity
+  artifactKey: Guid(072fc27fc5b5903498f916d8c85cfd03) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/GameScene.unity using Guid(072fc27fc5b5903498f916d8c85cfd03) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '267c8580335ff8548a72f6ac80e2fc20') in 0.013258 seconds
+  Import took 0.021885 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 38.766956 seconds.
+  path: Assets/Scripts/DoubleShot.cs
+  artifactKey: Guid(938e92a60df8bf5439ec3a3897dffc2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/DoubleShot.cs using Guid(938e92a60df8bf5439ec3a3897dffc2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5720a7e28812c6094f897562ef86bddd') in 0.007686 seconds
+  Import took 0.016446 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 16.193884 seconds.
+  path: Assets/Scripts/DoubleShot.cs
+  artifactKey: Guid(938e92a60df8bf5439ec3a3897dffc2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/DoubleShot.cs using Guid(938e92a60df8bf5439ec3a3897dffc2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6680515b4ffc5b80f6e6a757081a47b') in 0.003058 seconds
+  Import took 0.011550 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.009051 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.11 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.249 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.13 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 212.8 MB.
+System memory in use after: 213.2 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6036.
+Total: 6.857400 ms (FindLiveObjects: 0.578300 ms CreateObjectMapping: 0.324300 ms MarkObjects: 5.840100 ms  DeleteObjects: 0.113800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 59.675600 seconds.
+  path: ProjectSettings/TagManager.asset
+  artifactKey: Guid(00000000000000003000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing ProjectSettings/TagManager.asset using Guid(00000000000000003000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ff5e4306e0cd8af20eb30e7b03e12ff8') in 0.036444 seconds
+  Import took 0.045599 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008414 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.17 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.396 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.19 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 212.9 MB.
+System memory in use after: 213.4 MB.
+
+Unloading 71 unused Assets to reduce memory usage. Loaded Objects now: 6040.
+Total: 6.682900 ms (FindLiveObjects: 0.627400 ms CreateObjectMapping: 0.441000 ms MarkObjects: 5.526700 ms  DeleteObjects: 0.086800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 61.703815 seconds.
+  path: Assets/Prefabs/Player.prefab
+  artifactKey: Guid(2f98d0f657e923049aacb315e55bc20f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Player.prefab using Guid(2f98d0f657e923049aacb315e55bc20f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '712eacd360f91e11cac82cead643889f') in 0.183343 seconds
+  Import took 0.191873 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.651720 seconds.
+  path: ProjectSettings/TagManager.asset
+  artifactKey: Guid(00000000000000003000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing ProjectSettings/TagManager.asset using Guid(00000000000000003000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4aad7a688c847bddb4ed854c6f0e146d') in 0.003315 seconds
+  Import took 0.012524 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.301544 seconds.
+  path: ProjectSettings/TagManager.asset
+  artifactKey: Guid(00000000000000003000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing ProjectSettings/TagManager.asset using Guid(00000000000000003000000000000000) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5a6c1498e6ffd454ab3b775950d8f02d') in 0.004391 seconds
+  Import took 0.013052 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.647550 seconds.
+  path: Assets/Prefabs/Projectile.prefab
+  artifactKey: Guid(d135785700ed41e44a700cca317e3a12) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Projectile.prefab using Guid(d135785700ed41e44a700cca317e3a12) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00cc5bd861d24cac836626679e943878') in 0.012913 seconds
+  Import took 0.021316 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000381 seconds.
+  path: Assets/Prefabs/Projectile.prefab
+  artifactKey: Guid(d135785700ed41e44a700cca317e3a12) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Projectile.prefab using Guid(d135785700ed41e44a700cca317e3a12) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00cc5bd861d24cac836626679e943878') in 0.009075 seconds
+  Import took 0.017057 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008229 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.19 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.347 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.20 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.6 MB.
+System memory in use after: 219.0 MB.
+
+Unloading 74 unused Assets to reduce memory usage. Loaded Objects now: 6092.
+Total: 7.537800 ms (FindLiveObjects: 0.574500 ms CreateObjectMapping: 0.291100 ms MarkObjects: 6.543900 ms  DeleteObjects: 0.127400 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 6594.975070 seconds.
+  path: Assets/Scenes/MainMenu.unity
+  artifactKey: Guid(80ef8c7ade5205d4890d99a3990555f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/MainMenu.unity using Guid(80ef8c7ade5205d4890d99a3990555f7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '58abb0904e5a63bb2b71736f917f498c') in 0.029808 seconds
+  Import took 0.039938 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 21.886637 seconds.
+  path: Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset
+  artifactKey: Guid(091d9541b1a04b34496089c86b010fc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset using Guid(091d9541b1a04b34496089c86b010fc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '35c7061619872126958305d6e2acddc2') in 0.007888 seconds
+  Import took 0.017843 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003733 seconds.
+  path: Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset
+  artifactKey: Guid(091d9541b1a04b34496089c86b010fc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset using Guid(091d9541b1a04b34496089c86b010fc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '35c7061619872126958305d6e2acddc2') in 0.002878 seconds
+  Import took 0.011307 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 28.883690 seconds.
+  path: Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset
+  artifactKey: Guid(091d9541b1a04b34496089c86b010fc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset using Guid(091d9541b1a04b34496089c86b010fc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '16a0422f889564b208641fe7d96f3b15') in 0.002888 seconds
+  Import took 0.011620 seconds .
+
+========================================================================
+Received Prepare
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 12.44 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 68 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 111.9 MB.
+System memory in use after: 112.3 MB.
+
+Unloading 68 unused Assets to reduce memory usage. Loaded Objects now: 6092.
+Total: 9.283100 ms (FindLiveObjects: 0.557700 ms CreateObjectMapping: 0.407600 ms MarkObjects: 8.177300 ms  DeleteObjects: 0.139300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 1272.490685 seconds.
+  path: Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset
+  artifactKey: Guid(091d9541b1a04b34496089c86b010fc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset using Guid(091d9541b1a04b34496089c86b010fc4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bf40540f97ea9d2a2a5f6f975cd60cb4') in 0.018158 seconds
+  Import took 0.028693 seconds .
+
+========================================================================
+Received Prepare
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 12.55 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 68 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 111.9 MB.
+System memory in use after: 112.3 MB.
+
+Unloading 68 unused Assets to reduce memory usage. Loaded Objects now: 6092.
+Total: 8.753900 ms (FindLiveObjects: 0.544400 ms CreateObjectMapping: 0.319800 ms MarkObjects: 7.802300 ms  DeleteObjects: 0.086500 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 2944.768133 seconds.
+  path: Assets/Scenes/NetworkGameScene.unity
+  artifactKey: Guid(97b34cc1e90d9f04a9d902910e71a165) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/NetworkGameScene.unity using Guid(97b34cc1e90d9f04a9d902910e71a165) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '468467ce73652f4572051530ea085915') in 0.016372 seconds
+  Import took 0.028958 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 90.774145 seconds.
+  path: Assets/Scripts/Networking/NetworkPlayerMovement.cs
+  artifactKey: Guid(1ca8859c88ba69540bd13414cd67c75a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Networking/NetworkPlayerMovement.cs using Guid(1ca8859c88ba69540bd13414cd67c75a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00225fcc44792f671157848598613abb') in 0.006446 seconds
+  Import took 0.017323 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 248.834962 seconds.
+  path: Assets/Scenes/GameScene.unity
+  artifactKey: Guid(072fc27fc5b5903498f916d8c85cfd03) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/GameScene.unity using Guid(072fc27fc5b5903498f916d8c85cfd03) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3fe79bab1a368ebf6e7f393b11bcca6f') in 0.005774 seconds
+  Import took 0.016121 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008973 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.15 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.622 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.91 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.6 MB.
+System memory in use after: 219.1 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6096.
+Total: 6.739600 ms (FindLiveObjects: 0.614100 ms CreateObjectMapping: 0.378700 ms MarkObjects: 5.657700 ms  DeleteObjects: 0.088400 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.009816 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.36 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.428 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.18 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.5 MB.
+System memory in use after: 218.9 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6100.
+Total: 7.292300 ms (FindLiveObjects: 0.526400 ms CreateObjectMapping: 0.684100 ms MarkObjects: 5.965000 ms  DeleteObjects: 0.115800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008627 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.39 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.331 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.18 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.7 MB.
+System memory in use after: 219.1 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6104.
+Total: 8.120200 ms (FindLiveObjects: 0.739600 ms CreateObjectMapping: 0.717500 ms MarkObjects: 6.541900 ms  DeleteObjects: 0.120400 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 1715.662723 seconds.
+  path: Assets/Scenes/NetworkGameScene.unity
+  artifactKey: Guid(97b34cc1e90d9f04a9d902910e71a165) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/NetworkGameScene.unity using Guid(97b34cc1e90d9f04a9d902910e71a165) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '51c956209882a926a4ae118e1657c954') in 0.055842 seconds
+  Import took 0.066196 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008712 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.11 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.445 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.13 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.7 MB.
+System memory in use after: 219.2 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6108.
+Total: 6.729700 ms (FindLiveObjects: 0.487100 ms CreateObjectMapping: 0.304100 ms MarkObjects: 5.821000 ms  DeleteObjects: 0.102000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008594 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.24 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.341 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.15 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.8 MB.
+System memory in use after: 219.2 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6112.
+Total: 7.000500 ms (FindLiveObjects: 0.583400 ms CreateObjectMapping: 0.467000 ms MarkObjects: 5.851800 ms  DeleteObjects: 0.097500 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008221 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.16 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.256 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.14 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.8 MB.
+System memory in use after: 219.2 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6116.
+Total: 6.178500 ms (FindLiveObjects: 0.686200 ms CreateObjectMapping: 0.373600 ms MarkObjects: 4.965300 ms  DeleteObjects: 0.152700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008870 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.20 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.272 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.14 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.6 MB.
+System memory in use after: 219.0 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6120.
+Total: 6.773200 ms (FindLiveObjects: 0.487800 ms CreateObjectMapping: 0.366000 ms MarkObjects: 5.806500 ms  DeleteObjects: 0.111800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008500 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.08 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.Services.Core.Editor.PackageConfig..ctor (UnityEditor.PackageManager.PackageInfo packageInfo) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\PackageConfig.cs:15 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.<FindAllOperatePackageInProject>g__GetPackageConfigFrom|7_0 (System.Type type) [0x0000b] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:50 
+  at (wrapper delegate-invoke) System.Func`2[System.Type,Unity.Services.Core.Editor.PackageConfig].invoke_TResult_T(System.Type)
+  at System.Linq.Enumerable+SelectIListIterator`2[TSource,TResult].MoveNext () [0x00048] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Set`1[TElement].UnionWith (System.Collections.Generic.IEnumerable`1[T] other) [0x00018] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].FillSet () [0x0000b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable+DistinctIterator`1[TSource].ToList () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToList[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider.FindAllOperatePackageInProject () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:41 
+  at Unity.Services.Core.Editor.OperatePackageVersionConfigProvider..cctor () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Telemetry\OperatePackageVersionConfigProvider.cs:20 
+Rethrow as TypeInitializationException: The type initializer for 'Unity.Services.Core.Editor.OperatePackageVersionConfigProvider' threw an exception.
+  at (wrapper managed-to-native) System.Reflection.MonoCMethod.InternalInvoke(System.Reflection.MonoCMethod,object,object[],System.Exception&)
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00002] in <695d1cc93cca45069c528c15c9fdd749>:0 
+Rethrow as TargetInvocationException: Exception has been thrown by the target of an invocation.
+  at System.Reflection.MonoCMethod.InternalInvoke (System.Object obj, System.Object[] parameters) [0x00014] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceMono (System.Boolean nonPublic) [0x000a8] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceSlow (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00009] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.RuntimeType.CreateInstanceDefaultCtor (System.Boolean publicOnly, System.Boolean skipCheckThis, System.Boolean fillCache, System.Threading.StackCrawlMark& stackMark) [0x00027] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type, System.Boolean nonPublic) [0x00020] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at System.Activator.CreateInstance (System.Type type) [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder+<>c.<GenerateOrderedConfigurationProviders>b__5_1 (System.Type type) [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:46 
+  at System.Linq.Enumerable+WhereSelectEnumerableIterator`2[TSource,TResult].ToArray () [0x0002b] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Buffer`1[TElement]..ctor (System.Collections.Generic.IEnumerable`1[T] source) [0x0000a] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.OrderedEnumerable`1[TElement].ToArray () [0x00000] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at System.Linq.Enumerable.ToArray[TSource] (System.Collections.Generic.IEnumerable`1[T] source) [0x0001f] in <351e49e2a5bf4fd6beabb458ce2255f3>:0 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.GenerateOrderedConfigurationProviders () [0x00000] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:44 
+  at Unity.Services.Core.Configuration.Editor.ProjectConfigurationBuilder.CreateEditorInstanceIfNone () [0x00008] in C:\Users\mhouston\Documents\GitHub\ZombCube\Library\PackageCache\com.unity.services.core@1.1.0-pre.41\Editor\Core\Configuration\ProjectConfigurationBuilder.cs:38 
+
+(Filename: Library/PackageCache/com.unity.services.core@1.1.0-pre.41/Editor/Core/Telemetry/PackageConfig.cs Line: 15)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.220 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.14 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 5492 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 218.8 MB.
+System memory in use after: 219.2 MB.
+
+Unloading 70 unused Assets to reduce memory usage. Loaded Objects now: 6124.
+Total: 7.015800 ms (FindLiveObjects: 0.616500 ms CreateObjectMapping: 0.304400 ms MarkObjects: 5.943700 ms  DeleteObjects: 0.150400 ms)
+
+========================================================================
+Received Prepare
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 11.98 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 68 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 112.1 MB.
+System memory in use after: 112.5 MB.
+
+Unloading 68 unused Assets to reduce memory usage. Loaded Objects now: 6124.
+Total: 7.782700 ms (FindLiveObjects: 0.546200 ms CreateObjectMapping: 0.329100 ms MarkObjects: 6.819100 ms  DeleteObjects: 0.087300 ms)
+

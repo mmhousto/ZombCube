@@ -15,7 +15,7 @@ namespace Com.MorganHouston.ZombCube
         void Start()
         {
             fireRate = 1f;
-            offset = new Vector3(0.5f, 0, 0);
+            offset = new Vector3(1f, 0, 0);
             launchVector = new Vector3(0, 0, launchVelocity);
         }
 

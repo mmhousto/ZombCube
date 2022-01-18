@@ -84,7 +84,7 @@ namespace Com.MorganHouston.ZombCube
             // Resets player velocity when grounded.
             if (groundedPlayer && playerVelocity.y < 0)
             {
-                playerVelocity.y = 0f;
+                playerVelocity.y = -2f;
             }
 
             // Decreases jump timer when player can not jump.
