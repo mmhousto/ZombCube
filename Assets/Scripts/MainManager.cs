@@ -17,6 +17,8 @@ namespace Com.MorganHouston.ZombCube
         private Dictionary<string, object> analyticParams;
 
         public TMP_InputField playerNameText;
+        
+        public GameObject iapButton;
 
         /// <summary>
         /// Tries to load the players data.
@@ -27,8 +29,9 @@ namespace Com.MorganHouston.ZombCube
 
             CloudSaveSample.CloudSaveSample.Instance.SignIn();
 
-            
-
+#if (UNITY_XBOXONE || UNITY_PS4 || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_STADALONE_OSX)
+            iapButton.SetActive(false);
+#endif
         }
 
         private void Start()
