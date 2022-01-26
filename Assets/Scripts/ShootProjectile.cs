@@ -15,7 +15,9 @@ namespace Com.MorganHouston.ZombCube
         public Transform firePosition;
         public GameObject projectile;
 
+        [SerializeField]
         protected bool isFiring;
+        [SerializeField]
         protected bool canFire = true;
         protected float fireTime = 0f;
         protected float fireRate = 1.5f;
