@@ -11,7 +11,6 @@ namespace Com.MorganHouston.ZombCube
 
         #region Variables
 
-
         private CharacterController controller;
         private Vector3 playerVelocity = Vector3.zero;
         [SerializeField]
@@ -34,11 +33,11 @@ namespace Com.MorganHouston.ZombCube
 
         #region MonoBehavior Methods
 
-
         private void Start()
         {
             jumpTimer = 0.0f;
             controller = GetComponent<CharacterController>();
+            
         }
 
         void Update()
@@ -128,10 +127,10 @@ namespace Com.MorganHouston.ZombCube
         /// </summary>
         private void MovePlayer()
         {
+            
             Vector3 move = transform.forward * vertical + transform.right * horizontal;
             controller.Move(move * Time.deltaTime * PlayerSpeed);
         }
-
 
         #endregion
 
