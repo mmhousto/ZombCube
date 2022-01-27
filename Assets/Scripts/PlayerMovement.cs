@@ -37,7 +37,6 @@ namespace Com.MorganHouston.ZombCube
         {
             jumpTimer = 0.0f;
             controller = GetComponent<CharacterController>();
-            
         }
 
         void Update()
