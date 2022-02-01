@@ -23,8 +23,6 @@ namespace Com.MorganHouston.ZombCube
 
         public Slider playerHealth;
 
-        private GameObject onScreenControls;
-
         private TextMeshProUGUI scoreText;
         private Slider healthBar;
 
@@ -42,19 +40,6 @@ namespace Com.MorganHouston.ZombCube
         {
             if (photonView.IsMine)
             {
-                onScreenControls = GameObject.FindWithTag("ScreenControls");
-
-#if UNITY_ANDROID
-                    onScreenControls.SetActive(true);
-
-#elif UNITY_IOS
-                    onScreenControls.SetActive(true);
-
-#else
-                onScreenControls.SetActive(false);
-
-#endif
-
                 isAlive = true;
 
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();

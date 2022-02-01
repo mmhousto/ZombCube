@@ -48,9 +48,6 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            
-
-            
             gameOverScreen.SetActive(false);
             playersSpawned = 0;
             playersEliminated = 0;

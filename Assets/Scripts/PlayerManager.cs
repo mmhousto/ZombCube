@@ -17,8 +17,6 @@ namespace Com.MorganHouston.ZombCube
 
         private Player player;
 
-        public GameObject onScreenControls;
-
         public static int currentPoints = 0;
 
         public TextMeshProUGUI scoreText;
@@ -30,18 +28,6 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-
-/*#if (UNITY_ANDROID || UNITY_IOS)
-    onScreenControls.SetActive(true);
-    GetComponent<PlayerInput>().neverAutoSwitchControlSchemes = true;
-
-
-
-#else
-    onScreenControls.SetActive(false);
-
-#endif*/
-
             player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 
             healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
