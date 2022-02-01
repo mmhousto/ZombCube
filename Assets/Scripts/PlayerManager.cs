@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
 using System;
@@ -30,16 +31,16 @@ namespace Com.MorganHouston.ZombCube
         void Start()
         {
 
-#if UNITY_ANDROID
+/*#if (UNITY_ANDROID || UNITY_IOS)
     onScreenControls.SetActive(true);
+    GetComponent<PlayerInput>().neverAutoSwitchControlSchemes = true;
 
-#elif UNITY_IOS
-    onScreenControls.SetActive(true);
+
 
 #else
-            onScreenControls.SetActive(false);
+    onScreenControls.SetActive(false);
 
-#endif
+#endif*/
 
             player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 

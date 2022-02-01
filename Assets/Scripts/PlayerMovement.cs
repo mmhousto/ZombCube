@@ -131,6 +131,7 @@ namespace Com.MorganHouston.ZombCube
             controller.Move(move * Time.deltaTime * PlayerSpeed);
         }
 
+
         #endregion
 
 
@@ -143,8 +144,7 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="context"></param>
         public void Move(InputAction.CallbackContext context)
         {
-            horizontal = context.ReadValue<Vector2>().x;
-            vertical = context.ReadValue<Vector2>().y;
+            MoveInput(context.ReadValue<Vector2>());
                 
         }
 
@@ -154,9 +154,19 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="context"></param>
         public void Jump(InputAction.CallbackContext context)
         {
-            hasJumped = context.ReadValueAsButton();
+            JumpInput(context.ReadValueAsButton());
         }
 
+        public void MoveInput(Vector2 newMoveDirection)
+        {
+            horizontal = newMoveDirection.x;
+            vertical = newMoveDirection.y;
+        }
+
+        public void JumpInput(bool newValue)
+        {
+            hasJumped = newValue;
+        }
 
         #endregion
 

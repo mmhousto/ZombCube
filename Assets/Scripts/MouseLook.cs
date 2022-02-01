@@ -38,8 +38,13 @@ namespace Com.MorganHouston.ZombCube
 
         public void Look(InputAction.CallbackContext context)
         {
-            pitch = context.ReadValue<Vector2>().y;
-            yaw = context.ReadValue<Vector2>().x;
+            LookInput(context.ReadValue<Vector2>());
+        }
+
+        public void LookInput(Vector2 newLookDirection)
+        {
+            pitch = newLookDirection.y;
+            yaw = newLookDirection.x;
         }
 
         private float ClampVerticalAngle(float angle)

@@ -110,9 +110,13 @@ namespace Com.MorganHouston.ZombCube
         /// <param name="context"></param>
         public void Fire(InputAction.CallbackContext context)
         {
-            isFiring = context.ReadValueAsButton();
+            FireInput(context.ReadValueAsButton());
         }
 
+        public void FireInput(bool newValue)
+        {
+            isFiring = newValue;
+        }
 
         #endregion
 
