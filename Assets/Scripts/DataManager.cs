@@ -41,7 +41,7 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+            player = Player.Instance;
 
             if (coinsText)
             {

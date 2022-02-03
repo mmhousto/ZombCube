@@ -159,8 +159,8 @@ namespace Com.MorganHouston.ZombCube
 
         public void MoveInput(Vector2 newMoveDirection)
         {
-            horizontal = newMoveDirection.x;
-            vertical = newMoveDirection.y;
+            horizontal = Mathf.Clamp(newMoveDirection.x, -1, 1);
+            vertical = Mathf.Clamp(newMoveDirection.y, -1, 1);
         }
 
         public void JumpInput(bool newValue)

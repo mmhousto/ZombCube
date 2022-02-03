@@ -14,7 +14,7 @@ namespace Com.MorganHouston.ZombCube
         public static GameManager Instance { get { return _instance; } }
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen;
+        public GameObject gameOverScreen, pauseScreen;
 
         private bool isPaused = false;
 
@@ -39,6 +39,7 @@ namespace Com.MorganHouston.ZombCube
         void Start()
         {
             gameOverScreen.SetActive(false);
+            pauseScreen.SetActive(false);
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
             CustomAnalytics.SendGameStart();
@@ -47,24 +48,14 @@ namespace Com.MorganHouston.ZombCube
         // Update is called once per frame
         void Update()
         {
-            waveTxt.text = "Wave: " + CurrentRound.ToString();
-
-            if (isPaused)
-            {
-                Time.timeScale = 0;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else if(isPaused == false && isGameOver == false)
-            {
-                Time.timeScale = 1;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            CheckForPause(); 
            
         }
 
         public void NextWave()
         {
             CurrentRound += 1;
+            waveTxt.text = "Wave: " + CurrentRound.ToString();
         }
 
         public async void GameOver()
@@ -83,6 +74,11 @@ namespace Com.MorganHouston.ZombCube
             SceneLoader.PlayGame();
         }
 
+        public void Resume()
+        {
+            isPaused = false;
+        }
+
         public void GoHome()
         {
             SceneLoader.ToMainMenu();
@@ -91,6 +87,22 @@ namespace Com.MorganHouston.ZombCube
         public void Pause(InputAction.CallbackContext context)
         {
             isPaused = !isPaused;
+        }
+
+        private void CheckForPause()
+        {
+            if (isPaused == true)
+            {
+                pauseScreen.SetActive(true);
+                Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else if (isPaused == false && isGameOver == false)
+            {
+                pauseScreen.SetActive(false);
+                Time.timeScale = 1;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 }

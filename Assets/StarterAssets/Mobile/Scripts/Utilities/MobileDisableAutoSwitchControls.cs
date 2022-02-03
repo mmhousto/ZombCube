@@ -13,7 +13,7 @@ using Photon.Pun;
 
 public class MobileDisableAutoSwitchControls : MonoBehaviour
 {
-    
+
 #if (UNITY_IOS || UNITY_ANDROID)
 
     [Header("Target")]
@@ -49,6 +49,13 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
             playerInput.neverAutoSwitchControlSchemes = true;
     }
 
-#endif
+#else
+    private void Start()
+    {
+        this.gameObject.SetActive(false);
+    }
     
+
+#endif
+
 }

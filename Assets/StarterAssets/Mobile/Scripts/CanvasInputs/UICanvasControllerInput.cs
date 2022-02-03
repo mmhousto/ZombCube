@@ -57,9 +57,9 @@ namespace StarterAssets
             playerMovement.JumpInput(virtualJumpState);
         }
 
-        public void VirtualFireInput(bool virtualSprintState)
+        public void VirtualFireInput(bool virtualFireState)
         {
-            playerFire.FireInput(virtualSprintState);
+            playerFire.FireInput(virtualFireState);
         }
         
     }

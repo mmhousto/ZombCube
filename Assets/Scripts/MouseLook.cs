@@ -43,8 +43,8 @@ namespace Com.MorganHouston.ZombCube
 
         public void LookInput(Vector2 newLookDirection)
         {
-            pitch = newLookDirection.y;
-            yaw = newLookDirection.x;
+            pitch = Mathf.Clamp(newLookDirection.y, -1, 1);
+            yaw = Mathf.Clamp(newLookDirection.x, -1, 1);
         }
 
         private float ClampVerticalAngle(float angle)
