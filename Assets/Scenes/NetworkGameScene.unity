@@ -26838,6 +26838,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6813499933394281815, guid: 1bbf901785d9243db8e6725dab4e54ef, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bbf901785d9243db8e6725dab4e54ef, type: 3}
 --- !u!43 &958717810
@@ -31923,7 +31927,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh58774
+  m_Name: pb_Mesh53734
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -54188,6 +54192,7 @@ GameObject:
   - component: {fileID: 1478970132}
   - component: {fileID: 1478970131}
   - component: {fileID: 1478970130}
+  - component: {fileID: 1478970135}
   m_Layer: 7
   m_Name: Cone
   m_TagString: Ground
@@ -54206,7 +54211,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1074152801}
 --- !u!33 &1478970131
@@ -55482,12 +55487,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1478970129}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: -10, z: 0.000015258789}
+  m_LocalPosition: {x: 10, y: -10.3, z: 0.000015258789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 112553717}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1478970135
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478970129}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15, y: 5, z: 15}
+  m_Center: {x: -10, y: 7, z: 0}
 --- !u!43 &1504949484
 Mesh:
   m_ObjectHideFlags: 0
