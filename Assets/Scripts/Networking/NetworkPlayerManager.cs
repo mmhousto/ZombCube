@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
+using StarterAssets;
 
 namespace Com.MorganHouston.ZombCube
 {

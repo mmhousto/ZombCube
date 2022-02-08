@@ -1,58 +1,83 @@
 using UnityEngine;
-using Photon.Pun;
 using Com.MorganHouston.ZombCube;
 
-
-    public class UICanvasControllerInput : MonoBehaviourPun
+namespace StarterAssets
+{
+    public class UICanvasControllerInput : MonoBehaviour
     {
 
         [Header("Output")]
-        public NetworkPlayerMovement playerMovement;
-        public NetworkMouseLook playerLook;
-        public NetworkShootProjectile playerFire;
+        private NetworkPlayerMovement playerMovementN;
+        private NetworkMouseLook playerLookN;
+        private NetworkShootProjectile playerFireN;
+        public PlayerMovement playerMovement;
+        public MouseLook playerLook;
+        public ShootProjectile playerFire;
 
         private GameObject currentPlayer;
-
-        private void Awake()
-        {
-            if (!photonView.IsMine && SceneLoader.GetCurrentScene().name == "NetworkGameScene")
-            {
-                Destroy(this.gameObject);
-            }
-        }
 
         public void GetPlayer(GameObject player)
         {
             currentPlayer = player;
             Debug.Log(currentPlayer);
-            playerMovement = currentPlayer.GetComponent<NetworkPlayerMovement>();
-            playerFire = currentPlayer.GetComponent<NetworkShootProjectile>();
-            playerLook = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
+            playerMovementN = currentPlayer.GetComponent<NetworkPlayerMovement>();
+            playerFireN = currentPlayer.GetComponent<NetworkShootProjectile>();
+            playerLookN = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
             Debug.Log(playerMovement);
             Debug.Log(playerFire);
             Debug.Log(playerLook);
-    }
+        }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
         {
-            playerMovement.MoveInput(virtualMoveDirection);
+            if(SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            {
+                playerMovementN.MoveInput(virtualMoveDirection);
+            }
+            else
+            {
+                playerMovement.MoveInput(virtualMoveDirection);
+            }
+            
         }
 
         public void VirtualLookInput(Vector2 virtualLookDirection)
         {
-            playerLook.LookInput(virtualLookDirection);
+            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            {
+                playerLookN.LookInput(virtualLookDirection);
+            }
+            else
+            {
+                playerLook.LookInput(virtualLookDirection);
+            }
         }
 
         public void VirtualJumpInput(bool virtualJumpState)
         {
-            playerMovement.JumpInput(virtualJumpState);
+            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            {
+                playerMovementN.JumpInput(virtualJumpState);
+            }
+            else
+            {
+                playerMovement.JumpInput(virtualJumpState);
+            }
+            
         }
 
         public void VirtualFireInput(bool virtualFireState)
         {
-            playerFire.FireInput(virtualFireState);
+            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            {
+                playerFireN.FireInput(virtualFireState);
+            }
+            else
+            {
+                playerFire.FireInput(virtualFireState);
+            }
         }
-        
-    }
 
+    }
+}
 
