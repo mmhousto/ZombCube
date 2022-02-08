@@ -1,42 +1,37 @@
 using UnityEngine;
 using Photon.Pun;
+using Com.MorganHouston.ZombCube;
 
-namespace StarterAssets
-{
+
     public class UICanvasControllerInput : MonoBehaviourPun
     {
 
         [Header("Output")]
-        public Com.MorganHouston.ZombCube.PlayerMovement playerMovement;
-        public Com.MorganHouston.ZombCube.MouseLook playerLook;
-        public Com.MorganHouston.ZombCube.ShootProjectile playerFire;
+        public NetworkPlayerMovement playerMovement;
+        public NetworkMouseLook playerLook;
+        public NetworkShootProjectile playerFire;
 
-        private GameObject[] players;
         private GameObject currentPlayer;
-        private int myID = PhotonNetwork.LocalPlayer.ActorNumber;
 
         private void Awake()
         {
-            if (!photonView.IsMine && Com.MorganHouston.ZombCube.SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            if (!photonView.IsMine && SceneLoader.GetCurrentScene().name == "NetworkGameScene")
             {
                 Destroy(this.gameObject);
             }
-            if (photonView.IsMine && Com.MorganHouston.ZombCube.SceneLoader.GetCurrentScene().name == "NetworkGameScene")
-            {
-                players = GameObject.FindGameObjectsWithTag("Player");
-                foreach (GameObject player in players)
-                {
-                    int playerID = player.GetComponent<PhotonView>().Owner.ActorNumber;
-                    if (playerID == myID)
-                    {
-                        currentPlayer = player;
-                    }
-                }
-                playerMovement = currentPlayer.GetComponent<Com.MorganHouston.ZombCube.PlayerMovement>();
-                playerFire = currentPlayer.GetComponent<Com.MorganHouston.ZombCube.ShootProjectile>();
-                playerLook = currentPlayer.GetComponentInChildren<Com.MorganHouston.ZombCube.MouseLook>();
-            }
         }
+
+        public void GetPlayer(GameObject player)
+        {
+            currentPlayer = player;
+            Debug.Log(currentPlayer);
+            playerMovement = currentPlayer.GetComponent<NetworkPlayerMovement>();
+            playerFire = currentPlayer.GetComponent<NetworkShootProjectile>();
+            playerLook = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
+            Debug.Log(playerMovement);
+            Debug.Log(playerFire);
+            Debug.Log(playerLook);
+    }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
         {
@@ -60,4 +55,4 @@ namespace StarterAssets
         
     }
 
-}
+

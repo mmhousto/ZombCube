@@ -55,9 +55,18 @@ namespace Com.MorganHouston.ZombCube
             }
         }
 
+        /// <summary>
+        /// Dynamic callback to see if player performed Fire player input action.
+        /// </summary>
+        /// <param name="context"></param>
         public void Fire(InputAction.CallbackContext context)
         {
-            isFiring = context.ReadValueAsButton();
+            FireInput(context.ReadValueAsButton());
+        }
+
+        public void FireInput(bool newValue)
+        {
+            isFiring = newValue;
         }
     }
 

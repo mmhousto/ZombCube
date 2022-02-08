@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using StarterAssets;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -61,7 +62,6 @@ namespace Com.MorganHouston.ZombCube
                 StartGame();
             }
 
-
         }
 
         // Update is called once per frame
@@ -82,7 +82,7 @@ namespace Com.MorganHouston.ZombCube
             NetworkSpawner.Instance.Spawn();
             NetworkSpawner.Instance.hasStarted = true;
             CustomAnalytics.SendGameStart();
-
+            
         }
 
         public void GoHome()

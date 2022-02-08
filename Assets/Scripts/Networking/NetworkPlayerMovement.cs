@@ -141,21 +141,33 @@ namespace Com.MorganHouston.ZombCube
 
 
         /// <summary>
-        /// Gets Input from user.
+        /// Gets Input from user on Move action and assigns to float variables, horizontal and vertical respectfully.
         /// </summary>
         /// <param name="context"></param>
         public void Move(InputAction.CallbackContext context)
         {
-                horizontal = context.ReadValue<Vector2>().x;
-                vertical = context.ReadValue<Vector2>().y;
-            
+            MoveInput(context.ReadValue<Vector2>());
 
         }
 
+        /// <summary>
+        /// Gets input when player performs Jump action and assigns value to hasJumped.
+        /// </summary>
+        /// <param name="context"></param>
         public void Jump(InputAction.CallbackContext context)
         {
-                hasJumped = context.ReadValueAsButton();
-            
+            JumpInput(context.ReadValueAsButton());
+        }
+
+        public void MoveInput(Vector2 newMoveDirection)
+        {
+            horizontal = Mathf.Clamp(newMoveDirection.x, -1, 1);
+            vertical = Mathf.Clamp(newMoveDirection.y, -1, 1);
+        }
+
+        public void JumpInput(bool newValue)
+        {
+            hasJumped = newValue;
         }
 
 

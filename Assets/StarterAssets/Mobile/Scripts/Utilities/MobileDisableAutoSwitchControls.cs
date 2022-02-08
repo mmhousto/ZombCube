@@ -19,25 +19,12 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
     [Header("Target")]
     public PlayerInput playerInput;
 
-    private GameObject[] players;
     private GameObject currentPlayer;
-    private int myID = PhotonNetwork.LocalPlayer.ActorNumber;
 
-    private void Awake()
+    public void GetPlayer(GameObject player)
     {
-        if (Com.MorganHouston.ZombCube.SceneLoader.GetCurrentScene().name == "NetworkGameScene")
-        {
-            players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (GameObject player in players)
-            {
-                int playerID = player.GetComponent<PhotonView>().Owner.ActorNumber;
-                if (playerID == myID)
-                {
-                    currentPlayer = player;
-                }
-            }
-            playerInput = currentPlayer.GetComponent<PlayerInput>();
-        }
+        currentPlayer = player;
+        playerInput = currentPlayer.GetComponent<PlayerInput>();
     }
 
     void Start()

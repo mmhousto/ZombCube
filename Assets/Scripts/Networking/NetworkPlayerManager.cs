@@ -14,6 +14,10 @@ namespace Com.MorganHouston.ZombCube
         public Material[] blasterMaterial;
 
         private Player player;
+        private GameObject onScreenControls;
+        private GameObject currentPlayer;
+        private UICanvasControllerInput uiInput;
+        private MobileDisableAutoSwitchControls mobileControls;
 
         public static int currentPoints = 0;
 
@@ -43,6 +47,14 @@ namespace Com.MorganHouston.ZombCube
                 isAlive = true;
 
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+
+                currentPlayer = FindPlayer.GetPlayer();
+                onScreenControls = GameObject.FindGameObjectWithTag("ScreenControls");
+                uiInput = onScreenControls.GetComponent<UICanvasControllerInput>();
+                mobileControls = onScreenControls.GetComponent<MobileDisableAutoSwitchControls>();
+
+                uiInput.GetPlayer(currentPlayer);
+                mobileControls.GetPlayer(currentPlayer);
 
                 photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.currentBlaster);
                 

@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using System.Threading.Tasks;
+using StarterAssets;
 
 namespace Com.MorganHouston.ZombCube
 {
