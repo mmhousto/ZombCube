@@ -23,7 +23,7 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
     private GameObject currentPlayer;
     private int myID = PhotonNetwork.LocalPlayer.ActorNumber;
 
-    void Start()
+    private void Awake()
     {
         if (Com.MorganHouston.ZombCube.SceneLoader.GetCurrentScene().name == "NetworkGameScene")
         {
@@ -38,7 +38,10 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
             }
             playerInput = currentPlayer.GetComponent<PlayerInput>();
         }
+    }
 
+    void Start()
+    {
         DisableAutoSwitchControls();
     }
 

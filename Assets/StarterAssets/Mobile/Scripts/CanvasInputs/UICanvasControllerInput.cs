@@ -21,17 +21,13 @@ namespace StarterAssets
             {
                 Destroy(this.gameObject);
             }
-        }
-
-        private void Start()
-        {
-            if(Com.MorganHouston.ZombCube.SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            if (photonView.IsMine && Com.MorganHouston.ZombCube.SceneLoader.GetCurrentScene().name == "NetworkGameScene")
             {
                 players = GameObject.FindGameObjectsWithTag("Player");
-                foreach(GameObject player in players)
+                foreach (GameObject player in players)
                 {
                     int playerID = player.GetComponent<PhotonView>().Owner.ActorNumber;
-                    if(playerID == myID)
+                    if (playerID == myID)
                     {
                         currentPlayer = player;
                     }
