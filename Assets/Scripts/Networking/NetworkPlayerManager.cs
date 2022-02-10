@@ -49,6 +49,7 @@ namespace Com.MorganHouston.ZombCube
 
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 
+#if (UNITY_IOS || UNITY_ANDROID)
                 currentPlayer = FindPlayer.GetPlayer();
                 onScreenControls = GameObject.FindGameObjectWithTag("ScreenControls");
                 uiInput = onScreenControls.GetComponent<UICanvasControllerInput>();
@@ -56,6 +57,8 @@ namespace Com.MorganHouston.ZombCube
 
                 uiInput.GetPlayer(currentPlayer);
                 mobileControls.GetPlayer(currentPlayer);
+
+#endif
 
                 photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.currentBlaster);
                 
@@ -81,10 +84,10 @@ namespace Com.MorganHouston.ZombCube
         }
 
 
-        #endregion
+#endregion
 
 
-        #region Public Methods
+#region Public Methods
 
         public void DamagePlayerCall()
         {
@@ -114,10 +117,10 @@ namespace Com.MorganHouston.ZombCube
         }
 
 
-        #endregion
+#endregion
 
 
-        #region Private Methods
+#region Private Methods
 
 
         private void CheckIfAlive()
@@ -160,10 +163,10 @@ namespace Com.MorganHouston.ZombCube
         }
 
 
-        #endregion
+#endregion
 
 
-        #region Pun Methods
+#region Pun Methods
 
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -201,7 +204,7 @@ namespace Com.MorganHouston.ZombCube
             }
         }
 
-        #endregion
+#endregion
 
 
     }
