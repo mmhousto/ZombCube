@@ -20,7 +20,7 @@ namespace Com.MorganHouston.ZombCube
         [SerializeField]
         protected bool canFire = true;
         protected float fireTime = 0f;
-        protected float fireRate = 1.5f;
+        protected float fireRate = 0.8f;
         protected float launchVelocity = 5000f;
         protected Vector3 launchVector;
 

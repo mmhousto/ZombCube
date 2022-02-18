@@ -13,7 +13,7 @@ namespace Com.MorganHouston.ZombCube
         private bool isFiring;
         private bool canFire = true;
         private float fireTime = 0f;
-        private float fireRate = 1.5f;
+        private float fireRate = 0.8f;
         private float launchVelocity = 5000f;
 
         public GameObject projectile;
