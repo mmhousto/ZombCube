@@ -1,6 +1,7 @@
 using UnityEngine;
+
+#if (UNITY_IOS || UNITY_ANDROID)
 using UnityEngine.Advertisements;
-//using UnityEditor.Advertisements;
 using UnityEngine.Purchasing;
 
 public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsListener
@@ -15,10 +16,9 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IU
 
     void Awake()
     {
-#if (UNITY_XBOXONE || UNITY_PS4 || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_STADALONE_OSX)
+
         Destroy(this.gameObject);
         return;
-#endif
 
         InitializeAds();
     }
@@ -63,3 +63,14 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IU
     }
 
 }
+#else
+
+public class AdsInitializer : MonoBehaviour
+{
+    private void Awake()
+    {
+        Destroy(this.gameObject);
+    }
+}
+
+#endif

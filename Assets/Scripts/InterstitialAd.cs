@@ -1,6 +1,7 @@
 using UnityEngine;
+
+#if (UNITY_IOS || UNITY_ANDROID)
 using UnityEngine.Advertisements;
-//using UnityEditor.Advertisements;
 using UnityEngine.Purchasing;
 
 public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
@@ -69,3 +70,10 @@ public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
         
     }
 }
+#else
+public class InterstitialAd : MonoBehaviour
+{
+
+}
+
+#endif

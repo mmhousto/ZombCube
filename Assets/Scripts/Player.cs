@@ -40,7 +40,6 @@ namespace Com.MorganHouston.ZombCube
             playerName = name;
             SaveSystem.SavePlayer(this);
 
-            
         }
 
 

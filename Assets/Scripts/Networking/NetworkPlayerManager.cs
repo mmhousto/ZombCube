@@ -62,7 +62,6 @@ namespace Com.MorganHouston.ZombCube
 
                 photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.currentBlaster);
                 
-                Debug.Log("Loaded Player Data");
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
                 healthPoints = 100f;
@@ -129,12 +128,15 @@ namespace Com.MorganHouston.ZombCube
             {
                 if (healthPoints <= 0 && !isGameOver && isAlive == true)
                 {
+                    UpdateTotalPoints();
+                    SavePlayerData();
+                    CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
                     healthPoints = 0;
                     NetworkGameManager.Instance.CallEliminatePlayer();
                     isAlive = false;
-                    UpdateTotalPoints();
-                    SavePlayerData();
-                    PhotonNetwork.Destroy(this.gameObject);
+                    if(this.gameObject != null)
+                        PhotonNetwork.Destroy(this.gameObject);
+
                     NetworkGameManager.Instance.ActivateCamera();
                     if (NetworkGameManager.Instance.playersEliminated == PhotonNetwork.CurrentRoom.PlayerCount)
                     {

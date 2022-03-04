@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Com.MorganHouston.ZombCube
@@ -6,34 +7,62 @@ namespace Com.MorganHouston.ZombCube
     public static class SceneLoader
     {
 
+        public static int levelToLoad = 0;
+
         public static void ToMainMenu()
         {
-            SceneManager.LoadScene(0);
+#if UNITY_WSA
+            ResetLightingData();
+#endif
+            levelToLoad = 0;
+            SceneManager.LoadScene(6);
         }
 
         public static void ToLobby()
         {
+#if UNITY_WSA
+            ResetLightingData();
+#endif
+            levelToLoad = 2;
             SceneManager.LoadScene("LobbyScene");
         }
 
         public static void ToLoading()
         {
+#if UNITY_WSA
+            ResetLightingData();
+#endif
+            levelToLoad = 1;
             SceneManager.LoadScene("LoadingScene");
         }
 
         public static void PlayGame()
         {
-            SceneManager.LoadScene("GameScene");
+#if UNITY_WSA
+            ResetLightingData();
+#endif
+            levelToLoad = 4;
+            SceneManager.LoadScene(6);
         }
 
-        public static void LoadThisScene(string sceneToLoad)
+        public static void LoadThisScene(int sceneToLoad)
         {
-            SceneManager.LoadScene(sceneToLoad);
+#if UNITY_WSA
+            ResetLightingData();
+#endif
+            levelToLoad = sceneToLoad;
+            SceneManager.LoadScene(6);
         }
 
         public static Scene GetCurrentScene()
         {
             return SceneManager.GetActiveScene();
+        }
+
+        private static void ResetLightingData()
+        {
+            LightmapSettings.lightmaps = new LightmapData[0];
+            Resources.UnloadUnusedAssets();
         }
 
     }

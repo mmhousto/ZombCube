@@ -54,6 +54,7 @@ namespace CloudSaveSample
             else
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
+            player = GameObject.FindWithTag("PlayerData").GetComponent<Com.MorganHouston.ZombCube.Player>();
 
             //await ForceSaveSingleData("primitive_key", "value!");
 

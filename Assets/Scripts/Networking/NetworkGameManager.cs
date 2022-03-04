@@ -5,6 +5,8 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 using StarterAssets;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -19,7 +21,7 @@ namespace Com.MorganHouston.ZombCube
 
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen;
+        public GameObject gameOverScreen, restart;
 
         public int playersEliminated = 0;
 
@@ -62,6 +64,7 @@ namespace Com.MorganHouston.ZombCube
                 StartGame();
             }
 
+            myPlayer = FindPlayer.GetPlayer();
         }
 
         // Update is called once per frame
@@ -108,6 +111,17 @@ namespace Com.MorganHouston.ZombCube
         public bool IsGameOver()
         {
             return isGameOver;
+        }
+
+        public void DisableActions()
+        {
+            //myPlayer.GetComponent<PlayerInput>().actions.Disable();
+            EventSystem.current.SetSelectedGameObject(restart);
+        }
+
+        public void EnableActions()
+        {
+            myPlayer.GetComponent<PlayerInput>().actions.Enable();
         }
 
 
@@ -185,6 +199,7 @@ namespace Com.MorganHouston.ZombCube
         public void GameOver()
         {
             isGameOver = true;
+            DisableActions();
             Cursor.lockState = CursorLockMode.Confined;
             gameOverScreen.SetActive(isGameOver);
             CustomAnalytics.SendGameOver();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -14,7 +15,9 @@ namespace Com.MorganHouston.ZombCube
         public static GameManager Instance { get { return _instance; } }
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, pauseScreen;
+        public GameObject gameOverScreen, pauseScreen, resume, restart;
+
+        public PlayerInput playerInput;
 
         private bool isPaused = false;
 
@@ -43,6 +46,9 @@ namespace Com.MorganHouston.ZombCube
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
             CustomAnalytics.SendGameStart();
+            if(!playerInput.actions.enabled)
+                playerInput.actions.Enable();
+            //playerInput.SwitchCurrentActionMap("Player");
         }
 
         // Update is called once per frame
@@ -60,6 +66,10 @@ namespace Com.MorganHouston.ZombCube
 
         public async void GameOver()
         {
+            //playerInput.SwitchCurrentActionMap("UI");
+            playerInput.actions.Disable();
+            EventSystem.current.SetSelectedGameObject(restart);
+
             isGameOver = true;
             Cursor.lockState = CursorLockMode.Confined;
             Time.timeScale = 0;
@@ -76,7 +86,9 @@ namespace Com.MorganHouston.ZombCube
 
         public void Resume()
         {
+            playerInput.actions.Enable();
             isPaused = false;
+            //playerInput.SwitchCurrentActionMap("Player");
         }
 
         public void GoHome()
@@ -87,18 +99,26 @@ namespace Com.MorganHouston.ZombCube
         public void Pause(InputAction.CallbackContext context)
         {
             isPaused = !isPaused;
+            if(isPaused == true)
+            {
+                EventSystem.current.SetSelectedGameObject(resume);
+            }
         }
 
         private void CheckForPause()
         {
             if (isPaused == true)
             {
+                //playerInput.SwitchCurrentActionMap("UI");
+                playerInput.actions.Disable();
                 pauseScreen.SetActive(true);
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
             }
             else if (isPaused == false && isGameOver == false)
             {
+                //playerInput.SwitchCurrentActionMap("Player");
+                playerInput.actions.Enable();
                 pauseScreen.SetActive(false);
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;

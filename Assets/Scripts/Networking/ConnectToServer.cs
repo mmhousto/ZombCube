@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using TMPro;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -12,7 +13,11 @@ namespace Com.MorganHouston.ZombCube
         [Tooltip("The players data object.")]
         private Player player;
 
+        public TextMeshProUGUI loadingText;
+
         private string gameVersion = "0.1";
+
+        private int dots = 1;
 
         #region MonoBehaviour Methods
 
@@ -27,14 +32,7 @@ namespace Com.MorganHouston.ZombCube
         /// </summary>
         void Start()
         {
-            try
-            {
-                LoadPlayerData();
-            }
-            catch(Exception e)
-            {
-                Debug.Log("No data found!");
-            }
+            InvokeRepeating(nameof(UpdateLoadingText), 0f, 1f);
 
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = gameVersion;
@@ -58,6 +56,32 @@ namespace Com.MorganHouston.ZombCube
             player.highestWave = data.highestWave;
             player.currentBlaster = data.currentBlaster;
             player.ownedBlasters = data.ownedBlasters;
+        }
+
+        void UpdateLoadingText()
+        {
+            dots++;
+            if (dots > 3)
+            {
+                dots = 1;
+            }
+
+            switch (dots)
+            {
+                case 1:
+                    loadingText.text = "Connecting.";
+                    break;
+                case 2:
+                    loadingText.text = "Connecting..";
+                    break;
+                case 3:
+                    loadingText.text = "Connecting...";
+                    break;
+                default:
+                    loadingText.text = "Connecting...";
+                    break;
+            }
+
         }
 
 
