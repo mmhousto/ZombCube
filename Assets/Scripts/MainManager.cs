@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Services.CloudSave;
 using TMPro;
+using UnityEngine.UI;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -19,6 +20,8 @@ namespace Com.MorganHouston.ZombCube
         public TMP_InputField playerNameText;
         
         public GameObject iapButton;
+
+        public Slider horizontalSens, verticalSens;
 
         /// <summary>
         /// Tries to load the players data.
@@ -40,6 +43,9 @@ namespace Com.MorganHouston.ZombCube
             analyticParams.Add("PlayerName", player.playerName);
 
             CustomAnalytics.SendPlayerName(analyticParams);
+
+            horizontalSens.value = PreferencesManager.GetHorizontalSens();
+            verticalSens.value = PreferencesManager.GetVerticalSens();
         }
 
 
@@ -49,6 +55,15 @@ namespace Com.MorganHouston.ZombCube
             playerNameText.text = player.playerName;
         }
 
+        public void ChangeHorizontalSens(float sensitivty)
+        {
+            PreferencesManager.SetHorizontalSens(sensitivty);
+        }
+
+        public void ChangeVerticalSens(float sensitivity)
+        {
+            PreferencesManager.SetVerticalSens(sensitivity);
+        }
 
         /// <summary>
         /// Starts solo version of game.

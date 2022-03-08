@@ -18,14 +18,19 @@ public class MainMenu : MonoBehaviour
 
     public void OpenKeyboard()
     {
-        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+#if UNITY_XBOX
+        keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false);
         keyboard.text = nameTextField.text;
-        keyboard.characterLimit = 20;
+        keyboard.characterLimit = 25;
         keyboard.active = true;
+
+#endif
     }
 
     public void CloseKeyboard()
     {
+#if UNITY_XBOX
         keyboard.active = false;
+#endif
     }
 }

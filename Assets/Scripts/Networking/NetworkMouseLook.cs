@@ -30,6 +30,9 @@ namespace Com.MorganHouston.ZombCube
                 return;
             }
             Cursor.lockState = CursorLockMode.Locked;
+
+            mouseSensitivity.x = PreferencesManager.GetHorizontalSens();
+            mouseSensitivity.y = PreferencesManager.GetVerticalSens();
         }
 
         // Update is called once per frame
