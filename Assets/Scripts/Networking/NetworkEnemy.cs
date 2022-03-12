@@ -21,7 +21,11 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            if (!this.photonView.IsMine) { return; }
+            if (!this.photonView.IsMine) {
+                ai = GetComponent<NavMeshAgent>();
+                ai.enabled = false;
+                return; 
+            }
 
             ai = GetComponent<NavMeshAgent>();
             isGameOver = NetworkGameManager.Instance.IsGameOver();
