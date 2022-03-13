@@ -29,6 +29,11 @@ namespace Com.MorganHouston.ZombCube
             PreferencesManager.SetVerticalSens(sensitivity);
         }
 
+        public void ExitApplication()
+        {
+            Application.Quit();
+        }
+
         public void OpenKeyboard()
         {
 #if UNITY_XBOX
