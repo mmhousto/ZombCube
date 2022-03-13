@@ -14,8 +14,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
-            if (masterMixer == null)
-                masterMixer = AudioManager.Instance.masterMixer;
+            masterMixer = AudioManager.Instance.masterMixer;
             musicSlider.value = PreferencesManager.GetMusicVolume();
             masterSlider.value = PreferencesManager.GetMasterVolume();
         }

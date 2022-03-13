@@ -9,7 +9,7 @@ namespace Com.MorganHouston.ZombCube
 
     public class NetworkMouseLook : MonoBehaviourPun
     {
-
+        private NetworkPlayerManager playerManager;
         [SerializeField] private Vector2 mouseSensitivity;
         [SerializeField] private float pitch, yaw, maxVerticalAngle;
         private float yInput, xInput;
@@ -30,6 +30,7 @@ namespace Com.MorganHouston.ZombCube
                 return;
             }
             Cursor.lockState = CursorLockMode.Locked;
+            playerManager = GetComponentInParent<NetworkPlayerManager>();
 
             mouseSensitivity.x = PreferencesManager.GetHorizontalSens();
             mouseSensitivity.y = PreferencesManager.GetVerticalSens();
@@ -44,7 +45,7 @@ namespace Com.MorganHouston.ZombCube
 
         public void LookAround()
         {
-            if (this.photonView.IsMine)
+            if (this.photonView.IsMine && playerManager.isInputDisabled == false)
             {
                 yInput = pitch * mouseSensitivity.y * Time.deltaTime;
                 xInput = yaw * mouseSensitivity.x * Time.deltaTime;
@@ -57,9 +58,9 @@ namespace Com.MorganHouston.ZombCube
             }
         }
 
-        public void Look(InputAction.CallbackContext context)
+        public void OnLook(InputValue value)
         {
-            LookInput(context.ReadValue<Vector2>());
+            LookInput(value.Get<Vector2>());
         }
 
         public void LookInput(Vector2 newLookDirection)

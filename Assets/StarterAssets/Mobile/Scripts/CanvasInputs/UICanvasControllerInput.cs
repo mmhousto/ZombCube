@@ -32,7 +32,7 @@ namespace StarterAssets
         {
             if(SceneLoader.GetCurrentScene().name == "NetworkGameScene")
             {
-                playerMovementN.MoveInput(virtualMoveDirection);
+                playerMovementN.MoveInput(virtualMoveDirection.x, virtualMoveDirection.y);
             }
             else
             {

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
 using StarterAssets;
+using UnityEngine.InputSystem;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -14,11 +15,14 @@ namespace Com.MorganHouston.ZombCube
 
         public Material[] blasterMaterial;
 
+        public bool isInputDisabled = false;
+
         private Player player;
         private GameObject onScreenControls;
         private GameObject currentPlayer;
         private UICanvasControllerInput uiInput;
         private MobileDisableAutoSwitchControls mobileControls;
+        private PlayerInput playerInput;
 
         public static int currentPoints = 0;
 
@@ -34,7 +38,7 @@ namespace Com.MorganHouston.ZombCube
         public float healthPoints = 100f;
         private bool isGameOver;
 
-        private bool isAlive = true;
+        private bool isAlive = true, isPaused = false;
 
 
         #region MonoBehaviour Methods
@@ -46,8 +50,11 @@ namespace Com.MorganHouston.ZombCube
             if (photonView.IsMine)
             {
                 isAlive = true;
+                isPaused = false;
+                isInputDisabled = false;
 
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+                playerInput = GetComponent<PlayerInput>();
 
 #if (UNITY_IOS || UNITY_ANDROID)
                 currentPlayer = FindPlayer.GetPlayer();
@@ -115,11 +122,44 @@ namespace Com.MorganHouston.ZombCube
             player.ownedBlasters = data.ownedBlasters;
         }
 
+        // Input for Pausing -------------------------------------------------------
 
-#endregion
+        public void OnGamePause(InputValue value)
+        {
+            Debug.Log("Pause Button Pressed");
+            if (isPaused == false)
+            {
+                isPaused = true;
+                isInputDisabled = true;
+                Debug.Log("Paused");
+
+#if (UNITY_STANDALONE_WIN || UNITY_WSA || UNITY_STANDALONE || UNITY_EDITOR)
+                Cursor.lockState = CursorLockMode.Confined;
+#endif
+
+                NetworkGameManager.Instance.PauseGame();
+            }else if (isPaused == true)
+            {
+                isPaused = false;
+                isInputDisabled = false;
+                Debug.Log("Resumed");
+
+#if (UNITY_STANDALONE_WIN || UNITY_WSA || UNITY_STANDALONE || UNITY_EDITOR)
+                Cursor.lockState = CursorLockMode.Locked;
+#endif
+
+                NetworkGameManager.Instance.ResumeGame();
+            }
+                
+        }
+
+        // END Input for Pausing -------------------------------------------------------------------
 
 
-#region Private Methods
+        #endregion
+
+
+        #region Private Methods
 
 
         private void CheckIfAlive()

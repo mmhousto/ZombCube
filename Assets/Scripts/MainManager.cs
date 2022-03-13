@@ -44,8 +44,10 @@ namespace Com.MorganHouston.ZombCube
 
             CustomAnalytics.SendPlayerName(analyticParams);
 
-            horizontalSens.value = PreferencesManager.GetHorizontalSens();
-            verticalSens.value = PreferencesManager.GetVerticalSens();
+            if(horizontalSens)
+                horizontalSens.value = PreferencesManager.GetHorizontalSens();
+            if(verticalSens)
+                verticalSens.value = PreferencesManager.GetVerticalSens();
         }
 
 

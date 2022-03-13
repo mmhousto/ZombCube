@@ -21,7 +21,7 @@ namespace Com.MorganHouston.ZombCube
 
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, restart;
+        public GameObject gameOverScreen, restart, pauseMenu, settingsButton;
 
         public int playersEliminated = 0;
 
@@ -52,6 +52,7 @@ namespace Com.MorganHouston.ZombCube
         void Start()
         {
             gameOverScreen.SetActive(false);
+            pauseMenu.SetActive(false);
             playersSpawned = 0;
             playersEliminated = 0;
             CurrentRound = 1;
@@ -79,6 +80,16 @@ namespace Com.MorganHouston.ZombCube
 
         #region Public Methods
 
+        public void PauseGame() 
+        {
+            pauseMenu.SetActive(true);
+            SelectObject(settingsButton);
+        }
+
+        public void ResumeGame()
+        {
+            pauseMenu.SetActive(false);
+        }
 
         public void StartGame()
         {
@@ -103,7 +114,7 @@ namespace Com.MorganHouston.ZombCube
             eliminatedCam.gameObject.SetActive(false);
         }
 
-        public void LeaveServer()
+        private void LeaveServer()
         {
             SceneLoader.ToMainMenu();
         }
@@ -113,15 +124,10 @@ namespace Com.MorganHouston.ZombCube
             return isGameOver;
         }
 
-        public void DisableActions()
+        public void SelectObject(GameObject uiElement)
         {
-            //myPlayer.GetComponent<PlayerInput>().actions.Disable();
-            EventSystem.current.SetSelectedGameObject(restart);
-        }
-
-        public void EnableActions()
-        {
-            myPlayer.GetComponent<PlayerInput>().actions.Enable();
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(uiElement);
         }
 
 
@@ -157,6 +163,8 @@ namespace Com.MorganHouston.ZombCube
         #endregion
 
 
+        #region Private Methods
+
         IEnumerator DisconnectAndLoad()
         {
             PhotonNetwork.LeaveRoom();
@@ -164,6 +172,9 @@ namespace Com.MorganHouston.ZombCube
                 yield return null;
             Debug.Log("Disconnected from room!!!!!!");
         }
+
+
+        #endregion
 
 
         #region PunCallbacks
@@ -199,7 +210,7 @@ namespace Com.MorganHouston.ZombCube
         public void GameOver()
         {
             isGameOver = true;
-            DisableActions();
+            SelectObject(restart);
             Cursor.lockState = CursorLockMode.Confined;
             gameOverScreen.SetActive(isGameOver);
             CustomAnalytics.SendGameOver();

@@ -40,11 +40,6 @@ namespace Com.MorganHouston.ZombCube
             masterMixer.SetFloat("MasterVol", PreferencesManager.GetMasterVolume());
             masterMixer.SetFloat("MusicVol", PreferencesManager.GetMusicVolume());
 
-            if (musicSlider != null)
-                musicSlider.value = PreferencesManager.GetMusicVolume();
-
-            if (masterSlider != null)
-                masterSlider.value = PreferencesManager.GetMasterVolume();
 
         }
 

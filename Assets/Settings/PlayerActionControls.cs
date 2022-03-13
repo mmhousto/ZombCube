@@ -28,7 +28,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
             ""id"": ""111671a2-7248-4254-8372-b69b2660c4c0"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""PlayerMove"",
                     ""type"": ""Value"",
                     ""id"": ""8bbc3445-b2e1-4032-adda-4f99cdeb622b"",
                     ""expectedControlType"": ""Vector2"",
@@ -64,7 +64,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""GamePause"",
                     ""type"": ""Button"",
                     ""id"": ""c5e994c6-1bf3-48f7-b367-61ff3250d0e0"",
                     ""expectedControlType"": ""Button"",
@@ -81,7 +81,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Touch"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -92,7 +92,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -103,7 +103,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -114,7 +114,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -125,7 +125,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -136,7 +136,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -147,7 +147,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -158,7 +158,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -169,7 +169,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -180,7 +180,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -191,7 +191,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""XR"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -202,7 +202,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick;Touch"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -213,7 +213,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",
-                    ""action"": ""Move"",
+                    ""action"": ""PlayerMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -323,7 +323,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Pause"",
+                    ""action"": ""GamePause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -334,7 +334,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Touch"",
-                    ""action"": ""Pause"",
+                    ""action"": ""GamePause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -922,11 +922,11 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_PlayerMove = m_Player.FindAction("PlayerMove", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_GamePause = m_Player.FindAction("GamePause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -998,20 +998,20 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_PlayerMove;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_GamePause;
     public struct PlayerActions
     {
         private @PlayerActionControls m_Wrapper;
         public PlayerActions(@PlayerActionControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @PlayerMove => m_Wrapper.m_Player_PlayerMove;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @GamePause => m_Wrapper.m_Player_GamePause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1021,9 +1021,9 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @PlayerMove.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlayerMove;
+                @PlayerMove.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlayerMove;
+                @PlayerMove.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPlayerMove;
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
@@ -1033,16 +1033,16 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @GamePause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGamePause;
+                @GamePause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGamePause;
+                @GamePause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGamePause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @PlayerMove.started += instance.OnPlayerMove;
+                @PlayerMove.performed += instance.OnPlayerMove;
+                @PlayerMove.canceled += instance.OnPlayerMove;
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
@@ -1052,9 +1052,9 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
+                @GamePause.started += instance.OnGamePause;
+                @GamePause.performed += instance.OnGamePause;
+                @GamePause.canceled += instance.OnGamePause;
             }
         }
     }
@@ -1211,11 +1211,11 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
     }
     public interface IPlayerActions
     {
-        void OnMove(InputAction.CallbackContext context);
+        void OnPlayerMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
+        void OnGamePause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

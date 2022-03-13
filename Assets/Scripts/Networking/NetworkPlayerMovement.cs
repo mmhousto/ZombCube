@@ -13,6 +13,7 @@ namespace Com.MorganHouston.ZombCube
 
         #region Private Fields 
 
+        private NetworkPlayerManager playerManager;
         private CharacterController controller;
         private Vector3 playerVelocity = Vector3.zero;
         private bool groundedPlayer;
@@ -53,6 +54,7 @@ namespace Com.MorganHouston.ZombCube
             {
                 jumpTimer = 0.0f;
                 controller = GetComponent<CharacterController>();
+                playerManager = GetComponent<NetworkPlayerManager>();
             }
                 
 
@@ -116,16 +118,21 @@ namespace Com.MorganHouston.ZombCube
                     canJump = false;
                 }
 
-                Vector3 move = transform.forward * vertical + transform.right * horizontal;
-                controller.Move(move * Time.deltaTime * playerSpeed);
+                if (playerManager.isInputDisabled == false)
+                {
+                    Vector3 move = transform.forward * vertical + transform.right * horizontal;
+                    controller.Move(move * Time.deltaTime * playerSpeed);
+                }
+                
 
                 // Changes the height position of the player..
-                if (hasJumped && groundedPlayer && canJump)
+                if (hasJumped && groundedPlayer && canJump && playerManager.isInputDisabled == false)
                 {
                     playerVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
                     jumpTimer = jumpTime;
                     canJump = false;
                     groundedPlayer = false;
+                    hasJumped = false;
                 }
 
                 playerVelocity.y += gravityValue * Time.deltaTime;
@@ -139,14 +146,13 @@ namespace Com.MorganHouston.ZombCube
 
         #region Public Dynamic Methods for Input
 
-
         /// <summary>
         /// Gets Input from user on Move action and assigns to float variables, horizontal and vertical respectfully.
         /// </summary>
         /// <param name="context"></param>
-        public void Move(InputAction.CallbackContext context)
+        public void OnPlayerMove(InputValue value)
         {
-            MoveInput(context.ReadValue<Vector2>());
+            MoveInput(value.Get<Vector2>().x, value.Get<Vector2>().y);
 
         }
 
@@ -154,15 +160,15 @@ namespace Com.MorganHouston.ZombCube
         /// Gets input when player performs Jump action and assigns value to hasJumped.
         /// </summary>
         /// <param name="context"></param>
-        public void Jump(InputAction.CallbackContext context)
+        public void OnJump(InputValue value)
         {
-            JumpInput(context.ReadValueAsButton());
+            JumpInput(value.isPressed);
         }
 
-        public void MoveInput(Vector2 newMoveDirection)
+        public void MoveInput(float newXDir, float newYDir)
         {
-            horizontal = Mathf.Clamp(newMoveDirection.x, -1, 1);
-            vertical = Mathf.Clamp(newMoveDirection.y, -1, 1);
+            horizontal = Mathf.Clamp(newXDir, -1, 1);
+            vertical = Mathf.Clamp(newYDir, -1, 1);
         }
 
         public void JumpInput(bool newValue)

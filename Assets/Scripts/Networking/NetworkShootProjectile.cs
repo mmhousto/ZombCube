@@ -10,6 +10,7 @@ namespace Com.MorganHouston.ZombCube
     public class NetworkShootProjectile : MonoBehaviourPun
     {
         public Transform firePosition;
+        private NetworkPlayerManager playerManager;
         private bool isFiring;
         private bool canFire = true;
         private float fireTime = 0f;
@@ -21,7 +22,7 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-
+            playerManager = GetComponent<NetworkPlayerManager>();
         }
 
         // Update is called once per frame
@@ -32,7 +33,7 @@ namespace Com.MorganHouston.ZombCube
 
         public void LaunchProjectile()
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine && playerManager.isInputDisabled == false)
             {
                 fireTime -= Time.deltaTime;
 
@@ -51,6 +52,7 @@ namespace Com.MorganHouston.ZombCube
                     GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
                     clone.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, launchVelocity));
                     fireTime = fireRate;
+                    isFiring = false;
                 }
             }
         }
@@ -59,9 +61,9 @@ namespace Com.MorganHouston.ZombCube
         /// Dynamic callback to see if player performed Fire player input action.
         /// </summary>
         /// <param name="context"></param>
-        public void Fire(InputAction.CallbackContext context)
+        public void OnFire(InputValue value)
         {
-            FireInput(context.ReadValueAsButton());
+            FireInput(value.isPressed);
         }
 
         public void FireInput(bool newValue)
