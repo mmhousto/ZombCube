@@ -17,6 +17,8 @@ namespace Com.MorganHouston.ZombCube
 
         private Camera cam;
 
+        public GameObject minimapCamera;
+
         public Transform playerBody;
 
         // Start is called before the first frame update
@@ -26,6 +28,7 @@ namespace Com.MorganHouston.ZombCube
             if (!this.photonView.IsMine)
             {
                 cam = GetComponent<Camera>();
+                Destroy(minimapCamera);
                 cam.enabled = false;
                 return;
             }

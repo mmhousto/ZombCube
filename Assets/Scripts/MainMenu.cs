@@ -17,10 +17,12 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
-#if (UNITY_STANDALONE_WIN || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA)
-            exitButton.SetActive(true);
+#if (UNITY_STANDALONE_WIN || UNITY_STANDALONE || UNITY_WSA)
+            if(exitButton)
+                exitButton.SetActive(true);
 #else
-            exitButton.SetActive(false);
+            if(exitButton)
+                exitButton.SetActive(false);
 #endif
         }
 
