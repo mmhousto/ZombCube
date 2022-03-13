@@ -13,6 +13,17 @@ namespace Com.MorganHouston.ZombCube
 
         public TMP_InputField nameTextField;
 
+        public GameObject exitButton;
+
+        private void Start()
+        {
+#if (UNITY_STANDALONE_WIN || UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA)
+            exitButton.SetActive(true);
+#else
+            exitButton.SetActive(false);
+#endif
+        }
+
         public void SelectObject(GameObject uiElement)
         {
             EventSystem.current.SetSelectedGameObject(null);
