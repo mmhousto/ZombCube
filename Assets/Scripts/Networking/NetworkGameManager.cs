@@ -21,7 +21,7 @@ namespace Com.MorganHouston.ZombCube
 
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, restart, pauseMenu, settingsButton;
+        public GameObject gameOverScreen, restart, pauseMenu, settingsButton, settingsMenu;
 
         public int playersEliminated = 0;
 
@@ -213,6 +213,8 @@ namespace Com.MorganHouston.ZombCube
             SelectObject(restart);
             Cursor.lockState = CursorLockMode.Confined;
             gameOverScreen.SetActive(isGameOver);
+            pauseMenu.SetActive(false);
+            settingsMenu.SetActive(false);
             CustomAnalytics.SendGameOver();
         }
 
