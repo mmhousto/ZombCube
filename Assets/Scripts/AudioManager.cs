@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -31,26 +32,37 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
+            if (GameObject.FindWithTag("MusicSlider"))
+                musicSlider = GameObject.FindWithTag("MusicSlider").GetComponent<Slider>();
+            if (GameObject.FindWithTag("MasterSlider"))
+                masterSlider = GameObject.FindWithTag("MasterSlider").GetComponent<Slider>();
+
             masterMixer.SetFloat("MasterVol", PreferencesManager.GetMasterVolume());
             masterMixer.SetFloat("MusicVol", PreferencesManager.GetMusicVolume());
 
-            if (musicSlider)
+            if (musicSlider != null)
                 musicSlider.value = PreferencesManager.GetMusicVolume();
 
-            if (masterSlider)
+            if (masterSlider != null)
                 masterSlider.value = PreferencesManager.GetMasterVolume();
+
         }
 
-        public void ChangeSoundVolume(float soundLevel)
+        private void Update()
         {
-            masterMixer.SetFloat("MasterVol", soundLevel);
-            PreferencesManager.SetMasterVolume(soundLevel);
+            if (GameObject.FindWithTag("MusicSlider") && musicSlider == null)
+            {
+                musicSlider = GameObject.FindWithTag("MusicSlider").GetComponent<Slider>();
+                musicSlider.value = PreferencesManager.GetMusicVolume();
+            }
+                
+            if (GameObject.FindWithTag("MasterSlider") && masterSlider == null)
+            {
+                masterSlider = GameObject.FindWithTag("MasterSlider").GetComponent<Slider>();
+                masterSlider.value = PreferencesManager.GetMasterVolume();
+            }
+            
         }
 
-        public void ChangeMusicVolume(float soundLevel)
-        {
-            masterMixer.SetFloat("MusicVol", soundLevel);
-            PreferencesManager.SetMusicVolume(soundLevel);
-        }
     }
 }

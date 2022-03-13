@@ -4,20 +4,33 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class MainMenu : MonoBehaviour
+namespace Com.MorganHouston.ZombCube
 {
-    private TouchScreenKeyboard keyboard;
 
-    public TMP_InputField nameTextField;
-
-    public void SelectObject(GameObject uiElement)
+    public class MainMenu : MonoBehaviour
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(uiElement);
-    }
+        private TouchScreenKeyboard keyboard;
 
-    public void OpenKeyboard()
-    {
+        public TMP_InputField nameTextField;
+
+        public void SelectObject(GameObject uiElement)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(uiElement);
+        }
+
+        public void ChangeHorizontalSens(float sensitivty)
+        {
+            PreferencesManager.SetHorizontalSens(sensitivty);
+        }
+
+        public void ChangeVerticalSens(float sensitivity)
+        {
+            PreferencesManager.SetVerticalSens(sensitivity);
+        }
+
+        public void OpenKeyboard()
+        {
 #if UNITY_XBOX
         keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default, false, false);
         keyboard.text = nameTextField.text;
@@ -25,12 +38,13 @@ public class MainMenu : MonoBehaviour
         keyboard.active = true;
 
 #endif
-    }
+        }
 
-    public void CloseKeyboard()
-    {
+        public void CloseKeyboard()
+        {
 #if UNITY_XBOX
         keyboard.active = false;
 #endif
+        }
     }
 }

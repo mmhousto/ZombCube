@@ -28,6 +28,8 @@ namespace Com.MorganHouston.ZombCube
         // Update is called once per frame
         void Update()
         {
+            UpdateMouseSensitivity();
+
             yInput = pitch * mouseSensitivity.y * Time.deltaTime;
             xInput = yaw * mouseSensitivity.x * Time.deltaTime;
 
@@ -52,6 +54,14 @@ namespace Com.MorganHouston.ZombCube
         private float ClampVerticalAngle(float angle)
         {
             return Mathf.Clamp(angle, -maxVerticalAngle, maxVerticalAngle);
+        }
+
+        private void UpdateMouseSensitivity()
+        {
+            if (mouseSensitivity.x != PreferencesManager.GetHorizontalSens())
+                mouseSensitivity.x = PreferencesManager.GetHorizontalSens();
+            if (mouseSensitivity.y != PreferencesManager.GetVerticalSens())
+                mouseSensitivity.y = PreferencesManager.GetVerticalSens();
         }
 
     }
