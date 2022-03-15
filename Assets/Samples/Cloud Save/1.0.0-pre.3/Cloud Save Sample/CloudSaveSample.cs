@@ -36,6 +36,9 @@ namespace CloudSaveSample
             
         }
 
+        /// <summary>
+        /// Sign in anonymously
+        /// </summary>
         public async void SignIn()
         {
             // Cloud Save needs to be initialized along with the other Unity Services that
@@ -97,6 +100,10 @@ namespace CloudSaveSample
             }
             //await ForceSaveObjectData(playerID, data);
 
+            if (AuthenticationService.Instance.IsSignedIn)
+            {
+                Com.MorganHouston.ZombCube.SceneLoader.ToMainMenu();
+            }
 
 
             //await ForceDeleteSpecificData("primitive_key");
@@ -269,7 +276,15 @@ namespace CloudSaveSample
             player.points = data.points;
             player.highestWave = data.highestWave;
             player.currentBlaster = data.currentBlaster;
-            player.ownedBlasters = data.ownedBlasters;
+            if(data.ownedBlasters.Length == 8)
+                player.ownedBlasters = data.ownedBlasters;
+            else
+            {
+                int[] temp = new int[8];
+                data.ownedBlasters.CopyTo(temp, 0);
+                data.ownedBlasters = temp;
+                player.ownedBlasters = data.ownedBlasters;
+            }
         }
 
         public void LoadPlayerData(Com.MorganHouston.ZombCube.SaveData data)
@@ -280,7 +295,15 @@ namespace CloudSaveSample
             player.points = data.points;
             player.highestWave = data.highestWave;
             player.currentBlaster = data.currentBlaster;
-            player.ownedBlasters = data.ownedBlasters;
+            if (data.ownedBlasters.Length == 8)
+                player.ownedBlasters = data.ownedBlasters;
+            else
+            {
+                int[] temp = new int[8];
+                data.ownedBlasters.CopyTo(temp, 0);
+                data.ownedBlasters = temp;
+                player.ownedBlasters = data.ownedBlasters;
+            }
         }
     }
 }

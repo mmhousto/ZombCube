@@ -30,7 +30,7 @@ namespace Com.MorganHouston.ZombCube
         {
             player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
 
-            CloudSaveSample.CloudSaveSample.Instance.SignIn();
+            //CloudSaveSample.CloudSaveSample.Instance.SignIn();
 
 #if (UNITY_XBOXONE || UNITY_PS4 || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_STADALONE_OSX)
             iapButton.SetActive(false);
