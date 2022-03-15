@@ -8,7 +8,9 @@ namespace Com.MorganHouston.ZombCube
         public int points;
         public int highestWave;
         public int currentBlaster;
+        public int currentSkin;
         public int[] ownedBlasters;
+        public int[] ownedSkins;
 
         public SaveData(Player player)
         {
@@ -18,6 +20,8 @@ namespace Com.MorganHouston.ZombCube
             highestWave = player.highestWave;
             currentBlaster = player.currentBlaster;
             ownedBlasters = player.ownedBlasters;
+            currentSkin = player.currentSkin;
+            ownedSkins = player.ownedSkins;
 
         }
     }

@@ -8,6 +8,7 @@ namespace Com.MorganHouston.ZombCube
     public class PlayerCard : MonoBehaviour
     {
         [Tooltip("GameObject array that holds blaster components.")] public GameObject[] blaster;
+        public MeshRenderer playerSkin;
 
         [Header("Panels")]
         [SerializeField] [Tooltip("UI GameObject that holds 'Waiting For Player' text.")] private GameObject waitingForPlayerPanel;
@@ -25,6 +26,8 @@ namespace Com.MorganHouston.ZombCube
         {
             playerName.text = (string)player.CustomProperties["PlayerName"];
             isReadyToggle.isOn = (bool)player.CustomProperties["IsReady"];
+
+            playerSkin.material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Skin"]];
 
             foreach (GameObject item in blaster)
             {

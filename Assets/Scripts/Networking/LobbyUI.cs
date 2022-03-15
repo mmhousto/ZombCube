@@ -49,6 +49,7 @@ namespace Com.MorganHouston.ZombCube
             hash.Add("PlayerName", player.playerName);
             hash.Add("IsReady", false);
             hash.Add("Blaster", player.currentBlaster);
+            hash.Add("Skin", player.currentSkin);
 
             if (player.Equals(null)) { return; }
 

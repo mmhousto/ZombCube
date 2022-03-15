@@ -67,7 +67,7 @@ namespace Com.MorganHouston.ZombCube
 
 #endif
 
-                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.currentBlaster);
+                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.currentBlaster, player.currentSkin);
                 
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
@@ -120,6 +120,8 @@ namespace Com.MorganHouston.ZombCube
             player.highestWave = data.highestWave;
             player.currentBlaster = (int)PhotonNetwork.LocalPlayer.CustomProperties["Blaster"];
             player.ownedBlasters = data.ownedBlasters;
+            player.currentSkin = (int)PhotonNetwork.LocalPlayer.CustomProperties["Skin"];
+            player.ownedSkins = data.ownedSkins;
         }
 
         // Input for Pausing -------------------------------------------------------
@@ -236,10 +238,12 @@ namespace Com.MorganHouston.ZombCube
         }
 
         [PunRPC]
-        public void SetPlayerInfo(string name, int blasterIndex)
+        public void SetPlayerInfo(string name, int blasterIndex, int skinIndex)
         {
             playerName = name;
             playerNameText.text = playerName;
+
+            GetComponent<MeshRenderer>().material = blasterMaterial[skinIndex];
 
             MeshRenderer[] blaster = GetComponentsInChildren<MeshRenderer>();
 

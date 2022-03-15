@@ -14,6 +14,7 @@ namespace Com.MorganHouston.ZombCube
         public int points = 0;
         public int coins = 0;
         public int currentBlaster = 0;
+        public int currentSkin = 0;
         public int highestWave = 0;
         public string playerName = "PlayerName";
         public int[] ownedBlasters = { 1, 0, 0, 0, 0, 0, 0, 0 };

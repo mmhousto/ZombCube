@@ -276,15 +276,9 @@ namespace CloudSaveSample
             player.points = data.points;
             player.highestWave = data.highestWave;
             player.currentBlaster = data.currentBlaster;
-            if(data.ownedBlasters.Length == 8)
-                player.ownedBlasters = data.ownedBlasters;
-            else
-            {
-                int[] temp = new int[8];
-                data.ownedBlasters.CopyTo(temp, 0);
-                data.ownedBlasters = temp;
-                player.ownedBlasters = data.ownedBlasters;
-            }
+            player.currentSkin = data.currentSkin;
+            player.ownedBlasters = data.ownedBlasters;
+            player.ownedSkins = data.ownedSkins;
         }
 
         public void LoadPlayerData(Com.MorganHouston.ZombCube.SaveData data)
@@ -304,6 +298,8 @@ namespace CloudSaveSample
                 data.ownedBlasters = temp;
                 player.ownedBlasters = data.ownedBlasters;
             }
+            player.currentSkin = data.currentSkin;
+            player.ownedSkins = data.ownedSkins;
         }
     }
 }

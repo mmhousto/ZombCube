@@ -37,6 +37,8 @@ namespace Com.MorganHouston.ZombCube
             healthBar.value = healthPoints;
             scoreText.text = "Score: " + currentPoints.ToString();
 
+            GetComponent<MeshRenderer>().material = blasterMaterial[player.currentSkin];
+
             GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
 
             foreach (GameObject item in blaster)
@@ -91,6 +93,8 @@ namespace Com.MorganHouston.ZombCube
             player.highestWave = data.highestWave;
             player.currentBlaster = data.currentBlaster;
             player.ownedBlasters = data.ownedBlasters;
+            player.currentSkin = data.currentSkin;
+            player.ownedSkins = data.ownedSkins;
         }
 
 

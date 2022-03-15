@@ -13,6 +13,8 @@ namespace Com.MorganHouston.ZombCube
     {
         [Tooltip("The cosmetic blaster colors you can buy with coins or points.")]
         public GameObject[] blasterItems;
+        [Tooltip("The cosmetic skin colors you can buy with coins or points.")]
+        public GameObject[] skinItems;
 
         [Tooltip("The players data object.")]
         private Player player;
@@ -37,6 +39,22 @@ namespace Com.MorganHouston.ZombCube
                 }
             }
 
+            for (int i = 0; i < skinItems.Length; i++)
+            {
+                if (player.currentSkin == i)
+                {
+                    skinItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
+                }
+                else if (player.ownedSkins[i] == 1)
+                {
+                    skinItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
+                }
+                else if (player.ownedSkins[i] == 0)
+                {
+                    skinItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
+                }
+            }
+
         }
 
         void Update()
@@ -54,6 +72,22 @@ namespace Com.MorganHouston.ZombCube
                 else if (player.ownedBlasters[i] == 0)
                 {
                     blasterItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
+                }
+            }
+
+            for (int i = 0; i < skinItems.Length; i++)
+            {
+                if (player.currentSkin == i)
+                {
+                    skinItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
+                }
+                else if (player.ownedSkins[i] == 1)
+                {
+                    skinItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
+                }
+                else if (player.ownedSkins[i] == 0)
+                {
+                    skinItems[i].GetComponentInChildren<TextMeshProUGUI>().text = "BUY";
                 }
             }
         }
@@ -98,6 +132,52 @@ namespace Com.MorganHouston.ZombCube
             {
                 BuyBlaster(index);
                 blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
+            }
+            SaveSystem.SavePlayer(player);
+
+            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
+        }
+
+        public void BuySkin(int index)
+        {
+            var price = 0;
+            if (index >= 5)
+            {
+                price = 50;
+                if (price <= player.coins)
+                {
+                    player.ownedSkins[index] = 1;
+                    player.coins -= price;
+                }
+            }
+            else
+            {
+                price = 5000;
+                if (price <= player.points)
+                {
+                    player.ownedSkins[index] = 1;
+                    player.points -= price;
+                }
+            }
+
+        }
+
+        public void UseSkin(int index)
+        {
+            player.currentSkin = index;
+        }
+
+        public async void SelectSkin(int index)
+        {
+            if (player.ownedSkins[index] == 1)
+            {
+                UseSkin(index);
+                skinItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USING";
+            }
+            else if (player.ownedSkins[index] == 0)
+            {
+                BuySkin(index);
+                skinItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
             }
             SaveSystem.SavePlayer(player);
 

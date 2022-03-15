@@ -750,13 +750,13 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
+    m_NormalColor: {r: 1, g: 0.64705884, b: 0, a: 1}
+    m_HighlightedColor: {r: 0, g: 0.95686275, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0.76862746, b: 0.8, a: 1}
+    m_SelectedColor: {r: 0, g: 0.95686275, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
+    m_FadeDuration: 0
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9254902, g: 0.6509804, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5704,13 +5704,13 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
+    m_NormalColor: {r: 1, g: 0.64705884, b: 0, a: 1}
+    m_HighlightedColor: {r: 0, g: 0.95686275, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0.76862746, b: 0.8, a: 1}
+    m_SelectedColor: {r: 0, g: 0.95686275, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
+    m_FadeDuration: 0
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
@@ -5752,7 +5752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9254902, g: 0.6509804, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9867,7 +9867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1524669189
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12254,6 +12254,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 694565547, guid: 2f98d0f657e923049aacb315e55bc20f, type: 3}
+      propertyPath: orthographic size
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 694565547, guid: 2f98d0f657e923049aacb315e55bc20f, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 72
       objectReference: {fileID: 0}
@@ -12291,7 +12295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2812065823337649136, guid: 2f98d0f657e923049aacb315e55bc20f, type: 3}
       propertyPath: m_SlopeLimit
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2812065823337649136, guid: 2f98d0f657e923049aacb315e55bc20f, type: 3}
       propertyPath: m_StepOffset
@@ -13790,9 +13794,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 491008835}
     m_Modifications:
     - target: {fileID: 192342337111944450, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192342337111944450, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 526751021}
+    - target: {fileID: 192342337900629543, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 192342337900629543, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 3
@@ -13828,6 +13840,10 @@ PrefabInstance:
     - target: {fileID: 192342337900629543, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 277061402991355683, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 277061402991355683, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -13921,6 +13937,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 5152096705163580739, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
 --- !u!1 &192342337646013841 stripped
@@ -13935,6 +13955,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 491008835}
     m_Modifications:
+    - target: {fileID: 382445268697654688, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 382445269152863167, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.81
@@ -14048,6 +14072,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 540311450208223694, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 540311450208223694, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -14088,6 +14116,10 @@ PrefabInstance:
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 735755098492034548, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 735755098492034548, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 491008836}
@@ -14110,6 +14142,10 @@ PrefabInstance:
     - target: {fileID: 735755099618867909, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.24050634
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079478410982413533, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2079478410982413533, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -14154,6 +14190,10 @@ PrefabInstance:
     - target: {fileID: 4058666036289438602, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 4058666037876358473, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
+      propertyPath: m_Colors.m_FadeDuration
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a98efaacbed508439bc4b519c44af25, type: 3}
