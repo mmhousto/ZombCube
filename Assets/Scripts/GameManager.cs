@@ -15,7 +15,7 @@ namespace Com.MorganHouston.ZombCube
         public static GameManager Instance { get { return _instance; } }
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, pauseScreen, resume, restart;
+        public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen;
 
         public PlayerInput playerInput;
 
@@ -68,12 +68,15 @@ namespace Com.MorganHouston.ZombCube
         {
             //playerInput.SwitchCurrentActionMap("UI");
             playerInput.actions.Disable();
+            EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(restart);
 
             isGameOver = true;
             Cursor.lockState = CursorLockMode.Confined;
             Time.timeScale = 0;
             gameOverScreen.SetActive(true);
+            pauseScreen.SetActive(false);
+            settingsScreen.SetActive(false);
             CustomAnalytics.SendGameOver();
 
             await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
@@ -88,7 +91,6 @@ namespace Com.MorganHouston.ZombCube
         {
             playerInput.actions.Enable();
             isPaused = false;
-            //playerInput.SwitchCurrentActionMap("Player");
         }
 
         public void GoHome()
@@ -99,27 +101,30 @@ namespace Com.MorganHouston.ZombCube
         public void Pause(InputAction.CallbackContext context)
         {
             isPaused = !isPaused;
-            if(isPaused == true)
+            if(isPaused == true && isGameOver == false)
             {
+                EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(resume);
             }
         }
 
         private void CheckForPause()
         {
-            if (isPaused == true)
+            if (isPaused == true && isGameOver == false)
             {
                 //playerInput.SwitchCurrentActionMap("UI");
                 playerInput.actions.Disable();
                 pauseScreen.SetActive(true);
                 Time.timeScale = 0;
-                Cursor.lockState = CursorLockMode.None;
+                Cursor.lockState = CursorLockMode.Confined;
             }
             else if (isPaused == false && isGameOver == false)
             {
                 //playerInput.SwitchCurrentActionMap("Player");
                 playerInput.actions.Enable();
                 pauseScreen.SetActive(false);
+                settingsScreen.SetActive(false);
+                
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
             }

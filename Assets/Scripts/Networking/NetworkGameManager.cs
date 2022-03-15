@@ -89,6 +89,7 @@ namespace Com.MorganHouston.ZombCube
         public void ResumeGame()
         {
             pauseMenu.SetActive(false);
+            settingsMenu.SetActive(false);
         }
 
         public void StartGame()

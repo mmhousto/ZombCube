@@ -127,7 +127,7 @@ namespace Com.MorganHouston.ZombCube
         public void OnGamePause(InputValue value)
         {
             Debug.Log("Pause Button Pressed");
-            if (isPaused == false)
+            if (isPaused == false && isGameOver == false)
             {
                 isPaused = true;
                 isInputDisabled = true;
@@ -138,7 +138,7 @@ namespace Com.MorganHouston.ZombCube
 #endif
 
                 NetworkGameManager.Instance.PauseGame();
-            }else if (isPaused == true)
+            }else if (isPaused == true && isGameOver == false)
             {
                 isPaused = false;
                 isInputDisabled = false;
@@ -182,6 +182,9 @@ namespace Com.MorganHouston.ZombCube
                     {
                         NetworkGameManager.Instance.CallGameOver();
                         isGameOver = true;
+#if (UNITY_STANDALONE_WIN || UNITY_WSA || UNITY_STANDALONE || UNITY_EDITOR)
+                        Cursor.lockState = CursorLockMode.Confined;
+#endif
                     }
 
                 }
