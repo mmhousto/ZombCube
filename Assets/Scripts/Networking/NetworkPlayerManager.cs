@@ -52,6 +52,7 @@ namespace Com.MorganHouston.ZombCube
                 isAlive = true;
                 isPaused = false;
                 isInputDisabled = false;
+                isGameOver = NetworkGameManager.Instance.IsGameOver();
 
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
                 playerInput = GetComponent<PlayerInput>();
@@ -128,31 +129,31 @@ namespace Com.MorganHouston.ZombCube
 
         public void OnGamePause(InputValue value)
         {
-            Debug.Log("Pause Button Pressed");
+            isGameOver = NetworkGameManager.Instance.IsGameOver();
             if (isPaused == false && isGameOver == false)
             {
                 isPaused = true;
                 isInputDisabled = true;
-                Debug.Log("Paused");
 
-#if (UNITY_STANDALONE_WIN || UNITY_WSA || UNITY_STANDALONE || UNITY_EDITOR)
-                Cursor.lockState = CursorLockMode.Confined;
-#endif
+                Cursor.lockState = CursorLockMode.None;
 
                 NetworkGameManager.Instance.PauseGame();
             }else if (isPaused == true && isGameOver == false)
             {
                 isPaused = false;
                 isInputDisabled = false;
-                Debug.Log("Resumed");
 
-#if (UNITY_STANDALONE_WIN || UNITY_WSA || UNITY_STANDALONE || UNITY_EDITOR)
                 Cursor.lockState = CursorLockMode.Locked;
-#endif
 
                 NetworkGameManager.Instance.ResumeGame();
             }
-                
+            else if(isGameOver == true)
+            {
+                isPaused = false;
+                isInputDisabled = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+
         }
 
         // END Input for Pausing -------------------------------------------------------------------
@@ -184,9 +185,8 @@ namespace Com.MorganHouston.ZombCube
                     {
                         NetworkGameManager.Instance.CallGameOver();
                         isGameOver = true;
-#if (UNITY_STANDALONE_WIN || UNITY_WSA || UNITY_STANDALONE || UNITY_EDITOR)
-                        Cursor.lockState = CursorLockMode.Confined;
-#endif
+                        isPaused = false;
+                        Cursor.lockState = CursorLockMode.None;
                     }
 
                 }

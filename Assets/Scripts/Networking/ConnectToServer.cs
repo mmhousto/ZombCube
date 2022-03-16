@@ -15,7 +15,7 @@ namespace Com.MorganHouston.ZombCube
 
         public TextMeshProUGUI loadingText;
 
-        private string gameVersion = "0.1";
+        private string gameVersion = "0.2";
 
         private int dots = 1;
 
@@ -56,6 +56,8 @@ namespace Com.MorganHouston.ZombCube
             player.highestWave = data.highestWave;
             player.currentBlaster = data.currentBlaster;
             player.ownedBlasters = data.ownedBlasters;
+            player.currentSkin = data.currentSkin;
+            player.ownedSkins = data.ownedSkins;
         }
 
         void UpdateLoadingText()

@@ -21,7 +21,7 @@ namespace CloudSaveSample
 
         public string playerID;
 
-        private void Awake()
+        private async void Awake()
         {
             if (instance != null && instance != this)
             {
@@ -33,8 +33,21 @@ namespace CloudSaveSample
             }
             DontDestroyOnLoad(this.gameObject);
 
-            
+            // Authenticate Unity Services.
+            if (UnityServices.State == ServicesInitializationState.Initialized)
+            {
+                Debug.Log("Services are already Initialized");
+            }
+            else
+                await UnityServices.InitializeAsync();
+
         }
+
+
+
+
+
+
 
         /// <summary>
         /// Sign in anonymously
@@ -57,10 +70,6 @@ namespace CloudSaveSample
             else
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-            player = GameObject.FindWithTag("PlayerData").GetComponent<Com.MorganHouston.ZombCube.Player>();
-
-            //await ForceSaveSingleData("primitive_key", "value!");
-
             playerID = AuthenticationService.Instance.PlayerId;
             HashSet<string> hashSet = new HashSet<string> { playerID };
             var results = SaveData.LoadAsync(hashSet);
@@ -72,19 +81,20 @@ namespace CloudSaveSample
                     Debug.Log($"Loaded object: {incomingSample.playerName}, {incomingSample.points}, {incomingSample.currentBlaster}");
                     LoadPlayerData(incomingSample);
                 }
-                catch
+                catch (Exception e)
                 {
-                    Debug.Log("No profile to download from the cloud! Try to download local profile.");
+                    Debug.Log(e + "\nNo profile to download from the cloud! Try local profile.");
                     try
                     {
                         LoadPlayerData();
                     }
-                    catch (Exception e)
+                    catch (Exception e2)
                     {
-                        Debug.Log($"Error: {e}\nNew Player");
+                        Debug.Log($"Error: {e2}\nNew Player");
+                        return;
                     }
                 }
-                
+
             }
             else
             {
@@ -96,19 +106,10 @@ namespace CloudSaveSample
                 catch (Exception e)
                 {
                     Debug.Log($"Error: {e}\nNew Player");
+                    return;
                 }
             }
-            //await ForceSaveObjectData(playerID, data);
-
-            if (AuthenticationService.Instance.IsSignedIn)
-            {
-                Com.MorganHouston.ZombCube.SceneLoader.ToMainMenu();
-            }
-
-
-            //await ForceDeleteSpecificData("primitive_key");
-            await ListAllKeys();
-            await RetrieveEverything();
+            Com.MorganHouston.ZombCube.SceneLoader.ToMainMenu();
         }
 
         private async Task ListAllKeys()
@@ -117,7 +118,7 @@ namespace CloudSaveSample
             {
                 var keys = await SaveData.RetrieveAllKeysAsync();
 
-                Debug.Log($"Keys count: {keys.Count}\n" + 
+                Debug.Log($"Keys count: {keys.Count}\n" +
                           $"Keys: {String.Join(", ", keys)}");
             }
             catch (CloudSaveValidationException e)
@@ -198,8 +199,8 @@ namespace CloudSaveSample
         {
             try
             {
-                var results = await SaveData.LoadAsync(new HashSet<string>{key});
-                
+                var results = await SaveData.LoadAsync(new HashSet<string> { key });
+
                 if (results.TryGetValue(key, out string value))
                 {
                     return JsonUtility.FromJson<T>(value);
@@ -230,7 +231,7 @@ namespace CloudSaveSample
                 var results = await SaveData.LoadAllAsync();
 
                 Debug.Log($"Elements loaded!");
-                
+
                 foreach (var element in results)
                 {
                     Debug.Log($"Key: {element.Key}, Value: {element.Value}");
@@ -264,6 +265,12 @@ namespace CloudSaveSample
             }
         }
 
+
+
+
+
+
+
         /// <summary>
         /// Loads the players data and sets it to the player.
         /// </summary>
@@ -288,18 +295,38 @@ namespace CloudSaveSample
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
+
             player.currentBlaster = data.currentBlaster;
-            if (data.ownedBlasters.Length == 8)
-                player.ownedBlasters = data.ownedBlasters;
-            else
+            if (data.ownedBlasters == null)
+            {
+                player.ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+            }
+            else if (data.ownedBlasters.Length != 8)
             {
                 int[] temp = new int[8];
                 data.ownedBlasters.CopyTo(temp, 0);
                 data.ownedBlasters = temp;
                 player.ownedBlasters = data.ownedBlasters;
             }
+
             player.currentSkin = data.currentSkin;
-            player.ownedSkins = data.ownedSkins;
+
+            if (data.ownedSkins == null)
+            {
+                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+            }
+            else if (data.ownedSkins.Length != 8)
+            {
+                int[] temp = new int[8];
+                data.ownedBlasters.CopyTo(temp, 0);
+                data.ownedBlasters = temp;
+                player.ownedBlasters = data.ownedBlasters;
+
+            }
+            else
+            {
+                player.ownedSkins = data.ownedSkins;
+            }
         }
     }
 }

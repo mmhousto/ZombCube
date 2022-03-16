@@ -29,8 +29,8 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
-
+            player = Player.Instance;
+            isGameOver = false;
             healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
             healthPoints = 100f;
             currentPoints = 0;
@@ -59,7 +59,7 @@ namespace Com.MorganHouston.ZombCube
                 UpdateTotalPoints();
                 SavePlayerData();
                 GameManager.Instance.GameOver();
-                isGameOver = true;
+                isGameOver = GameManager.Instance.isGameOver;
             }
         }
 

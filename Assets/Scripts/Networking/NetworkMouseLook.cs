@@ -32,7 +32,6 @@ namespace Com.MorganHouston.ZombCube
                 cam.enabled = false;
                 return;
             }
-            Cursor.lockState = CursorLockMode.Locked;
             playerManager = GetComponentInParent<NetworkPlayerManager>();
 
             mouseSensitivity.x = PreferencesManager.GetHorizontalSens();
@@ -42,6 +41,7 @@ namespace Com.MorganHouston.ZombCube
         // Update is called once per frame
         void Update()
         {
+            UpdateMouseSensitivity();
             LookAround();
             
         }
@@ -75,6 +75,18 @@ namespace Com.MorganHouston.ZombCube
         private float ClampVerticalAngle(float angle)
         {
             return Mathf.Clamp(angle, -maxVerticalAngle, maxVerticalAngle);
+        }
+
+        private void UpdateMouseSensitivity()
+        {
+            if (photonView.IsMine)
+            {
+                if (mouseSensitivity.x != PreferencesManager.GetHorizontalSens())
+                    mouseSensitivity.x = PreferencesManager.GetHorizontalSens();
+                if (mouseSensitivity.y != PreferencesManager.GetVerticalSens())
+                    mouseSensitivity.y = PreferencesManager.GetVerticalSens();
+            }
+            
         }
 
     }

@@ -14,7 +14,6 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
-            masterMixer = AudioManager.Instance.masterMixer;
             musicSlider.value = PreferencesManager.GetMusicVolume();
             masterSlider.value = PreferencesManager.GetMasterVolume();
         }
@@ -23,8 +22,6 @@ namespace Com.MorganHouston.ZombCube
         {
             musicSlider.onValueChanged.AddListener(ChangeMusicVolume);
             masterSlider.onValueChanged.AddListener(ChangeSoundVolume);
-            if(masterMixer == null)
-                masterMixer = AudioManager.Instance.masterMixer;
             musicSlider.value = PreferencesManager.GetMusicVolume();
             masterSlider.value = PreferencesManager.GetMasterVolume();
         }
@@ -37,13 +34,13 @@ namespace Com.MorganHouston.ZombCube
 
         public void ChangeSoundVolume(float soundLevel)
         {
-            masterMixer.SetFloat("MasterVol", soundLevel);
+            AudioManager.Instance.masterMixer.SetFloat("MasterVol", soundLevel);
             PreferencesManager.SetMasterVolume(soundLevel);
         }
 
         public void ChangeMusicVolume(float soundLevel)
         {
-            masterMixer.SetFloat("MusicVol", soundLevel);
+            AudioManager.Instance.masterMixer.SetFloat("MusicVol", soundLevel);
             PreferencesManager.SetMusicVolume(soundLevel);
         }
 

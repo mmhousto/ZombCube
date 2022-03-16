@@ -21,7 +21,7 @@ namespace Com.MorganHouston.ZombCube
 
         private bool isPaused = false;
 
-        private bool isGameOver = false;
+        public bool isGameOver = false;
 
 
         private void Awake()
@@ -43,18 +43,24 @@ namespace Com.MorganHouston.ZombCube
         {
             gameOverScreen.SetActive(false);
             pauseScreen.SetActive(false);
+            isGameOver = false;
+
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
+
             CustomAnalytics.SendGameStart();
+
             if(!playerInput.actions.enabled)
                 playerInput.actions.Enable();
-            //playerInput.SwitchCurrentActionMap("Player");
+
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         // Update is called once per frame
         void Update()
         {
-            CheckForPause(); 
+            CheckForPause();
+            SetCursorState();
            
         }
 
@@ -62,6 +68,20 @@ namespace Com.MorganHouston.ZombCube
         {
             CurrentRound += 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
+        }
+
+        public void SetCursorState()
+        {
+            if (isPaused == true && isGameOver == false)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }else if (isPaused == false && isGameOver == false)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
 
         public async void GameOver()
@@ -72,8 +92,9 @@ namespace Com.MorganHouston.ZombCube
             EventSystem.current.SetSelectedGameObject(restart);
 
             isGameOver = true;
-            Cursor.lockState = CursorLockMode.Confined;
+            isPaused = false;
             Time.timeScale = 0;
+
             gameOverScreen.SetActive(true);
             pauseScreen.SetActive(false);
             settingsScreen.SetActive(false);
@@ -112,21 +133,23 @@ namespace Com.MorganHouston.ZombCube
         {
             if (isPaused == true && isGameOver == false)
             {
-                //playerInput.SwitchCurrentActionMap("UI");
                 playerInput.actions.Disable();
                 pauseScreen.SetActive(true);
                 Time.timeScale = 0;
-                Cursor.lockState = CursorLockMode.Confined;
             }
             else if (isPaused == false && isGameOver == false)
             {
-                //playerInput.SwitchCurrentActionMap("Player");
                 playerInput.actions.Enable();
                 pauseScreen.SetActive(false);
                 settingsScreen.SetActive(false);
                 
                 Time.timeScale = 1;
-                Cursor.lockState = CursorLockMode.Locked;
+            } else if (isGameOver == true)
+            {
+                isPaused = false;
+                playerInput.actions.Disable();
+                pauseScreen.SetActive(false);
+                settingsScreen.SetActive(false);
             }
         }
     }

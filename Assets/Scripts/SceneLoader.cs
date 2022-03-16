@@ -14,8 +14,8 @@ namespace Com.MorganHouston.ZombCube
 #if UNITY_WSA
             ResetLightingData();
 #endif
-            levelToLoad = 0;
-            SceneManager.LoadScene(6);
+            levelToLoad = 1;
+            SceneManager.LoadScene(7);
         }
 
         public static void ToLobby()
@@ -23,7 +23,7 @@ namespace Com.MorganHouston.ZombCube
 #if UNITY_WSA
             ResetLightingData();
 #endif
-            levelToLoad = 2;
+            levelToLoad = 3;
             SceneManager.LoadScene("LobbyScene");
         }
 
@@ -32,7 +32,7 @@ namespace Com.MorganHouston.ZombCube
 #if UNITY_WSA
             ResetLightingData();
 #endif
-            levelToLoad = 1;
+            levelToLoad = 2;
             SceneManager.LoadScene("LoadingScene");
         }
 
@@ -41,8 +41,8 @@ namespace Com.MorganHouston.ZombCube
 #if UNITY_WSA
             ResetLightingData();
 #endif
-            levelToLoad = 4;
-            SceneManager.LoadScene(6);
+            levelToLoad = 5;
+            SceneManager.LoadScene(7);
         }
 
         public static void LoadThisScene(int sceneToLoad)
@@ -51,7 +51,7 @@ namespace Com.MorganHouston.ZombCube
             ResetLightingData();
 #endif
             levelToLoad = sceneToLoad;
-            SceneManager.LoadScene(6);
+            SceneManager.LoadScene(7);
         }
 
         public static Scene GetCurrentScene()

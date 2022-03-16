@@ -12,6 +12,19 @@ namespace Com.MorganHouston.ZombCube
         public int[] ownedBlasters;
         public int[] ownedSkins;
 
+        public SaveData()
+        {
+            playerName = "PlayerName";
+            coins = 0;
+            points = 0;
+            highestWave = 0;
+            currentBlaster = 0;
+            ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+            currentSkin = 0;
+            ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+
+        }
+
         public SaveData(Player player)
         {
             playerName = player.playerName;

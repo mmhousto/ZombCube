@@ -28,10 +28,6 @@ namespace Com.MorganHouston.ZombCube
         /// </summary>
         void Awake()
         {
-            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
-
-            //CloudSaveSample.CloudSaveSample.Instance.SignIn();
-
 #if (UNITY_XBOXONE || UNITY_PS4 || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_STADALONE_OSX)
             iapButton.SetActive(false);
 #endif
@@ -39,6 +35,8 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
+            player = Player.Instance;
+
             analyticParams = new Dictionary<string, object>();
             analyticParams.Add("PlayerName", player.playerName);
 
@@ -48,13 +46,16 @@ namespace Com.MorganHouston.ZombCube
                 horizontalSens.value = PreferencesManager.GetHorizontalSens();
             if(verticalSens)
                 verticalSens.value = PreferencesManager.GetVerticalSens();
+
+            playerNameText.text = player.playerName;
         }
 
 
         // Update is called once per frame
         void Update()
         {
-            playerNameText.text = player.playerName;
+            if(playerNameText.text != player.playerName)
+                playerNameText.text = player.playerName;
         }
 
         public void ChangeHorizontalSens(float sensitivty)
@@ -65,6 +66,21 @@ namespace Com.MorganHouston.ZombCube
         public void ChangeVerticalSens(float sensitivity)
         {
             PreferencesManager.SetVerticalSens(sensitivity);
+        }
+
+        /// <summary>
+        /// Sets playerName to name and saves the player data.
+        /// </summary>
+        /// <param name="name">The Name Input Field</param>
+        public void SetPlayerName(string name)
+        {
+            if (player)
+            {
+                player.playerName = name;
+                SaveSystem.SavePlayer(player);
+            }
+            
+
         }
 
         /// <summary>
@@ -116,6 +132,8 @@ namespace Com.MorganHouston.ZombCube
             player.highestWave = data.highestWave;
             player.currentBlaster = data.currentBlaster;
             player.ownedBlasters = data.ownedBlasters;
+            player.currentSkin = data.currentSkin;
+            player.ownedSkins = data.ownedSkins;
         }
     }
 

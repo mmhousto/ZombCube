@@ -53,11 +53,14 @@ namespace Com.MorganHouston.ZombCube
         {
             gameOverScreen.SetActive(false);
             pauseMenu.SetActive(false);
+
             playersSpawned = 0;
             playersEliminated = 0;
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
             isGameOver = false;
+
+            Cursor.lockState = CursorLockMode.Locked;
 
             if (PhotonNetwork.IsMasterClient)
             {
@@ -212,7 +215,7 @@ namespace Com.MorganHouston.ZombCube
         {
             isGameOver = true;
             SelectObject(restart);
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = CursorLockMode.None;
             gameOverScreen.SetActive(isGameOver);
             pauseMenu.SetActive(false);
             settingsMenu.SetActive(false);

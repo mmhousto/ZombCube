@@ -20,7 +20,6 @@ namespace Com.MorganHouston.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
             mouseSensitivity.x = PreferencesManager.GetHorizontalSens();
             mouseSensitivity.y = PreferencesManager.GetVerticalSens();
         }

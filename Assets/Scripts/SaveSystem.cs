@@ -43,8 +43,9 @@ namespace Com.MorganHouston.ZombCube
             }
             else
             {
-                Debug.LogError("Save file not found in " + path);
-                return null;
+                Debug.Log("Save file not found in " + path);
+                SaveData data = new SaveData();
+                return data;
             }
         }
 

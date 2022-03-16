@@ -9,6 +9,23 @@ namespace Com.MorganHouston.ZombCube
     public class Projectile : MonoBehaviourPun
     {
 
+        private void Start()
+        {
+            Invoke(nameof(DestroyProjectile), 3f);
+        }
+
+        private void DestroyProjectile()
+        {
+            if (SceneLoader.GetCurrentScene().name == "GameScene")
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                PhotonNetwork.Destroy(this.gameObject);
+            }
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
             if (SceneLoader.GetCurrentScene().name == "GameScene")
@@ -18,7 +35,6 @@ namespace Com.MorganHouston.ZombCube
                     Destroy(collision.gameObject);
                     PlayerManager.AddPoints(10);
                 }
-                Destroy(gameObject);
             }
             else
             {
@@ -28,7 +44,6 @@ namespace Com.MorganHouston.ZombCube
                     {
                         NetworkPlayerManager.AddPoints(10);
                     }
-                    PhotonNetwork.Destroy(this.gameObject);
                 }
             }
                     

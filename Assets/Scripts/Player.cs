@@ -33,19 +33,6 @@ namespace Com.MorganHouston.ZombCube
             DontDestroyOnLoad(this.gameObject);
         }
 
-        /// <summary>
-        /// Sets playerName to name and saves the player data.
-        /// </summary>
-        /// <param name="name">The Name Input Field</param>
-        public void SetPlayerName(string name)
-        {
-            playerName = name;
-            SaveSystem.SavePlayer(this);
-
-        }
-
-
-
     }
 
 }
