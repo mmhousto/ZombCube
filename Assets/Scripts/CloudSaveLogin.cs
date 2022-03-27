@@ -94,7 +94,6 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
-            
             // If the current platform is supported initialize apple authentication.
             if (AppleAuthManager.IsCurrentPlatformSupported)
             {
