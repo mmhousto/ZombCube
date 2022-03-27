@@ -78,7 +78,7 @@ namespace CloudSaveSample
                 try
                 {
                     Com.MorganHouston.ZombCube.SaveData incomingSample = await RetrieveSpecificData<Com.MorganHouston.ZombCube.SaveData>(playerID);
-                    Debug.Log($"Loaded object: {incomingSample.playerName}, {incomingSample.points}, {incomingSample.currentBlaster}");
+                    //Debug.Log($"Loaded object: {incomingSample.playerName}, {incomingSample.points}, {incomingSample.currentBlaster}");
                     LoadPlayerData(incomingSample);
                 }
                 catch (Exception e)

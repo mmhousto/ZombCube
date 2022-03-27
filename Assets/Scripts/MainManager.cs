@@ -78,6 +78,7 @@ namespace Com.MorganHouston.ZombCube
             {
                 player.playerName = name;
                 SaveSystem.SavePlayer(player);
+
             }
             
 
@@ -86,9 +87,9 @@ namespace Com.MorganHouston.ZombCube
         /// <summary>
         /// Starts solo version of game.
         /// </summary>
-        public async void StartSoloGame()
+        public void StartSoloGame()
         {
-            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
+            CloudSaveLogin.Instance.SaveCloudData();
             SceneLoader.PlayGame();
         }
 
@@ -103,6 +104,7 @@ namespace Com.MorganHouston.ZombCube
                 Debug.LogError("Player Name is null or empty!");
                 return;
             }
+            CloudSaveLogin.Instance.SaveCloudData();
             SceneLoader.ToLoading();
         }
 
@@ -119,22 +121,6 @@ namespace Com.MorganHouston.ZombCube
             SaveSystem.SavePlayer(player);
         }
 
-        /// <summary>
-        /// Loads the players data and sets it to the player.
-        /// </summary>
-        public void LoadPlayerData()
-        {
-            SaveData data = SaveSystem.LoadPlayer();
-
-            player.playerName = data.playerName;
-            player.coins = data.coins;
-            player.points = data.points;
-            player.highestWave = data.highestWave;
-            player.currentBlaster = data.currentBlaster;
-            player.ownedBlasters = data.ownedBlasters;
-            player.currentSkin = data.currentSkin;
-            player.ownedSkins = data.ownedSkins;
-        }
     }
 
 }

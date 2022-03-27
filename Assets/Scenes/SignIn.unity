@@ -2069,19 +2069,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: CloudSaveManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2253541340158729720, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
---- !u!114 &1764829389 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2253541340158729720, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
+--- !u!1 &1764829389 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2253541340158729735, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
   m_PrefabInstance: {fileID: 1764829388}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &1764829390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764829389}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1e204f7b0e7cb54f8ea84dd595d63ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f008816a3cd6104bae44464dbc700a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 954628588}
+  currentSSO: 0
+  devModeActivated: 0
+  userName: 
+  userID: 
 --- !u!1 &1790760567
 GameObject:
   m_ObjectHideFlags: 0
@@ -2377,9 +2389,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1764829389}
-        m_TargetAssemblyTypeName: CloudSaveSample.CloudSaveSample, Assembly-CSharp
-        m_MethodName: SignIn
+      - m_Target: {fileID: 1764829390}
+        m_TargetAssemblyTypeName: Com.MorganHouston.ZombCube.CloudSaveLogin, Assembly-CSharp
+        m_MethodName: SignInAnonymously
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

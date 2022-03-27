@@ -121,7 +121,7 @@ namespace Com.MorganHouston.ZombCube
             player.currentBlaster = index;
         }
 
-        public async void SelectBlaster(int index)
+        public void SelectBlaster(int index)
         {
             if (player.ownedBlasters[index] == 1)
             {
@@ -135,7 +135,7 @@ namespace Com.MorganHouston.ZombCube
             }
             SaveSystem.SavePlayer(player);
 
-            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
+            CloudSaveLogin.Instance.SaveCloudData();
         }
 
         public void BuySkin(int index)
@@ -167,7 +167,7 @@ namespace Com.MorganHouston.ZombCube
             player.currentSkin = index;
         }
 
-        public async void SelectSkin(int index)
+        public void SelectSkin(int index)
         {
             if (player.ownedSkins[index] == 1)
             {
@@ -181,7 +181,7 @@ namespace Com.MorganHouston.ZombCube
             }
             SaveSystem.SavePlayer(player);
 
-            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
+            CloudSaveLogin.Instance.SaveCloudData();
         }
 
     }
