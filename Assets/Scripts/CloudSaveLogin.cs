@@ -85,11 +85,11 @@ namespace Com.MorganHouston.ZombCube
                 // Already initialized, signal an app activation App Event
                 FB.ActivateApp();
             }*/
-            /*
+            
 #if UNITY_ANDROID
             // Initializes Google Play Games Login
             InitializePlayGamesLogin();
-#endif*/
+#endif
         }
 
         private void Start()
@@ -306,11 +306,11 @@ namespace Com.MorganHouston.ZombCube
             {
                 FacebookLogout();
             }*/
-            /*
+            
             if (currentSSO == ssoOption.Google)
             {
                 GoogleLogout();
-            }*/
+            }
 
             if (AuthenticationService.Instance.IsSignedIn)
             {
@@ -643,7 +643,7 @@ namespace Com.MorganHouston.ZombCube
 
 
         #region Google Play Auth
-        /*
+        
 
         void InitializePlayGamesLogin()
         {
@@ -681,12 +681,10 @@ namespace Com.MorganHouston.ZombCube
 
                 // Call Unity Authentication SDK to sign in or link with Google.
                 var idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
-                Debug.Log("Login with Google Play Games done. IdToken: " + idToken);
                 userID = Social.localUser.id;
                 userName = Social.localUser.userName;
 
                 await SignInWithGoogleAsync(idToken);
-                Debug.Log("Sign-In With Google is successful.");
 
             }
             else if (status == SignInStatus.UiSignInRequired)
@@ -703,9 +701,7 @@ namespace Com.MorganHouston.ZombCube
         {
             try
             {
-                Debug.Log("Authenticating with id Token: " + idToken);
                 await AuthenticationService.Instance.SignInWithGoogleAsync(idToken);
-                Debug.Log("Sign-In With Unity Authentication is successful.");
 
                 SetPlayer(AuthenticationService.Instance.PlayerId, userName);
 
@@ -731,7 +727,7 @@ namespace Com.MorganHouston.ZombCube
         }
         
 
-        */
+        
         #endregion
 
 
