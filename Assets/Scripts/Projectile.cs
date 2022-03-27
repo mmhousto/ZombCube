@@ -34,6 +34,7 @@ namespace Com.MorganHouston.ZombCube
                 {
                     Destroy(collision.gameObject);
                     PlayerManager.AddPoints(10);
+                    Player.Instance.cubesEliminated++;
                 }
             }
             else
@@ -43,6 +44,7 @@ namespace Com.MorganHouston.ZombCube
                     if (collision.gameObject.tag == "Enemy")
                     {
                         NetworkPlayerManager.AddPoints(10);
+                        Player.Instance.cubesEliminated++;
                     }
                 }
             }

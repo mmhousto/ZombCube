@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Unity.Services.Core;
 //using Facebook.Unity;
 using System;
-//using AppleAuth;
-//using AppleAuth.Native;
-//using AppleAuth.Enums;
-//using AppleAuth.Extensions;
-//using AppleAuth.Interfaces;
+using AppleAuth;
+using AppleAuth.Native;
+using AppleAuth.Enums;
+using AppleAuth.Extensions;
+using AppleAuth.Interfaces;
 using System.Text;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames;
@@ -36,7 +36,7 @@ namespace Com.MorganHouston.ZombCube
 
         public ssoOption currentSSO = ssoOption.Anonymous;
 
-        //private IAppleAuthManager appleAuthManager;
+        private IAppleAuthManager appleAuthManager;
 
         private bool triedQuickLogin = false;
 
@@ -94,7 +94,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
-            /*
+            
             // If the current platform is supported initialize apple authentication.
             if (AppleAuthManager.IsCurrentPlatformSupported)
             {
@@ -102,12 +102,12 @@ namespace Com.MorganHouston.ZombCube
                 IPayloadDeserializer deserializer = new PayloadDeserializer();
                 // Creates an Apple Authentication manager with the deserializer
                 appleAuthManager = new AppleAuthManager(deserializer);
-            }*/
+            }
         }
 
         void Update()
         {
-            /*
+            
             // Updates the AppleAuthManager instance to execute
             // pending callbacks inside Unity's execution loop
             if (appleAuthManager != null)
@@ -120,7 +120,7 @@ namespace Com.MorganHouston.ZombCube
             {
                 GetCredentialState();
                 triedQuickLogin = true;
-            }*/
+            }
 
 
         }
@@ -212,7 +212,7 @@ namespace Com.MorganHouston.ZombCube
             FB.LogInWithReadPermissions(perms, AuthCallback);
 #endif
 
-        }
+        }*/
 
         /// <summary>
         /// Signs user into Apple with Auth from Apple.
@@ -231,7 +231,7 @@ namespace Com.MorganHouston.ZombCube
 
             Login();
 
-        }*/
+        }
 
         /// <summary>
         /// Saves player data to cloud if user is signed in.
@@ -325,13 +325,12 @@ namespace Com.MorganHouston.ZombCube
 
 
         #region Apple Auth
-        /*
+        
         /// <summary>
         /// Performs continue with Apple login.
         /// </summary>
         public async void QuickLoginApple()
         {
-            Debug.Log("Quick Login Apple Called");
             if (appleAuthManager == null) return;
 
             currentSSO = ssoOption.Apple;
@@ -356,7 +355,7 @@ namespace Com.MorganHouston.ZombCube
                     if (appleIdCredential != null)
                     {
                         userID = PlayerPrefs.GetString("AppleUserIdKey", appleIdCredential.User);
-                        userName = PlayerPrefs.GetString("AppleUserNameKey", appleIdCredential.FullName.GivenName);
+                        userName = PlayerPrefs.GetString("AppleUserNameKey", appleIdCredential.FullName.ToLocalizedString());
 
                     }
 
@@ -397,6 +396,9 @@ namespace Com.MorganHouston.ZombCube
                                 case CredentialState.Revoked:
                                     // User ID was revoked. Go to login screen.
                                     Debug.Log("User ID was revoked.");
+                                    PlayerPrefs.SetString("AppleUserIdKey", "");
+                                    PlayerPrefs.SetString("AppleUserNameKey", "");
+                                    PlayerPrefs.SetString("AppleTokenIdKey", "");
                                     if (AuthenticationService.Instance.IsSignedIn)
                                     {
                                         AuthenticationService.Instance.SignOut();
@@ -405,14 +407,12 @@ namespace Com.MorganHouston.ZombCube
 
                                 case CredentialState.NotFound:
                                     // User ID was not found. Go to login screen.
-                                    Debug.Log("User ID was not found.");
                                     break;
                             }
                         },
                         error =>
                         {
-                            // Something went wrong
-                            Debug.Log("Credential Failed");
+                            // Something went wrong- FAILED
                             if (AuthenticationService.Instance.IsSignedIn)
                             {
                                 AuthenticationService.Instance.SignOut();
@@ -451,10 +451,10 @@ namespace Com.MorganHouston.ZombCube
 
                         // Email (Received ONLY in the first login)
                         /*email = appleIdCredential.Email;
-                            PlayerPrefs.SetString("AppleUserEmailKey", email);*
+                            PlayerPrefs.SetString("AppleUserEmailKey", email);*/
 
                         // Full name (Received ONLY in the first login)
-                        userName = appleIdCredential.FullName.GivenName;
+                        userName = appleIdCredential.FullName.ToLocalizedString();
                         PlayerPrefs.SetString("AppleUserNameKey", userName);
 
                         // Identity token
@@ -493,7 +493,7 @@ namespace Com.MorganHouston.ZombCube
 
         }
 
-        */
+        
         #endregion
 
 
@@ -1023,6 +1023,9 @@ namespace Com.MorganHouston.ZombCube
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;
+            player.cubesEliminated = 0;
+            player.totalPointsEarned = 0;
+            player.totalProjectilesFired = 0;
             player.currentBlaster = 0;
             player.currentSkin = 0;
             player.ownedBlasters = new int[8];
@@ -1058,10 +1061,41 @@ namespace Com.MorganHouston.ZombCube
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
+            player.cubesEliminated = 0;
+            player.totalPointsEarned = 0;
+            player.totalProjectilesFired = 0;
+
             player.currentBlaster = data.currentBlaster;
+            if (data.ownedBlasters == null)
+            {
+                player.ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+            }
+            else if (data.ownedBlasters.Length != 8)
+            {
+                int[] temp = new int[8];
+                data.ownedBlasters.CopyTo(temp, 0);
+                data.ownedBlasters = temp;
+                player.ownedBlasters = data.ownedBlasters;
+            }
+
             player.currentSkin = data.currentSkin;
-            player.ownedBlasters = data.ownedBlasters;
-            player.ownedSkins = data.ownedSkins;
+
+            if (data.ownedSkins == null)
+            {
+                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+            }
+            else if (data.ownedSkins.Length != 8)
+            {
+                int[] temp = new int[8];
+                data.ownedBlasters.CopyTo(temp, 0);
+                data.ownedBlasters = temp;
+                player.ownedBlasters = data.ownedBlasters;
+
+            }
+            else
+            {
+                player.ownedSkins = data.ownedSkins;
+            }
         }
 
         /// <summary>
@@ -1092,6 +1126,9 @@ namespace Com.MorganHouston.ZombCube
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
+            player.cubesEliminated = 0;
+            player.totalPointsEarned = 0;
+            player.totalProjectilesFired = 0;
 
             player.currentBlaster = data.currentBlaster;
             if (data.ownedBlasters == null)
@@ -1137,6 +1174,9 @@ namespace Com.MorganHouston.ZombCube
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;
+            player.cubesEliminated = 0;
+            player.totalPointsEarned = 0;
+            player.totalProjectilesFired = 0;
             player.currentBlaster = 0;
             player.currentSkin = 0;
             player.ownedBlasters = new int[8];

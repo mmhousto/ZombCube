@@ -84,7 +84,7 @@ namespace Com.MorganHouston.ZombCube
             }
         }
 
-        public async void GameOver()
+        public void GameOver()
         {
             //playerInput.SwitchCurrentActionMap("UI");
             playerInput.actions.Disable();
@@ -100,7 +100,7 @@ namespace Com.MorganHouston.ZombCube
             settingsScreen.SetActive(false);
             CustomAnalytics.SendGameOver();
 
-            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
+            CloudSaveLogin.Instance.SaveCloudData();
         }
 
         public void Restart()

@@ -56,8 +56,13 @@ namespace Com.MorganHouston.ZombCube
             if (healthPoints <= 0 && !isGameOver)
             {
                 healthPoints = 0;
+
+                //Update player stats and save to cloud and disk.
                 UpdateTotalPoints();
+                UpdateHighestWave();
                 SavePlayerData();
+                CloudSaveLogin.Instance.SaveCloudData();
+
                 GameManager.Instance.GameOver();
                 isGameOver = GameManager.Instance.isGameOver;
             }
@@ -66,6 +71,7 @@ namespace Com.MorganHouston.ZombCube
         public static void AddPoints(int pointsToAdd)
         {
             currentPoints += pointsToAdd;
+            Player.Instance.totalPointsEarned += pointsToAdd;
         }
 
         public void Damage(float damageTaken)
@@ -78,23 +84,18 @@ namespace Com.MorganHouston.ZombCube
             player.points += currentPoints;
         }
 
+        private void UpdateHighestWave()
+        {
+            int endingRound = NetworkGameManager.Instance.CurrentRound;
+            if (player.highestWave < endingRound)
+            {
+                player.highestWave = endingRound;
+            }
+        }
+
         public void SavePlayerData()
         {
             SaveSystem.SavePlayer(player);
-        }
-
-        public void LoadPlayerData()
-        {
-            SaveData data = SaveSystem.LoadPlayer();
-
-            player.playerName = data.playerName;
-            player.coins = data.coins;
-            player.points = data.points;
-            player.highestWave = data.highestWave;
-            player.currentBlaster = data.currentBlaster;
-            player.ownedBlasters = data.ownedBlasters;
-            player.currentSkin = data.currentSkin;
-            player.ownedSkins = data.ownedSkins;
         }
 
 

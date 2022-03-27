@@ -104,25 +104,12 @@ namespace Com.MorganHouston.ZombCube
         public static void AddPoints(int pointsToAdd)
         {
             currentPoints += pointsToAdd;
+            Player.Instance.totalPointsEarned += pointsToAdd;
         }
 
         public void SavePlayerData()
         {
             SaveSystem.SavePlayer(player);
-        }
-
-        public void LoadPlayerData()
-        {
-            SaveData data = SaveSystem.LoadPlayer();
-
-            player.playerName = PhotonNetwork.LocalPlayer.NickName;
-            player.coins = data.coins;
-            player.points = data.points;
-            player.highestWave = data.highestWave;
-            player.currentBlaster = (int)PhotonNetwork.LocalPlayer.CustomProperties["Blaster"];
-            player.ownedBlasters = data.ownedBlasters;
-            player.currentSkin = (int)PhotonNetwork.LocalPlayer.CustomProperties["Skin"];
-            player.ownedSkins = data.ownedSkins;
         }
 
         // Input for Pausing -------------------------------------------------------
@@ -172,8 +159,10 @@ namespace Com.MorganHouston.ZombCube
                 if (healthPoints <= 0 && !isGameOver && isAlive == true)
                 {
                     UpdateTotalPoints();
+                    UpdateHighestWave();
                     SavePlayerData();
-                    CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
+                    CloudSaveLogin.Instance.SaveCloudData();
+
                     healthPoints = 0;
                     NetworkGameManager.Instance.CallEliminatePlayer();
                     isAlive = false;
@@ -207,6 +196,15 @@ namespace Com.MorganHouston.ZombCube
         private void UpdateTotalPoints()
         {
             player.points += currentPoints;
+        }
+
+        private void UpdateHighestWave()
+        {
+            int endingRound = NetworkGameManager.Instance.CurrentRound;
+            if (player.highestWave < endingRound)
+            {
+                player.highestWave = endingRound;
+            }
         }
 
 

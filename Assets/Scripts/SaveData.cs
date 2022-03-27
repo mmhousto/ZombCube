@@ -15,6 +15,7 @@ namespace Com.MorganHouston.ZombCube
         public int[] ownedSkins;
         public int cubesEliminated = 0;
         public int totalPointsEarned = 0;
+        public int totalProjectilesFired = 0;
 
         public SaveData()
         {
@@ -30,7 +31,7 @@ namespace Com.MorganHouston.ZombCube
             ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
             cubesEliminated = 0;
             totalPointsEarned = 0;
-
+            totalProjectilesFired = 0;
         }
 
         public SaveData(Player player)
@@ -47,6 +48,7 @@ namespace Com.MorganHouston.ZombCube
             ownedSkins = player.ownedSkins;
             cubesEliminated = player.cubesEliminated;
             totalPointsEarned = player.totalPointsEarned;
+            totalProjectilesFired = player.totalProjectilesFired;
         }
     }
 
