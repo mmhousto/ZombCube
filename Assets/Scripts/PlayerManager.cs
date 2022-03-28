@@ -53,13 +53,14 @@ namespace Com.MorganHouston.ZombCube
             healthBar.value = healthPoints;
             scoreText.text = "Score: " + currentPoints.ToString();
 
-            if (healthPoints <= 0 && !isGameOver)
+            if (healthPoints <= 0 && isGameOver == false)
             {
                 healthPoints = 0;
 
                 //Update player stats and save to cloud and disk.
                 UpdateTotalPoints();
                 UpdateHighestWave();
+
                 SavePlayerData();
                 CloudSaveLogin.Instance.SaveCloudData();
 
@@ -86,7 +87,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void UpdateHighestWave()
         {
-            int endingRound = NetworkGameManager.Instance.CurrentRound;
+            int endingRound = GameManager.Instance.CurrentRound;
             if (player.highestWave < endingRound)
             {
                 player.highestWave = endingRound;

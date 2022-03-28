@@ -34,6 +34,12 @@ namespace Com.MorganHouston.ZombCube
                 appleSignIn.SetActive(false);
             }
 
+#if UNITY_ANDROID
+            googleSignIn.SetActive(true);
+#else
+            googleSignIn.SetActive(false);
+#endif
+
         }
 
         public void SelectObject(GameObject uiElement)

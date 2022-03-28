@@ -13,8 +13,10 @@ using AppleAuth.Enums;
 using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
 using System.Text;
+#if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
 using GooglePlayGames;
+#endif
 
 namespace Com.MorganHouston.ZombCube
 {
@@ -22,7 +24,7 @@ namespace Com.MorganHouston.ZombCube
     public class CloudSaveLogin : MonoBehaviour
     {
 
-        #region Fields/Variables
+#region Fields/Variables
 
         private static CloudSaveLogin instance;
 
@@ -46,10 +48,10 @@ namespace Com.MorganHouston.ZombCube
         public string userName, userID;
 
 
-        #endregion
+#endregion
 
 
-        #region MonoBehaviour Methods
+#region MonoBehaviour Methods
 
 
         // Start is called before the first frame update
@@ -146,10 +148,10 @@ namespace Com.MorganHouston.ZombCube
         }
 
 
-        #endregion
+#endregion
 
 
-        #region Public Sign In/Out Methods
+#region Public Sign In/Out Methods
 
 
         /// <summary>
@@ -273,10 +275,10 @@ namespace Com.MorganHouston.ZombCube
         }*/
 
 
-        #endregion
+#endregion
 
 
-        #region Private Login/Logout Methods
+#region Private Login/Logout Methods
 
         /// <summary>
         /// Loads the Main Menu Scene.
@@ -305,11 +307,12 @@ namespace Com.MorganHouston.ZombCube
             {
                 FacebookLogout();
             }*/
-            
+#if UNITY_ANDROID
             if (currentSSO == ssoOption.Google)
             {
                 GoogleLogout();
             }
+#endif
 
             if (AuthenticationService.Instance.IsSignedIn)
             {
@@ -320,10 +323,10 @@ namespace Com.MorganHouston.ZombCube
         }
 
 
-        #endregion
+#endregion
 
 
-        #region Apple Auth
+#region Apple Auth
         
         /// <summary>
         /// Performs continue with Apple login.
@@ -492,157 +495,158 @@ namespace Com.MorganHouston.ZombCube
 
         }
 
-        
-        #endregion
+
+#endregion
 
 
-        #region Facebook Auth
-        /*
-        /// <summary>
-        /// Initializes Facebook SDK
-        /// </summary>
-        private void InitCallback()
-        {
-            if (FB.IsInitialized)
-            {
-                // Signal an app activation App Event
-                FB.ActivateApp();
-                // Continue with Facebook SDK
-                // ...
-            }
-            else
-            {
-                Debug.Log("Failed to Initialize the Facebook SDK");
-            }
-        }
+#region Facebook Auth
+/*
+/// <summary>
+/// Initializes Facebook SDK
+/// </summary>
+private void InitCallback()
+{
+    if (FB.IsInitialized)
+    {
+        // Signal an app activation App Event
+        FB.ActivateApp();
+        // Continue with Facebook SDK
+        // ...
+    }
+    else
+    {
+        Debug.Log("Failed to Initialize the Facebook SDK");
+    }
+}
 
-        private void OnHideUnity(bool isGameShown)
-        {
-            if (!isGameShown)
-            {
-                // Pause the game - we will need to hide
-                Time.timeScale = 0;
-            }
-            else
-            {
-                // Resume the game - we're getting focus again
-                Time.timeScale = 1;
-            }
-        }
+private void OnHideUnity(bool isGameShown)
+{
+    if (!isGameShown)
+    {
+        // Pause the game - we will need to hide
+        Time.timeScale = 0;
+    }
+    else
+    {
+        // Resume the game - we're getting focus again
+        Time.timeScale = 1;
+    }
+}
 
-        /// <summary>
-        /// Callback to get player info on login.
-        /// </summary>
-        /// <param name="result"></param>
-        private async void AuthCallback(ILoginResult result)
-        {
-            if (FB.IsLoggedIn)
-            {
-                // AccessToken class will have session details
-                var aToken = AccessToken.CurrentAccessToken;
-                // Print current access token's User ID
-                Debug.Log(aToken.UserId);
-                userID = aToken.UserId;
+/// <summary>
+/// Callback to get player info on login.
+/// </summary>
+/// <param name="result"></param>
+private async void AuthCallback(ILoginResult result)
+{
+    if (FB.IsLoggedIn)
+    {
+        // AccessToken class will have session details
+        var aToken = AccessToken.CurrentAccessToken;
+        // Print current access token's User ID
+        Debug.Log(aToken.UserId);
+        userID = aToken.UserId;
 
-                FB.API("me?fields=id,name", HttpMethod.GET, AssignInfo);
-
-
-
-                await SignInWithFacebookAsync(aToken.TokenString);
-
-            }
-            else
-            {
-                Debug.Log("User cancelled login");
-            }
-        }
-
-        /// <summary>
-        /// Assigns player info on login.
-        /// </summary>
-        /// <param name="result"></param>
-        void AssignInfo(IGraphResult result)
-        {
-            if (result.Error != null)
-            {
-                Debug.Log("Error: " + result.Error);
-            }
-            else if (!FB.IsLoggedIn)
-                Debug.Log("Login Canceled By Player");
-            else
-            {
-                userID = result.ResultDictionary["id"].ToString();
-                userName = result.ResultDictionary["name"].ToString();
-            }
-        }
-
-        /// <summary>
-        /// Signs the player into Unity Services and sets player data.
-        /// </summary>
-        /// <param name="accessToken"></param>
-        /// <returns></returns>
-        async Task SignInWithFacebookAsync(string accessToken)
-        {
-            try
-            {
-                await AuthenticationService.Instance.SignInWithFacebookAsync(accessToken);
-                Debug.Log("Sign-In With Facebook is successful.");
-
-                SetPlayer(AuthenticationService.Instance.PlayerId, userName);
-
-                Login();
-            }
-            catch (AuthenticationException ex)
-            {
-                // Compare error code to AuthenticationErrorCodes
-                // Notify the player with the proper error message
-                Debug.LogException(ex);
-            }
-            catch (RequestFailedException ex)
-            {
-                // Compare error code to CommonErrorCodes
-                // Notify the player with the proper error message
-                Debug.LogException(ex);
-            }
-        }
-
-        /// <summary>
-        /// Logs the player in, if they were logged in before.
-        /// </summary>
-        /// <param name="result"></param>
-        private async void LoginStatusCallback(ILoginStatusResult result)
-        {
-            if (!string.IsNullOrEmpty(result.Error))
-            {
-                Debug.Log("Error: " + result.Error);
-
-                var perms = new List<string>() { "public_profile" };
-                FB.LogInWithReadPermissions(perms, AuthCallback);
-            }
-            else if (result.Failed)
-            {
-                Debug.Log("Failure: Access Token could not be retrieved");
-
-                var perms = new List<string>() { "public_profile" };
-                FB.LogInWithReadPermissions(perms, AuthCallback);
-            }
-            else
-            {
-                // Successfully logged user in
-                // A popup notification will appear that says "Logged in as <User Name>"
-                Debug.Log("Success: " + result.AccessToken.UserId);
-
-                await SignInWithFacebookAsync(result.AccessToken.TokenString);
-
-            }
-        }
-
-        */
-        #endregion
+        FB.API("me?fields=id,name", HttpMethod.GET, AssignInfo);
 
 
-        #region Google Play Auth
-        
+
+        await SignInWithFacebookAsync(aToken.TokenString);
+
+    }
+    else
+    {
+        Debug.Log("User cancelled login");
+    }
+}
+
+/// <summary>
+/// Assigns player info on login.
+/// </summary>
+/// <param name="result"></param>
+void AssignInfo(IGraphResult result)
+{
+    if (result.Error != null)
+    {
+        Debug.Log("Error: " + result.Error);
+    }
+    else if (!FB.IsLoggedIn)
+        Debug.Log("Login Canceled By Player");
+    else
+    {
+        userID = result.ResultDictionary["id"].ToString();
+        userName = result.ResultDictionary["name"].ToString();
+    }
+}
+
+/// <summary>
+/// Signs the player into Unity Services and sets player data.
+/// </summary>
+/// <param name="accessToken"></param>
+/// <returns></returns>
+async Task SignInWithFacebookAsync(string accessToken)
+{
+    try
+    {
+        await AuthenticationService.Instance.SignInWithFacebookAsync(accessToken);
+        Debug.Log("Sign-In With Facebook is successful.");
+
+        SetPlayer(AuthenticationService.Instance.PlayerId, userName);
+
+        Login();
+    }
+    catch (AuthenticationException ex)
+    {
+        // Compare error code to AuthenticationErrorCodes
+        // Notify the player with the proper error message
+        Debug.LogException(ex);
+    }
+    catch (RequestFailedException ex)
+    {
+        // Compare error code to CommonErrorCodes
+        // Notify the player with the proper error message
+        Debug.LogException(ex);
+    }
+}
+
+/// <summary>
+/// Logs the player in, if they were logged in before.
+/// </summary>
+/// <param name="result"></param>
+private async void LoginStatusCallback(ILoginStatusResult result)
+{
+    if (!string.IsNullOrEmpty(result.Error))
+    {
+        Debug.Log("Error: " + result.Error);
+
+        var perms = new List<string>() { "public_profile" };
+        FB.LogInWithReadPermissions(perms, AuthCallback);
+    }
+    else if (result.Failed)
+    {
+        Debug.Log("Failure: Access Token could not be retrieved");
+
+        var perms = new List<string>() { "public_profile" };
+        FB.LogInWithReadPermissions(perms, AuthCallback);
+    }
+    else
+    {
+        // Successfully logged user in
+        // A popup notification will appear that says "Logged in as <User Name>"
+        Debug.Log("Success: " + result.AccessToken.UserId);
+
+        await SignInWithFacebookAsync(result.AccessToken.TokenString);
+
+    }
+}
+
+*/
+#endregion
+
+
+#region Google Play Auth
+
+#if UNITY_ANDROID
 
         void InitializePlayGamesLogin()
         {
@@ -725,12 +729,12 @@ namespace Com.MorganHouston.ZombCube
             PlayGamesPlatform.Instance.SignOut();
         }
         
-
+#endif
         
-        #endregion
+#endregion
 
 
-        #region Private Methods
+#region Private Methods
 
         /// <summary>
         /// Signs in an anonymous player.
@@ -1182,7 +1186,7 @@ namespace Com.MorganHouston.ZombCube
             player.ownedSkins = new int[8];
         }
 
-        #endregion
+#endregion
 
 
     }
