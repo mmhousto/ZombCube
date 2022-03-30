@@ -10,6 +10,8 @@ namespace StarterAssets
         private NetworkPlayerMovement playerMovementN;
         private NetworkMouseLook playerLookN;
         private NetworkShootProjectile playerFireN;
+        private NetworkPlayerManager playerManagerN;
+        public GameManager gameManager;
         public PlayerMovement playerMovement;
         public MouseLook playerLook;
         public ShootProjectile playerFire;
@@ -19,13 +21,10 @@ namespace StarterAssets
         public void GetPlayer(GameObject player)
         {
             currentPlayer = player;
-            Debug.Log(currentPlayer);
             playerMovementN = currentPlayer.GetComponent<NetworkPlayerMovement>();
             playerFireN = currentPlayer.GetComponent<NetworkShootProjectile>();
             playerLookN = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
-            Debug.Log(playerMovement);
-            Debug.Log(playerFire);
-            Debug.Log(playerLook);
+            playerManagerN = currentPlayer.GetComponent<NetworkPlayerManager>();
         }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
@@ -64,6 +63,19 @@ namespace StarterAssets
                 playerMovement.JumpInput(virtualJumpState);
             }
             
+        }
+
+        public void VirtualPauseInput(bool virtualPauseState)
+        {
+            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            {
+                playerManagerN.PauseInput(virtualPauseState);
+            }
+            else
+            {
+                gameManager.PauseInput(virtualPauseState);
+            }
+
         }
 
         public void VirtualFireInput(bool virtualFireState)
