@@ -13,7 +13,7 @@ namespace Com.MorganHouston.ZombCube
 
     public class SignInManager : MonoBehaviour
     {
-        public GameObject exitButton, xboxSignIn, googleSignIn, appleSignIn;
+        public GameObject exitButton, googleSignIn, appleSignIn;
 
         private void Start()
         {
