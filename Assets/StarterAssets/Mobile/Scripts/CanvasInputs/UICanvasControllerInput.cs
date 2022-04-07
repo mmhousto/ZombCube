@@ -65,15 +65,15 @@ namespace StarterAssets
             
         }
 
-        public void VirtualPauseInput(bool virtualPauseState)
+        public void VirtualPauseInput()
         {
             if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
             {
-                playerManagerN.PauseInput(virtualPauseState);
+                playerManagerN.PauseInput();
             }
             else
             {
-                gameManager.PauseInput(virtualPauseState);
+                gameManager.PauseInput();
             }
 
         }

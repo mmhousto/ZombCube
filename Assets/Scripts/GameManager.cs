@@ -119,9 +119,9 @@ namespace Com.MorganHouston.ZombCube
             SceneLoader.ToMainMenu();
         }
 
-        public void PauseInput(bool newPauseState)
+        public void PauseInput()
         {
-            isPaused = newPauseState;
+            isPaused = !isPaused;
             if (isPaused == true && isGameOver == false)
             {
                 EventSystem.current.SetSelectedGameObject(null);
@@ -131,8 +131,7 @@ namespace Com.MorganHouston.ZombCube
 
         public void Pause(InputAction.CallbackContext context)
         {
-            isPaused = !isPaused;
-            PauseInput(isPaused);
+            PauseInput();
         }
 
         private void CheckForPause()

@@ -114,8 +114,9 @@ namespace Com.MorganHouston.ZombCube
 
         // Input for Pausing -------------------------------------------------------
 
-        public void PauseInput(bool newPauseState)
+        public void PauseInput()
         {
+            isPaused = !isPaused;
             isGameOver = NetworkGameManager.Instance.IsGameOver();
             if (isPaused == false && isGameOver == false)
             {
@@ -145,7 +146,7 @@ namespace Com.MorganHouston.ZombCube
 
         public void OnGamePause(InputValue value)
         {
-            PauseInput(true);
+            PauseInput();
 
         }
 
