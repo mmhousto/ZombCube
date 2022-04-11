@@ -99,8 +99,6 @@ namespace Com.MorganHouston.ZombCube
             pauseScreen.SetActive(false);
             settingsScreen.SetActive(false);
             CustomAnalytics.SendGameOver();
-
-            CloudSaveLogin.Instance.SaveCloudData();
         }
 
         public void Restart()

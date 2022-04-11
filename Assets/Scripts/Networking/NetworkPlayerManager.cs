@@ -164,8 +164,25 @@ namespace Com.MorganHouston.ZombCube
                 {
                     UpdateTotalPoints();
                     UpdateHighestWave();
-                    SavePlayerData();
-                    CloudSaveLogin.Instance.SaveCloudData();
+
+                    try
+                    {
+                        SavePlayerData();
+                    }
+                    catch
+                    {
+                        Debug.Log("Failed to save local data");
+                    }
+
+                    try
+                    {
+                        CloudSaveLogin.Instance.SaveCloudData();
+                    }
+                    catch
+                    {
+                        Debug.Log("Failed to save cloud data");
+                    }
+
 
                     healthPoints = 0;
                     NetworkGameManager.Instance.CallEliminatePlayer();
