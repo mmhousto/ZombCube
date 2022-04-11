@@ -133,9 +133,25 @@ namespace Com.MorganHouston.ZombCube
                 BuyBlaster(index);
                 blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
             }
-            SaveSystem.SavePlayer(player);
 
-            CloudSaveLogin.Instance.SaveCloudData();
+            try
+            {
+                SaveSystem.SavePlayer(player);
+            }
+            catch
+            {
+                Debug.Log("Failed to save local data.");
+            }
+
+            try
+            {
+                CloudSaveLogin.Instance.SaveCloudData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save cloud data.");
+            }
+            
         }
 
         public void BuySkin(int index)
@@ -179,9 +195,24 @@ namespace Com.MorganHouston.ZombCube
                 BuySkin(index);
                 skinItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
             }
-            SaveSystem.SavePlayer(player);
 
-            CloudSaveLogin.Instance.SaveCloudData();
+            try
+            {
+                SaveSystem.SavePlayer(player);
+            }
+            catch
+            {
+                Debug.Log("Failed to save local data.");
+            }
+
+            try
+            {
+                CloudSaveLogin.Instance.SaveCloudData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save cloud data.");
+            }
         }
 
     }

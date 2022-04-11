@@ -22,13 +22,29 @@ namespace Com.MorganHouston.ZombCube
             player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
         }
 
-        public async void GrantCoins(int credits)
+        public void GrantCoins(int credits)
         {
             player.coins += credits;
-            SaveSystem.SavePlayer(player);
+
+            try
+            {
+                SaveSystem.SavePlayer(player);
+            }
+            catch
+            {
+                Debug.Log("Failed to save local data.");
+            }
+
+            try
+            {
+                CloudSaveLogin.Instance.SaveCloudData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save cloud data.");
+            }
             Debug.Log("You received " + credits + " Coins!");
 
-            await CloudSaveSample.CloudSaveSample.Instance.SavePlayerData(SaveSystem.LoadPlayer());
         }
 
         public void CallIAPAnalyticsEvent()

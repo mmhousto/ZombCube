@@ -77,7 +77,6 @@ namespace Com.MorganHouston.ZombCube
             if (player)
             {
                 player.playerName = name;
-                SaveSystem.SavePlayer(player);
 
             }
             
@@ -118,7 +117,14 @@ namespace Com.MorganHouston.ZombCube
         /// </summary>
         public void SavePlayerData()
         {
-            SaveSystem.SavePlayer(player);
+            try
+            {
+                SaveSystem.SavePlayer(player);
+            }
+            catch
+            {
+                Debug.Log("Failed to save data.");
+            }
         }
 
     }
