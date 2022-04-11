@@ -6,8 +6,8 @@ using UnityEngine.Purchasing;
 
 public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsListener
 {
-    [SerializeField] string _androidGameId;
-    [SerializeField] string _iOsGameId;
+    [SerializeField] string _androidGameId = "4415503";
+    [SerializeField] string _iOsGameId = "4415502";
     [SerializeField] bool _testMode = true;
     [SerializeField] bool _enablePerPlacementMode = true;
     private string _gameId;
@@ -16,10 +16,6 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IU
 
     void Awake()
     {
-
-        Destroy(this.gameObject);
-        return;
-
         InitializeAds();
     }
 

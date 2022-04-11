@@ -118,18 +118,16 @@ namespace Com.MorganHouston.ZombCube
         {
             isPaused = !isPaused;
             isGameOver = NetworkGameManager.Instance.IsGameOver();
-            if (isPaused == false && isGameOver == false)
+            if (isPaused == true && isGameOver == false)
             {
-                isPaused = true;
                 isInputDisabled = true;
 
                 Cursor.lockState = CursorLockMode.None;
 
                 NetworkGameManager.Instance.PauseGame();
             }
-            else if (isPaused == true && isGameOver == false)
+            else if (isPaused == false && isGameOver == false)
             {
-                isPaused = false;
                 isInputDisabled = false;
 
                 Cursor.lockState = CursorLockMode.Locked;
@@ -138,7 +136,6 @@ namespace Com.MorganHouston.ZombCube
             }
             else if (isGameOver == true)
             {
-                isPaused = false;
                 isInputDisabled = true;
                 Cursor.lockState = CursorLockMode.None;
             }
