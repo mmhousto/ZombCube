@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class CreateJoinRooms : MonoBehaviourPunCallbacks

@@ -18,7 +18,7 @@ using GooglePlayGames.BasicApi;
 using GooglePlayGames;
 #endif
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class CloudSaveLogin : MonoBehaviour

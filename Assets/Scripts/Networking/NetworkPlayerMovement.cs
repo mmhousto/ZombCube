@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class NetworkPlayerMovement : MonoBehaviourPun

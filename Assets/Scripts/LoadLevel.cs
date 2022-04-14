@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Com.MorganHouston.ZombCube;
+using Com.GCTC.ZombCube;
 
 public class LoadLevel : MonoBehaviour
 {

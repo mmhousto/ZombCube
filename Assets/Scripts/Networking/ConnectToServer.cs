@@ -5,7 +5,7 @@ using Photon.Pun;
 using System;
 using TMPro;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class ConnectToServer : MonoBehaviourPunCallbacks

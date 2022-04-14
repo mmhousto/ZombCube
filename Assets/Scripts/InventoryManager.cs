@@ -6,7 +6,7 @@ using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
 using System.Threading.Tasks;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class InventoryManager : MonoBehaviour, IBuyable, IUseable
@@ -21,7 +21,7 @@ namespace Com.MorganHouston.ZombCube
 
         private void Start()
         {
-            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+            player = Player.Instance;
 
             for (int i = 0; i < blasterItems.Length; i++)
             {

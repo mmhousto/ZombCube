@@ -15,9 +15,9 @@ namespace CloudSaveSample
 
         public static CloudSaveSample Instance { get { return instance; } }
 
-        Com.MorganHouston.ZombCube.SaveData data;
+        Com.GCTC.ZombCube.SaveData data;
 
-        public Com.MorganHouston.ZombCube.Player player;
+        public Com.GCTC.ZombCube.Player player;
 
         public string playerID;
 
@@ -77,7 +77,7 @@ namespace CloudSaveSample
             {
                 try
                 {
-                    Com.MorganHouston.ZombCube.SaveData incomingSample = await RetrieveSpecificData<Com.MorganHouston.ZombCube.SaveData>(playerID);
+                    Com.GCTC.ZombCube.SaveData incomingSample = await RetrieveSpecificData<Com.GCTC.ZombCube.SaveData>(playerID);
                     //Debug.Log($"Loaded object: {incomingSample.playerName}, {incomingSample.points}, {incomingSample.currentBlaster}");
                     LoadPlayerData(incomingSample);
                 }
@@ -109,7 +109,7 @@ namespace CloudSaveSample
                     return;
                 }
             }
-            Com.MorganHouston.ZombCube.SceneLoader.ToMainMenu();
+            Com.GCTC.ZombCube.SceneLoader.ToMainMenu();
         }
 
         private async Task ListAllKeys()
@@ -165,7 +165,7 @@ namespace CloudSaveSample
             }
         }
 
-        public async Task SavePlayerData(Com.MorganHouston.ZombCube.SaveData data)
+        public async Task SavePlayerData(Com.GCTC.ZombCube.SaveData data)
         {
             await ForceSaveObjectData(playerID, data);
         }
@@ -276,7 +276,7 @@ namespace CloudSaveSample
         /// </summary>
         public void LoadPlayerData()
         {
-            Com.MorganHouston.ZombCube.SaveData data = Com.MorganHouston.ZombCube.SaveSystem.LoadPlayer();
+            Com.GCTC.ZombCube.SaveData data = Com.GCTC.ZombCube.SaveSystem.LoadPlayer();
 
             player.playerName = data.playerName;
             player.coins = data.coins;
@@ -288,7 +288,7 @@ namespace CloudSaveSample
             player.ownedSkins = data.ownedSkins;
         }
 
-        public void LoadPlayerData(Com.MorganHouston.ZombCube.SaveData data)
+        public void LoadPlayerData(Com.GCTC.ZombCube.SaveData data)
         {
 
             player.playerName = data.playerName;

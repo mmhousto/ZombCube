@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using Com.MorganHouston.ZombCube;
+using Com.GCTC.ZombCube;
 
 public class SpawnPlayers : MonoBehaviourPun
 {

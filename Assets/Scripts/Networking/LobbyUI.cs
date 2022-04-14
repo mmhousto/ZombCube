@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
     public class LobbyUI : MonoBehaviourPunCallbacks
     {

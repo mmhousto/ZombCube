@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using Photon.Realtime;
-using Com.MorganHouston.ZombCube;
+using Com.GCTC.ZombCube;
 
-public class GameSetup : MonoBehaviourPun
+public class GameSetup : MonoBehaviour
 {
     public static GameSetup GS;
 
@@ -14,9 +12,9 @@ public class GameSetup : MonoBehaviourPun
 
     private void OnEnable()
     {
-        if(GameSetup.GS == null)
+        if(GS == null)
         {
-            GameSetup.GS = this;
+            GS = this;
         }
     }
 

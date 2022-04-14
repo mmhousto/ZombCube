@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class PurchaseFulfillment : MonoBehaviour
@@ -19,7 +19,7 @@ namespace Com.MorganHouston.ZombCube
 #else
             restoreButton.SetActive(false);
 #endif
-            player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+            player = Player.Instance;
         }
 
         public void GrantCoins(int credits)

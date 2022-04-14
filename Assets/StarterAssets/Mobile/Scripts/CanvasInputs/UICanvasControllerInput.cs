@@ -1,5 +1,5 @@
 using UnityEngine;
-using Com.MorganHouston.ZombCube;
+using Com.GCTC.ZombCube;
 
 namespace StarterAssets
 {

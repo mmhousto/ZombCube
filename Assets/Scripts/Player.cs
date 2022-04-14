@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class Player : MonoBehaviour
@@ -18,6 +18,7 @@ namespace Com.MorganHouston.ZombCube
         public int currentBlaster = 0;
         public int currentSkin = 0;
         public int highestWave = 0;
+        public int highestWaveParty = 0;
         public string playerName = "PlayerName";
         public int[] ownedBlasters = { 1, 0, 0, 0, 0, 0, 0, 0 };
         public int[] ownedSkins = { 1, 0, 0, 0, 0, 0, 0, 0 };
@@ -34,6 +35,7 @@ namespace Com.MorganHouston.ZombCube
             currentBlaster = player.currentBlaster;
             currentSkin = player.currentBlaster;
             highestWave = player.highestWave;
+            highestWaveParty = player.highestWaveParty;
             playerName = player.playerName;
             ownedBlasters = player.ownedBlasters;
             ownedSkins = player.ownedSkins;

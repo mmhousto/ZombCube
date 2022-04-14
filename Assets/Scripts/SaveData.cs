@@ -1,4 +1,4 @@
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
     [System.Serializable]
     public class SaveData
@@ -10,6 +10,7 @@ namespace Com.MorganHouston.ZombCube
         public int currentBlaster = 0;
         public int currentSkin = 0;
         public int highestWave = 0;
+        public int highestWaveParty = 0;
         public string playerName = "PlayerName";
         public int[] ownedBlasters;
         public int[] ownedSkins;
@@ -25,6 +26,7 @@ namespace Com.MorganHouston.ZombCube
             coins = 0;
             points = 0;
             highestWave = 0;
+            highestWaveParty = 0;
             currentBlaster = 0;
             ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
             currentSkin = 0;
@@ -42,6 +44,7 @@ namespace Com.MorganHouston.ZombCube
             coins = player.coins;
             points = player.points;
             highestWave = player.highestWave;
+            highestWaveParty = player.highestWaveParty;
             currentBlaster = player.currentBlaster;
             ownedBlasters = player.ownedBlasters;
             currentSkin = player.currentSkin;

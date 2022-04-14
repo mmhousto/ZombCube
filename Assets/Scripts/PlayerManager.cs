@@ -8,7 +8,7 @@ using System;
 using System.Threading.Tasks;
 using StarterAssets;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class PlayerManager : MonoBehaviour

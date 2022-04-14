@@ -7,7 +7,7 @@ using Photon.Pun;
 using StarterAssets;
 using UnityEngine.InputSystem;
 
-namespace Com.MorganHouston.ZombCube
+namespace Com.GCTC.ZombCube
 {
 
     public class NetworkPlayerManager : MonoBehaviourPunCallbacks, IPunObservable
@@ -222,9 +222,9 @@ namespace Com.MorganHouston.ZombCube
         private void UpdateHighestWave()
         {
             int endingRound = NetworkGameManager.Instance.CurrentRound;
-            if (player.highestWave < endingRound)
+            if (player.highestWaveParty < endingRound)
             {
-                player.highestWave = endingRound;
+                player.highestWaveParty = endingRound;
             }
         }
 
