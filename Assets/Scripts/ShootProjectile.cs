@@ -97,6 +97,7 @@ namespace Com.MorganHouston.ZombCube
         {
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
             clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+            Player.Instance.totalProjectilesFired++;
         }
 
         #endregion

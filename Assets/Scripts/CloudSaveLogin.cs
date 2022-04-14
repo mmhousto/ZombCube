@@ -1064,9 +1064,9 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
-            player.cubesEliminated = 0;
-            player.totalPointsEarned = 0;
-            player.totalProjectilesFired = 0;
+            player.cubesEliminated = data.cubesEliminated;
+            player.totalPointsEarned = data.totalPointsEarned;
+            player.totalProjectilesFired = data.totalProjectilesFired;
 
             player.currentBlaster = data.currentBlaster;
             if (data.ownedBlasters == null)
@@ -1129,9 +1129,9 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
-            player.cubesEliminated = 0;
-            player.totalPointsEarned = 0;
-            player.totalProjectilesFired = 0;
+            player.cubesEliminated = data.cubesEliminated;
+            player.totalPointsEarned = data.totalPointsEarned;
+            player.totalProjectilesFired = data.totalProjectilesFired;
 
             player.currentBlaster = data.currentBlaster;
             if (data.ownedBlasters == null)

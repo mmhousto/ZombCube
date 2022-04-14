@@ -53,6 +53,7 @@ namespace Com.MorganHouston.ZombCube
                     clone.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, launchVelocity));
                     fireTime = fireRate;
                     isFiring = false;
+                    Player.Instance.totalProjectilesFired++;
                 }
             }
         }
