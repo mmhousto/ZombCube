@@ -54,6 +54,29 @@ namespace Com.GCTC.ZombCube
                     fireTime = fireRate;
                     isFiring = false;
                     Player.Instance.totalProjectilesFired++;
+
+                    CheckForTriggerHappyAchievements();
+                }
+            }
+        }
+
+        private void CheckForTriggerHappyAchievements()
+        {
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                if (Player.Instance.totalProjectilesFired == 100_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyI();
+                }
+
+                if (Player.Instance.totalProjectilesFired == 1_000_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyII();
+                }
+
+                if (Player.Instance.totalProjectilesFired == 10_000_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyIII();
                 }
             }
         }

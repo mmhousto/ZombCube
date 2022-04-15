@@ -227,6 +227,11 @@ namespace Com.GCTC.ZombCube
         public void NextWave()
         {
             CurrentRound += 1;
+
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google && CurrentRound == 50)
+            {
+                LeaderboardManager.UnlockStayinAliveTogether();
+            }
         }
 
         [PunRPC]

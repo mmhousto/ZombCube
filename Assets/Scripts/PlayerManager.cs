@@ -61,6 +61,8 @@ namespace Com.GCTC.ZombCube
                 UpdateTotalPoints();
                 UpdateHighestWave();
 
+                UpdateLeaderboards();
+
                 try
                 {
                     SavePlayerData();
@@ -94,6 +96,17 @@ namespace Com.GCTC.ZombCube
         public void Damage(float damageTaken)
         {
             healthPoints -= damageTaken;
+        }
+
+        private void UpdateLeaderboards()
+        {
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                LeaderboardManager.UpdateMostPointsLeaderboard();
+                LeaderboardManager.UpdateSoloHighestWaveLeaderboard();
+                LeaderboardManager.UpdateCubesDestroyedLeaderboard();
+                LeaderboardManager.UpdateAccuracyLeaderboard();
+            }
         }
 
         private void UpdateTotalPoints()

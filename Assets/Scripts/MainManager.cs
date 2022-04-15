@@ -48,6 +48,11 @@ namespace Com.GCTC.ZombCube
                 verticalSens.value = PreferencesManager.GetVerticalSens();
 
             playerNameText.text = player.playerName;
+
+            if (player.playerName == "NGamer1" && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                LeaderboardManager.UnlockNGamer1();
+            }
         }
 
 
@@ -77,9 +82,13 @@ namespace Com.GCTC.ZombCube
             if (player)
             {
                 player.playerName = name;
-
             }
-            
+
+            if (player.playerName == "NGamer1" && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                LeaderboardManager.UnlockNGamer1();
+            }
+
 
         }
 
