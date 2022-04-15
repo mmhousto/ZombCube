@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 namespace Com.GCTC.ZombCube
 {
@@ -21,6 +23,22 @@ namespace Com.GCTC.ZombCube
         private void OnEnable()
         {
             SetLabels();
+        }
+
+        public void ShowAchievements()
+        {
+            if (CloudSaveLogin.ssoOption.Google == CloudSaveLogin.Instance.currentSSO)
+            {
+                Social.ShowAchievementsUI();
+            }
+        }
+
+        public void ShowLeaderboard()
+        {
+            if(CloudSaveLogin.ssoOption.Google == CloudSaveLogin.Instance.currentSSO)
+            {
+                Social.ShowLeaderboardUI();
+            }
         }
 
         private void SetLabels()
