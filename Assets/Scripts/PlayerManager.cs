@@ -100,7 +100,7 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateLeaderboards()
         {
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
                 LeaderboardManager.UpdateSoloHighestWaveLeaderboard();

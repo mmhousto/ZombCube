@@ -27,7 +27,7 @@ namespace Com.GCTC.ZombCube
 
         public void ShowAchievements()
         {
-            if (CloudSaveLogin.ssoOption.Google == CloudSaveLogin.Instance.currentSSO)
+            if (CloudSaveLogin.ssoOption.Google == CloudSaveLogin.Instance.currentSSO || CloudSaveLogin.ssoOption.Apple == CloudSaveLogin.Instance.currentSSO)
             {
                 Social.ShowAchievementsUI();
             }
@@ -35,7 +35,7 @@ namespace Com.GCTC.ZombCube
 
         public void ShowLeaderboard()
         {
-            if(CloudSaveLogin.ssoOption.Google == CloudSaveLogin.Instance.currentSSO)
+            if(CloudSaveLogin.ssoOption.Google == CloudSaveLogin.Instance.currentSSO || CloudSaveLogin.ssoOption.Apple == CloudSaveLogin.Instance.currentSSO)
             {
                 Social.ShowLeaderboardUI();
             }

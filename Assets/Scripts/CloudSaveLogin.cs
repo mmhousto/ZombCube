@@ -230,6 +230,19 @@ namespace Com.GCTC.ZombCube
 
             SetPlayer(AuthenticationService.Instance.PlayerId, userName);
 
+            Social.localUser.Authenticate(success =>
+            {
+                if (success)
+                {
+                    Debug.Log("Using Game Center");
+                    SetPlayer(AuthenticationService.Instance.PlayerId, Social.localUser.userName);
+                }
+                else
+                {
+                    Debug.Log("Not Using Game Center");
+                }
+            });
+
             Login();
 
         }
@@ -799,12 +812,8 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             {
                 LoadPlayerData(id, name);
             }
-            /*
-            // updates facebook gaming name
-            if (FB.IsInitialized)
-            {
-                player.userName = name;
-            }*/
+
+            player.userName = name;
         }
 
 
