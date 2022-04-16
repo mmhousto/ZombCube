@@ -49,10 +49,12 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = player.playerName;
 
-            if (player.playerName == "NGamer1" && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+#if (UNITY_IOS || UNITY_ANDROID)
+            if (player.playerName == "NGamer1")
             {
                 LeaderboardManager.UnlockNGamer1();
             }
+#endif
         }
 
 
@@ -84,10 +86,12 @@ namespace Com.GCTC.ZombCube
                 player.playerName = name;
             }
 
-            if (player.playerName == "NGamer1" && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+#if (UNITY_IOS || UNITY_ANDROID)
+            if (player.playerName == "NGamer1")
             {
                 LeaderboardManager.UnlockNGamer1();
             }
+#endif
 
 
         }

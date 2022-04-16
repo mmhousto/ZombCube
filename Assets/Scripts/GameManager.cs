@@ -69,10 +69,12 @@ namespace Com.GCTC.ZombCube
             CurrentRound += 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-            if(CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google && CurrentRound == 50)
+#if (UNITY_IOS || UNITY_ANDROID)
+            if (CurrentRound == 50)
             {
                 LeaderboardManager.UnlockStayinAlive();
             }
+#endif
         }
 
         public void SetCursorState()

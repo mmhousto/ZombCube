@@ -44,6 +44,8 @@ namespace Com.GCTC.ZombCube
 
         public bool devModeActivated = false;
 
+        public bool gameCenterSignedIn = false;
+
         // User Info.
         public string userName, userID;
 
@@ -230,18 +232,7 @@ namespace Com.GCTC.ZombCube
 
             SetPlayer(AuthenticationService.Instance.PlayerId, userName);
 
-            Social.localUser.Authenticate(success =>
-            {
-                if (success)
-                {
-                    Debug.Log("Using Game Center");
-                    SetPlayer(AuthenticationService.Instance.PlayerId, Social.localUser.userName);
-                }
-                else
-                {
-                    Debug.Log("Not Using Game Center");
-                }
-            });
+            SignInGameCenter();
 
             Login();
 
@@ -387,7 +378,26 @@ namespace Com.GCTC.ZombCube
             await AuthenticationService.Instance.SignInWithAppleAsync(idToken);
 
             SetPlayer(AuthenticationService.Instance.PlayerId, userName);
+
+            SignInGameCenter();
+
             Login();
+        }
+
+        public void SignInGameCenter()
+        {
+            Social.localUser.Authenticate(success =>
+            {
+                if (success)
+                {
+                    gameCenterSignedIn = true;
+                    SetPlayer(AuthenticationService.Instance.PlayerId, Social.localUser.userName);
+                }
+                else
+                {
+                    gameCenterSignedIn = false;
+                }
+            });
         }
 
         /// <summary>

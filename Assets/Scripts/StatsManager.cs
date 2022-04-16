@@ -5,6 +5,7 @@ using TMPro;
 using System;
 using GooglePlayGames;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.UI;
 
 namespace Com.GCTC.ZombCube
 {
@@ -15,9 +16,11 @@ namespace Com.GCTC.ZombCube
         public TextMeshProUGUI userIdLabel, userNameLabel, playerNameLabel, cubesDestroyedLabel,
             currentBlasterLabel, currentSkinLabel, soloWaveLabel, partyWaveLabel, projectilesLabel, totalPointsLabel;
 
-        // Start is called before the first frame update
-        void Start()
+        public GameObject gameCenterButton, leaderboardsButton, achievementsButton;
+
+        private void Start()
         {
+            SetButtons();
         }
 
         private void OnEnable()
@@ -27,7 +30,7 @@ namespace Com.GCTC.ZombCube
 
         public void ShowAchievements()
         {
-            if (CloudSaveLogin.ssoOption.Google == CloudSaveLogin.Instance.currentSSO || CloudSaveLogin.ssoOption.Apple == CloudSaveLogin.Instance.currentSSO)
+            if (Social.localUser.authenticated)
             {
                 Social.ShowAchievementsUI();
             }
@@ -35,9 +38,44 @@ namespace Com.GCTC.ZombCube
 
         public void ShowLeaderboard()
         {
-            if(CloudSaveLogin.ssoOption.Google == CloudSaveLogin.Instance.currentSSO || CloudSaveLogin.ssoOption.Apple == CloudSaveLogin.Instance.currentSSO)
+            if(Social.localUser.authenticated)
             {
                 Social.ShowLeaderboardUI();
+            }
+        }
+
+        private void SetButtons()
+        {
+#if(UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_TVOS || UNITY_ANDROID)
+            if (Social.localUser.authenticated)
+            {
+                gameCenterButton.SetActive(false);
+                leaderboardsButton.SetActive(true);
+                achievementsButton.SetActive(true);
+            }
+            else
+            {
+                gameCenterButton.SetActive(true);
+                leaderboardsButton.SetActive(false);
+                achievementsButton.SetActive(false);
+            }
+#else
+            gameCenterButton.SetActive(false);
+            leaderboardsButton.SetActive(false);
+            achievementsButton.SetActive(false);
+#endif
+
+        }
+
+        public void SignInGameCenter()
+        {
+            CloudSaveLogin.Instance.SignInGameCenter();
+
+            if (Social.localUser.authenticated)
+            {
+                gameCenterButton.SetActive(false);
+                leaderboardsButton.SetActive(true);
+                achievementsButton.SetActive(true);
             }
         }
 

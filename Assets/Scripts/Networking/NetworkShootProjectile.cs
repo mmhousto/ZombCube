@@ -55,15 +55,15 @@ namespace Com.GCTC.ZombCube
                     isFiring = false;
                     Player.Instance.totalProjectilesFired++;
 
+#if (UNITY_IOS || UNITY_ANDROID)
                     CheckForTriggerHappyAchievements();
+#endif
                 }
             }
         }
 
         private void CheckForTriggerHappyAchievements()
         {
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
-            {
                 if (Player.Instance.totalProjectilesFired == 100_000)
                 {
                     LeaderboardManager.UnlockTriggerHappyI();
@@ -78,7 +78,6 @@ namespace Com.GCTC.ZombCube
                 {
                     LeaderboardManager.UnlockTriggerHappyIII();
                 }
-            }
         }
 
         /// <summary>

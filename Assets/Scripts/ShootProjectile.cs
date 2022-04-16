@@ -90,6 +90,24 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        private void CheckForTriggerHappyAchievements()
+        {
+            if (Player.Instance.totalProjectilesFired == 100_000)
+            {
+                LeaderboardManager.UnlockTriggerHappyI();
+            }
+
+            if (Player.Instance.totalProjectilesFired == 1_000_000)
+            {
+                LeaderboardManager.UnlockTriggerHappyII();
+            }
+
+            if (Player.Instance.totalProjectilesFired == 10_000_000)
+            {
+                LeaderboardManager.UnlockTriggerHappyIII();
+            }
+        }
+
         /// <summary>
         /// Launches one projectile forward from player based on launchVector.
         /// </summary>
@@ -98,6 +116,10 @@ namespace Com.GCTC.ZombCube
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
             clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
             Player.Instance.totalProjectilesFired++;
+
+#if (UNITY_IOS || UNITY_ANDROID)
+            CheckForTriggerHappyAchievements();
+#endif
         }
 
         #endregion

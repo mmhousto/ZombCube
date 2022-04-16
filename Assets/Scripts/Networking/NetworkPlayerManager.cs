@@ -164,7 +164,10 @@ namespace Com.GCTC.ZombCube
                 {
                     UpdateTotalPoints();
                     UpdateHighestWave();
+
+#if (UNITY_IOS || UNITY_ANDROID)
                     UpdateLeaderboards();
+#endif
 
                     try
                     {
@@ -207,13 +210,10 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateLeaderboards()
         {
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
-            {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
                 LeaderboardManager.UpdatePartyHighestWaveLeaderboard();
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
-            }
         }
 
 
