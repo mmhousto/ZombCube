@@ -28,20 +28,31 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
 
     void Start()
     {
-        DisableAutoSwitchControls();
+        HandleMobileControls();
+    }
+
+    private void Update()
+    {
+        HandleMobileControls();
     }
 
 
-    void DisableAutoSwitchControls()
+    void HandleMobileControls()
     {
-        if(playerInput != null)
-            playerInput.neverAutoSwitchControlSchemes = true;
+        if (playerInput != null)
+        {
+            if (playerInput.currentControlScheme != "Touch")
+                this.gameObject.SetActive(false);
+            if (playerInput.currentControlScheme == "Touch")
+                this.gameObject.SetActive(true);
+        }
+        
     }
 
 #else
     private void Start()
     {
-        this.gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
     
 

@@ -92,19 +92,22 @@ namespace Com.GCTC.ZombCube
 
         private void CheckForTriggerHappyAchievements()
         {
-            if (Player.Instance.totalProjectilesFired == 100_000)
+            if (Social.localUser.authenticated)
             {
-                LeaderboardManager.UnlockTriggerHappyI();
-            }
+                if (Player.Instance.totalProjectilesFired == 100_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyI();
+                }
 
-            if (Player.Instance.totalProjectilesFired == 1_000_000)
-            {
-                LeaderboardManager.UnlockTriggerHappyII();
-            }
+                if (Player.Instance.totalProjectilesFired == 1_000_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyII();
+                }
 
-            if (Player.Instance.totalProjectilesFired == 10_000_000)
-            {
-                LeaderboardManager.UnlockTriggerHappyIII();
+                if (Player.Instance.totalProjectilesFired == 10_000_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyIII();
+                }
             }
         }
 
@@ -117,9 +120,7 @@ namespace Com.GCTC.ZombCube
             clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
             Player.Instance.totalProjectilesFired++;
 
-#if (UNITY_IOS || UNITY_ANDROID)
             CheckForTriggerHappyAchievements();
-#endif
         }
 
         #endregion

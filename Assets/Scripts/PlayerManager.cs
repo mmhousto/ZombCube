@@ -60,10 +60,7 @@ namespace Com.GCTC.ZombCube
                 //Update player stats and save to cloud and disk.
                 UpdateTotalPoints();
                 UpdateHighestWave();
-
-#if (UNITY_IOS || UNITY_ANDROID)
                 UpdateLeaderboards();
-#endif
 
                 try
                 {
@@ -102,10 +99,13 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateLeaderboards()
         {
+            if (Social.localUser.authenticated)
+            {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
                 LeaderboardManager.UpdateSoloHighestWaveLeaderboard();
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
+            }
         }
 
         private void UpdateTotalPoints()

@@ -23,6 +23,8 @@ namespace Com.GCTC.ZombCube
 
         public Slider horizontalSens, verticalSens;
 
+        private bool reportedNGamer;
+
         /// <summary>
         /// Tries to load the players data.
         /// </summary>
@@ -49,20 +51,20 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = player.playerName;
 
-#if (UNITY_IOS || UNITY_ANDROID)
-            if (player.playerName == "NGamer1")
+            if (player.playerName == "NGamer1" && Social.localUser.authenticated && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
+                reportedNGamer = true;
             }
-#endif
         }
-
 
         // Update is called once per frame
         void Update()
         {
             if(playerNameText.text != player.playerName)
                 playerNameText.text = player.playerName;
+
+            CheckNGamer1();
         }
 
         public void ChangeHorizontalSens(float sensitivty)
@@ -85,14 +87,6 @@ namespace Com.GCTC.ZombCube
             {
                 player.playerName = name;
             }
-
-#if (UNITY_IOS || UNITY_ANDROID)
-            if (player.playerName == "NGamer1")
-            {
-                LeaderboardManager.UnlockNGamer1();
-            }
-#endif
-
 
         }
 
@@ -137,6 +131,15 @@ namespace Com.GCTC.ZombCube
             catch
             {
                 Debug.Log("Failed to save data.");
+            }
+        }
+
+        private void CheckNGamer1()
+        {
+            if (player.playerName == "NGamer1" && Social.localUser.authenticated && reportedNGamer == false)
+            {
+                LeaderboardManager.UnlockNGamer1();
+                reportedNGamer = true;
             }
         }
 

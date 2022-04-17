@@ -47,9 +47,7 @@ namespace Com.GCTC.ZombCube
                     Player.Instance.cubesEliminated++;
 
                 }
-#if (UNITY_IOS || UNITY_ANDROID)
                 CheckForCubeDestroyerAchievements();
-#endif
             }
 
         }
@@ -60,17 +58,17 @@ namespace Com.GCTC.ZombCube
             {
                 enemiesHit++;
 
-#if (UNITY_IOS || UNITY_ANDROID)
-                if (enemiesHit == 5)
+                if (enemiesHit == 5 && Social.localUser.authenticated)
                 {
                     LeaderboardManager.UnlockRicochetKing();
                 }
-#endif
             }
         }
 
         private void CheckForCubeDestroyerAchievements()
         {
+            if (Social.localUser.authenticated)
+            {
                 if (Player.Instance.cubesEliminated == 10_000)
                 {
                     LeaderboardManager.UnlockCubeDestroyerI();
@@ -85,6 +83,7 @@ namespace Com.GCTC.ZombCube
                 {
                     LeaderboardManager.UnlockCubeDestroyerIII();
                 }
+            }
         }
 
     }

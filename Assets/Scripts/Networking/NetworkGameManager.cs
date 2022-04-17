@@ -228,12 +228,10 @@ namespace Com.GCTC.ZombCube
         {
             CurrentRound += 1;
 
-#if (UNITY_IOS || UNITY_ANDROID)
-            if (CurrentRound == 50)
+            if (CurrentRound == 50 && Social.localUser.authenticated)
             {
                 LeaderboardManager.UnlockStayinAliveTogether();
             }
-#endif
         }
 
         [PunRPC]

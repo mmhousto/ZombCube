@@ -69,12 +69,10 @@ namespace Com.GCTC.ZombCube
             CurrentRound += 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-#if (UNITY_IOS || UNITY_ANDROID)
-            if (CurrentRound == 50)
+            if (CurrentRound == 50 && Social.localUser.authenticated)
             {
                 LeaderboardManager.UnlockStayinAlive();
             }
-#endif
         }
 
         public void SetCursorState()
