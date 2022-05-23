@@ -826,35 +826,6 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             player.userName = name;
         }
 
-
-        /// <summary>
-        /// Signs in with Session Token.
-        /// </summary>
-        /// <returns></returns>
-        async Task SignInWithSessionTokenAsync()
-        {
-            try
-            {
-                await AuthenticationService.Instance.SignInWithSessionTokenAsync();
-
-                SetPlayer(userID, userName);
-
-                Login();
-            }
-            catch (AuthenticationException ex)
-            {
-                // Compare error code to AuthenticationErrorCodes
-                // Notify the player with the proper error message
-                Debug.LogException(ex);
-            }
-            catch (RequestFailedException ex)
-            {
-                // Compare error code to CommonErrorCodes
-                // Notify the player with the proper error message
-                Debug.LogException(ex);
-            }
-        }
-
         /// <summary>
         /// List all the cloud save keys/players.
         /// </summary>
@@ -863,7 +834,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         {
             try
             {
-                var keys = await Unity.Services.CloudSave.SaveData.RetrieveAllKeysAsync();
+                var keys = await CloudSaveService.Instance.Data.RetrieveAllKeysAsync();
 
                 Debug.Log($"Keys count: {keys.Count}\n" +
                           $"Keys: {String.Join(", ", keys)}");
@@ -904,7 +875,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                     oneElement.Add(key, value);
                 }
 
-                await Unity.Services.CloudSave.SaveData.ForceSaveAsync(oneElement);
+                await CloudSaveService.Instance.Data.ForceSaveAsync(oneElement);
 
                 Debug.Log($"Successfully saved {key}:{value}");
             }
@@ -935,7 +906,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                     { key, value }
                 };
 
-                await Unity.Services.CloudSave.SaveData.ForceSaveAsync(oneElement);
+                await CloudSaveService.Instance.Data.ForceSaveAsync(oneElement);
 
             }
             catch (CloudSaveValidationException e)
@@ -958,7 +929,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         {
             try
             {
-                var results = await Unity.Services.CloudSave.SaveData.LoadAsync(new HashSet<string> { key });
+                var results = await CloudSaveService.Instance.Data.LoadAsync(new HashSet<string> { key });
 
                 if (results.TryGetValue(key, out string value))
                 {
@@ -991,7 +962,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             {
                 // If you wish to load only a subset of keys rather than everything, you
                 // can call a method LoadAsync and pass a HashSet of keys into it.
-                var results = await Unity.Services.CloudSave.SaveData.LoadAllAsync();
+                var results = await CloudSaveService.Instance.Data.LoadAllAsync();
 
                 foreach (var element in results)
                 {
@@ -1019,7 +990,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         {
             try
             {
-                await Unity.Services.CloudSave.SaveData.ForceDeleteAsync(key);
+                await CloudSaveService.Instance.Data.ForceDeleteAsync(key);
 
             }
             catch (CloudSaveValidationException e)
