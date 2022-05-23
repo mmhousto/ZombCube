@@ -9,7 +9,6 @@ public class GameSetup : MonoBehaviour
 
     public Transform[] spawnLocations;
 
-
     private void OnEnable()
     {
         if(GS == null)
