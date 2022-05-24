@@ -1,6 +1,6 @@
 using UnityEngine;
 
-#if (UNITY_IOS || UNITY_ANDROID)
+#if UNITY_IOS || UNITY_ANDROID
 using UnityEngine.Advertisements;
 using UnityEngine.Purchasing;
 
@@ -8,7 +8,7 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IU
 {
     [SerializeField] string _androidGameId = "4415503";
     [SerializeField] string _iOsGameId = "4415502";
-    [SerializeField] bool _testMode = true;
+    [SerializeField] bool _testMode = false;
     [SerializeField] bool _enablePerPlacementMode = true;
     private string _gameId;
 
