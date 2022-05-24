@@ -1,7 +1,9 @@
 ﻿using Unity.Advertisement.IosSupport.Components;
 using UnityEngine;
 using System;
+#if UNITY_IOS
 using UnityEngine.iOS;
+#endif
 
 namespace Unity.Advertisement.IosSupport.Samples
 {
