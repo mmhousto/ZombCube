@@ -170,12 +170,8 @@ namespace Com.GCTC.ZombCube
             else
                 await UnityServices.InitializeAsync();
 
-           
-
             currentSSO = ssoOption.Anonymous;
             AuthenticationService.Instance.SwitchProfile("default");
-
-            await SignInAnonymouslyAsync();
 
             if (AuthenticationService.Instance.IsSignedIn)
             {
