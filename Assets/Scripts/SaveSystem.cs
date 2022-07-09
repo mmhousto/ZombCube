@@ -49,6 +49,15 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public static void DeletePlayer()
+        {
+            string path = Application.persistentDataPath + "/playerData.hax";
+            File.Delete(path);
+#if UNITY_EDITOR
+ UnityEditor.AssetDatabase.Refresh();
+#endif
+        }
+
     }
 
 }

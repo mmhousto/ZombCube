@@ -42,6 +42,23 @@ namespace Com.GCTC.ZombCube
 
         }
 
+        public void SignInAnon()
+        {
+            CloudSaveLogin.Instance.SignInAnonymously();
+        }
+
+        public void SignInApple()
+        {
+            CloudSaveLogin.Instance.SignInApple();
+        }
+
+        public void SignInGoogle()
+        {
+#if UNITY_ANDROID
+            CloudSaveLogin.Instance.LoginGooglePlayGames();
+#endif
+        }
+
         public void SelectObject(GameObject uiElement)
         {
             EventSystem.current.SetSelectedGameObject(null);

@@ -156,6 +156,20 @@ namespace Com.GCTC.ZombCube
 #region Public Sign In/Out Methods
 
 
+        public async void DeleteAccount()
+        {
+            ForceDeleteSpecificData(userID);
+            SaveSystem.DeletePlayer();
+            AuthenticationService.Instance.DeleteAccountAsync();
+            AuthenticationService.Instance.SignOut();
+#if UNITY_ANDROID
+            GoogleLogout();
+#endif
+            LogoutScreenActivate();
+        }
+
+
+
         /// <summary>
         /// Signs user into an anonymous account.
         /// </summary>
@@ -791,6 +805,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         private async void SetPlayer(string id)
         {
             SaveData incomingSample = await RetrieveSpecificData<SaveData>(id);
+            Debug.Log(incomingSample);
 
             if (incomingSample != null)
             {

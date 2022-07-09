@@ -16,7 +16,7 @@ namespace Com.GCTC.ZombCube
         public TextMeshProUGUI userIdLabel, userNameLabel, playerNameLabel, cubesDestroyedLabel,
             currentBlasterLabel, currentSkinLabel, soloWaveLabel, partyWaveLabel, projectilesLabel, totalPointsLabel;
 
-        public GameObject gameCenterButton, leaderboardsButton, achievementsButton;
+        public GameObject gameCenterButton, leaderboardsButton, achievementsButton, logoutButton;
 
         private void Start()
         {
@@ -36,6 +36,11 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void LogoutUser()
+        {
+            CloudSaveLogin.Instance.Logout();
+        }
+
         public void ShowLeaderboard()
         {
             if(Social.localUser.authenticated)
@@ -44,9 +49,14 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void DeleteAccount()
+        {
+            CloudSaveLogin.Instance.DeleteAccount();
+        }
+
         private void SetButtons()
         {
-#if(UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_TVOS || UNITY_ANDROID)
+#if (UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_TVOS || UNITY_ANDROID)
             if (Social.localUser.authenticated)
             {
                 gameCenterButton.SetActive(false);
@@ -63,6 +73,12 @@ namespace Com.GCTC.ZombCube
             gameCenterButton.SetActive(false);
             leaderboardsButton.SetActive(false);
             achievementsButton.SetActive(false);
+#endif
+
+#if UNITY_IOS
+            logoutButton.SetActive(false);
+#else
+            logoutButton.SetActive(true);
 #endif
 
         }
