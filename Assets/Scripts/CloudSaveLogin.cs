@@ -160,8 +160,9 @@ namespace Com.GCTC.ZombCube
         {
             ForceDeleteSpecificData(userID);
             SaveSystem.DeletePlayer();
-            AuthenticationService.Instance.DeleteAccountAsync();
             AuthenticationService.Instance.SignOut();
+            AuthenticationService.Instance.DeleteAccountAsync();
+            
 #if UNITY_ANDROID
             GoogleLogout();
 #endif
@@ -779,7 +780,10 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-                SetPlayer(AuthenticationService.Instance.PlayerId);
+                userID = AuthenticationService.Instance.PlayerId;
+                userName = "Guest_" + userID;
+
+                SetPlayer(userID);
 
                 Login();
 
