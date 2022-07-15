@@ -158,11 +158,26 @@ namespace Com.GCTC.ZombCube
 
         public async void DeleteAccount()
         {
-            ForceDeleteSpecificData(userID);
+            await ForceDeleteSpecificData(userID);
             SaveSystem.DeletePlayer();
-            AuthenticationService.Instance.SignOut();
-            AuthenticationService.Instance.DeleteAccountAsync();
-            
+            await AuthenticationService.Instance.DeleteAccountAsync();
+
+            userID = "";
+            userName = "";
+
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                this.appleAuthManager.SetCredentialsRevokedCallback(result =>
+                {
+                    // Sign in with Apple Credentials were revoked.
+                    // Discard credentials/user id and go to login screen.
+                    
+                    PlayerPrefs.SetString("AppleUserIdKey", "");
+                    PlayerPrefs.SetString("AppleUserNameKey", "");
+                    PlayerPrefs.SetString("AppleTokenIdKey", "");
+                });
+            }
+
 #if UNITY_ANDROID
             GoogleLogout();
 #endif

@@ -75,11 +75,14 @@ namespace Com.GCTC.ZombCube
             achievementsButton.SetActive(false);
 #endif
 
-#if UNITY_IOS
-            logoutButton.SetActive(false);
-#else
-            logoutButton.SetActive(true);
-#endif
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                logoutButton.SetActive(false);
+            }
+            else
+            {
+                logoutButton.SetActive(true);
+            }
 
         }
 
