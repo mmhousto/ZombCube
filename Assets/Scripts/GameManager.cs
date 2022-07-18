@@ -91,6 +91,7 @@ namespace Com.GCTC.ZombCube
 
         public void GameOver()
         {
+            AdsInitializer.timesPlayed++;
             //playerInput.SwitchCurrentActionMap("UI");
             playerInput.actions.Disable();
             EventSystem.current.SetSelectedGameObject(null);

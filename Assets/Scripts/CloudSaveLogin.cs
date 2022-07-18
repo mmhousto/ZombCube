@@ -69,6 +69,8 @@ namespace Com.GCTC.ZombCube
                 DontDestroyOnLoad(Instance.gameObject);
             }
 
+            AdsInitializer.timesPlayed = 0;
+
             if (UnityServices.State == ServicesInitializationState.Initialized)
             {
 

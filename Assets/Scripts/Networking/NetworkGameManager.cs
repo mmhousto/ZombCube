@@ -213,7 +213,7 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void GameOver()
         {
-            
+            AdsInitializer.timesPlayed++;
             isGameOver = true;
             SelectObject(restart);
             Cursor.lockState = CursorLockMode.None;

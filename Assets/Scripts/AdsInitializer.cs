@@ -10,13 +10,15 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IU
     [SerializeField] string _iOsGameId = "4415502";
     [SerializeField] bool _testMode = false;
     [SerializeField] bool _enablePerPlacementMode = true;
+    public static int timesPlayed = 0;
     private string _gameId;
 
     public InterstitialAd interstitialAd;
 
     void Awake()
     {
-        InitializeAds();
+        if(timesPlayed % 3 != 0)
+            InitializeAds();
     }
 
     public void InitializeAds()

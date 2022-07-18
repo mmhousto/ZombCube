@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
 using System.Threading.Tasks;
+using UnityEngine.EventSystems;
 
 namespace Com.GCTC.ZombCube
 {
@@ -15,6 +16,8 @@ namespace Com.GCTC.ZombCube
         public GameObject[] blasterItems;
         [Tooltip("The cosmetic skin colors you can buy with coins or points.")]
         public GameObject[] skinItems;
+
+        public GameObject notEnoughPointsPanel, closeButton;
 
         [Tooltip("The players data object.")]
         private Player player;
@@ -103,7 +106,10 @@ namespace Com.GCTC.ZombCube
                     player.ownedBlasters[index] = 1;
                     player.coins -= price;
                 }
-            }
+                else
+                {
+                    NotEnough();
+                }            }
             else
             {
                 price = 500;
@@ -111,6 +117,10 @@ namespace Com.GCTC.ZombCube
                 {
                     player.ownedBlasters[index] = 1;
                     player.points -= price;
+                }
+                else
+                {
+                    NotEnough();
                 }
             }
 
@@ -165,6 +175,10 @@ namespace Com.GCTC.ZombCube
                     player.ownedSkins[index] = 1;
                     player.coins -= price;
                 }
+                else
+                {
+                    NotEnough();
+                }
             }
             else
             {
@@ -173,6 +187,10 @@ namespace Com.GCTC.ZombCube
                 {
                     player.ownedSkins[index] = 1;
                     player.points -= price;
+                }
+                else
+                {
+                    NotEnough();
                 }
             }
 
@@ -213,6 +231,13 @@ namespace Com.GCTC.ZombCube
             {
                 Debug.Log("Failed to save cloud data.");
             }
+        }
+
+        private void NotEnough()
+        {
+            notEnoughPointsPanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(closeButton);
         }
 
     }
