@@ -65,6 +65,9 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IU
 
 public class AdsInitializer : MonoBehaviour
 {
+
+    public static int timesPlayed = 0;
+
     private void Awake()
     {
         Destroy(this.gameObject);
