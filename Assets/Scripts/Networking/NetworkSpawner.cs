@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 namespace Com.GCTC.ZombCube
 {
@@ -17,6 +18,10 @@ namespace Com.GCTC.ZombCube
 
         public bool hasStarted = false;
         public bool gameOver = false;
+
+        private int timeTilNextWave = 5;
+        public TextMeshProUGUI countDownLabel;
+        private bool isCountingDown = false;
 
         /// <summary>
         /// Singleton Pattern
@@ -40,13 +45,16 @@ namespace Com.GCTC.ZombCube
             if (!PhotonNetwork.IsMasterClient) { return; }
             cubesToSpawn *= PhotonNetwork.CurrentRoom.PlayerCount;
             gameOver = NetworkGameManager.Instance.IsGameOver();
-            
+            countDownLabel.gameObject.SetActive(true);
+            isCountingDown = true;
+            StartCoroutine(CountDownRound());
         }
 
         // Update is called once per frame
         void Update()
         {
             CheckForEnemies();
+            HandleCountDownLabel();
         }
 
         private void CheckForEnemies()
@@ -56,14 +64,38 @@ namespace Com.GCTC.ZombCube
             {
                 gameOver = NetworkGameManager.Instance.IsGameOver();
 
-                if (!GameObject.FindWithTag("Enemy") && hasStarted == true && gameOver == false)
+                if (!GameObject.FindWithTag("Enemy") && hasStarted == true && gameOver == false && isCountingDown == false)
                 {
+                    isCountingDown = true;
                     cubesToSpawn += 5;
                     NetworkGameManager.Instance.NextWaveCall();
-                    Spawn();
+
+                    timeTilNextWave = 5;
+                    countDownLabel.gameObject.SetActive(true);
+                    
+                    StartCoroutine(CountDownRound());
                 }
             }
             
+        }
+
+        IEnumerator CountDownRound()
+        {
+            while(timeTilNextWave > 0)
+            {
+                timeTilNextWave--;
+                yield return new WaitForSeconds(1);
+            }
+            countDownLabel.gameObject.SetActive(false);
+            Spawn();
+            isCountingDown = false;
+            yield return null;
+        }
+
+        private void HandleCountDownLabel()
+        {
+            if(countDownLabel.text != $"Next Wave in {timeTilNextWave}...")
+                countDownLabel.text = $"Next Wave in {timeTilNextWave}...";
         }
 
         public void Spawn()
