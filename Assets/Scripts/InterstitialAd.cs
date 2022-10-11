@@ -2,7 +2,6 @@ using UnityEngine;
 
 #if (UNITY_IOS || UNITY_ANDROID)
 using UnityEngine.Advertisements;
-using UnityEngine.Purchasing;
 
 public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
