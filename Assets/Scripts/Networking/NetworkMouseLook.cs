@@ -29,6 +29,7 @@ namespace Com.GCTC.ZombCube
             {
                 cam = GetComponent<Camera>();
                 Destroy(minimapCamera);
+                NetworkSpectatorManager.playerCams.Add(cam);
                 cam.enabled = false;
                 return;
             }

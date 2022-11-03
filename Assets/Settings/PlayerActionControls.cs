@@ -71,6 +71,15 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextPlayer"",
+                    ""type"": ""Button"",
+                    ""id"": ""81949cfd-18e0-42eb-b4e6-4d6af3928a51"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -346,6 +355,28 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""GamePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d0f5a52-12f9-4898-a5e0-e0f2268d6362"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""NextPlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6becc54f-bdcc-4e7b-b8b9-068cbb6690bf"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""NextPlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -938,6 +969,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_GamePause = m_Player.FindAction("GamePause", throwIfNotFound: true);
+        m_Player_NextPlayer = m_Player.FindAction("NextPlayer", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1014,6 +1046,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_GamePause;
+    private readonly InputAction m_Player_NextPlayer;
     public struct PlayerActions
     {
         private @PlayerActionControls m_Wrapper;
@@ -1023,6 +1056,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @GamePause => m_Wrapper.m_Player_GamePause;
+        public InputAction @NextPlayer => m_Wrapper.m_Player_NextPlayer;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1047,6 +1081,9 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                 @GamePause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGamePause;
                 @GamePause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGamePause;
                 @GamePause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnGamePause;
+                @NextPlayer.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextPlayer;
+                @NextPlayer.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextPlayer;
+                @NextPlayer.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextPlayer;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1066,6 +1103,9 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                 @GamePause.started += instance.OnGamePause;
                 @GamePause.performed += instance.OnGamePause;
                 @GamePause.canceled += instance.OnGamePause;
+                @NextPlayer.started += instance.OnNextPlayer;
+                @NextPlayer.performed += instance.OnNextPlayer;
+                @NextPlayer.canceled += instance.OnNextPlayer;
             }
         }
     }
@@ -1227,6 +1267,7 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnGamePause(InputAction.CallbackContext context);
+        void OnNextPlayer(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
