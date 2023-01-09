@@ -26,6 +26,8 @@ namespace Com.GCTC.ZombCube
 
         public static int currentPoints = 0;
 
+        public NetworkMouseLook mouseLook;
+
         public TextMeshProUGUI playerNameText;
 
         public string playerName;
@@ -194,11 +196,19 @@ namespace Com.GCTC.ZombCube
                     if(this.gameObject != null)
                         PhotonNetwork.Destroy(this.gameObject);
 
-                    //NetworkGameManager.Instance.ActivateCamera();
-                    NetworkSpectatorManager.ActivateSpectatorCamera();
+                    if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
+                    {
+                        NetworkGameManager.Instance.ActivateCamera();
+                    }
+                    else if (NetworkGameManager.Instance.playersEliminated != PhotonNetwork.CurrentRoom.PlayerCount)
+                    {
+                        NetworkSpectatorManager.ActivateSpectatorCamera(mouseLook.GetCamera());
+                    }
+                    
 
                     if (NetworkGameManager.Instance.playersEliminated == PhotonNetwork.CurrentRoom.PlayerCount)
                     {
+                        NetworkGameManager.Instance.ActivateCamera();
                         NetworkGameManager.Instance.CallGameOver();
                         isGameOver = true;
                         isPaused = false;

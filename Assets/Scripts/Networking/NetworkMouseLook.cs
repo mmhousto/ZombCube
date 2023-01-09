@@ -47,6 +47,12 @@ namespace Com.GCTC.ZombCube
             
         }
 
+        public Camera GetCamera()
+        {
+            cam = GetComponent<Camera>();
+            return cam;
+        }
+
         public void LookAround()
         {
             if (this.photonView.IsMine && playerManager.isInputDisabled == false)

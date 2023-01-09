@@ -65,7 +65,7 @@ namespace Com.GCTC.ZombCube
             if (PhotonNetwork.IsMasterClient)
             {
                 this.photonView.RPC(nameof(RPC_CreatePlayers), RpcTarget.AllBuffered);
-                StartGame();
+                //StartGame();
             }
 
             myPlayer = FindPlayer.GetPlayer();
@@ -213,6 +213,7 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void GameOver()
         {
+            ActivateCamera();
             AdsInitializer.timesPlayed++;
             isGameOver = true;
             SelectObject(restart);

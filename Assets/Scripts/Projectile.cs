@@ -23,7 +23,7 @@ namespace Com.GCTC.ZombCube
             {
                 Destroy(gameObject);
             }
-            else
+            else if (this.photonView.IsMine)
             {
                 PhotonNetwork.Destroy(this.gameObject);
             }

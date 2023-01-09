@@ -62,7 +62,7 @@ namespace Com.GCTC.ZombCube
 
         void Update()
         {
-            if(NetworkSpectatorManager.isAlive == false && playerInput.enabled == false)
+            if(PV.IsMine && NetworkSpectatorManager.isAlive == false && playerInput.enabled == false)
             {
                 playerInput.enabled = true;
             }
@@ -70,7 +70,7 @@ namespace Com.GCTC.ZombCube
 
         public void OnNextPlayer(InputValue value)
         {
-            if (value.isPressed)
+            if (value.isPressed && NetworkGameManager.Instance.IsGameOver() == false)
             {
                 NetworkSpectatorManager.ShowNextPlayerCam();
             }

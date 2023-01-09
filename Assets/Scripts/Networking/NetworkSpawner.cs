@@ -41,6 +41,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            hasStarted = false;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             if (!PhotonNetwork.IsMasterClient) { return; }
             cubesToSpawn *= PhotonNetwork.CurrentRoom.PlayerCount;
@@ -83,12 +84,10 @@ namespace Com.GCTC.ZombCube
         {
             while(timeTilNextWave > 0)
             {
-                timeTilNextWave--;
+                photonView.RPC(nameof(DecreaseTime), RpcTarget.All);
                 yield return new WaitForSeconds(1);
             }
-            countDownLabel.gameObject.SetActive(false);
-            Spawn();
-            isCountingDown = false;
+            photonView.RPC(nameof(DisableCountDown), RpcTarget.All);
             yield return null;
         }
 
@@ -109,6 +108,20 @@ namespace Com.GCTC.ZombCube
                 }
             
 
+        }
+
+        [PunRPC]
+        private void DecreaseTime()
+        {
+            timeTilNextWave--;
+        }
+
+        [PunRPC]
+        private void DisableCountDown()
+        {
+            countDownLabel.gameObject.SetActive(false);
+            NetworkGameManager.Instance.StartGame();
+            isCountingDown = false;
         }
 
 
