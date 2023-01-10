@@ -11,6 +11,7 @@ namespace Com.GCTC.ZombCube
         public static Camera prevCam;
         public static int currentCam;
         public static bool isAlive = true;
+        public GameObject eliminatedCamera;
 
         private void Start()
         {
@@ -26,12 +27,16 @@ namespace Com.GCTC.ZombCube
                 showNextPlayerText.SetActive(false);
             }
 
-            if(Camera.main == null && playerCams.Count > 0)
+            if(Camera.main == null && playerCams.Count > 0 && isAlive == false)
             {
                 playerCams[0].enabled = true;
                 currentCam = 0;
                 prevCam = playerCams[0];
                 showNextPlayerText.SetActive(true);
+            }
+            else if (isAlive == false)
+            {
+                eliminatedCamera.SetActive(true);
             }
         }
 

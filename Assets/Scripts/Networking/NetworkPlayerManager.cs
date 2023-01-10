@@ -206,7 +206,7 @@ namespace Com.GCTC.ZombCube
                     }
                     
 
-                    if (NetworkGameManager.Instance.playersEliminated == PhotonNetwork.CurrentRoom.PlayerCount)
+                    if (NetworkGameManager.Instance.playersEliminated >= PhotonNetwork.CurrentRoom.PlayerCount)
                     {
                         NetworkGameManager.Instance.ActivateCamera();
                         NetworkGameManager.Instance.CallGameOver();
