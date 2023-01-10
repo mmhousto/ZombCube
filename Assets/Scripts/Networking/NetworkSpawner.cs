@@ -71,9 +71,8 @@ namespace Com.GCTC.ZombCube
                     cubesToSpawn += 5;
                     NetworkGameManager.Instance.NextWaveCall();
 
-                    timeTilNextWave = 5;
-                    countDownLabel.gameObject.SetActive(true);
-                    
+                    photonView.RPC(nameof(EnableCountDown), RpcTarget.All);
+
                     StartCoroutine(CountDownRound());
                 }
             }
@@ -82,7 +81,7 @@ namespace Com.GCTC.ZombCube
 
         IEnumerator CountDownRound()
         {
-            while(timeTilNextWave > 0)
+            while (timeTilNextWave > 0)
             {
                 photonView.RPC(nameof(DecreaseTime), RpcTarget.All);
                 yield return new WaitForSeconds(1);
@@ -122,6 +121,13 @@ namespace Com.GCTC.ZombCube
             countDownLabel.gameObject.SetActive(false);
             NetworkGameManager.Instance.StartGame();
             isCountingDown = false;
+        }
+
+        [PunRPC]
+        private void EnableCountDown()
+        {
+            timeTilNextWave = 5;
+            countDownLabel.gameObject.SetActive(true);
         }
 
 
