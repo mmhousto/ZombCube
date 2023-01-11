@@ -15,6 +15,8 @@ namespace Com.GCTC.ZombCube
         public Transform firePosition;
         public GameObject projectile;
 
+        private AudioSource audioSource;
+
         [SerializeField]
         protected bool isFiring;
         [SerializeField]
@@ -34,6 +36,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             // Assignes launchVector
             launchVector = new Vector3(0, 0, launchVelocity);
         }
@@ -116,6 +119,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public virtual void LaunchProjectile()
         {
+            audioSource.Play();
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
             clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
             Player.Instance.totalProjectilesFired++;

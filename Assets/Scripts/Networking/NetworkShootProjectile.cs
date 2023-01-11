@@ -11,6 +11,7 @@ namespace Com.GCTC.ZombCube
     {
         public Transform firePosition;
         private NetworkPlayerManager playerManager;
+        private AudioSource audioSource;
         private bool isFiring;
         private bool canFire = true;
         private float fireTime = 0f;
@@ -23,6 +24,7 @@ namespace Com.GCTC.ZombCube
         void Start()
         {
             playerManager = GetComponent<NetworkPlayerManager>();
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
@@ -49,6 +51,7 @@ namespace Com.GCTC.ZombCube
 
                 if (isFiring & canFire)
                 {
+                    audioSource.Play();
                     GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
                     clone.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, launchVelocity));
                     fireTime = fireRate;
