@@ -15,7 +15,7 @@ namespace Com.GCTC.ZombCube
         public static AudioManager Instance { get { return _instance; } }
 
         public AudioMixer masterMixer;
-        public Slider musicSlider, masterSlider;
+        public Slider musicSlider, masterSlider, sfxSlider;
 
         private void Awake()
         {
@@ -36,9 +36,12 @@ namespace Com.GCTC.ZombCube
                 musicSlider = GameObject.FindWithTag("MusicSlider").GetComponent<Slider>();
             if (GameObject.FindWithTag("MasterSlider"))
                 masterSlider = GameObject.FindWithTag("MasterSlider").GetComponent<Slider>();
+            if (GameObject.FindWithTag("SFXSlider"))
+                sfxSlider = GameObject.FindWithTag("SFXSlider").GetComponent<Slider>();
 
             masterMixer.SetFloat("MasterVol", PreferencesManager.GetMasterVolume());
             masterMixer.SetFloat("MusicVol", PreferencesManager.GetMusicVolume());
+            masterMixer.SetFloat("SFXVol", PreferencesManager.GetSFXVolume());
 
 
         }
@@ -56,7 +59,13 @@ namespace Com.GCTC.ZombCube
                 masterSlider = GameObject.FindWithTag("MasterSlider").GetComponent<Slider>();
                 masterSlider.value = PreferencesManager.GetMasterVolume();
             }
-            
+
+            if (GameObject.FindWithTag("SFXSlider") && sfxSlider == null)
+            {
+                sfxSlider = GameObject.FindWithTag("SFXSlider").GetComponent<Slider>();
+                sfxSlider.value = PreferencesManager.GetSFXVolume();
+            }
+
         }
 
     }

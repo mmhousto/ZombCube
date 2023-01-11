@@ -10,11 +10,13 @@ namespace Com.GCTC.ZombCube
     {
 
         int enemiesHit = 0;
+        private AudioSource audioSource;
 
         private void Start()
         {
             enemiesHit = 0;
             Invoke(nameof(DestroyProjectile), 3f);
+            audioSource = GetComponent<AudioSource>();
         }
 
         private void DestroyProjectile()
@@ -33,7 +35,7 @@ namespace Com.GCTC.ZombCube
         {
             if (collision.gameObject.tag == "Enemy")
             {
-
+                audioSource.Play();
                 if (SceneLoader.GetCurrentScene().name == "GameScene")
                 {
 
