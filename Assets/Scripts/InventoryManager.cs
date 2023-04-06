@@ -17,7 +17,7 @@ namespace Com.GCTC.ZombCube
         [Tooltip("The cosmetic skin colors you can buy with coins or points.")]
         public GameObject[] skinItems;
 
-        public GameObject notEnoughPointsPanel, closeButton;
+        public GameObject notEnoughPointsPanel, closeButton, convertConfirm, noButton;
 
         [Tooltip("The players data object.")]
         private Player player;
@@ -95,6 +95,35 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void CanConvert()
+        {
+            if(player.points >= 10_000)
+            {
+                convertConfirm.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(noButton);
+            }
+            else
+            {
+                NotEnough();
+            }
+        }
+
+        public void ConvertCoin()
+        {
+            if (player.points >= 10_000)
+            {
+                player.points -= 10_000;
+                player.coins++;
+                TrySavePlayerData();
+            }
+            else
+            {
+                convertConfirm.SetActive(false);
+                NotEnough();
+            }
+        }
+
         public void BuyBlaster(int index)
         {
             var price = 0;
@@ -144,24 +173,8 @@ namespace Com.GCTC.ZombCube
                 blasterItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
             }
 
-            try
-            {
-                SaveSystem.SavePlayer(player);
-            }
-            catch
-            {
-                Debug.Log("Failed to save local data.");
-            }
+            TrySavePlayerData();
 
-            try
-            {
-                CloudSaveLogin.Instance.SaveCloudData();
-            }
-            catch
-            {
-                Debug.Log("Failed to save cloud data.");
-            }
-            
         }
 
         public void BuySkin(int index)
@@ -214,6 +227,11 @@ namespace Com.GCTC.ZombCube
                 skinItems[index].GetComponentInChildren<TextMeshProUGUI>().text = "USE";
             }
 
+            TrySavePlayerData();
+        }
+
+        private void TrySavePlayerData()
+        {
             try
             {
                 SaveSystem.SavePlayer(player);
