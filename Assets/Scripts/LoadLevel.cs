@@ -22,6 +22,11 @@ public class LoadLevel : MonoBehaviour
 
     IEnumerator LoadAsynchronously(int index)
     {
+#if UNITY_WSA
+        LightmapSettings.lightmaps = new LightmapData[0];
+        Resources.UnloadUnusedAssets();
+#endif
+
         AsyncOperation operation = SceneManager.LoadSceneAsync(index);
 
         while (!operation.isDone)
