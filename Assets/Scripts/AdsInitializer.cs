@@ -3,7 +3,7 @@ using UnityEngine;
 #if UNITY_IOS || UNITY_ANDROID
 using UnityEngine.Advertisements;
 
-public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IUnityAdsListener
+public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
 {
     [SerializeField] string _androidGameId = "4415503";
     [SerializeField] string _iOsGameId = "4415502";
@@ -25,7 +25,7 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener, IU
         _gameId = (Application.platform == RuntimePlatform.IPhonePlayer)
             ? _iOsGameId
             : _androidGameId;
-        Advertisement.Initialize(_gameId, _testMode, _enablePerPlacementMode, this);
+        Advertisement.Initialize(_gameId, _testMode, this);
     }
 
     public void OnInitializationComplete()
