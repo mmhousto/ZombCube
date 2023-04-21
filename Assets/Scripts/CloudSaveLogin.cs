@@ -388,8 +388,8 @@ namespace Com.GCTC.ZombCube
 
                     if (appleIdCredential != null)
                     {
-                        userID = PlayerPrefs.GetString("AppleUserIdKey", appleIdCredential.User);
-                        userName = PlayerPrefs.GetString("AppleUserNameKey", appleIdCredential.FullName.ToLocalizedString());
+                        userID = PlayerPrefs.GetString("AppleUserIdKey", "");
+                        userName = PlayerPrefs.GetString("AppleUserNameKey", "");
 
                     }
 
