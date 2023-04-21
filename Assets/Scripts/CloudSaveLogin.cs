@@ -499,16 +499,33 @@ namespace Com.GCTC.ZombCube
                     {
                         // Apple User ID
                         // You should save the user ID somewhere in the device
-                        userID = appleIdCredential.User;
-                        PlayerPrefs.SetString("AppleUserIdKey", userID);
+                        if(appleIdCredential.User != null)
+                        {
+                            userID = appleIdCredential.User;
+                            PlayerPrefs.SetString("AppleUserIdKey", userID);
+                        }
+                        else
+                        {
+                            userID = PlayerPrefs.GetString("AppleUserIdKey", "");
+                        }
+                        
 
                         // Email (Received ONLY in the first login)
                         /*email = appleIdCredential.Email;
                             PlayerPrefs.SetString("AppleUserEmailKey", email);*/
 
                         // Full name (Received ONLY in the first login)
-                        userName = appleIdCredential.FullName.ToLocalizedString();
-                        PlayerPrefs.SetString("AppleUserNameKey", userName);
+                        if(appleIdCredential.FullName != null)
+                        {
+                            userName = appleIdCredential.FullName.ToLocalizedString();
+                            PlayerPrefs.SetString("AppleUserNameKey", userName);
+                        }
+                        else
+                        {
+                            userName = PlayerPrefs.GetString("AppleUserNameKey", "");
+                        }
+                            
+                        
 
                         // Identity token
                         var idToken = Encoding.UTF8.GetString(
