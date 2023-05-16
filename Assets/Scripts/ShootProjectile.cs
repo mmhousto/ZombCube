@@ -14,7 +14,8 @@ namespace Com.GCTC.ZombCube
 
         public Transform firePosition;
         public GameObject projectile;
-
+        public ParticleSystem muzzle;
+        public Animator anim;
         private AudioSource audioSource;
 
         [SerializeField]
@@ -120,6 +121,8 @@ namespace Com.GCTC.ZombCube
         public virtual void LaunchProjectile()
         {
             audioSource.Play();
+            anim.SetTrigger("IsFiring");
+            muzzle.Play();
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
             clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
             Player.Instance.totalProjectilesFired++;

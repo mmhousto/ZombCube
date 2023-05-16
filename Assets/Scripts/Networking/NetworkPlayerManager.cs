@@ -294,7 +294,8 @@ namespace Com.GCTC.ZombCube
 
             for(int i = 1; i < blaster.Length; i++)
             {
-                blaster[i].material = blasterMaterial[blasterIndex];
+                if(blaster[i].tag == "Blaster")
+                    blaster[i].material = blasterMaterial[blasterIndex];
             }
         }
 
