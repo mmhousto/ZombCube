@@ -19,6 +19,7 @@ namespace Com.GCTC.ZombCube
         private float launchVelocity = 5000f;
         public Animator anim;
         public GameObject projectile;
+        public ParticleSystem muzzle;
 
         // Start is called before the first frame update
         void Start()
@@ -53,6 +54,7 @@ namespace Com.GCTC.ZombCube
                 {
                     audioSource.Play();
                     anim.SetTrigger("IsFiring");
+                    muzzle.Play();
                     GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
                     clone.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, launchVelocity));
                     fireTime = fireRate;
