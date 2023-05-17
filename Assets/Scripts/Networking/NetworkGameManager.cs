@@ -111,6 +111,7 @@ namespace Com.GCTC.ZombCube
         public void ActivateCamera()
         {
             eliminatedCam.gameObject.SetActive(true);
+            NetworkSpectatorManager.showNextPlayerText.SetActive(true);
         }
 
         public void DeactivateCamera()

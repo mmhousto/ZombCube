@@ -193,18 +193,21 @@ namespace Com.GCTC.ZombCube
                     healthPoints = 0;
                     NetworkGameManager.Instance.CallEliminatePlayer();
                     isAlive = false;
-                    if(this.gameObject != null)
-                        PhotonNetwork.Destroy(this.gameObject);
+                    NetworkSpectatorManager.isAlive = false;
 
-                    if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
+                    /*if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
                     {
                         NetworkGameManager.Instance.ActivateCamera();
                     }
                     else if (NetworkGameManager.Instance.playersEliminated != PhotonNetwork.CurrentRoom.PlayerCount)
                     {
                         NetworkSpectatorManager.ActivateSpectatorCamera(mouseLook.GetCamera());
-                    }
-                    
+                    }*/
+
+                    NetworkGameManager.Instance.ActivateCamera();
+
+                    if (this.gameObject != null)
+                        PhotonNetwork.Destroy(this.gameObject);
 
                     if (NetworkGameManager.Instance.playersEliminated >= PhotonNetwork.CurrentRoom.PlayerCount)
                     {

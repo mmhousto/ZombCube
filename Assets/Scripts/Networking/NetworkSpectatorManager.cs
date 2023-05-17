@@ -13,6 +13,14 @@ namespace Com.GCTC.ZombCube
         public static bool isAlive = true;
         public GameObject eliminatedCamera;
 
+        private void Awake()
+        {
+            playerCams.Add(eliminatedCamera.GetComponent<Camera>());
+            currentCam = 0;
+            prevCam = playerCams[0];
+            eliminatedCamera.SetActive(false);
+        }
+
         private void Start()
         {
             showNextPlayerText = GameObject.FindWithTag("SpectatorLabel");
@@ -27,22 +35,30 @@ namespace Com.GCTC.ZombCube
                 showNextPlayerText.SetActive(false);
             }
 
-            if(Camera.main == null && playerCams.Count > 0 && isAlive == false)
+            if(NetworkGameManager.Instance.IsGameOver() == false && isAlive == false && showNextPlayerText.activeInHierarchy == false)
             {
-                playerCams[0].enabled = true;
+                showNextPlayerText.SetActive(true);
+            }
+
+            if(Camera.main == null && isAlive == false)
+            {
+                /*if (playerCams[0] != null)
+                {
+                    playerCams[0].enabled = true;
+                    
+                }*/
                 currentCam = 0;
                 prevCam = playerCams[0];
                 showNextPlayerText.SetActive(true);
-            }
-            else if (isAlive == false)
-            {
                 eliminatedCamera.SetActive(true);
+
             }
         }
 
         private void OnDisable()
         {
             playerCams.Clear();
+            currentCam = 0;
         }
 
         public static void ActivateSpectatorCamera(Camera playerCam)
@@ -50,42 +66,48 @@ namespace Com.GCTC.ZombCube
             isAlive = false;
             for(int i = 0; i < playerCams.Count; i++)
             {
-                if(playerCam == playerCams[i])
+                if (playerCam == playerCams[i])
                 {
                     playerCams.RemoveAt(i);
                 }
+                
             }
 
-            if(playerCams.Count > 0)
-            {
-                playerCams[0].enabled = true;
-                currentCam = 0;
-                prevCam = playerCams[0];
-                showNextPlayerText.SetActive(true);
-            }
             
         }
 
         public static void ShowNextPlayerCam()
         {
-            if(prevCam != null && playerCams[currentCam] != null)
+            foreach(Camera cam in playerCams)
+            {
+                Debug.Log(cam);
+            }
+
+            if(playerCams[currentCam] != null)
             {
                 prevCam.enabled = false;
                 prevCam = playerCams[currentCam];
-                currentCam++;
+
+                if (currentCam < playerCams.Count - 1)
+                    currentCam++;
+                else
+                    currentCam = 0;
             }
             else
             {
-                return;
+                currentCam = 0;
+                prevCam = playerCams[currentCam];
+                playerCams[currentCam].enabled = true;
             }
             
-            if(currentCam <= playerCams.Count-1 && playerCams.Count > 0)
+            if (playerCams[currentCam] != null && currentCam <= playerCams.Count-1 && playerCams.Count > 0)
             {
                 playerCams[currentCam].enabled = true;
             }
             else if(playerCams.Count > 0)
             {
                 currentCam = 0;
+                prevCam = playerCams[currentCam];
                 playerCams[currentCam].enabled = true;
             }
             

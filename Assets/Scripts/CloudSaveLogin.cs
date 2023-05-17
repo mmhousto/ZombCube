@@ -193,6 +193,9 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public async void SignInAnonymously()
         {
+            currentSSO = ssoOption.Anonymous;
+            AuthenticationService.Instance.SwitchProfile("default");
+
             // Cloud Save needs to be initialized along with the other Unity Services that
             // it depends on (namely, Authentication), and then the user must sign in.
             if (UnityServices.State == ServicesInitializationState.Initialized)
@@ -202,8 +205,6 @@ namespace Com.GCTC.ZombCube
             else
                 await UnityServices.InitializeAsync();
 
-            currentSSO = ssoOption.Anonymous;
-            AuthenticationService.Instance.SwitchProfile("default");
 
             if (AuthenticationService.Instance.IsSignedIn)
             {

@@ -56,7 +56,8 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-                ai.isStopped = true;
+                if(ai != null && ai.isStopped == false)
+                    ai.isStopped = true;
             }
 
         }
