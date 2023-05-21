@@ -15,7 +15,7 @@ namespace Com.GCTC.ZombCube
         public static GameManager Instance { get { return _instance; } }
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen;
+        public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls;
 
         public PlayerInput playerInput;
 
@@ -101,6 +101,10 @@ namespace Com.GCTC.ZombCube
             isPaused = false;
             Time.timeScale = 0;
 
+#if (UNITY_IOS || UNITY_ANDROID)
+            onScreenControls.SetActive(false);
+#endif
+
             gameOverScreen.SetActive(true);
             pauseScreen.SetActive(false);
             settingsScreen.SetActive(false);
@@ -114,6 +118,9 @@ namespace Com.GCTC.ZombCube
 
         public void Resume()
         {
+#if (UNITY_IOS || UNITY_ANDROID)
+            onScreenControls.SetActive(true);
+#endif
             playerInput.actions.Enable();
             isPaused = false;
         }
@@ -144,6 +151,11 @@ namespace Com.GCTC.ZombCube
             {
                 playerInput.actions.Disable();
                 pauseScreen.SetActive(true);
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(false);
+#endif
+
                 Time.timeScale = 0;
             }
             else if (isPaused == false && isGameOver == false)
@@ -151,10 +163,18 @@ namespace Com.GCTC.ZombCube
                 playerInput.actions.Enable();
                 pauseScreen.SetActive(false);
                 settingsScreen.SetActive(false);
-                
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(true);
+#endif
+
                 Time.timeScale = 1;
             } else if (isGameOver == true)
             {
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(false);
+#endif
+
                 isPaused = false;
                 playerInput.actions.Disable();
                 pauseScreen.SetActive(false);

@@ -15,6 +15,7 @@ namespace Com.GCTC.ZombCube
 
         private void Awake()
         {
+            isAlive = true;
             playerCams.Add(eliminatedCamera.GetComponent<Camera>());
             currentCam = 0;
             prevCam = playerCams[0];
@@ -49,7 +50,6 @@ namespace Com.GCTC.ZombCube
                 }*/
                 currentCam = 0;
                 prevCam = playerCams[0];
-                showNextPlayerText.SetActive(true);
                 eliminatedCamera.SetActive(true);
 
             }
@@ -78,12 +78,29 @@ namespace Com.GCTC.ZombCube
 
         public static void ShowNextPlayerCam()
         {
+            Debug.Log("Current Cam: " + currentCam);
+            int i = 0;
             foreach(Camera cam in playerCams)
             {
-                Debug.Log(cam);
+                Debug.Log(cam + " " + i);
+                i++;
             }
+            // Disables current cam
+            if (playerCams[currentCam] != null) playerCams[currentCam].enabled = false;
 
-            if(playerCams[currentCam] != null)
+            // Increases cam
+            currentCam++;
+
+            // Checks if cam is still in array bounds, if not sets to eliminated camera
+            if (currentCam >= playerCams.Count) currentCam = 0;
+
+            // Enables new camera if not null
+            if (playerCams[currentCam] != null)
+                playerCams[currentCam].enabled = true;
+            else
+                ShowNextPlayerCam();
+
+            /*if(playerCams[currentCam] != null)
             {
                 prevCam.enabled = false;
                 prevCam = playerCams[currentCam];
@@ -110,7 +127,7 @@ namespace Com.GCTC.ZombCube
                 prevCam = playerCams[currentCam];
                 playerCams[currentCam].enabled = true;
             }
-            
+            */
         }
 
     }

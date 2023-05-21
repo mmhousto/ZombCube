@@ -169,6 +169,7 @@ namespace Com.GCTC.ZombCube
 
 #if (UNITY_IOS || UNITY_ANDROID)
                     UpdateLeaderboards();
+                    onScreenControls.SetActive(false);
 #endif
 
                     try

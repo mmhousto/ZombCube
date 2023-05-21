@@ -145,6 +145,7 @@ namespace Com.GCTC.ZombCube
         public void CallGameOver()
         {
             photonView.RPC("GameOver", RpcTarget.All);
+            isGameOver = true;
         }
 
         public void CallRestart()
@@ -252,7 +253,7 @@ namespace Com.GCTC.ZombCube
             playersEliminated++;
         }
 
-        #endregion
+#endregion
 
     }
 }
