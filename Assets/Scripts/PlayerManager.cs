@@ -21,10 +21,13 @@ namespace Com.GCTC.ZombCube
         public static int currentPoints = 0;
 
         public TextMeshProUGUI scoreText;
+        private GameObject contextPrompt;
+        private TextMeshProUGUI contextPromptText;
         private Slider healthBar;
 
         private float healthPoints = 100f;
         private bool isGameOver;
+        private bool pressedUse;
 
         // Start is called before the first frame update
         void Start()
@@ -36,14 +39,17 @@ namespace Com.GCTC.ZombCube
             currentPoints = 0;
             healthBar.value = healthPoints;
             scoreText.text = "Score: " + currentPoints.ToString();
+            contextPrompt = GameObject.FindWithTag("ContextPrompt");
+            contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
+            contextPrompt.SetActive(false);
 
-            GetComponent<MeshRenderer>().material = blasterMaterial[player.currentSkin];
+            GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
 
             GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
 
             foreach (GameObject item in blaster)
             {
-                item.GetComponent<MeshRenderer>().material = blasterMaterial[player.currentBlaster];
+                item.GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentBlaster : 0];
             }
         }
 
@@ -86,10 +92,43 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("HealthPack"))
+            {
+                contextPrompt.SetActive(false);
+            }
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if(other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = other.GetComponent<HealthPack>().contextPrompt;
+            }
+
+            if(other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && pressedUse && healthPoints <= 99)
+            {
+                other.GetComponent<HealthPack>().StartResetHealthPack();
+
+                Damage(-20);
+                SpendPoints(500);
+
+                if(healthPoints >= 100) { healthPoints = 100; }
+            }
+        }
+
+        public void SpendPoints(int pointsToSpend)
+        {
+            currentPoints -= pointsToSpend;
+        }
+
         public static void AddPoints(int pointsToAdd)
         {
             currentPoints += pointsToAdd;
-            Player.Instance.totalPointsEarned += pointsToAdd;
+            if(Player.Instance != null)
+                Player.Instance.totalPointsEarned += pointsToAdd;
         }
 
         public void Damage(float damageTaken)
@@ -125,6 +164,11 @@ namespace Com.GCTC.ZombCube
         public void SavePlayerData()
         {
             SaveSystem.SavePlayer(player);
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            pressedUse = context.ReadValueAsButton();
         }
 
 

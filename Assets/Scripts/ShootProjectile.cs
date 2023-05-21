@@ -16,7 +16,7 @@ namespace Com.GCTC.ZombCube
         public GameObject projectile;
         public ParticleSystem muzzle;
         public Animator anim;
-        private AudioSource audioSource;
+        protected AudioSource audioSource;
 
         [SerializeField]
         protected bool isFiring;
@@ -94,7 +94,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void CheckForTriggerHappyAchievements()
+        protected void CheckForTriggerHappyAchievements()
         {
             if (Social.localUser.authenticated)
             {
@@ -125,9 +125,15 @@ namespace Com.GCTC.ZombCube
             muzzle.Play();
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
             clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
-            Player.Instance.totalProjectilesFired++;
 
-            CheckForTriggerHappyAchievements();
+            if(Player.Instance != null)
+            {
+                Player.Instance.totalProjectilesFired++;
+                CheckForTriggerHappyAchievements();
+            }
+                
+
+            
         }
 
         #endregion

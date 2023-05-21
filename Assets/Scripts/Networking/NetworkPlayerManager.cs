@@ -23,13 +23,15 @@ namespace Com.GCTC.ZombCube
         private UICanvasControllerInput uiInput;
         private MobileDisableAutoSwitchControls mobileControls;
         private PlayerInput playerInput;
+        private GameObject contextPrompt;
+        private TextMeshProUGUI contextPromptText;
 
         public static int currentPoints = 0;
 
         public NetworkMouseLook mouseLook;
 
         public TextMeshProUGUI playerNameText;
-
+        
         public string playerName;
 
         public Slider playerHealth;
@@ -39,6 +41,7 @@ namespace Com.GCTC.ZombCube
 
         public float healthPoints = 100f;
         private bool isGameOver;
+        private bool pressedUse;
 
         private bool isAlive = true, isPaused = false;
 
@@ -80,7 +83,9 @@ namespace Com.GCTC.ZombCube
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-                
+                contextPrompt = GameObject.FindWithTag("ContextPrompt");
+                contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
+                contextPrompt.SetActive(false);
             }
             
         }
@@ -92,11 +97,43 @@ namespace Com.GCTC.ZombCube
             UpdateStats();
         }
 
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("HealthPack"))
+            {
+                contextPrompt.SetActive(false);
+            }
+        }
 
-#endregion
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && healthPoints <= 99)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = other.GetComponent<HealthPack>().contextPrompt;
+            }
+
+            if (other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && pressedUse && healthPoints <= 99)
+            {
+                other.GetComponent<NetworkHealthPack>().StartResetHealthPack();
+
+                Damage(-20);
+                SpendPoints(500);
+
+                if (healthPoints >= 100) { healthPoints = 100; }
+            }
+        }
 
 
-#region Public Methods
+        #endregion
+
+
+        #region Public Methods
+
+        public void SpendPoints(int pointsToSpend)
+        {
+            currentPoints -= pointsToSpend;
+        }
 
         public void DamagePlayerCall()
         {

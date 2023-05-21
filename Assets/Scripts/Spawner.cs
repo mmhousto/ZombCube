@@ -22,7 +22,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            cubesToSpawn = RemoteConfig.Instance.cubesToSpawn;
+            cubesToSpawn = (RemoteConfig.Instance != null) ? RemoteConfig.Instance.cubesToSpawn : 5;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             timeTilNextWave = 5;
             countDownLabel.gameObject.SetActive(true);
