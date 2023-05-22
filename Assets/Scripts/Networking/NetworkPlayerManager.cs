@@ -99,7 +99,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("HealthPack"))
+            if (other.CompareTag("HealthPack") && photonView.IsMine)
             {
                 contextPrompt.SetActive(false);
             }
@@ -107,13 +107,13 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable)
+            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable && photonView.IsMine)
             {
                 contextPrompt.SetActive(true);
                 contextPromptText.text = other.GetComponent<NetworkHealthPack>().contextPrompt;
             }
 
-            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable && pressedUse && healthPoints <= 99)
+            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable && pressedUse && healthPoints <= 99 && photonView.IsMine)
             {
                 other.GetComponent<NetworkHealthPack>().StartResetHealthPack();
 
