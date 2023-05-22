@@ -14,47 +14,63 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            playerInput = PlayerInput.all[0];
+            if (PlayerInput.all.Count > 0)
+                playerInput = PlayerInput.all[0];
             image = GetComponent<Image>();
 
-            switch (playerInput.currentControlScheme)
+            if (playerInput != null)
             {
-                case "KeyboardMouse":
-                    image.sprite = pc;
-                    break;
-                case "Gamepad":
-                    image.sprite = xbox;
-                    break;
-                case "Touch":
-                    image.sprite = null;
-                    break;
-                default:
-                    break;
+                switch (playerInput.currentControlScheme)
+                {
+                    case "KeyboardMouse":
+                        if (image.sprite != pc)
+                            image.sprite = pc;
+                        break;
+                    case "Gamepad":
+                        if (image.sprite != xbox)
+                            image.sprite = xbox;
+                        break;
+                    case "Touch":
+                        if (image.sprite != null)
+                            image.sprite = null;
+                        break;
+                    default:
+                        if (image.sprite != pc)
+                            image.sprite = pc;
+                        break;
+                }
             }
         }
 
         // Update is called once per frame
         void Update()
         {
-            switch (playerInput.currentControlScheme)
+            if (playerInput == null && PlayerInput.all.Count > 0)
+                playerInput = PlayerInput.all[0];
+
+            if(playerInput != null)
             {
-                case "KeyboardMouse":
-                    if(image.sprite != pc)
-                        image.sprite = pc;
-                    break;
-                case "Gamepad":
-                    if (image.sprite != xbox)
-                        image.sprite = xbox;
-                    break;
-                case "Touch":
-                    if (image.sprite != null)
-                        image.sprite = null;
-                    break;
-                default:
-                    if (image.sprite != pc)
-                        image.sprite = pc;
-                    break;
+                switch (playerInput.currentControlScheme)
+                {
+                    case "KeyboardMouse":
+                        if (image.sprite != pc)
+                            image.sprite = pc;
+                        break;
+                    case "Gamepad":
+                        if (image.sprite != xbox)
+                            image.sprite = xbox;
+                        break;
+                    case "Touch":
+                        if (image.sprite != null)
+                            image.sprite = null;
+                        break;
+                    default:
+                        if (image.sprite != pc)
+                            image.sprite = pc;
+                        break;
+                }
             }
+            
         }
     }
 }

@@ -83,7 +83,7 @@ namespace Com.GCTC.ZombCube
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-                contextPrompt = GameObject.FindWithTag("ContextPrompt");
+                contextPrompt = GameObject.Find("ContextPrompt");
                 contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
                 contextPrompt.SetActive(false);
             }
@@ -107,13 +107,13 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && healthPoints <= 99)
+            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable)
             {
                 contextPrompt.SetActive(true);
-                contextPromptText.text = other.GetComponent<HealthPack>().contextPrompt;
+                contextPromptText.text = other.GetComponent<NetworkHealthPack>().contextPrompt;
             }
 
-            if (other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && pressedUse && healthPoints <= 99)
+            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable && pressedUse && healthPoints <= 99)
             {
                 other.GetComponent<NetworkHealthPack>().StartResetHealthPack();
 
@@ -184,6 +184,11 @@ namespace Com.GCTC.ZombCube
         {
             PauseInput();
 
+        }
+
+        public void OnInteract(InputValue value)
+        {
+            pressedUse = value.isPressed;
         }
 
         // END Input for Pausing -------------------------------------------------------------------
