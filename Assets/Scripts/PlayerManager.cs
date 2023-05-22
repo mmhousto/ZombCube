@@ -168,7 +168,7 @@ namespace Com.GCTC.ZombCube
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            pressedUse = context.ReadValueAsButton();
+            pressedUse = context.performed;
         }
 
 

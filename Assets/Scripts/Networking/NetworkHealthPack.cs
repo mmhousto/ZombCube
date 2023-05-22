@@ -10,11 +10,12 @@ namespace Com.GCTC.ZombCube
     {
         SpriteRenderer healthPack;
         public bool isUsable;
-        public string contextPrompt = "Hold 'E' for HP [Cost: 500]";
+        public string contextPrompt = "Hold \t <br>for HP [Cost: 500]";
 
         // Start is called before the first frame update
         void Start()
         {
+            contextPrompt = "Hold \t <br>for HP [Cost: 500]";
             healthPack = GetComponent<SpriteRenderer>();
             isUsable = true;
         }
