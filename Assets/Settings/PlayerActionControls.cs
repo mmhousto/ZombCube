@@ -402,6 +402,17 @@ public partial class @PlayerActionControls : IInputActionCollection2, IDisposabl
                 },
                 {
                     ""name"": """",
+                    ""id"": ""05fd057b-0a8d-4501-bb7a-8a6517e9eb87"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""NextPlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""86dde696-3929-456e-8280-56e533b076b3"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": ""Hold"",

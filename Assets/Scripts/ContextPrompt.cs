@@ -31,14 +31,18 @@ namespace Com.GCTC.ZombCube
                             image.sprite = xbox;
                         break;
                     case "Touch":
-                        if (image.sprite != null)
-                            image.sprite = null;
+                        if (image.enabled == true)
+                            image.enabled = false;
                         break;
                     default:
                         if (image.sprite != pc)
                             image.sprite = pc;
                         break;
                 }
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                image.enabled = false;
+#endif
             }
         }
 
@@ -61,16 +65,21 @@ namespace Com.GCTC.ZombCube
                             image.sprite = xbox;
                         break;
                     case "Touch":
-                        if (image.sprite != null)
-                            image.sprite = null;
+                        if (image.enabled == true)
+                            image.enabled = false;
                         break;
                     default:
                         if (image.sprite != pc)
                             image.sprite = pc;
                         break;
                 }
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                if (image.enabled == true)
+                    image.enabled = false;
+#endif
             }
-            
+
         }
     }
 }

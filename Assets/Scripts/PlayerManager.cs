@@ -108,7 +108,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = other.GetComponent<HealthPack>().contextPrompt;
             }
 
-            if(other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && pressedUse && healthPoints <= 99)
+            if(other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && pressedUse && healthPoints <= 99 && currentPoints >= 500)
             {
                 other.GetComponent<HealthPack>().StartResetHealthPack();
 
