@@ -58,6 +58,26 @@ namespace Com.GCTC.ZombCube
             return PlayerPrefs.GetFloat("VerticalSens", 20);
         }
 
+        public static void SetSwipeToLook(bool input)
+        {
+            PlayerPrefs.SetInt("SwipeToLook", input ? 1 : 0);
+        }
+
+        public static int GetSwipeToLook()
+        {
+            return PlayerPrefs.GetInt("SwipeToLook", 0);
+        }
+
+        public static void SetShadows(bool input)
+        {
+            PlayerPrefs.SetInt("Shadows", input ? 1 : 0);
+        }
+
+        public static int GetShadows()
+        {
+            return PlayerPrefs.GetInt("Shadows", 0);
+        }
+
     }
 
 }

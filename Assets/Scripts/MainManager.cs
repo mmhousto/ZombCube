@@ -67,16 +67,6 @@ namespace Com.GCTC.ZombCube
             CheckNGamer1();
         }
 
-        public void ChangeHorizontalSens(float sensitivty)
-        {
-            PreferencesManager.SetHorizontalSens(sensitivty);
-        }
-
-        public void ChangeVerticalSens(float sensitivity)
-        {
-            PreferencesManager.SetVerticalSens(sensitivity);
-        }
-
         /// <summary>
         /// Sets playerName to name and saves the player data.
         /// </summary>

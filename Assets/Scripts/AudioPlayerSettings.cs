@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +12,15 @@ namespace Com.GCTC.ZombCube
     {
         private AudioMixer masterMixer;
         public Slider musicSlider, masterSlider, sfxSlider;
+        public Toggle swipeToggle, shadowsToggle;
 
         private void Start()
         {
             musicSlider.value = PreferencesManager.GetMusicVolume();
             masterSlider.value = PreferencesManager.GetMasterVolume();
             sfxSlider.value = PreferencesManager.GetSFXVolume();
+            swipeToggle.isOn = Convert.ToBoolean(PreferencesManager.GetSwipeToLook());
+            
         }
 
         private void OnEnable()
@@ -27,6 +31,7 @@ namespace Com.GCTC.ZombCube
             musicSlider.value = PreferencesManager.GetMusicVolume();
             masterSlider.value = PreferencesManager.GetMasterVolume();
             sfxSlider.value = PreferencesManager.GetSFXVolume();
+            swipeToggle.isOn = Convert.ToBoolean(PreferencesManager.GetSwipeToLook());
         }
 
         private void OnDisable()
@@ -52,6 +57,16 @@ namespace Com.GCTC.ZombCube
         {
             AudioManager.Instance.masterMixer.SetFloat("SFXVol", soundLevel);
             PreferencesManager.SetSFXVolume(soundLevel);
+        }
+
+        public void ChangeSwipeToggle(bool input)
+        {
+            PreferencesManager.SetSwipeToLook(input);
+        }
+
+        public void ChangeShadowToggle(bool input)
+        {
+            PreferencesManager.SetShadows(input);
         }
 
 
