@@ -113,7 +113,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = other.GetComponent<NetworkHealthPack>().contextPrompt;
             }
 
-            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable && pressedUse && healthPoints <= 99 && photonView.IsMine)
+            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable && pressedUse && healthPoints <= 99 && currentPoints >= 500 && photonView.IsMine)
             {
                 other.GetComponent<NetworkHealthPack>().StartResetHealthPack();
 
