@@ -18,7 +18,7 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
     [Header("Target")]
     public PlayerInput playerInput;
 
-    private GameObject currentPlayer;
+    private GameObject currentPlayer, touchZone, lookStick;
 
     public void GetPlayer(GameObject player)
     {
@@ -28,7 +28,12 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
 
     void Start()
     {
+        touchZone = GameObject.Find("UI_Virtual_TouchZone");
+        lookStick = GameObject.Find("UI_Virtual_Joystick_Look");
+
         HandleMobileControls();
+        
+        SetSwipeOrStickLook();
     }
 
     private void Update()
@@ -36,6 +41,29 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
         HandleMobileControls();
     }
 
+    public void SetSwipeOrStickLook()
+    {
+        if (PlayerPrefs.GetInt("Swipe", 0) == 0)
+        {
+            EnableStickLook();
+        }
+        else
+        {
+            EnableSwipe();
+        }
+    }
+
+    public void EnableSwipe()
+    {
+        touchZone.SetActive(true);
+        lookStick.SetActive(false);
+    }
+
+    public void EnableStickLook()
+    {
+        touchZone.SetActive(false);
+        lookStick.SetActive(true);
+    }
 
     void HandleMobileControls()
     {
@@ -54,7 +82,12 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
-    
+
+    public void SetSwipeOrStickLook()
+    {
+        
+    }
+
 
 #endif
 

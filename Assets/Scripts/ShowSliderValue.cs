@@ -20,12 +20,13 @@ namespace Com.MorganHouston.Imprecision
             sliderValue = PlayerPrefs.GetFloat(sliderName, 1);
             slider = GetComponent<Slider>();
             slider.value = sliderValue;
-            sliderValueLabel.text = slider.value.ToString();
+            if(sliderValueLabel != null)
+                sliderValueLabel.text = slider.value.ToString();
         }
 
         void Update()
         {
-            if(sliderValueLabel.text != slider.value.ToString())
+            if(sliderValueLabel != null && sliderValueLabel.text != slider.value.ToString())
             {
                 sliderValueLabel.text = slider.value.ToString();
             }

@@ -75,7 +75,7 @@ namespace Com.GCTC.ZombCube
 
         public static int GetShadows()
         {
-            return PlayerPrefs.GetInt("Shadows", 0);
+            return PlayerPrefs.GetInt("Shadows", 1);
         }
 
     }

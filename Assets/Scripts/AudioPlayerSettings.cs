@@ -20,7 +20,7 @@ namespace Com.GCTC.ZombCube
             masterSlider.value = PreferencesManager.GetMasterVolume();
             sfxSlider.value = PreferencesManager.GetSFXVolume();
             swipeToggle.isOn = Convert.ToBoolean(PreferencesManager.GetSwipeToLook());
-            
+            shadowsToggle.isOn = Convert.ToBoolean(PreferencesManager.GetShadows());
         }
 
         private void OnEnable()
@@ -32,6 +32,7 @@ namespace Com.GCTC.ZombCube
             masterSlider.value = PreferencesManager.GetMasterVolume();
             sfxSlider.value = PreferencesManager.GetSFXVolume();
             swipeToggle.isOn = Convert.ToBoolean(PreferencesManager.GetSwipeToLook());
+            shadowsToggle.isOn = Convert.ToBoolean(PreferencesManager.GetShadows());
         }
 
         private void OnDisable()
