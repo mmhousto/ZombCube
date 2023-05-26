@@ -1071,8 +1071,8 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             player.totalProjectilesFired = 0;
             player.currentBlaster = 0;
             player.currentSkin = 0;
-            player.ownedBlasters = new int[8];
-            player.ownedSkins = new int[8];
+            player.ownedBlasters = new int[9];
+            player.ownedSkins = new int[9];
         }
 
         /// <summary>
@@ -1111,11 +1111,11 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             player.currentBlaster = data.currentBlaster;
             if (data.ownedBlasters == null)
             {
-                player.ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+                player.ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
             }
-            else if (data.ownedBlasters.Length != 8)
+            else if (data.ownedBlasters.Length != 9)
             {
-                int[] temp = new int[8];
+                int[] temp = new int[9];
                 data.ownedBlasters.CopyTo(temp, 0);
                 data.ownedBlasters = temp;
                 player.ownedBlasters = data.ownedBlasters;
@@ -1125,11 +1125,11 @@ private async void LoginStatusCallback(ILoginStatusResult result)
 
             if (data.ownedSkins == null)
             {
-                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
             }
-            else if (data.ownedSkins.Length != 8)
+            else if (data.ownedSkins.Length != 9)
             {
-                int[] temp = new int[8];
+                int[] temp = new int[9];
                 data.ownedBlasters.CopyTo(temp, 0);
                 data.ownedBlasters = temp;
                 player.ownedBlasters = data.ownedBlasters;
@@ -1176,11 +1176,11 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             player.currentBlaster = data.currentBlaster;
             if (data.ownedBlasters == null)
             {
-                player.ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+                player.ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
             }
-            else if (data.ownedBlasters.Length != 8)
+            else if (data.ownedBlasters.Length != 9)
             {
-                int[] temp = new int[8];
+                int[] temp = new int[9];
                 data.ownedBlasters.CopyTo(temp, 0);
                 data.ownedBlasters = temp;
                 player.ownedBlasters = data.ownedBlasters;
@@ -1190,11 +1190,11 @@ private async void LoginStatusCallback(ILoginStatusResult result)
 
             if (data.ownedSkins == null)
             {
-                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0 };
+                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
             }
-            else if (data.ownedSkins.Length != 8)
+            else if (data.ownedSkins.Length != 9)
             {
-                int[] temp = new int[8];
+                int[] temp = new int[9];
                 data.ownedBlasters.CopyTo(temp, 0);
                 data.ownedBlasters = temp;
                 player.ownedBlasters = data.ownedBlasters;
@@ -1222,8 +1222,8 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             player.totalProjectilesFired = 0;
             player.currentBlaster = 0;
             player.currentSkin = 0;
-            player.ownedBlasters = new int[8];
-            player.ownedSkins = new int[8];
+            player.ownedBlasters = new int[9];
+            player.ownedSkins = new int[9];
         }
 
 #endregion

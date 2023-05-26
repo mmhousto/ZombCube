@@ -127,7 +127,19 @@ namespace Com.GCTC.ZombCube
         public void BuyBlaster(int index)
         {
             var price = 0;
-            if (index >= 5)
+            if (index >= 8)
+            {
+                price = 20;
+                if (price <= player.coins)
+                {
+                    player.ownedBlasters[index] = 1;
+                    player.coins -= price;
+                }
+                else
+                {
+                    NotEnough();
+                }            }
+            else if (index >= 5)
             {
                 price = 10;
                 if (price <= player.coins)
@@ -180,7 +192,19 @@ namespace Com.GCTC.ZombCube
         public void BuySkin(int index)
         {
             var price = 0;
-            if (index >= 5)
+            if (index >= 8)
+            {
+                price = 100;
+                if (price <= player.coins)
+                {
+                    player.ownedSkins[index] = 1;
+                    player.coins -= price;
+                }
+                else
+                {
+                    NotEnough();
+                }            }
+            else if (index >= 5)
             {
                 price = 50;
                 if (price <= player.coins)
