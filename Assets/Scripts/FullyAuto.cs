@@ -8,24 +8,37 @@ namespace Com.GCTC.ZombCube
     public class FullyAuto : ShootProjectile
     {
         private ShootProjectile shootProjectile;
+        private TripleShot tripleShot;
 
         // Start is called before the first frame update
         void Start()
         {
             shootProjectile = GetComponent<ShootProjectile>();
+            tripleShot = GetComponent<TripleShot>();
             audioSource = GetComponent<AudioSource>();
 
-            isFiring = true;
+            //isFiring = true;
             fireRate = 0.2f;
             launchVector = new Vector3(0, 0, launchVelocity);
 
-            shootProjectile.enabled = false;
+            if (shootProjectile != null)
+                shootProjectile.fireRate = fireRate;
+
+            if (tripleShot != null)
+                tripleShot.fireRate = fireRate;
+
+            //shootProjectile.enabled = false;
             StartCoroutine(EndPowerup());
         }
 
         private void OnEnable()
         {
-            shootProjectile.enabled = false;
+            if(shootProjectile != null)
+                shootProjectile.fireRate = fireRate;
+            if(tripleShot != null)
+                tripleShot.fireRate = fireRate;
+
+            //shootProjectile.enabled = false;
             StartCoroutine(EndPowerup());
         }
 
@@ -41,7 +54,9 @@ namespace Com.GCTC.ZombCube
         {
             yield return new WaitForSeconds(25f);
             this.enabled = false;
-            shootProjectile.enabled = true;
+            shootProjectile.fireRate = 0.8f;
+            tripleShot.fireRate = 0.8f;
+            //shootProjectile.enabled = true;
         }
     }
 }

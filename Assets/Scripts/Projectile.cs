@@ -10,6 +10,8 @@ namespace Com.GCTC.ZombCube
     {
 
         int enemiesHit = 0;
+        public GameObject powerUpPrefab;
+        public float dropChance = 0.5f;
         private AudioSource audioSource;
 
         private void Start()
@@ -50,6 +52,8 @@ namespace Com.GCTC.ZombCube
 
                 }
                 CheckForCubeDestroyerAchievements();
+
+                SpawnPowerup(collision.transform.position);
             }
 
         }
@@ -64,6 +68,19 @@ namespace Com.GCTC.ZombCube
                 {
                     LeaderboardManager.UnlockRicochetKing();
                 }
+            }
+        }
+
+        private void SpawnPowerup(Vector3 pos)
+        {
+            // Check if power-up should be spawned based on drop chance
+            if (Random.value <= dropChance && SceneLoader.GetCurrentScene().name == "GameScene")
+            {
+                // Instantiate the power-up prefab at the enemy's position
+                Instantiate(powerUpPrefab, new Vector3(pos.x, 2, pos.z), Quaternion.identity);
+            }else if (Random.value <= dropChance && SceneLoader.GetCurrentScene().name == "NetworkGameScene" && this.photonView.IsMine)
+            {
+                PhotonNetwork.Instantiate("TripleShotPowerup", new Vector3(pos.x, 2, pos.z), Quaternion.identity);
             }
         }
 

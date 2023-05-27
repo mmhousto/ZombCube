@@ -10,14 +10,25 @@ namespace Com.GCTC.ZombCube
     {
         [SerializeField]
         private float offset = 15f;
-
+        private ShootProjectile shootProjectile;
 
         // Start is called before the first frame update
         void Start()
         {
+            shootProjectile = GetComponent<ShootProjectile>();
             audioSource = GetComponent<AudioSource>();
-            fireRate = 1f;
+            fireRate = 0.8f;
             launchVector = new Vector3(0, 0, launchVelocity);
+        }
+
+        private void OnEnable()
+        {
+            if(shootProjectile == null)
+            {
+                shootProjectile = GetComponent<ShootProjectile>();
+            }
+            shootProjectile.enabled = false;
+            StartCoroutine(EndPowerup());
         }
 
         private void Update()
@@ -48,6 +59,13 @@ namespace Com.GCTC.ZombCube
 
                 CheckForTriggerHappyAchievements();
             }
+        }
+
+        IEnumerator EndPowerup()
+        {
+            yield return new WaitForSeconds(25f);
+            this.enabled = false;
+            shootProjectile.enabled = true;
         }
 
     }
