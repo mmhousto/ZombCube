@@ -43,14 +43,17 @@ namespace Com.GCTC.ZombCube
 
                     Destroy(collision.gameObject);
                     PlayerManager.AddPoints(10);
-                    Player.Instance.cubesEliminated++;
+                    if(Player.Instance != null)
+                        Player.Instance.cubesEliminated++;
                 }
                 else if (this.photonView.IsMine)
                 {
                     NetworkPlayerManager.AddPoints(10);
-                    Player.Instance.cubesEliminated++;
+                    if (Player.Instance != null)
+                        Player.Instance.cubesEliminated++;
 
                 }
+
                 CheckForCubeDestroyerAchievements();
 
                 SpawnPowerup(collision.transform.position);
@@ -86,7 +89,7 @@ namespace Com.GCTC.ZombCube
 
         private void CheckForCubeDestroyerAchievements()
         {
-            if (Social.localUser.authenticated)
+            if (Social.localUser.authenticated && Player.Instance != null)
             {
                 if (Player.Instance.cubesEliminated == 10_000)
                 {
