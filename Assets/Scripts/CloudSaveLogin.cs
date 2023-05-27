@@ -844,7 +844,6 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         private async void SetPlayer(string id)
         {
             SaveData incomingSample = await RetrieveSpecificData<SaveData>(id);
-            Debug.Log(incomingSample);
 
             if (incomingSample != null)
             {
@@ -1130,14 +1129,10 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             else if (data.ownedSkins.Length != 9)
             {
                 int[] temp = new int[9];
-                data.ownedBlasters.CopyTo(temp, 0);
-                data.ownedBlasters = temp;
-                player.ownedBlasters = data.ownedBlasters;
-
-            }
-            else
-            {
+                data.ownedSkins.CopyTo(temp, 0);
+                data.ownedSkins = temp;
                 player.ownedSkins = data.ownedSkins;
+
             }
         }
 
@@ -1185,6 +1180,10 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 data.ownedBlasters = temp;
                 player.ownedBlasters = data.ownedBlasters;
             }
+            else
+            {
+                player.ownedBlasters = data.ownedBlasters;
+            }
 
             player.currentSkin = data.currentSkin;
 
@@ -1195,9 +1194,9 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             else if (data.ownedSkins.Length != 9)
             {
                 int[] temp = new int[9];
-                data.ownedBlasters.CopyTo(temp, 0);
-                data.ownedBlasters = temp;
-                player.ownedBlasters = data.ownedBlasters;
+                data.ownedSkins.CopyTo(temp, 0);
+                data.ownedSkins = temp;
+                player.ownedSkins = data.ownedSkins;
 
             }
             else

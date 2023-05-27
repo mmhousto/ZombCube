@@ -32,13 +32,37 @@ namespace Com.GCTC.ZombCube
             userName = player.userName;
             points = player.points;
             coins = player.coins;
-            currentBlaster = player.currentBlaster;
-            currentSkin = player.currentBlaster;
             highestWave = player.highestWave;
             highestWaveParty = player.highestWaveParty;
             playerName = player.playerName;
-            ownedBlasters = player.ownedBlasters;
-            ownedSkins = player.ownedSkins;
+
+            currentBlaster = player.currentBlaster;
+            if (player.ownedBlasters == null)
+            {
+                ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+            }
+            else if (player.ownedBlasters.Length != 9)
+            {
+                int[] temp = new int[9];
+                ownedBlasters.CopyTo(temp, 0);
+                ownedBlasters = temp;
+                ownedBlasters = player.ownedBlasters;
+            }
+
+            currentSkin = player.currentSkin;
+            if (player.ownedSkins == null)
+            {
+                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+            }
+            else if (player.ownedSkins.Length != 9)
+            {
+                int[] temp = new int[9];
+                ownedSkins.CopyTo(temp, 0);
+                ownedSkins = temp;
+                ownedSkins = player.ownedSkins;
+
+            }
+
             cubesEliminated = player.cubesEliminated;
             totalPointsEarned = player.totalPointsEarned;
             totalProjectilesFired = player.totalProjectilesFired;

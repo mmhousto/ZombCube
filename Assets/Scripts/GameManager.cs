@@ -19,6 +19,8 @@ namespace Com.GCTC.ZombCube
 
         public PlayerInput playerInput;
 
+        [SerializeField] private bool overrideCursor = false;
+
         private bool isPaused = false;
 
         public bool isGameOver = false;
@@ -53,7 +55,10 @@ namespace Com.GCTC.ZombCube
             if(!playerInput.actions.enabled)
                 playerInput.actions.Enable();
 
-            Cursor.lockState = CursorLockMode.Locked;
+            if(overrideCursor == false)
+                Cursor.lockState = CursorLockMode.Locked;
+            else
+                Cursor.lockState = CursorLockMode.None;
         }
 
         // Update is called once per frame
@@ -78,15 +83,13 @@ namespace Com.GCTC.ZombCube
         public void SetCursorState()
         {
             if (isPaused == true && isGameOver == false)
-            {
                 Cursor.lockState = CursorLockMode.None;
-            }else if (isPaused == false && isGameOver == false)
-            {
+            else if (overrideCursor)
+                Cursor.lockState = CursorLockMode.None;
+            else if (isPaused == false && isGameOver == false)
                 Cursor.lockState = CursorLockMode.Locked;
-            }else
-            {
+            else
                 Cursor.lockState = CursorLockMode.None;
-            }
         }
 
         public void GameOver()
