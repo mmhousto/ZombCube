@@ -17,6 +17,12 @@ namespace Com.GCTC.ZombCube
                 tripleShotPowerup.enabled = true;
                 Destroy(other.gameObject);
             }
+
+            if (other.CompareTag("FullyAuto"))
+            {
+                fullyAutoPowerup.enabled = true;
+                Destroy(other.gameObject);
+            }
         }
     }
 }

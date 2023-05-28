@@ -143,7 +143,12 @@ namespace Com.GCTC.ZombCube
                 case 7:
                     result = "OU";
                     break;
-
+                case 8:
+                    result = "Gold";
+                    break;
+                default:
+                    result = "White";
+                    break;
             }
             return result;
         }
