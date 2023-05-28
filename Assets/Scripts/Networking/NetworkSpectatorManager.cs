@@ -86,7 +86,11 @@ namespace Com.GCTC.ZombCube
                 i++;
             }
             // Disables current cam
-            if (playerCams[currentCam] != null) playerCams[currentCam].enabled = false;
+            if (playerCams[currentCam] != null)
+            {
+                Destroy(playerCams[currentCam].GetComponent<AudioListener>());
+                playerCams[currentCam].enabled = false;
+            }
 
             // Increases cam
             currentCam++;
@@ -96,7 +100,11 @@ namespace Com.GCTC.ZombCube
 
             // Enables new camera if not null
             if (playerCams[currentCam] != null)
+            {
+                playerCams[currentCam].gameObject.AddComponent<AudioListener>();
                 playerCams[currentCam].enabled = true;
+            }
+                
             else
                 ShowNextPlayerCam();
 

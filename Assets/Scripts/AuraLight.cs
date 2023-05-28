@@ -26,7 +26,8 @@ namespace Com.GCTC.ZombCube
             currentIntensity = Mathf.MoveTowards(currentIntensity, targetIntensity, speed * Time.deltaTime);
 
             // Update the light's intensity
-            pointLight.intensity = currentIntensity;
+            if(pointLight != null)
+                pointLight.intensity = currentIntensity;
 
             // Check if the current intensity has reached the target intensity
             if (currentIntensity == targetIntensity)

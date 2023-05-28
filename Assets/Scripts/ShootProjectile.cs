@@ -98,17 +98,17 @@ namespace Com.GCTC.ZombCube
         {
             if (Social.localUser.authenticated)
             {
-                if (Player.Instance.totalProjectilesFired == 100_000)
+                if (Player.Instance.totalProjectilesFired >= 100_000)
                 {
                     LeaderboardManager.UnlockTriggerHappyI();
                 }
 
-                if (Player.Instance.totalProjectilesFired == 1_000_000)
+                if (Player.Instance.totalProjectilesFired >= 1_000_000)
                 {
                     LeaderboardManager.UnlockTriggerHappyII();
                 }
 
-                if (Player.Instance.totalProjectilesFired == 10_000_000)
+                if (Player.Instance.totalProjectilesFired >= 10_000_000)
                 {
                     LeaderboardManager.UnlockTriggerHappyIII();
                 }

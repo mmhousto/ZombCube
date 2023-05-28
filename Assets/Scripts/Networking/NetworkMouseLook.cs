@@ -16,6 +16,7 @@ namespace Com.GCTC.ZombCube
         private float xRotation = 0f;
 
         private Camera cam;
+        private AudioListener audioListener;
 
         public GameObject minimapCamera;
 
@@ -28,9 +29,11 @@ namespace Com.GCTC.ZombCube
             if (!this.photonView.IsMine)
             {
                 cam = GetComponent<Camera>();
+                audioListener = GetComponent<AudioListener>();
                 Destroy(minimapCamera);
                 NetworkSpectatorManager.playerCams.Add(cam);
                 cam.enabled = false;
+                Destroy(audioListener);
                 return;
             }
             playerManager = GetComponentInParent<NetworkPlayerManager>();

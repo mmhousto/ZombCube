@@ -22,7 +22,7 @@ namespace Com.GCTC.ZombCube
         private GameObject currentPlayer;
         private UICanvasControllerInput uiInput;
         private MobileDisableAutoSwitchControls mobileControls;
-        private PlayerInput playerInput;
+        public PlayerInput playerInput;
         private GameObject contextPrompt;
         private TextMeshProUGUI contextPromptText;
 
