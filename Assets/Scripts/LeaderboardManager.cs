@@ -91,7 +91,7 @@ namespace Com.GCTC.ZombCube
             }
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
             {
-                Social.ReportScore(Mathf.RoundToInt((Player.Instance.cubesEliminated / Player.Instance.totalProjectilesFired) * 100.0f), "best_accuracy", (bool success) =>
+                Social.ReportScore(Player.Instance.cubesEliminated * 100 / Player.Instance.totalProjectilesFired, "best_accuracy", (bool success) =>
                 {
                     // handle success or failure
                 });
