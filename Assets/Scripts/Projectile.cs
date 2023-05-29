@@ -96,17 +96,17 @@ namespace Com.GCTC.ZombCube
         {
             if (Social.localUser.authenticated && Player.Instance != null)
             {
-                if (Player.Instance.cubesEliminated == 10_000)
+                if (Player.Instance.cubesEliminated >= 10_000)
                 {
                     LeaderboardManager.UnlockCubeDestroyerI();
                 }
 
-                if (Player.Instance.cubesEliminated == 100_000)
+                if (Player.Instance.cubesEliminated >= 100_000)
                 {
                     LeaderboardManager.UnlockCubeDestroyerII();
                 }
 
-                if (Player.Instance.cubesEliminated == 1_000_000)
+                if (Player.Instance.cubesEliminated >= 1_000_000)
                 {
                     LeaderboardManager.UnlockCubeDestroyerIII();
                 }
