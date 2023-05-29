@@ -23,7 +23,7 @@ namespace Com.GCTC.ZombCube
         public Animator anim;
         public GameObject projectile;
         public ParticleSystem muzzle;
-        private InputAction fireAction;
+        protected InputAction fireAction;
 
         private void Start()
         {
@@ -32,7 +32,6 @@ namespace Com.GCTC.ZombCube
                 playerManager = GetComponent<NetworkPlayerManager>();
                 audioSource = GetComponent<AudioSource>();
                 launchVector = new Vector3(0, 0, launchVelocity);
-                fireAction = GetComponent<PlayerInput>().actions.FindAction("Fire");
             }
         }
 

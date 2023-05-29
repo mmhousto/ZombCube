@@ -18,7 +18,6 @@ namespace Com.GCTC.ZombCube
             if (photonView.IsMine)
             {
                 playerManager = GetComponent<NetworkPlayerManager>();
-                shootProjectile = GetComponent<NetworkShootProjectile>();
                 audioSource = GetComponent<AudioSource>();
                 fireRate = 0.8f;
                 launchVector = new Vector3(0, 0, launchVelocity);
@@ -30,11 +29,47 @@ namespace Com.GCTC.ZombCube
             if (photonView.IsMine)
             {
                 if (shootProjectile == null)
-                {
                     shootProjectile = GetComponent<NetworkShootProjectile>();
+                
+                if(shootProjectile != null)
+                    shootProjectile.enabled = false;
+
+                // Get the PlayerInput component
+                PlayerInput playerInput = GetComponent<PlayerInput>();
+                if (playerInput != null)
+                {
+                    // Find the fire action
+                    fireAction = playerInput.actions.FindAction("Fire");
+                    if (fireAction != null)
+                    {
+                        // Enable the fire action and attach the callback
+                        fireAction.Enable();
+                        fireAction.performed += OnFired;
+                        fireAction.canceled += OnFired;
+                    }
+                    else
+                    {
+                        Debug.LogError("Fire action not found.");
+                    }
                 }
-                shootProjectile.enabled = false;
+                else
+                {
+                    Debug.LogError("PlayerInput component not found.");
+                }
+                
                 StartCoroutine(EndPowerup());
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (photonView.IsMine && fireAction != null)
+            {
+                // Disable the fire action
+                fireAction.Disable();
+                fireAction.performed -= OnFired;
+                fireAction.canceled -= OnFired;
+                shootProjectile.enabled = true;
             }
         }
 
@@ -47,7 +82,7 @@ namespace Com.GCTC.ZombCube
 
         public override void LaunchProjectile()
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine && playerManager.isInputDisabled == false)
             {
                 audioSource.Play();
                 anim.SetTrigger("IsFiring");
@@ -71,11 +106,19 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        /// <summary>
+        /// Dynamic callback to see if player performed Fire player input action.
+        /// </summary>
+        /// <param name="context"></param>
+        private void OnFired(InputAction.CallbackContext context)
+        {
+            isFiring = context.ReadValueAsButton();
+        }
+
         IEnumerator EndPowerup()
         {
             yield return new WaitForSeconds(25f);
             this.enabled = false;
-            shootProjectile.enabled = true;
         }
     }
 }

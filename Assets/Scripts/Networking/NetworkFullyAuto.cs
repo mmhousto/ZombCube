@@ -1,27 +1,27 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Com.GCTC.ZombCube
 {
-    public class NetworkFullyAuto : NetworkShootProjectile
+    public class NetworkFullyAuto : MonoBehaviourPun
     {
         private NetworkShootProjectile shootProjectile;
         private NetworkTripleShot tripleShot;
+        private float fireRate = 0.2f;
 
         // Start is called before the first frame update
         void Start()
         {
             if (photonView.IsMine)
             {
-                playerManager = GetComponent<NetworkPlayerManager>();
                 shootProjectile = GetComponent<NetworkShootProjectile>();
                 tripleShot = GetComponent<NetworkTripleShot>();
-                audioSource = GetComponent<AudioSource>();
 
                 //isFiring = true;
                 fireRate = 0.2f;
-                launchVector = new Vector3(0, 0, launchVelocity);
 
                 if (shootProjectile != null)
                     shootProjectile.fireRate = fireRate;
@@ -38,6 +38,7 @@ namespace Com.GCTC.ZombCube
         {
             if (photonView.IsMine)
             {
+                fireRate = 0.2f;
                 if (shootProjectile != null)
                     shootProjectile.fireRate = fireRate;
                 if (tripleShot != null)
@@ -46,14 +47,6 @@ namespace Com.GCTC.ZombCube
                 //shootProjectile.enabled = false;
                 StartCoroutine(EndPowerup());
             }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            CheckCanFire();
-
-            CheckForFiring();
         }
 
         IEnumerator EndPowerup()

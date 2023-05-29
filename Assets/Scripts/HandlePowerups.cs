@@ -31,15 +31,19 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-                if (other.CompareTag("TripleShot") && photonView.IsMine)
+                if (other.CompareTag("TripleShot"))
                 {
-                    networkTriple.enabled = true;
+                    if (photonView.IsMine)
+                        networkTriple.enabled = true;
+                    other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }
 
-                if (other.CompareTag("FullyAuto") && photonView.IsMine)
+                if (other.CompareTag("FullyAuto"))
                 {
-                    networkFullyAuto.enabled = true;
+                    if(photonView.IsMine)
+                        networkFullyAuto.enabled = true;
+                    other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }
             }
