@@ -84,7 +84,7 @@ namespace Com.GCTC.ZombCube
         {
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
-                Social.ReportScore(Mathf.RoundToInt((Player.Instance.cubesEliminated / Player.Instance.totalProjectilesFired) * 100.0f), "CgkI07-ynroOEAIQAw", (bool success) =>
+                Social.ReportScore(Player.Instance.cubesEliminated * 100 / Player.Instance.totalProjectilesFired, "CgkI07-ynroOEAIQAw", (bool success) =>
                 {
                     // handle success or failure
                 });
