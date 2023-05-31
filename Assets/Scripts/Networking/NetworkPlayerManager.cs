@@ -164,6 +164,10 @@ namespace Com.GCTC.ZombCube
                 Cursor.lockState = CursorLockMode.None;
 
                 NetworkGameManager.Instance.PauseGame();
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(false);
+#endif
             }
             else if (isPaused == false && isGameOver == false)
             {
@@ -172,11 +176,19 @@ namespace Com.GCTC.ZombCube
                 Cursor.lockState = CursorLockMode.Locked;
 
                 NetworkGameManager.Instance.ResumeGame();
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(true);
+#endif
             }
             else if (isGameOver == true)
             {
                 isInputDisabled = true;
                 Cursor.lockState = CursorLockMode.None;
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(false);
+#endif
             }
         }
 
