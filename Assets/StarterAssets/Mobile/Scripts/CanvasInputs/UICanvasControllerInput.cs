@@ -30,7 +30,7 @@ namespace StarterAssets
             playerLookN = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
             playerManagerN = currentPlayer.GetComponent<NetworkPlayerManager>();
 
-            playerFireN.enabled = false;
+            playerFireTripleN.enabled = false;
         }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
@@ -88,16 +88,16 @@ namespace StarterAssets
         {
             if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
             {
-                if (playerFireN != null)
+                if (playerFireN.gameObject.activeInHierarchy == true)
                     playerFireN.FireInput(virtualFireState);
-                else if (playerFireTripleN != null)
+                else if (playerFireTripleN.gameObject.activeInHierarchy == true)
                     playerFireTripleN.FireInput(virtualFireState);
             }
             else
             {
-                if (playerFire != null)
+                if (playerFire.gameObject.activeInHierarchy == true)
                     playerFire.FireInput(virtualFireState);
-                else if (playerFireTriple != null)
+                else if (playerFireTriple.gameObject.activeInHierarchy == true)
                     playerFireTriple.FireInput(virtualFireState);
             }
         }
