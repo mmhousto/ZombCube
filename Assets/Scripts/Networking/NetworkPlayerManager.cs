@@ -203,6 +203,18 @@ namespace Com.GCTC.ZombCube
             pressedUse = value.isPressed;
         }
 
+        public void EnableInputResumeButton()
+        {
+            isPaused = false;
+            isInputDisabled = false;
+
+            Cursor.lockState = CursorLockMode.Locked;
+
+#if (UNITY_IOS || UNITY_ANDROID)
+            onScreenControls.SetActive(true);
+#endif
+        }
+
         // END Input for Pausing -------------------------------------------------------------------
 
 

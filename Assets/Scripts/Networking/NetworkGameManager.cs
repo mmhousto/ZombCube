@@ -93,6 +93,9 @@ namespace Com.GCTC.ZombCube
         {
             pauseMenu.SetActive(false);
             settingsMenu.SetActive(false);
+            if(myPlayer == null)
+                myPlayer = FindPlayer.GetPlayer();
+            myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
         }
 
         public void StartGame()

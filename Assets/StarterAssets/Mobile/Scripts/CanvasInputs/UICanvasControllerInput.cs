@@ -88,16 +88,18 @@ namespace StarterAssets
         {
             if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
             {
-                if (playerFireN.gameObject.activeInHierarchy == true)
+                if (playerFireN != null)
                     playerFireN.FireInput(virtualFireState);
-                else if (playerFireTripleN.gameObject.activeInHierarchy == true)
+
+                if (playerFireTripleN != null)
                     playerFireTripleN.FireInput(virtualFireState);
             }
             else
             {
-                if (playerFire.gameObject.activeInHierarchy == true)
+                if (playerFire != null)
                     playerFire.FireInput(virtualFireState);
-                else if (playerFireTriple.gameObject.activeInHierarchy == true)
+
+                if (playerFireTriple != null)
                     playerFireTriple.FireInput(virtualFireState);
             }
         }
