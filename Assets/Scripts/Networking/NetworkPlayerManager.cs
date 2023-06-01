@@ -62,6 +62,11 @@ namespace Com.GCTC.ZombCube
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
                 playerInput = GetComponent<PlayerInput>();
 
+                if (GetComponent<NetworkTripleShot>())
+                {
+                    GetComponent<NetworkTripleShot>().enabled = false;
+                }
+
 #if (UNITY_IOS || UNITY_ANDROID)
                 currentPlayer = FindPlayer.GetPlayer();
                 onScreenControls = GameObject.FindGameObjectWithTag("ScreenControls");

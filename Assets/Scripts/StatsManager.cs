@@ -54,7 +54,7 @@ namespace Com.GCTC.ZombCube
             CloudSaveLogin.Instance.DeleteAccount();
         }
 
-        private void SetButtons()
+        public void SetButtons()
         {
 #if (UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_TVOS || UNITY_ANDROID)
             if (Social.localUser.authenticated)
