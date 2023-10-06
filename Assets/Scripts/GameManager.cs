@@ -37,7 +37,6 @@ namespace Com.GCTC.ZombCube
                 _instance = this;
             }
             Time.timeScale = 1;
-
         }
 
         // Start is called before the first frame update

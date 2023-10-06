@@ -13,6 +13,7 @@ namespace Com.GCTC.ZombCube
         public GameObject[] powerUpPrefabs;
         public float dropChance = 0.5f;
         private AudioSource audioSource;
+        public AudioClip[] clips;
 
         private void Start()
         {
@@ -37,13 +38,14 @@ namespace Com.GCTC.ZombCube
         {
             if (collision.gameObject.tag == "Enemy")
             {
+                audioSource.clip = clips[0];
                 audioSource.Play();
                 if (SceneLoader.GetCurrentScene().name == "GameScene")
                 {
 
                     Destroy(collision.gameObject);
                     PlayerManager.AddPoints(10);
-                    if(Player.Instance != null)
+                    if (Player.Instance != null)
                         Player.Instance.cubesEliminated++;
                 }
                 else if (this.photonView.IsMine)
@@ -59,6 +61,11 @@ namespace Com.GCTC.ZombCube
                 SpawnPowerup(collision.transform.position);
             }
 
+            if (collision.gameObject.tag == "Player" && this.photonView.IsMine)
+            {
+                audioSource.clip = clips[Random.Range(1, clips.Length)];
+                audioSource.Play();
+            }
         }
 
         private void OnCollisionExit(Collision collision)
