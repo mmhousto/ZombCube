@@ -14,6 +14,7 @@ namespace Com.GCTC.ZombCube
         [SerializeField] private float pitch, yaw, maxVerticalAngle;
         private float yInput, xInput;
         private float xRotation = 0f;
+        private float yRotation = 0f;
 
         public Transform playerBody;
 
@@ -27,7 +28,7 @@ namespace Com.GCTC.ZombCube
         // Update is called once per frame
         void Update()
         {
-            UpdateMouseSensitivity();
+            /*UpdateMouseSensitivity();
 
             yInput = pitch * mouseSensitivity.y * Time.deltaTime;
             xInput = yaw * mouseSensitivity.x * Time.deltaTime;
@@ -36,7 +37,21 @@ namespace Com.GCTC.ZombCube
             xRotation = ClampVerticalAngle(xRotation);
 
             transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            playerBody.Rotate(Vector3.up * xInput);
+            playerBody.Rotate(Vector3.up * xInput);*/
+
+            UpdateMouseSensitivity();
+
+            yInput = pitch * mouseSensitivity.y * Time.deltaTime;
+            xInput = yaw * mouseSensitivity.x * Time.deltaTime;
+
+            xRotation -= yInput;
+            xRotation = ClampVerticalAngle(xRotation);
+
+            yRotation -= xInput;
+
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerBody.localRotation = Quaternion.Euler(Vector3.up * -yRotation); 
+
         }
 
         public void Look(InputAction.CallbackContext context)

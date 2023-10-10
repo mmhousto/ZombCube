@@ -13,6 +13,7 @@ namespace Com.GCTC.ZombCube
         public GameObject[] powerUpPrefabs;
         public float dropChance = 0.5f;
         private AudioSource audioSource;
+        private AudioSource ovAudioSource;
         public AudioClip[] clips;
 
         private void Start()
@@ -20,6 +21,7 @@ namespace Com.GCTC.ZombCube
             enemiesHit = 0;
             Invoke(nameof(DestroyProjectile), 3f);
             audioSource = GetComponent<AudioSource>();
+            ovAudioSource = GameObject.FindWithTag("OVAudio").GetComponent<AudioSource>();
         }
 
         private void DestroyProjectile()
@@ -38,7 +40,6 @@ namespace Com.GCTC.ZombCube
         {
             if (collision.gameObject.tag == "Enemy")
             {
-                audioSource.clip = clips[0];
                 audioSource.Play();
                 if (SceneLoader.GetCurrentScene().name == "GameScene")
                 {
@@ -63,8 +64,8 @@ namespace Com.GCTC.ZombCube
 
             if (collision.gameObject.tag == "Player" && this.photonView.IsMine)
             {
-                audioSource.clip = clips[Random.Range(1, clips.Length)];
-                audioSource.Play();
+                ovAudioSource.clip = clips[Random.Range(0, clips.Length)];
+                ovAudioSource.Play();
             }
         }
 
