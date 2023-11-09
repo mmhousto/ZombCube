@@ -62,7 +62,11 @@ namespace Com.GCTC.ZombCube
                 SpawnPowerup(collision.transform.position);
             }
 
-            if (collision.gameObject.tag == "Player" && this.photonView.IsMine)
+            if (collision.gameObject.tag == "Player" && this.photonView == null)
+            {
+                ovAudioSource.clip = clips[Random.Range(0, clips.Length)];
+                ovAudioSource.Play();
+            }else if (collision.gameObject.tag == "Player" && this.photonView.IsMine)
             {
                 ovAudioSource.clip = clips[Random.Range(0, clips.Length)];
                 ovAudioSource.Play();
