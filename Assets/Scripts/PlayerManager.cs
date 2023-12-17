@@ -38,7 +38,8 @@ namespace Com.GCTC.ZombCube
             healthPoints = 100f;
             currentPoints = 0;
             healthBar.value = healthPoints;
-            scoreText.text = "Score: " + currentPoints.ToString();
+            if(scoreText != null)
+                scoreText.text = "Score: " + currentPoints.ToString();
             contextPrompt = GameObject.FindWithTag("ContextPrompt");
             contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
             contextPrompt.SetActive(false);
@@ -57,7 +58,8 @@ namespace Com.GCTC.ZombCube
         void Update()
         {
             healthBar.value = healthPoints;
-            scoreText.text = "Score: " + currentPoints.ToString();
+            if (scoreText != null)
+                scoreText.text = "Score: " + currentPoints.ToString();
 
             if (healthPoints <= 0 && isGameOver == false)
             {

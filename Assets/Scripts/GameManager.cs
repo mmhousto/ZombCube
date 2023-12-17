@@ -13,11 +13,15 @@ namespace Com.GCTC.ZombCube
         private static GameManager _instance;
 
         public static GameManager Instance { get { return _instance; } }
+        public static int mode;
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls;
 
         public PlayerInput playerInput;
+        private PlayerInputManager playerInputManager;
+
+        public Transform coopSpawnPoints;
 
         [SerializeField] private bool overrideCursor = false;
 
@@ -36,7 +40,13 @@ namespace Com.GCTC.ZombCube
             {
                 _instance = this;
             }
+
             Time.timeScale = 1;
+
+            if(mode == 1)
+            {
+                playerInputManager = GameObject.Find("CoopManager").GetComponent<PlayerInputManager>();
+            }
         }
 
         // Start is called before the first frame update
@@ -51,7 +61,11 @@ namespace Com.GCTC.ZombCube
 
             CustomAnalytics.SendGameStart();
 
-            if(!playerInput.actions.enabled)
+            if (mode == 1)
+            {
+                
+            }
+            else if (!playerInput.actions.enabled)
                 playerInput.actions.Enable();
 
             if(overrideCursor == false)
@@ -95,7 +109,13 @@ namespace Com.GCTC.ZombCube
         {
             AdsInitializer.timesPlayed++;
             //playerInput.SwitchCurrentActionMap("UI");
-            playerInput.actions.Disable();
+            if (mode == 1)
+            {
+
+            }
+            else
+                playerInput.actions.Disable();
+
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(restart);
 
@@ -123,7 +143,13 @@ namespace Com.GCTC.ZombCube
 #if (UNITY_IOS || UNITY_ANDROID)
             onScreenControls.SetActive(true);
 #endif
-            playerInput.actions.Enable();
+            if (mode == 1)
+            {
+
+            }
+            else
+                playerInput.actions.Enable();
+
             isPaused = false;
         }
 
@@ -151,7 +177,13 @@ namespace Com.GCTC.ZombCube
         {
             if (isPaused == true && isGameOver == false)
             {
-                playerInput.actions.Disable();
+                if (mode == 1)
+                {
+
+                }
+                else
+                    playerInput.actions.Disable();
+
                 pauseScreen.SetActive(true);
 
 #if (UNITY_IOS || UNITY_ANDROID)
@@ -162,7 +194,13 @@ namespace Com.GCTC.ZombCube
             }
             else if (isPaused == false && isGameOver == false)
             {
-                playerInput.actions.Enable();
+                if (mode == 1)
+                {
+
+                }
+                else
+                    playerInput.actions.Enable();
+
                 pauseScreen.SetActive(false);
                 settingsScreen.SetActive(false);
 
@@ -178,7 +216,14 @@ namespace Com.GCTC.ZombCube
 #endif
 
                 isPaused = false;
-                playerInput.actions.Disable();
+
+                if (mode == 1)
+                {
+
+                }
+                else
+                    playerInput.actions.Disable();
+
                 pauseScreen.SetActive(false);
                 settingsScreen.SetActive(false);
             }

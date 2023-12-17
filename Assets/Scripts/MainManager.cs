@@ -85,6 +85,17 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartSoloGame()
         {
+            GameManager.mode = 0;
+            CloudSaveLogin.Instance.SaveCloudData();
+            SceneLoader.PlayGame();
+        }
+
+        /// <summary>
+        /// Starts solo version of game.
+        /// </summary>
+        public void StartCoopGame()
+        {
+            GameManager.mode = 1;
             CloudSaveLogin.Instance.SaveCloudData();
             SceneLoader.PlayGame();
         }

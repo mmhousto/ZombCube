@@ -13,6 +13,8 @@ using AppleAuth.Enums;
 using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using UnityEditor.PackageManager;
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
 using GooglePlayGames;
@@ -180,9 +182,6 @@ namespace Com.GCTC.ZombCube
                 });
             }
 
-#if UNITY_ANDROID
-            GoogleLogout();
-#endif
             LogoutScreenActivate();
         }
 
@@ -358,12 +357,6 @@ namespace Com.GCTC.ZombCube
             {
                 FacebookLogout();
             }*/
-#if UNITY_ANDROID
-            if (currentSSO == ssoOption.Google)
-            {
-                GoogleLogout();
-            }
-#endif
 
             if (AuthenticationService.Instance.IsSignedIn)
             {
@@ -737,14 +730,14 @@ private async void LoginStatusCallback(ILoginStatusResult result)
 
         void InitializePlayGamesLogin()
         {
-            var config = new PlayGamesClientConfiguration.Builder()
+            /*var config = new PlayGamesClientConfiguration.Builder()
                 // Requests an ID token be generated.  
                 // This OAuth token can be used to
                 // identify the player to other services such as Firebase.
                 .RequestIdToken()
                 .Build();
 
-            PlayGamesPlatform.InitializeInstance(config);
+            PlayGamesPlatform.InitializeInstance(config);*/
             PlayGamesPlatform.Activate();
         }
 
@@ -754,7 +747,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             AuthenticationService.Instance.SwitchProfile("google");
             try
             {
-                PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptOnce, success => { OnGooglePlayGamesLogin(success); });
+                PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
             }
             catch (Exception e)
             {
@@ -767,19 +760,25 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         {
             if (status == SignInStatus.Success)
             {
-                ((PlayGamesPlatform)Social.Active).SetGravityForPopups(Gravity.BOTTOM);
-
                 // Call Unity Authentication SDK to sign in or link with Google.
-                var idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+                var idToken = "";
+
+                PlayGamesPlatform.Instance.RequestServerSideAccess(true, code =>
+                {
+                    Debug.Log("Authorization code: " + code);
+                    idToken = code;
+                    // This token serves as an example to be used for SignInWithGooglePlayGames
+                });
+
                 userID = Social.localUser.id;
                 userName = Social.localUser.userName;
 
                 await SignInWithGoogleAsync(idToken);
 
             }
-            else if (status == SignInStatus.UiSignInRequired)
+            else if (status == SignInStatus.InternalError)
             {
-                PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptAlways, success => { OnGooglePlayGamesLogin(success); });
+                PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
             }
             else
             {
@@ -809,11 +808,6 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 // Notify the player with the proper error message
                 Debug.LogException(ex);
             }
-        }
-
-        void GoogleLogout()
-        {
-            PlayGamesPlatform.Instance.SignOut();
         }
         
 #endif

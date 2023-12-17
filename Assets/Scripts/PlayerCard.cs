@@ -39,6 +39,19 @@ namespace Com.GCTC.ZombCube
         }
 
         /// <summary>
+        /// Updates the Player Card with the players data.
+        /// </summary>
+        /// <param name="player">Player properties to update and display</param>
+        public void UpdateDisplay(int playerNum)
+        {
+            playerName.text = $"P{playerNum}";
+
+
+            waitingForPlayerPanel.SetActive(false);
+            playerDataPanel.SetActive(true);
+        }
+
+        /// <summary>
         /// Disables the display and sets the waiting for player text to active.
         /// </summary>
         public void DisableDisplay()
