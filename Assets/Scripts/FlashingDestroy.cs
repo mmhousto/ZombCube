@@ -4,10 +4,6 @@ using UnityEngine;
 
 namespace Com.GCTC.ZombCube
 {
-    using UnityEngine;
-
-    using UnityEngine;
-
     public class FlashingDestroy : MonoBehaviour
     {
         private float destroyTime = 30f;

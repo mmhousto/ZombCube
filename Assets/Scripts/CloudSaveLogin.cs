@@ -14,7 +14,6 @@ using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using UnityEditor.PackageManager;
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
 using GooglePlayGames;
