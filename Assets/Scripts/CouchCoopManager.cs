@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -16,18 +17,17 @@ namespace Com.GCTC.ZombCube
         public GameObject playerPrefab;
         private Transform[] spawnPoints = new Transform[3];
         private PlayerInputManager playerInputManager;
+        private bool played;
 
         private void Awake()
         {
-            if (_instance != null && _instance != this)
+            if (_instance != null && _instance == this)
             {
                 Destroy(this.gameObject);
             }
-            else
-            {
+
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
-            }
             
             playerInputManager = GetComponent<PlayerInputManager>();
         }
@@ -35,9 +35,14 @@ namespace Com.GCTC.ZombCube
         // called second
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            if(scene.buildIndex == 1 && played == true)
+            {
+                Destroy(this.gameObject);
+            }
+
             if(scene.buildIndex == 5)
             {
-                
+                played = true;
                 spawnPoints[0] = GameObject.Find("SP2").transform;
                 spawnPoints[1] = GameObject.Find("SP3").transform;
                 spawnPoints[2] = GameObject.Find("SP4").transform;

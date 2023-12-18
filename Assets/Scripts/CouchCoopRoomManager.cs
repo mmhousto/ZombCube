@@ -65,6 +65,15 @@ namespace Com.GCTC.ZombCube
             
         }
 
+        public void Leave()
+        {
+            foreach(PlayerCard card in playerCards)
+            {
+                card.DisableDisplay();
+            }
+            currentPlayers = 0;
+        }
+
         public void OnPlayerLeft()
         {
             if(currentPlayers > 0)
