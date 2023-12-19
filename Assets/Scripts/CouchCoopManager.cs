@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 
 namespace Com.GCTC.ZombCube
@@ -15,9 +17,10 @@ namespace Com.GCTC.ZombCube
         public List<int> joinedPlayerIDs = new List<int>();
         public List<GameObject> joinedPlayers = new List<GameObject>();
         public GameObject playerPrefab;
-        private Transform[] spawnPoints = new Transform[3];
+        private Transform[] spawnPoints = new Transform[4];
         private PlayerInputManager playerInputManager;
         private bool played;
+        private int spawnedInPlayers = 0;
 
         private void Awake()
         {
@@ -30,6 +33,15 @@ namespace Com.GCTC.ZombCube
                 DontDestroyOnLoad(gameObject);
             
             playerInputManager = GetComponent<PlayerInputManager>();
+            spawnedInPlayers = 0;
+        }
+
+        public void DestroyPlayers()
+        {
+            foreach(GameObject player in joinedPlayers)
+            {
+                Destroy(player);
+            }
         }
 
         // called second
@@ -40,19 +52,42 @@ namespace Com.GCTC.ZombCube
                 Destroy(this.gameObject);
             }
 
-            if(scene.buildIndex == 5)
+            if (scene.buildIndex == 5 && GameManager.mode == 1)
             {
+                var canvas = GameObject.FindWithTag("Canvas");
+                canvas.transform.GetChild(0).gameObject.SetActive(false);
+                canvas.transform.GetChild(1).gameObject.SetActive(false);
+                canvas.transform.GetChild(2).gameObject.SetActive(false);
+                canvas.transform.GetChild(6).gameObject.SetActive(false);
+                canvas.transform.GetChild(7).gameObject.SetActive(false);
+                canvas.transform.GetChild(9).gameObject.SetActive(false);
+                GameObject.Find("Player").SetActive(false);
+
                 played = true;
-                spawnPoints[0] = GameObject.Find("SP2").transform;
-                spawnPoints[1] = GameObject.Find("SP3").transform;
-                spawnPoints[2] = GameObject.Find("SP4").transform;
-                for(int i = 1; i < joinedPlayerIDs.Count; i++)
+                spawnPoints[0] = GameObject.Find("SP1").transform;
+                spawnPoints[1] = GameObject.Find("SP2").transform;
+                spawnPoints[2] = GameObject.Find("SP3").transform;
+                spawnPoints[3] = GameObject.Find("SP4").transform;
+                for (int i = spawnedInPlayers; i < joinedPlayerIDs.Count; i++)
                 {
-                    GameObject clone = Instantiate(playerPrefab, spawnPoints[i - 1].position, spawnPoints[i - 1].rotation);
-                    
+                    GameObject clone = Instantiate(playerPrefab, spawnPoints[i].position, spawnPoints[i].rotation, joinedPlayers[i].transform);
+                    var playerInput = joinedPlayers[i].transform.GetComponent<PlayerInput>();
+                    playerInput.camera = clone.GetComponentInChildren<Camera>();
+                    playerInput.uiInputModule = clone.GetComponentInChildren<InputSystemUIInputModule>();
+                    playerInput.currentActionMap = playerInput.actions.FindActionMap("Player");
+                    playerInput.actions.Enable();
+                    spawnedInPlayers++;
+
                 }
+
+                foreach (var player in joinedPlayers)
+                {
+                    player.GetComponent<PlayerManager>().ResetPlayer();
+                }
+
                 playerInputManager.splitScreen = true;
             }
+            else if (scene.buildIndex == 5) Destroy(gameObject);
         }
 
         void OnEnable()

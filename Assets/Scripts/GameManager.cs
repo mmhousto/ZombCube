@@ -155,6 +155,11 @@ namespace Com.GCTC.ZombCube
 
         public void GoHome()
         {
+            if (mode == 1)
+            {
+                playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayers();
+            }
+
             SceneLoader.ToMainMenu();
         }
 

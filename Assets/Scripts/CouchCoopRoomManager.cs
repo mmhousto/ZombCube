@@ -29,7 +29,8 @@ namespace Com.GCTC.ZombCube
                     
                     // Add the player to the list of joined players
                     couchCoopManager.joinedPlayerIDs.Add(playerID);
-                    //couchCoopManager.joinedPlayers.Add(playerInput.gameObject);
+                    couchCoopManager.joinedPlayers.Add(playerInput.gameObject);
+                    DontDestroyOnLoad(playerInput.gameObject);
                 }
             }
         }
@@ -55,12 +56,12 @@ namespace Com.GCTC.ZombCube
                 playerCards[currentPlayers].UpdateDisplay(currentPlayers+1);
                 currentPlayers++;
 
-                //GameObject clone = Instantiate(playerInputPrefab);
-                //DontDestroyOnLoad(clone);
+                GameObject clone = Instantiate(playerInputPrefab);
+                DontDestroyOnLoad(clone);
 
                 // Add the player to the list of joined players
                 couchCoopManager.joinedPlayerIDs.Add(playerID);
-                //couchCoopManager.joinedPlayers.Add(clone);
+                couchCoopManager.joinedPlayers.Add(clone);
             }
             
         }
@@ -80,7 +81,7 @@ namespace Com.GCTC.ZombCube
             {
                 currentPlayers--;
                 playerCards[currentPlayers].DisableDisplay();
-                //Destroy(couchCoopManager.joinedPlayers[currentPlayers]);
+                Destroy(couchCoopManager.joinedPlayers[currentPlayers]);
             }
 
 

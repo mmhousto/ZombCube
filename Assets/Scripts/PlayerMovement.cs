@@ -150,12 +150,31 @@ namespace Com.GCTC.ZombCube
         }
 
         /// <summary>
+        /// Gets Input from user on Move action and assigns to float variables, horizontal and vertical respectfully.
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnPlayerMove(InputValue context)
+        {
+            MoveInput(context.Get<Vector2>());
+
+        }
+
+        /// <summary>
         /// Gets input when player performs Jump action and assigns value to hasJumped.
         /// </summary>
         /// <param name="context"></param>
         public void Jump(InputAction.CallbackContext context)
         {
             JumpInput(context.ReadValueAsButton());
+        }
+
+        /// <summary>
+        /// Gets input when player performs Jump action and assigns value to hasJumped.
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnJump(InputValue context)
+        {
+            JumpInput(context.isPressed);
         }
 
         public void MoveInput(Vector2 newMoveDirection)

@@ -91,8 +91,6 @@ namespace Com.GCTC.ZombCube
             int rand = Random.Range(0, 3);
             float randChance = Random.value;
 
-            Debug.Log(randChance);
-
             // Check if power-up should be spawned based on drop chance
             if (randChance <= dropChance && SceneLoader.GetCurrentScene().name == "GameScene")
             {

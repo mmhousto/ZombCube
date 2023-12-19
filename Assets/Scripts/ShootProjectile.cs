@@ -150,6 +150,15 @@ namespace Com.GCTC.ZombCube
             FireInput(context.ReadValueAsButton());
         }
 
+        /// <summary>
+        /// Dynamic callback to see if player performed Fire player input action.
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnFire(InputValue context)
+        {
+            FireInput(context.isPressed);
+        }
+
         public void FireInput(bool newValue)
         {
             isFiring = newValue;

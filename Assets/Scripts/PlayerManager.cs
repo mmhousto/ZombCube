@@ -21,9 +21,10 @@ namespace Com.GCTC.ZombCube
         public static int currentPoints = 0;
 
         public TextMeshProUGUI scoreText;
-        private GameObject contextPrompt;
+        public GameObject contextPrompt;
         private TextMeshProUGUI contextPromptText;
-        private Slider healthBar;
+        public Slider healthBar;
+        public GameObject[] blaster;
 
         private float healthPoints = 100f;
         private bool isGameOver;
@@ -34,19 +35,27 @@ namespace Com.GCTC.ZombCube
         {
             player = Player.Instance;
             isGameOver = false;
-            healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
+
+            if(healthBar == null)
+                healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
+
             healthPoints = 100f;
             currentPoints = 0;
             healthBar.value = healthPoints;
+
             if(scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
-            contextPrompt = GameObject.FindWithTag("ContextPrompt");
+
+            if(contextPrompt == null)
+                contextPrompt = GameObject.FindWithTag("ContextPrompt");
+
             contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
             contextPrompt.SetActive(false);
 
             GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
 
-            GameObject[] blaster = GameObject.FindGameObjectsWithTag("Blaster");
+            if (blaster == null)
+                blaster = GameObject.FindGameObjectsWithTag("Blaster");
 
             foreach (GameObject item in blaster)
             {
@@ -163,6 +172,13 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void ResetPlayer()
+        {
+            healthPoints = 100;
+            currentPoints = 0;
+            healthBar.value = healthPoints;
+        }
+
         public void SavePlayerData()
         {
             SaveSystem.SavePlayer(player);
@@ -173,6 +189,20 @@ namespace Com.GCTC.ZombCube
             pressedUse = context.performed;
         }
 
+        public void OnInteract(InputValue context)
+        {
+            pressedUse = context.isPressed;
+        }
+
+        public void OnGamePause(InputAction.CallbackContext context)
+        {
+            GameManager.Instance.PauseInput();
+        }
+
+        public void OnGamePause(InputValue context)
+        {
+            GameManager.Instance.PauseInput();
+        }
 
     }
 

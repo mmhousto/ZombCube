@@ -59,6 +59,11 @@ namespace Com.GCTC.ZombCube
             LookInput(context.ReadValue<Vector2>());
         }
 
+        public void OnLook(InputValue context)
+        {
+            LookInput(context.Get<Vector2>());
+        }
+
         public void LookInput(Vector2 newLookDirection)
         {
             pitch = newLookDirection.y;
