@@ -78,11 +78,13 @@ namespace Com.GCTC.ZombCube
                     playerInput.actions.Enable();
                     spawnedInPlayers++;
 
+                    if(i > 0)
+                        clone.GetComponentInChildren<AudioListener>().enabled = false;
                 }
 
                 foreach (var player in joinedPlayers)
                 {
-                    player.GetComponent<PlayerManager>().ResetPlayer();
+                    player.GetComponentInChildren<PlayerManager>().ResetPlayer();
                 }
 
                 playerInputManager.splitScreen = true;
