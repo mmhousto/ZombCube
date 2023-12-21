@@ -25,6 +25,7 @@ namespace Com.GCTC.ZombCube
         private TextMeshProUGUI contextPromptText;
         public Slider healthBar;
         public GameObject[] blaster;
+        public Camera minimapCam;
 
         private float healthPoints = 100f;
         private bool isGameOver;

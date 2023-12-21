@@ -17,11 +17,11 @@ namespace Com.GCTC.ZombCube
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls;
+        public Camera eliminatedCam;
 
         public PlayerInput playerInput;
         private PlayerInputManager playerInputManager;
-
-        public Transform coopSpawnPoints;
+        private CouchCoopManager couchCoopManager;
 
         [SerializeField] private bool overrideCursor = false;
 
@@ -46,6 +46,7 @@ namespace Com.GCTC.ZombCube
             if(mode == 1)
             {
                 playerInputManager = GameObject.Find("CoopManager").GetComponent<PlayerInputManager>();
+                couchCoopManager = playerInputManager.gameObject.GetComponent<CouchCoopManager>();
             }
         }
 
@@ -63,7 +64,7 @@ namespace Com.GCTC.ZombCube
 
             if (mode == 1)
             {
-                
+                couchCoopManager.EnableDisableInput(true);
             }
             else if (!playerInput.actions.enabled)
                 playerInput.actions.Enable();
@@ -80,6 +81,11 @@ namespace Com.GCTC.ZombCube
             CheckForPause();
             SetCursorState();
            
+        }
+
+        public void EnableDisableElimCam(bool newState)
+        {
+            eliminatedCam.enabled = newState;
         }
 
         public void NextWave()
@@ -111,7 +117,7 @@ namespace Com.GCTC.ZombCube
             //playerInput.SwitchCurrentActionMap("UI");
             if (mode == 1)
             {
-
+                couchCoopManager.EnableDisableInput(false);
             }
             else
                 playerInput.actions.Disable();
@@ -135,6 +141,12 @@ namespace Com.GCTC.ZombCube
 
         public void Restart()
         {
+            if (mode == 1)
+            {
+                playerInputManager.splitScreen = false;
+                playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayerObjects();
+                EnableDisableElimCam(true);
+            }
             SceneLoader.PlayGame();
         }
 
@@ -145,7 +157,7 @@ namespace Com.GCTC.ZombCube
 #endif
             if (mode == 1)
             {
-
+                couchCoopManager.EnableDisableInput(true);
             }
             else
                 playerInput.actions.Enable();
@@ -158,9 +170,13 @@ namespace Com.GCTC.ZombCube
             if (mode == 1)
             {
                 playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayers();
+                EnableDisableElimCam(true);
             }
 
             SceneLoader.ToMainMenu();
+
+            if(playerInputManager != null)
+                Destroy(playerInputManager.gameObject);
         }
 
         public void PauseInput()
@@ -184,7 +200,7 @@ namespace Com.GCTC.ZombCube
             {
                 if (mode == 1)
                 {
-
+                    couchCoopManager.EnableDisableInput(false);
                 }
                 else
                     playerInput.actions.Disable();
@@ -201,7 +217,7 @@ namespace Com.GCTC.ZombCube
             {
                 if (mode == 1)
                 {
-
+                    couchCoopManager.EnableDisableInput(true);
                 }
                 else
                     playerInput.actions.Enable();
@@ -224,7 +240,7 @@ namespace Com.GCTC.ZombCube
 
                 if (mode == 1)
                 {
-
+                    couchCoopManager.EnableDisableInput(false);
                 }
                 else
                     playerInput.actions.Disable();
