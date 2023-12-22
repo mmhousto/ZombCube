@@ -105,7 +105,28 @@ namespace Com.GCTC.ZombCube
                         spawnPoints[j].transform.position,
                         spawnPoints[j].transform.rotation);
                 }
-            
+
+            if (NetworkGameManager.Instance.CurrentRound > 2)
+            {
+                for (int i = 0; i < cubesToSpawn / 10; i++)
+                {
+                    int j = Random.Range(0, spawnPoints.Length);
+                    PhotonNetwork.InstantiateRoomObject("NetworkFastCube",
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
+                }
+            }
+
+            if (GameManager.Instance.CurrentRound > 4)
+            {
+                for (int i = 0; i < cubesToSpawn / 20; i++)
+                {
+                    int j = Random.Range(0, spawnPoints.Length);
+                    PhotonNetwork.InstantiateRoomObject("NetworkDupeCube",
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
+                }
+            }
 
         }
 

@@ -10,8 +10,8 @@ namespace Com.GCTC.ZombCube
     {
 
 
-        private Transform target;
-        private NavMeshAgent ai;
+        protected Transform target;
+        protected NavMeshAgent ai;
 
         // Start is called before the first frame update
         void Start()

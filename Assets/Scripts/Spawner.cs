@@ -12,7 +12,7 @@ namespace Com.GCTC.ZombCube
 
         private int cubesToSpawn;
         public GameObject[] spawnPoints;
-        public GameObject enemy;
+        public GameObject[] enemies;
 
         private int timeTilNextWave = 5;
         public TextMeshProUGUI countDownLabel;
@@ -22,7 +22,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            cubesToSpawn = (RemoteConfig.Instance != null) ? RemoteConfig.Instance.cubesToSpawn : 5;
+            cubesToSpawn = (GameObject.Find("CoopManager") != null) ? GameObject.Find("CoopManager").GetComponent<CouchCoopManager>().joinedPlayerIDs.Count*5 : 5;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             timeTilNextWave = 5;
             countDownLabel.gameObject.SetActive(true);
@@ -72,9 +72,31 @@ namespace Com.GCTC.ZombCube
             for (int i = 0; i < cubesToSpawn; i++)
             {
                 int j = Random.Range(0, spawnPoints.Length);
-                GameObject enemyClone = Instantiate(enemy,
+                GameObject enemyClone = Instantiate(enemies[0],
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
+            }
+
+            if(GameManager.Instance.CurrentRound > 2)
+            {
+                for(int i = 0; i < cubesToSpawn/10; i++)
+                {
+                    int j = Random.Range(0, spawnPoints.Length);
+                    Instantiate(enemies[1],
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
+                }
+            }
+
+            if (GameManager.Instance.CurrentRound > 4)
+            {
+                for (int i = 0; i < cubesToSpawn / 20; i++)
+                {
+                    int j = Random.Range(0, spawnPoints.Length);
+                    Instantiate(enemies[2],
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
+                }
             }
 
         }

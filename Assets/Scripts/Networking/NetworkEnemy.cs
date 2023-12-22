@@ -9,12 +9,12 @@ namespace Com.GCTC.ZombCube
 
     public class NetworkEnemy : MonoBehaviourPun
     {
-        private GameObject[] players;
+        protected GameObject[] players;
 
-        private Transform target;
-        private NavMeshAgent ai;
+        protected Transform target;
+        protected NavMeshAgent ai;
 
-        private bool hasHit = false;
+        protected bool hasHit = false;
 
         public bool isGameOver = false;
 
@@ -75,14 +75,14 @@ namespace Com.GCTC.ZombCube
         {
             if (other.CompareTag("Player") && hasHit == false)
             {
-                other.gameObject.GetComponent<NetworkPlayerManager>().DamagePlayerCall();
+                other.gameObject.GetComponent<NetworkPlayerManager>().DamagePlayerCall(20f);
                 hasHit = true;
 
                 photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
             }
         }
 
-        Transform GetClosestPlayer(GameObject[] players)
+        protected Transform GetClosestPlayer(GameObject[] players)
         {
             Transform tMin = null;
             float minDist = Mathf.Infinity;

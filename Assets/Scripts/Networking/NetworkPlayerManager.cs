@@ -140,9 +140,9 @@ namespace Com.GCTC.ZombCube
             currentPoints -= pointsToSpend;
         }
 
-        public void DamagePlayerCall()
+        public void DamagePlayerCall(float damage)
         {
-            photonView.RPC(nameof(Damage), RpcTarget.All, 20f);
+            photonView.RPC(nameof(Damage), RpcTarget.All, damage);
         }
 
         public static void AddPoints(int pointsToAdd)
