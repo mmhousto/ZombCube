@@ -35,5 +35,14 @@ namespace Com.GCTC.ZombCube
                 other.gameObject.GetComponent<PlayerManager>().Damage(20);
             }
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Bullet"))
+            {
+                Instantiate(dupe, transform.position + offset, transform.rotation);
+                Instantiate(dupe, transform.position - offset, transform.rotation);
+            }
+        }
     }
 }

@@ -21,12 +21,12 @@ namespace Com.GCTC.ZombCube
             enemiesHit = 0;
             Invoke(nameof(DestroyProjectile), 3f);
             audioSource = GetComponent<AudioSource>();
-            ovAudioSource = GameObject.FindWithTag("OVAudio").GetComponent<AudioSource>();
+            ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
         }
 
         private void DestroyProjectile()
         {
-            if (SceneLoader.GetCurrentScene().name == "GameScene")
+            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
             {
                 Destroy(gameObject);
             }
@@ -41,7 +41,7 @@ namespace Com.GCTC.ZombCube
             if (collision.gameObject.tag == "Enemy")
             {
                 audioSource.Play();
-                if (SceneLoader.GetCurrentScene().name == "GameScene")
+                if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
                 {
 
                     Destroy(collision.gameObject);

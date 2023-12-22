@@ -72,8 +72,8 @@ namespace Com.GCTC.ZombCube
             if (scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-            if(waveText != null && waveText.text != GameManager.Instance.waveTxt.text)
-                waveText.text = GameManager.Instance.waveTxt.text;
+            if(waveText != null && waveText?.text != GameManager.Instance?.waveTxt.text)
+                waveText.text = GameManager.Instance?.waveTxt.text;
 
             if (healthPoints <= 0 && isGameOver == false)
             {
