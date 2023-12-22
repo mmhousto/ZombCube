@@ -37,6 +37,7 @@ namespace Com.GCTC.ZombCube
             
             playerInputManager = GetComponent<PlayerInputManager>();
             spawnedInPlayers = 0;
+            played = false;
         }
 
         public void DestroyPlayerObjects()
@@ -87,7 +88,7 @@ namespace Com.GCTC.ZombCube
                 canvas.transform.GetChild(7).gameObject.SetActive(false);
                 canvas.transform.GetChild(9).gameObject.SetActive(false);
 
-                played = true;
+                
                 // Gets spawn points
                 spawnPoints[0] = GameObject.Find("SP1").transform;
                 spawnPoints[1] = GameObject.Find("SP2").transform;
@@ -108,15 +109,24 @@ namespace Com.GCTC.ZombCube
                     // Assign minimap texture to camera and minimap
                     clone.GetComponentInChildren<RawImage>().texture = minimaps[i];
                     clone.GetComponent<PlayerManager>().minimapCam.targetTexture = minimaps[i];
-                    clone.GetComponentInChildren<Canvas>().transform.parent = joinedPlayers[i].transform;
+
+                    if(played == false)
+                        clone.GetComponentInChildren<Canvas>().transform.parent = joinedPlayers[i].transform;
+                    else
+                        Destroy(clone.GetComponentInChildren<Canvas>().gameObject);
 
                     // Destroy audio listeners that are not p1
                     if(i > 0)
                         Destroy(clone.GetComponentInChildren<AudioListener>());
                 }
 
+                if (joinedPlayerIDs.Count == 3)
+                    GameManager.Instance.SetElimCameraForThreePlayers();
+
                 // enable split-screen
                 playerInputManager.splitScreen = true;
+
+                played = true;
             }
             else if (scene.buildIndex == 5) Destroy(gameObject);
         }

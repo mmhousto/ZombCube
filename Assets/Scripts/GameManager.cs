@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using System.Security.Cryptography;
 
 namespace Com.GCTC.ZombCube
 {
@@ -18,7 +19,6 @@ namespace Com.GCTC.ZombCube
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls;
         public Camera eliminatedCam;
-
         public PlayerInput playerInput;
         private PlayerInputManager playerInputManager;
         private CouchCoopManager couchCoopManager;
@@ -86,6 +86,13 @@ namespace Com.GCTC.ZombCube
         public void EnableDisableElimCam(bool newState)
         {
             eliminatedCam.enabled = newState;
+        }
+
+        public void SetElimCameraForThreePlayers()
+        {
+            eliminatedCam.rect = new Rect(.5f, 0, .5f, .5f);
+            eliminatedCam.enabled = true;
+
         }
 
         public void NextWave()

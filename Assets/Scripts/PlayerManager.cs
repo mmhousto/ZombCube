@@ -21,6 +21,7 @@ namespace Com.GCTC.ZombCube
         public static int currentPoints = 0;
 
         public TextMeshProUGUI scoreText;
+        public TextMeshProUGUI waveText;
         public GameObject contextPrompt;
         private TextMeshProUGUI contextPromptText;
         public Slider healthBar;
@@ -70,6 +71,9 @@ namespace Com.GCTC.ZombCube
             healthBar.value = healthPoints;
             if (scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
+
+            if(waveText != null && waveText.text != GameManager.Instance.waveTxt.text)
+                waveText.text = GameManager.Instance.waveTxt.text;
 
             if (healthPoints <= 0 && isGameOver == false)
             {
