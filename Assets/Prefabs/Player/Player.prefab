@@ -461,7 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 11ead34a123c6914db579a4f17411900, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 1
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -591,9 +591,9 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Com.MorganHouston.ZombCube.GameManager, Assembly-CSharp
-        m_MethodName: Pause
+      - m_Target: {fileID: 6060195563491696939}
+        m_TargetAssemblyTypeName: Com.GCTC.ZombCube.PlayerManager, Assembly-CSharp
+        m_MethodName: OnGamePause
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -653,6 +653,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 824fba538299875498103f0146aeebed, type: 2}
   - {fileID: 2100000, guid: 59ee2777ad54fa44d9c98f94eadc4867, type: 2}
   scoreText: {fileID: 0}
+  waveText: {fileID: 0}
+  contextPrompt: {fileID: 0}
+  healthBar: {fileID: 0}
+  blaster: []
+  minimapCam: {fileID: 694565547}
 --- !u!136 &690516304750937087
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1540,6 +1545,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8430d75e9c36d4747b7ff47d34417f7d, type: 3}
+--- !u!20 &694565547 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4001086741567567559, guid: 8430d75e9c36d4747b7ff47d34417f7d, type: 3}
+  m_PrefabInstance: {fileID: 4001086741989477484}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &694565548 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4001086741567567552, guid: 8430d75e9c36d4747b7ff47d34417f7d, type: 3}

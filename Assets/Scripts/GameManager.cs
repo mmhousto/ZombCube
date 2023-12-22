@@ -15,6 +15,7 @@ namespace Com.GCTC.ZombCube
 
         public static GameManager Instance { get { return _instance; } }
         public static int mode;
+        public GameObject playerPrefab;
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls;
@@ -47,6 +48,12 @@ namespace Com.GCTC.ZombCube
             {
                 playerInputManager = GameObject.Find("CoopManager").GetComponent<PlayerInputManager>();
                 couchCoopManager = playerInputManager.gameObject.GetComponent<CouchCoopManager>();
+            }
+            else
+            {
+                Transform sp1 = GameObject.Find("SP1").transform;
+                Instantiate(playerPrefab, sp1.position, sp1.rotation);
+                EnableDisableElimCam(false);
             }
         }
 

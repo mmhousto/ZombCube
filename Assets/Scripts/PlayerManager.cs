@@ -45,6 +45,9 @@ namespace Com.GCTC.ZombCube
             currentPoints = 0;
             healthBar.value = healthPoints;
 
+            if(scoreText == null)
+                scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
+
             if(scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
 
