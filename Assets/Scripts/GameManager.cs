@@ -20,7 +20,7 @@ namespace Com.GCTC.ZombCube
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls;
         public Camera eliminatedCam;
-        public PlayerInput playerInput;
+        private PlayerInput playerInput;
         private PlayerInputManager playerInputManager;
         private CouchCoopManager couchCoopManager;
 
@@ -52,7 +52,8 @@ namespace Com.GCTC.ZombCube
             else
             {
                 Transform sp1 = GameObject.Find("SP1").transform;
-                Instantiate(playerPrefab, sp1.position, sp1.rotation);
+                GameObject clone = Instantiate(playerPrefab, sp1.position, sp1.rotation);
+                playerInput = clone.GetComponent<PlayerInput>();
                 EnableDisableElimCam(false);
             }
         }

@@ -110,19 +110,25 @@ namespace Com.GCTC.ZombCube
                     // Assign minimap texture to camera and minimap
                     clone.GetComponentInChildren<RawImage>().texture = minimaps[i];
                     clone.GetComponent<PlayerManager>().minimapCam.targetTexture = minimaps[i];
-                    clone.GetComponentInChildren<Canvas>().transform.parent = joinedPlayers[i].transform;
+                    clone.GetComponentInChildren<Canvas>().transform.SetParent(joinedPlayers[i].transform, false);
 
                     // Destroy audio listeners that are not p1
                     if(i > 0)
                         Destroy(clone.GetComponentInChildren<AudioListener>());
                 }
 
+                // Enable splitscreen if more than 1 player
+                if (joinedPlayerIDs.Count > 1)
+                {
+                    // enable split-screen
+                    playerInputManager.splitScreen = true;
+                }
+
+                // Sets up 4th viewport with elim camera
                 if (joinedPlayerIDs.Count == 3)
                     GameManager.Instance.SetElimCameraForThreePlayers();
 
-                // enable split-screen
-                playerInputManager.splitScreen = true;
-
+                // Splits screens horizontally for 2-player
                 if (joinedPlayerIDs.Count == 2)
                 {
                     joinedPlayers[0].GetComponentInChildren<Camera>().rect = new Rect(0, 0.5f, 1, 0.5f);
