@@ -24,6 +24,7 @@ namespace Com.GCTC.ZombCube
         protected bool canFire = true;
         protected float fireTime = 0f;
         public float fireRate = 0.8f;
+        [SerializeField]
         protected float launchVelocity = 5000f;
         protected Vector3 launchVector;
 
@@ -85,7 +86,7 @@ namespace Com.GCTC.ZombCube
         /// <summary>
         /// Checks to see if the player is firing and can fire, if so launches a projectile and resets fireTime.
         /// </summary>
-        protected void CheckForFiring()
+        protected virtual void CheckForFiring()
         {
             if (isFiring & canFire)
             {
