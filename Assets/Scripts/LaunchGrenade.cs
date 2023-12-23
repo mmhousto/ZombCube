@@ -8,6 +8,9 @@ namespace Com.GCTC.ZombCube
     public class LaunchGrenade : ShootProjectile
     {
         public int grenadeCount = 1;
+        public GameObject grenade;
+        private float launchPower = 0f;
+        private const float maxLaunchPower = 20f; // Adjust this value as needed
 
         // Start is called before the first frame update
         void Start()
@@ -21,8 +24,15 @@ namespace Com.GCTC.ZombCube
         void Update()
         {
             CheckCanFire();
+        }
 
-            CheckForFiring();
+        /// <summary>
+        /// Draws line to show where player is aiming in editor.
+        /// </summary>
+        public override void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(firePosition.position, firePosition.position + firePosition.forward * (launchVelocity + launchPower));
         }
 
         /// <summary>
@@ -30,11 +40,21 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         protected override void CheckForFiring()
         {
-            if (isFiring & canFire)
+            if (canFire && grenadeCount > 0)
             {
                 LaunchProjectile();
                 fireTime = fireRate;
             }
+        }
+
+        IEnumerator ReEnableGernade()
+        {
+            while(grenade.activeInHierarchy == false)
+            {
+                yield return new WaitForSeconds(1);
+                grenade.SetActive(true);
+            }
+            
         }
 
         /// <summary>
@@ -43,17 +63,54 @@ namespace Com.GCTC.ZombCube
         public override void LaunchProjectile()
         {
             audioSource.Play();
+            grenade.SetActive(false);
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
-            clone.GetComponent<Rigidbody>().AddForce(launchVector, ForceMode.Impulse);
-
-            if (Player.Instance != null)
+            clone.GetComponent<Rigidbody>().AddForce(firePosition.forward * (launchVelocity + launchPower), ForceMode.Impulse);
+            grenadeCount--;
+            /*if (Player.Instance != null)
             {
                 Player.Instance.totalProjectilesFired++;
                 CheckForTriggerHappyAchievements();
+            }*/
+
+            if(grenadeCount > 0)
+            {
+                StartCoroutine(ReEnableGernade());
+            }
+            else
+            {
+                // switch weapons
             }
 
-
-
         }
+
+        public override void FireInput(bool newValue)
+        {
+            if (grenadeCount > 0)
+            {
+
+                isFiring = newValue;
+
+                if (isFiring)
+                {
+                    StartCoroutine(ChargeLaunchPower());
+                }
+                else
+                {
+                    CheckForFiring();
+                    launchPower = 0f; // Reset launch power after launching
+                }
+            }
+        }
+
+        IEnumerator ChargeLaunchPower()
+        {
+            while (isFiring && launchPower < maxLaunchPower)
+            {
+                launchPower += Time.deltaTime; // Increase launch power over time
+                yield return null;
+            }
+        }
+
     }
 }

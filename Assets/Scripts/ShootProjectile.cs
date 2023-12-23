@@ -54,7 +54,7 @@ namespace Com.GCTC.ZombCube
         /// <summary>
         /// Draws line to show where player is aiming in editor.
         /// </summary>
-        private void OnDrawGizmosSelected()
+        public virtual void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(firePosition.position, firePosition.forward * launchVelocity);
@@ -160,7 +160,7 @@ namespace Com.GCTC.ZombCube
             FireInput(context.isPressed);
         }
 
-        public void FireInput(bool newValue)
+        public virtual void FireInput(bool newValue)
         {
             isFiring = newValue;
         }
