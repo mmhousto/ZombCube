@@ -9,10 +9,10 @@ namespace Com.GCTC.ZombCube
     public class Projectile : MonoBehaviourPun
     {
 
-        int enemiesHit = 0;
+        protected int enemiesHit = 0;
         public GameObject[] powerUpPrefabs;
         public float dropChance = 0.5f;
-        private AudioSource audioSource;
+        protected AudioSource audioSource;
         private AudioSource ovAudioSource;
         public AudioClip[] clips;
 
@@ -24,7 +24,7 @@ namespace Com.GCTC.ZombCube
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
         }
 
-        private void DestroyProjectile()
+        protected void DestroyProjectile()
         {
             if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
             {
@@ -86,7 +86,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void SpawnPowerup(Vector3 pos)
+        protected void SpawnPowerup(Vector3 pos)
         {
             int rand = Random.Range(0, 3);
             float randChance = Random.value;
@@ -102,7 +102,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void CheckForCubeDestroyerAchievements()
+        protected void CheckForCubeDestroyerAchievements()
         {
             if (Social.localUser.authenticated && Player.Instance != null)
             {

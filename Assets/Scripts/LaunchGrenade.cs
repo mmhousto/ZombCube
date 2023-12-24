@@ -9,8 +9,11 @@ namespace Com.GCTC.ZombCube
     {
         public int grenadeCount = 1;
         public GameObject grenade;
+        [SerializeField]
         private float launchPower = 0f;
-        private const float maxLaunchPower = 20f; // Adjust this value as needed
+        private const float maxLaunchPower = 4f; // Adjust this value as needed
+        [SerializeField]
+        private bool pulledPin;
 
         // Start is called before the first frame update
         void Start()
@@ -62,10 +65,11 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public override void LaunchProjectile()
         {
-            audioSource.Play();
+            //audioSource.Play();
             grenade.SetActive(false);
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
-            clone.GetComponent<Rigidbody>().AddForce(firePosition.forward * (launchVelocity + launchPower), ForceMode.Impulse);
+            clone.GetComponent<Rigidbody>().AddForce(firePosition.forward * (launchVelocity + launchPower*5), ForceMode.Impulse);
+            clone.GetComponent<Grenade>().timeTicked = launchPower;
             grenadeCount--;
             /*if (Player.Instance != null)
             {
@@ -91,14 +95,10 @@ namespace Com.GCTC.ZombCube
 
                 isFiring = newValue;
 
-                if (isFiring)
+                if (isFiring && pulledPin == false)
                 {
+                    pulledPin = true;
                     StartCoroutine(ChargeLaunchPower());
-                }
-                else
-                {
-                    CheckForFiring();
-                    launchPower = 0f; // Reset launch power after launching
                 }
             }
         }
@@ -110,6 +110,9 @@ namespace Com.GCTC.ZombCube
                 launchPower += Time.deltaTime; // Increase launch power over time
                 yield return null;
             }
+            CheckForFiring();
+            launchPower = 0f; // Reset launch power after launching
+            pulledPin = false;
         }
 
     }
