@@ -29,8 +29,7 @@ namespace Com.GCTC.ZombCube
         {
             if (other.CompareTag("Player"))
             {
-                Instantiate(dupe, transform.position + offset, transform.rotation);
-                Instantiate(dupe, transform.position - offset, transform.rotation);
+                Dupe();
                 Destroy(gameObject);
                 other.gameObject.GetComponent<PlayerManager>().Damage(20);
             }
@@ -40,9 +39,14 @@ namespace Com.GCTC.ZombCube
         {
             if (collision.gameObject.CompareTag("Bullet"))
             {
-                Instantiate(dupe, transform.position + offset, transform.rotation);
-                Instantiate(dupe, transform.position - offset, transform.rotation);
+                Dupe();
             }
+        }
+
+        public void Dupe()
+        {
+            Instantiate(dupe, transform.position + offset, transform.rotation);
+            Instantiate(dupe, transform.position - offset, transform.rotation);
         }
     }
 }

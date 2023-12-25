@@ -124,7 +124,7 @@ namespace Com.GCTC.ZombCube
         /// <summary>
         /// Checks to see if the player is firing and can fire, if so launches a projectile and resets fireTime.
         /// </summary>
-        protected void CheckForFiring()
+        protected virtual void CheckForFiring()
         {
             if (isFiring & canFire && photonView.IsMine)
             {
@@ -163,7 +163,7 @@ namespace Com.GCTC.ZombCube
             FireInput(context.ReadValueAsButton());
         }
 
-        public void FireInput(bool newValue)
+        public virtual void FireInput(bool newValue)
         {
             isFiring = newValue;
         }

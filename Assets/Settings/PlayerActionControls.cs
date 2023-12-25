@@ -367,17 +367,6 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f6986dff-929f-4670-97dc-171a1c1bafa8"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""GamePause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""1d0f5a52-12f9-4898-a5e0-e0f2268d6362"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",

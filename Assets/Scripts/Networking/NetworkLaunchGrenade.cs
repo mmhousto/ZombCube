@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,9 @@ using UnityEngine.InputSystem;
 
 namespace Com.GCTC.ZombCube
 {
-    public class LaunchGrenade : ShootProjectile
+    public class NetworkLaunchGrenade : NetworkShootProjectile
     {
-        public static int grenadeCount = 2;
+        public int grenadeCount = 1;
         public GameObject grenade;
         [SerializeField]
         private float launchPower = 0f;
@@ -18,25 +19,59 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            audioSource = GetComponent<AudioSource>();
-            // Assignes launchVector
-            launchVector = new Vector3(0, 5, launchVelocity);
-            grenadeCount = 2;
+            if (photonView.IsMine)
+            {
+                launchVelocity = 15f;
+                playerManager = GetComponent<NetworkPlayerManager>();
+                audioSource = GetComponent<AudioSource>();
+                launchVector = new Vector3(0, 5, launchVelocity);
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (photonView.IsMine)
+            {
+                // Get the PlayerInput component
+                PlayerInput playerInput = GetComponent<PlayerInput>();
+                if (playerInput != null)
+                {
+                    // Find the fire action
+                    fireAction = playerInput.actions.FindAction("Fire");
+                    if (fireAction != null)
+                    {
+                        // Enable the fire action and attach the callback
+                        fireAction.Enable();
+                        fireAction.performed += OnFired;
+                        fireAction.canceled += OnFired;
+                    }
+                    else
+                    {
+                        Debug.LogError("Fire action not found.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("PlayerInput component not found.");
+                }
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (photonView.IsMine && fireAction != null)
+            {
+                // Disable the fire action
+                fireAction.Disable();
+                fireAction.performed -= OnFired;
+                fireAction.canceled -= OnFired;
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
             CheckCanFire();
-        }
-
-        /// <summary>
-        /// Draws line to show where player is aiming in editor.
-        /// </summary>
-        public override void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(firePosition.position, firePosition.position + firePosition.forward * (launchVelocity + launchPower));
         }
 
         /// <summary>
@@ -53,12 +88,12 @@ namespace Com.GCTC.ZombCube
 
         IEnumerator ReEnableGernade()
         {
-            while(grenade.activeInHierarchy == false)
+            while (grenade.activeInHierarchy == false)
             {
                 yield return new WaitForSeconds(1);
                 grenade.SetActive(true);
             }
-            
+
         }
 
         /// <summary>
@@ -68,8 +103,8 @@ namespace Com.GCTC.ZombCube
         {
             //audioSource.Play();
             grenade.SetActive(false);
-            GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
-            clone.GetComponent<Rigidbody>().AddForce(firePosition.forward * (launchVelocity + launchPower*5), ForceMode.Impulse);
+            GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
+            clone.GetComponent<Rigidbody>().AddForce(firePosition.forward * (launchVelocity + launchPower * 5), ForceMode.Impulse);
             clone.GetComponent<Grenade>().timeTicked = launchPower;
             grenadeCount--;
             /*if (Player.Instance != null)
@@ -78,7 +113,7 @@ namespace Com.GCTC.ZombCube
                 CheckForTriggerHappyAchievements();
             }*/
 
-            if(grenadeCount > 0)
+            if (grenadeCount > 0)
             {
                 StartCoroutine(ReEnableGernade());
             }
@@ -87,6 +122,15 @@ namespace Com.GCTC.ZombCube
                 // switch weapons
             }
 
+        }
+
+        /// <summary>
+        /// Dynamic callback to see if player performed Fire player input action.
+        /// </summary>
+        /// <param name="context"></param>
+        private void OnFired(InputAction.CallbackContext context)
+        {
+            FireInput(context.ReadValueAsButton());
         }
 
         public override void FireInput(bool newValue)
@@ -115,6 +159,5 @@ namespace Com.GCTC.ZombCube
             launchPower = 0f; // Reset launch power after launching
             pulledPin = false;
         }
-
     }
 }

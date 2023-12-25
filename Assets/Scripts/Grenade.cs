@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace Com.GCTC.ZombCube
 
         public GameObject grenadePS;
         public float timeTicked;
+        public float blastRadius = 5f;
 
         // Start is called before the first frame update
         void Start()
@@ -72,15 +74,101 @@ namespace Com.GCTC.ZombCube
 
         private void GrenadeGoBoom()
         {
+            audioSource.Play();
+            Explode();
             grenadePS.SetActive(true);
             grenadePS.transform.SetParent(null);
             DestroyProjectile();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnDrawGizmosSelected()
         {
-        
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(transform.position, blastRadius);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(transform.position, blastRadius/2);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position, (blastRadius / 2)/2);
+        }
+
+        void Explode()
+        {
+            Collider[] collidersFar = Physics.OverlapSphere(transform.position, blastRadius);
+            Collider[] collidersMed = Physics.OverlapSphere(transform.position, blastRadius/2);
+            Collider[] collidersDead = Physics.OverlapSphere(transform.position, (blastRadius/2)/2);
+
+            foreach (Collider collider in collidersFar)
+            {
+                if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+                {
+                    if (collider.gameObject.tag == "Enemy")
+                    {
+                        if (collider.TryGetComponent(out DupeCube dupeCube))
+                        {
+                            dupeCube.Dupe();
+                        }
+
+                        Destroy(collider.gameObject);
+                        
+                        PlayerManager.AddPoints(10);
+                        if (Player.Instance != null)
+                            Player.Instance.cubesEliminated++;
+
+                        CheckForCubeDestroyerAchievements();
+
+                        SpawnPowerup(collider.transform.position);
+                    }
+                    if (collider.gameObject.tag == "Player")
+                    {
+                        collider.GetComponent<PlayerManager>().Damage(15);
+                    }
+                }
+                else if (this.photonView != null & this.photonView.IsMine)
+                {
+                    if(collider.gameObject.tag == "Enemy")
+                    {
+                        PhotonNetwork.Destroy(collider.gameObject);
+                        NetworkPlayerManager.AddPoints(10);
+                        if (Player.Instance != null)
+                            Player.Instance.cubesEliminated++;
+
+                        CheckForCubeDestroyerAchievements();
+
+                        SpawnPowerup(collider.transform.position);
+                    }
+
+                    if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
+                    {
+                        collider.GetComponent<NetworkPlayerManager>().Damage(15);
+                    }
+                }
+            }
+
+            // Medium Explosion Zone
+            foreach (Collider collider in collidersMed)
+            {
+                if (collider.gameObject.tag == "Player" && this.photonView == null)
+                {
+                    collider.GetComponent<PlayerManager>().Damage(35);
+                }
+                else if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
+                {
+                    collider.GetComponent<NetworkPlayerManager>().Damage(35);
+                }
+            }
+
+            // Dead Explosion Zone
+            foreach (Collider collider in collidersDead)
+            {
+                if (collider.gameObject.tag == "Player" && this.photonView == null)
+                {
+                    collider.GetComponent<PlayerManager>().Damage(50);
+                }
+                else if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
+                {
+                    collider.GetComponent<NetworkPlayerManager>().Damage(50);
+                }
+            }
         }
     }
 }
