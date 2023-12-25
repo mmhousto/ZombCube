@@ -19,5 +19,11 @@ public interface IUseable
     void Use(int index);
 }
 
+public interface ISwappable
+{
+    void SwapTo();
+    void SwapOut();
+}
+
 
 

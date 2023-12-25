@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 namespace Com.GCTC.ZombCube
 {
 
-    public class ShootProjectile : MonoBehaviour
+    public class ShootProjectile : MonoBehaviour, ISwappable
     {
 
         #region Variables
@@ -163,6 +163,16 @@ namespace Com.GCTC.ZombCube
         public virtual void FireInput(bool newValue)
         {
             isFiring = newValue;
+        }
+
+        public void SwapTo()
+        {
+            this.enabled = true;
+        }
+
+        public void SwapOut()
+        {
+            this.enabled = false;
         }
 
         #endregion

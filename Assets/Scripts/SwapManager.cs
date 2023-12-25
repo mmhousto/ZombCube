@@ -7,27 +7,109 @@ namespace Com.GCTC.ZombCube
 {
     public class SwapManager : MonoBehaviour
     {
-        public bool isSwapping;
-        // Start is called before the first frame update
-        void Start()
+        private float holdTime;
+        private bool isSwapWeaponsHeld;
+        public List<GameObject> weapons = new List<GameObject>();
+        private GameObject currentWeapon;
+        private ShootProjectile blaster;
+        private LaunchGrenade grenade;
+        private bool isSwapping;
+        private bool startedHold;
+
+        private void Start()
         {
-        
+            holdTime = 0;
+            currentWeapon = weapons[0];
+            blaster = GetComponent<ShootProjectile>();
+            grenade = GetComponent<LaunchGrenade>();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
-        
+            if(LaunchGrenade.grenadeCount == 0 && grenade.enabled == true)
+            {
+                SwapToNextWeapon();
+            }
         }
 
-        public void OnSwapWeapons(InputValue context)
+        public void OnSwitchWeapons(InputValue context)
         {
             SwapInput(context.isPressed);
         }
 
-        public virtual void SwapInput(bool newValue)
+        public void SwapInput(bool newValue)
         {
             isSwapping = newValue;
+
+            if (isSwapping && startedHold == false)
+            {
+                startedHold = true;
+                StartCoroutine(ChargeHoldTime());
+            }
+        }
+
+        IEnumerator ChargeHoldTime()
+        {
+            while (isSwapping && holdTime < 0.75f)
+            {
+                holdTime += Time.deltaTime; // Increase launch power over time
+                yield return null;
+            }
+
+            if (holdTime < 0.75)
+            {
+                SwapToNextWeapon();
+            }
+            else
+            {
+                // menu
+                Debug.Log("Holding!");
+            }
+
+            holdTime = 0f; // Reset launch power after launching
+            startedHold = false;
+        }
+
+        private void SwapToNextWeapon()
+        {
+            // Implement your logic to swap to the next weapon in the list
+            Debug.Log("Swapping to the next weapon");
+            EnableDisableScriptComp(false);
+            currentWeapon.SetActive(false);
+
+            if (weapons.IndexOf(currentWeapon) < weapons.Count - 1)
+            {
+                currentWeapon = weapons[weapons.IndexOf(currentWeapon) + 1];
+            }
+            else
+            {
+                currentWeapon = weapons[0];
+            }
+            currentWeapon.SetActive(true);
+            EnableDisableScriptComp(true);
+
+
+        }
+
+        private void EnableDisableScriptComp(bool newState)
+        {
+            switch (weapons.IndexOf(currentWeapon))
+            {
+                case 0:
+                    blaster.enabled = newState;
+                    break;
+                case 1:
+                    if (newState == true && LaunchGrenade.grenadeCount > 0 || newState == false)
+                        grenade.enabled = newState;
+                    else
+                        SwapToNextWeapon();
+                    break;
+                case 2:
+                    break;
+                default:
+                    blaster.enabled = newState;
+                    break;
+            }
         }
     }
 }

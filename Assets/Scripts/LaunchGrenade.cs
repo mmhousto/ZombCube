@@ -44,7 +44,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         protected override void CheckForFiring()
         {
-            if (canFire && grenadeCount > 0)
+            if (canFire && grenadeCount > 0 && this.enabled == true)
             {
                 LaunchProjectile();
                 fireTime = fireRate;
