@@ -117,7 +117,7 @@ namespace Com.GCTC.ZombCube
                 }
             }
 
-            if (GameManager.Instance.CurrentRound > 4)
+            if (NetworkGameManager.Instance.CurrentRound > 4)
             {
                 for (int i = 0; i < cubesToSpawn / 20; i++)
                 {

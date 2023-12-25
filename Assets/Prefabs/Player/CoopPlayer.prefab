@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 6814703832945700543}
   - component: {fileID: 315563716975424987}
   - component: {fileID: 4896280261973145158}
+  - component: {fileID: 1476888268983550262}
   m_Layer: 0
   m_Name: CoopPlayer
   m_TagString: Player
@@ -418,7 +419,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2452928897197623210}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18ca52efdcaa63a4983726ca0a9254a3, type: 3}
   m_Name: 
@@ -836,7 +837,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2452928897197623210}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee5cda221f6e6e44a9c1160da708aecf, type: 3}
   m_Name: 
@@ -849,10 +850,24 @@ MonoBehaviour:
   canFire: 1
   fireRate: 1
   launchVelocity: 15
-  grenadeCount: 2
   grenade: {fileID: 1180567618230653746}
   launchPower: 0
   pulledPin: 0
+--- !u!114 &1476888268983550262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452928897197623210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc0ad234b726684c984251dba50cb3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - {fileID: 7196926436780231636}
+  - {fileID: 1180567618230653746}
 --- !u!1 &3963749628188740695
 GameObject:
   m_ObjectHideFlags: 0

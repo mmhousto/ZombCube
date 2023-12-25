@@ -7,14 +7,14 @@ namespace Com.GCTC.ZombCube
 {
     public class SwapManager : MonoBehaviour
     {
-        private float holdTime;
-        private bool isSwapWeaponsHeld;
+        protected float holdTime;
+        protected bool isSwapWeaponsHeld;
         public List<GameObject> weapons = new List<GameObject>();
-        private GameObject currentWeapon;
+        protected GameObject currentWeapon;
         private ShootProjectile blaster;
         private LaunchGrenade grenade;
-        private bool isSwapping;
-        private bool startedHold;
+        protected bool isSwapping;
+        protected bool startedHold;
 
         private void Start()
         {
@@ -26,7 +26,7 @@ namespace Com.GCTC.ZombCube
 
         private void Update()
         {
-            if(LaunchGrenade.grenadeCount == 0 && grenade.enabled == true)
+            if(grenade.grenadeCount == 0 && grenade.enabled == true)
             {
                 SwapToNextWeapon();
             }
@@ -48,7 +48,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        IEnumerator ChargeHoldTime()
+        protected IEnumerator ChargeHoldTime()
         {
             while (isSwapping && holdTime < 0.75f)
             {
@@ -70,7 +70,7 @@ namespace Com.GCTC.ZombCube
             startedHold = false;
         }
 
-        private void SwapToNextWeapon()
+        protected void SwapToNextWeapon()
         {
             // Implement your logic to swap to the next weapon in the list
             Debug.Log("Swapping to the next weapon");
@@ -91,7 +91,7 @@ namespace Com.GCTC.ZombCube
 
         }
 
-        private void EnableDisableScriptComp(bool newState)
+        protected virtual void EnableDisableScriptComp(bool newState)
         {
             switch (weapons.IndexOf(currentWeapon))
             {
@@ -99,7 +99,7 @@ namespace Com.GCTC.ZombCube
                     blaster.enabled = newState;
                     break;
                 case 1:
-                    if (newState == true && LaunchGrenade.grenadeCount > 0 || newState == false)
+                    if (newState == true && grenade.grenadeCount > 0 || newState == false)
                         grenade.enabled = newState;
                     else
                         SwapToNextWeapon();

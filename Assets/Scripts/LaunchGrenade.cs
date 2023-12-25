@@ -7,7 +7,7 @@ namespace Com.GCTC.ZombCube
 {
     public class LaunchGrenade : ShootProjectile
     {
-        public static int grenadeCount = 2;
+        public int grenadeCount = 2;
         public GameObject grenade;
         [SerializeField]
         private float launchPower = 0f;

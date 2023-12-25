@@ -960,6 +960,7 @@ GameObject:
   - component: {fileID: -2837274883149557370}
   - component: {fileID: -7729240528546759319}
   - component: {fileID: 4639507335183050810}
+  - component: {fileID: 1831575815430561466}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -1527,7 +1528,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7198934554025558216}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cca9267e54161ad478835742d1bcb118, type: 3}
   m_Name: 
@@ -1535,14 +1536,29 @@ MonoBehaviour:
   firePosition: {fileID: 9021205906006175117}
   isFiring: 0
   canFire: 1
-  fireRate: 0.8
+  fireRate: 1
   anim: {fileID: 0}
-  projectile: {fileID: 0}
+  projectile: {fileID: 6023615196854092910, guid: 935f951cdf4edb440924a963994c0e80, type: 3}
   muzzle: {fileID: 0}
-  grenadeCount: 1
-  grenade: {fileID: 0}
+  grenadeCount: 2
+  grenade: {fileID: 1431652738531077925}
   launchPower: 0
   pulledPin: 0
+--- !u!114 &1831575815430561466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198934554025558216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5077f72b1c4acf4fbda6f2e0a7f1edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - {fileID: 5422895795914515388}
+  - {fileID: 1431652738531077925}
 --- !u!1 &7442980236204753190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,6 +1816,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae94910d60f4d454cb5d0fd4293809f0, type: 3}
+--- !u!1 &1431652738531077925 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4403071574632085122, guid: ae94910d60f4d454cb5d0fd4293809f0, type: 3}
+  m_PrefabInstance: {fileID: 3369988640922704295}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1624445002886997743 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4057649598631542600, guid: ae94910d60f4d454cb5d0fd4293809f0, type: 3}

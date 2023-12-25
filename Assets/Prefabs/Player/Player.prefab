@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 1561829969}
   - component: {fileID: 625019233499542244}
   - component: {fileID: 973589659443734555}
+  - component: {fileID: 4958370588230077197}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -856,10 +857,24 @@ MonoBehaviour:
   canFire: 1
   fireRate: 1
   launchVelocity: 15
-  grenadeCount: 2
   grenade: {fileID: 6908239017149256778}
   launchPower: 0
   pulledPin: 0
+--- !u!114 &4958370588230077197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812065823337649139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc0ad234b726684c984251dba50cb3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - {fileID: 1528857562}
+  - {fileID: 6908239017149256778}
 --- !u!1 &2812065823642933558
 GameObject:
   m_ObjectHideFlags: 0
