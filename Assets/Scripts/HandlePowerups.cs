@@ -10,6 +10,8 @@ namespace Com.GCTC.ZombCube
 
         public TripleShot tripleShotPowerup;
         public FullyAuto fullyAutoPowerup;
+        public LaunchGrenade launchGrenade;
+        public NetworkLaunchGrenade networkLaunchGrenade;
         public NetworkTripleShot networkTriple;
         public NetworkFullyAuto networkFullyAuto;
 
@@ -28,6 +30,12 @@ namespace Com.GCTC.ZombCube
                     fullyAutoPowerup.enabled = true;
                     Destroy(other.gameObject);
                 }
+
+                if (other.CompareTag("MaxNades"))
+                {
+                    launchGrenade.grenadeCount = 4;
+                    Destroy(other.gameObject);
+                }
             }
             else
             {
@@ -43,6 +51,14 @@ namespace Com.GCTC.ZombCube
                 {
                     if(photonView.IsMine)
                         networkFullyAuto.enabled = true;
+                    other.GetComponent<PhotonView>().RequestOwnership();
+                    PhotonNetwork.Destroy(other.gameObject);
+                }
+
+                if (other.CompareTag("MaxNades"))
+                {
+                    if (photonView.IsMine)
+                        networkLaunchGrenade.grenadeCount = 4;
                     other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }
