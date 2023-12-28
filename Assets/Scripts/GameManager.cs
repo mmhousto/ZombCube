@@ -27,6 +27,7 @@ namespace Com.GCTC.ZombCube
         [SerializeField] private bool overrideCursor = false;
 
         private bool isPaused = false;
+        public int numOfPlayers;
 
         public bool isGameOver = false;
 
@@ -48,6 +49,7 @@ namespace Com.GCTC.ZombCube
             {
                 playerInputManager = GameObject.Find("CoopManager").GetComponent<PlayerInputManager>();
                 couchCoopManager = playerInputManager.gameObject.GetComponent<CouchCoopManager>();
+                numOfPlayers = couchCoopManager.GetNumOfPlayers();
             }
             else
             {
@@ -55,6 +57,7 @@ namespace Com.GCTC.ZombCube
                 GameObject clone = Instantiate(playerPrefab, sp1.position, sp1.rotation);
                 playerInput = clone.GetComponent<PlayerInput>();
                 EnableDisableElimCam(false);
+                numOfPlayers = 1;
             }
         }
 

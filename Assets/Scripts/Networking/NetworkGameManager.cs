@@ -30,6 +30,7 @@ namespace Com.GCTC.ZombCube
         public bool isGameOver = false;
 
         GameObject myPlayer;
+        public static List<GameObject> players = new List<GameObject>();
 
 
         #region MonoBehaviour Methods
@@ -45,7 +46,7 @@ namespace Com.GCTC.ZombCube
             {
                 _instance = this;
             }
-            
+            players.Clear();
         }
 
         // Start is called before the first frame update
@@ -140,8 +141,9 @@ namespace Com.GCTC.ZombCube
 
 
         // START RPC Remote Calls ---------------------------------------------------------------
-        public void CallPlayerSpawned()
+        public void CallPlayerSpawned(GameObject player)
         {
+            players.Add(player);
             photonView.RPC(nameof(RPC_PlayerSpawned), RpcTarget.AllBuffered);
         }
 
@@ -195,6 +197,7 @@ namespace Com.GCTC.ZombCube
 
         public override void OnDisconnected(DisconnectCause cause)
         {
+            players.Remove(myPlayer);
             LeaveServer();
         }
 

@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 1031493180376351565}
   - component: {fileID: -7505744629921164172}
   - component: {fileID: 1627084587724340704}
-  - component: {fileID: 8986277914188604162}
   m_Layer: 0
   m_Name: Gernade
   m_TagString: Untagged
@@ -5686,108 +5685,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251f57a43abf8064fa8f251ecb8af6f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUpPrefabs: []
+  powerUpPrefabs:
+  - {fileID: 4189329722586846838, guid: 6bfbdfa8d89835546a901391c7eb051e, type: 3}
+  - {fileID: 5823673767199051757, guid: 4e2c921c01d341e46868fe66e2c93b0f, type: 3}
+  - {fileID: 4189329722586846838, guid: 6bfbdfa8d89835546a901391c7eb051e, type: 3}
+  - {fileID: 8220871562803749875, guid: d7512135433352440a6edadb52a845de, type: 3}
   dropChance: 0.5
   clips: []
   grenadePS: {fileID: 831264418900756620}
   timeTicked: 0
   blastRadius: 10
---- !u!82 &8986277914188604162
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 223981389414978534}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -1537894933455225274, guid: 160996823bbee7b4a8897987a7b7f3e7, type: 2}
-  m_audioClip: {fileID: 8300000, guid: d8409a6674adc034f8536ca69e6ed527, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 100
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &5042278663703565907
 GameObject:
   m_ObjectHideFlags: 0
@@ -13396,37 +13303,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 454526459298454060}
     m_Modifications:
-    - target: {fileID: 1840044808529401694, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6186357967740662989, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
       propertyPath: m_Name
       value: GrenadeExplosion
-      objectReference: {fileID: 0}
-    - target: {fileID: 6186357967740662989, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326265107387833904, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
-      propertyPath: stopAction
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326265107387833904, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
-      propertyPath: TriggerModule.exit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326265107387833904, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
-      propertyPath: TriggerModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326265107387833904, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
-      propertyPath: CollisionModule.enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6326265107387833904, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
-      propertyPath: CustomDataModule.enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9161234633206555993, guid: 0a08eb8d92b90804d875bf5c78f2df73, type: 3}
       propertyPath: m_LocalPosition.x

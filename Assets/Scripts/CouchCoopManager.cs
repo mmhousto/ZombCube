@@ -140,6 +140,16 @@ namespace Com.GCTC.ZombCube
             else if (scene.buildIndex == 5) Destroy(gameObject);
         }
 
+        public int GetNumOfPlayers()
+        {
+            return joinedPlayerIDs.Count;
+        }
+
+        public int GetPlayerIndex(GameObject player)
+        {
+            return joinedPlayers.IndexOf(player);
+        }
+
         void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;

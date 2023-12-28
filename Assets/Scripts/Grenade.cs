@@ -18,7 +18,7 @@ namespace Com.GCTC.ZombCube
             float tickTime = 4 - timeTicked;
             enemiesHit = 0;
             Invoke(nameof(GrenadeGoBoom), tickTime);
-            audioSource = GetComponent<AudioSource>();
+            //audioSource = GetComponent<AudioSource>();
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -74,7 +74,7 @@ namespace Com.GCTC.ZombCube
 
         private void GrenadeGoBoom()
         {
-            audioSource.Play();
+            //audioSource.Play();
             Explode();
             grenadePS.SetActive(true);
             grenadePS.transform.SetParent(null);

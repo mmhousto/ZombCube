@@ -36,25 +36,25 @@ namespace Com.GCTC.ZombCube
                         myPlayer = PhotonNetwork.Instantiate("NetworkPlayer",
                             GameSetup.GS.spawnLocations[0].position,
                             GameSetup.GS.spawnLocations[0].rotation, 0) as GameObject;
-                        NetworkGameManager.Instance.CallPlayerSpawned();
+                        NetworkGameManager.Instance.CallPlayerSpawned(myPlayer);
                         break;
                     case 1:
                         myPlayer = PhotonNetwork.Instantiate("NetworkPlayer",
                             GameSetup.GS.spawnLocations[1].position,
                             GameSetup.GS.spawnLocations[1].rotation, 0) as GameObject;
-                        NetworkGameManager.Instance.CallPlayerSpawned();
+                        NetworkGameManager.Instance.CallPlayerSpawned(myPlayer);
                         break;
                     case 2:
                         myPlayer = PhotonNetwork.Instantiate("NetworkPlayer",
                             GameSetup.GS.spawnLocations[2].position,
                             GameSetup.GS.spawnLocations[2].rotation, 0) as GameObject;
-                        NetworkGameManager.Instance.CallPlayerSpawned();
+                        NetworkGameManager.Instance.CallPlayerSpawned(myPlayer);
                         break;
                     case 3:
                         myPlayer = PhotonNetwork.Instantiate("NetworkPlayer",
                             GameSetup.GS.spawnLocations[3].position,
                             GameSetup.GS.spawnLocations[3].rotation, 0) as GameObject;
-                        NetworkGameManager.Instance.CallPlayerSpawned();
+                        NetworkGameManager.Instance.CallPlayerSpawned(myPlayer);
                         break;
                 }
             }

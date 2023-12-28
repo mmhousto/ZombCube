@@ -15,6 +15,7 @@ namespace Com.GCTC.ZombCube
         protected AudioSource audioSource;
         private AudioSource ovAudioSource;
         public AudioClip[] clips;
+        private CouchCoopManager couchCoopManager;
 
         private void Start()
         {
@@ -22,6 +23,11 @@ namespace Com.GCTC.ZombCube
             Invoke(nameof(DestroyProjectile), 3f);
             audioSource = GetComponent<AudioSource>();
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
+
+            if(GameManager.Instance?.numOfPlayers > 1)
+            {
+                couchCoopManager = GameObject.Find("CoopManager").GetComponent<CouchCoopManager>();
+            }
         }
 
         protected void DestroyProjectile()
@@ -62,13 +68,18 @@ namespace Com.GCTC.ZombCube
                 SpawnPowerup(collision.transform.position);
             }
 
-            if (collision.gameObject.tag == "Player" && this.photonView == null)
+            if (collision.gameObject.tag == "Player" && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)
             {
-                ovAudioSource.clip = clips[Random.Range(0, clips.Length)];
+                ovAudioSource.clip = clips[0];
                 ovAudioSource.Play();
-            }else if (collision.gameObject.tag == "Player" && this.photonView.IsMine)
+            }else if (collision.gameObject.tag == "Player" && this.photonView == null && GameManager.Instance?.numOfPlayers > 1)
             {
-                ovAudioSource.clip = clips[Random.Range(0, clips.Length)];
+                ovAudioSource.clip = clips[couchCoopManager.GetPlayerIndex(collision.transform.parent.gameObject)];
+                ovAudioSource.Play();
+            }
+            else if (collision.gameObject.tag == "Player" && this.photonView.IsMine)
+            {
+                ovAudioSource.clip = clips[NetworkGameManager.players.IndexOf(collision.gameObject)];
                 ovAudioSource.Play();
             }
         }
