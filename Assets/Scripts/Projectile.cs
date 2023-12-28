@@ -88,7 +88,7 @@ namespace Com.GCTC.ZombCube
 
         protected void SpawnPowerup(Vector3 pos)
         {
-            int rand = Random.Range(0, 3);
+            int rand = Random.Range(0, powerUpPrefabs.Length);
             float randChance = Random.value;
 
             // Check if power-up should be spawned based on drop chance
