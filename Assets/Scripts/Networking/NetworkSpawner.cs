@@ -15,25 +15,27 @@ namespace Com.GCTC.ZombCube
 
         private int cubesToSpawn = 5;
         public GameObject[] spawnPoints;
-
+        public GameObject armor;
         public bool hasStarted = false;
         public bool gameOver = false;
 
         private int timeTilNextWave = 5;
         public TextMeshProUGUI countDownLabel;
         private bool isCountingDown = false;
+        private float armorChance = 0.05f;
 
         /// <summary>
         /// Singleton Pattern
         /// </summary>
         private void Awake()
         {
-            if(_instance != null && _instance != this)
+            if (_instance != null && _instance != this)
             {
                 Destroy(this.gameObject);
-            }else
+            }
+            else
             {
-                
+
                 _instance = this;
             }
         }
@@ -74,9 +76,12 @@ namespace Com.GCTC.ZombCube
                     photonView.RPC(nameof(EnableCountDown), RpcTarget.All);
 
                     StartCoroutine(CountDownRound());
+                    int currentRound = NetworkGameManager.Instance.CurrentRound;
+                    if (currentRound > 5)
+                        armorChance += 0.01f;
                 }
             }
-            
+
         }
 
         IEnumerator CountDownRound()
@@ -92,39 +97,70 @@ namespace Com.GCTC.ZombCube
 
         private void HandleCountDownLabel()
         {
-            if(countDownLabel.text != $"Next Wave in {timeTilNextWave}...")
+            if (countDownLabel.text != $"Next Wave in {timeTilNextWave}...")
                 countDownLabel.text = $"Next Wave in {timeTilNextWave}...";
         }
 
         public void Spawn()
         {
-                for (int i = 0; i < cubesToSpawn; i++)
-                {
-                    int j = Random.Range(0, spawnPoints.Length);
-                    PhotonNetwork.InstantiateRoomObject("NetworkEnemy",
-                        spawnPoints[j].transform.position,
-                        spawnPoints[j].transform.rotation);
-                }
+            int currentRound = NetworkGameManager.Instance.CurrentRound;
 
-            if (NetworkGameManager.Instance.CurrentRound > 2)
+            for (int i = 0; i < cubesToSpawn; i++)
+            {
+                int j = Random.Range(0, spawnPoints.Length);
+                GameObject zombCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkEnemy",
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
+                if (currentRound > 5)
+                {
+                    float randChance = Random.value;
+                    if (randChance >= 1 - armorChance)
+                    {
+                        GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, zombCubeClone.transform.position, zombCubeClone.transform.rotation);
+                        armorClone.transform.SetParent(zombCubeClone.transform, false);
+                    }
+                }
+            }
+
+            if (currentRound > 2)
             {
                 for (int i = 0; i < cubesToSpawn / 10; i++)
                 {
                     int j = Random.Range(0, spawnPoints.Length);
-                    PhotonNetwork.InstantiateRoomObject("NetworkFastCube",
+                    GameObject fastCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkFastCube",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
+
+                    if (currentRound > 7)
+                    {
+                        float randChance = Random.value;
+                        if (randChance >= 1 - armorChance)
+                        {
+                            GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, fastCubeClone.transform.position, fastCubeClone.transform.rotation);
+                            armorClone.transform.SetParent(fastCubeClone.transform, false);
+                        }
+                    }
                 }
+
             }
 
-            if (NetworkGameManager.Instance.CurrentRound > 4)
+            if (currentRound > 4)
             {
                 for (int i = 0; i < cubesToSpawn / 20; i++)
                 {
                     int j = Random.Range(0, spawnPoints.Length);
-                    PhotonNetwork.InstantiateRoomObject("NetworkDupeCube",
+                    GameObject dupeCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkDupeCube",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
+                    if (currentRound > 9)
+                    {
+                        float randChance = Random.value;
+                        if (randChance >= 1 - armorChance)
+                        {
+                            GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, dupeCubeClone.transform.position, dupeCubeClone.transform.rotation);
+                            armorClone.transform.SetParent(dupeCubeClone.transform, false);
+                        }
+                    }
                 }
             }
 
