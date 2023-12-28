@@ -18,7 +18,7 @@ namespace Com.GCTC.ZombCube
         void Start()
         {
             ai = GetComponent<NavMeshAgent>();
-            isGameOver = GameManager.Instance.isGameOver;
+            isGameOver = (GameManager.Instance != null) ? GameManager.Instance.isGameOver : false;
             players = GameObject.FindGameObjectsWithTag("Player");
             target = GetClosestPlayer(players);
         }
@@ -28,7 +28,7 @@ namespace Com.GCTC.ZombCube
         {
             players = GameObject.FindGameObjectsWithTag("Player");
 
-            isGameOver = GameManager.Instance.isGameOver;
+            isGameOver = (GameManager.Instance != null) ? GameManager.Instance.isGameOver : false;
 
             if (isGameOver == false)
             {

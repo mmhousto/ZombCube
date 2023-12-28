@@ -38,25 +38,29 @@ namespace Com.GCTC.ZombCube
             player = Player.Instance;
             isGameOver = false;
 
-            if(healthBar == null)
+            if(healthBar == null && GameObject.FindWithTag("Health") != null)
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
 
             healthPoints = 100f;
             currentPoints = 0;
-            healthBar.value = healthPoints;
 
-            if(scoreText == null)
+            if(healthBar != null)
+                healthBar.value = healthPoints;
+
+            if(scoreText == null && GameObject.FindWithTag("Score") != null)
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
 
             if(scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-            if(contextPrompt == null)
+            if(contextPrompt == null && GameObject.FindWithTag("ContextPrompt") != null)
                 contextPrompt = GameObject.FindWithTag("ContextPrompt");
 
-            contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
-            contextPrompt.SetActive(false);
-
+            if(contextPrompt != null)
+            {
+                contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
+                contextPrompt.SetActive(false);
+            }
             GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
 
             if (blaster == null)
@@ -71,7 +75,9 @@ namespace Com.GCTC.ZombCube
         // Update is called once per frame
         void Update()
         {
-            healthBar.value = healthPoints;
+            if(healthBar != null)
+                healthBar.value = healthPoints;
+
             if (scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
 
