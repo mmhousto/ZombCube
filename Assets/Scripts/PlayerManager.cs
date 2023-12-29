@@ -25,7 +25,6 @@ namespace Com.GCTC.ZombCube
         public GameObject contextPrompt;
         private TextMeshProUGUI contextPromptText;
         public Slider healthBar;
-        public GameObject[] blaster;
         public Camera minimapCam;
 
         private float healthPoints = 100f;
@@ -63,13 +62,21 @@ namespace Com.GCTC.ZombCube
             }
             GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
 
-            if (blaster == null)
-                blaster = GameObject.FindGameObjectsWithTag("Blaster");
+            /*if (blaster == null)
+                blaster = GameObject.FindGameObjectsWithTag("Blaster");*/
 
-            foreach (GameObject item in blaster)
+            MeshRenderer[] blasters = GetComponentsInChildren<MeshRenderer>();
+
+            for(int i = 1; i < blasters.Length; i++)
+            {
+                if(blasters[i].tag == "Blaster")
+                    blasters[i].material = blasterMaterial[(player != null) ? player.currentBlaster : 0];
+            }
+
+            /*foreach (GameObject item in blaster)
             {
                 item.GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentBlaster : 0];
-            }
+            }*/
         }
 
         // Update is called once per frame
