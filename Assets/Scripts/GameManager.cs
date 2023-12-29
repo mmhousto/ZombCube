@@ -94,6 +94,11 @@ namespace Com.GCTC.ZombCube
            
         }
 
+        public GameObject GetPlayer()
+        {
+            return player;
+        }
+
         public void EnableDisableElimCam(bool newState)
         {
             eliminatedCam.enabled = newState;
