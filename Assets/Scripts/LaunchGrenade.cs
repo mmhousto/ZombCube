@@ -67,8 +67,12 @@ namespace Com.GCTC.ZombCube
             while(grenade.activeInHierarchy == false)
             {
                 yield return new WaitForSeconds(1);
-                grenade.SetActive(true);
-                pin.SetActive(true);
+                if(this.enabled == true)
+                {
+                    grenade.SetActive(true);
+                    pin.SetActive(true);
+                }
+                
             }
             
         }
