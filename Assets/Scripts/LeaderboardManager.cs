@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_ANDROID
 using GooglePlayGames;
+#endif
 using UnityEngine.SocialPlatforms;
 
 namespace Com.GCTC.ZombCube

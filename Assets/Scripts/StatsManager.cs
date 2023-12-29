@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+#if UNITY_ANDROID
 using GooglePlayGames;
+#endif
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
