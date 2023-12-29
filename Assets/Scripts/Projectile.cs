@@ -44,9 +44,11 @@ namespace Com.GCTC.ZombCube
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Armor") && (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
+            if (collision.gameObject.CompareTag("Armor"))
             {
-                Destroy(collision.gameObject);
+                audioSource.Play();
+                if((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
+                    Destroy(collision.gameObject);
             }
 
             if (collision.gameObject.tag == "Enemy")
