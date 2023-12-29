@@ -23,7 +23,7 @@ namespace Com.GCTC.ZombCube
         private PlayerInput playerInput;
         private PlayerInputManager playerInputManager;
         private CouchCoopManager couchCoopManager;
-
+        private GameObject player;
         [SerializeField] private bool overrideCursor = false;
 
         private bool isPaused = false;
@@ -54,8 +54,8 @@ namespace Com.GCTC.ZombCube
             else
             {
                 Transform sp1 = GameObject.Find("SP1").transform;
-                GameObject clone = Instantiate(playerPrefab, sp1.position, sp1.rotation);
-                playerInput = clone.GetComponent<PlayerInput>();
+                player = Instantiate(playerPrefab, sp1.position, sp1.rotation);
+                playerInput = player.GetComponent<PlayerInput>();
                 EnableDisableElimCam(false);
                 numOfPlayers = 1;
             }

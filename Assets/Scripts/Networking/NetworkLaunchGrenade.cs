@@ -10,6 +10,7 @@ namespace Com.GCTC.ZombCube
     {
         public int grenadeCount = 1;
         public GameObject grenade;
+        public GameObject pin;
         [SerializeField]
         private float launchPower = 0f;
         private const float maxLaunchPower = 4f; // Adjust this value as needed
@@ -92,6 +93,7 @@ namespace Com.GCTC.ZombCube
             {
                 yield return new WaitForSeconds(1);
                 grenade.SetActive(true);
+                pin.SetActive(true);
             }
 
         }
@@ -142,6 +144,7 @@ namespace Com.GCTC.ZombCube
 
                 if (isFiring && pulledPin == false)
                 {
+                    pin.SetActive(false);
                     pulledPin = true;
                     StartCoroutine(ChargeLaunchPower());
                 }

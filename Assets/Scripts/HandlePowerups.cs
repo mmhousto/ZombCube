@@ -31,9 +31,14 @@ namespace Com.GCTC.ZombCube
                     Destroy(other.gameObject);
                 }
 
-                if (other.CompareTag("MaxNades"))
+                if (other.CompareTag("MaxNades") && GameManager.mode == 0)
                 {
                     launchGrenade.grenadeCount = 4;
+                    Destroy(other.gameObject);
+                }
+                else if (other.CompareTag("MaxNades") && GameManager.mode == 1)
+                {
+                    CouchCoopManager.Instance.SetMaxNades();
                     Destroy(other.gameObject);
                 }
             }
@@ -57,8 +62,7 @@ namespace Com.GCTC.ZombCube
 
                 if (other.CompareTag("MaxNades"))
                 {
-                    if (photonView.IsMine)
-                        networkLaunchGrenade.grenadeCount = 4;
+                    networkLaunchGrenade.grenadeCount = 4;
                     other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }

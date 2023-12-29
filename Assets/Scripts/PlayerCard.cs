@@ -46,6 +46,12 @@ namespace Com.GCTC.ZombCube
         {
             playerName.text = $"P{playerNum}";
 
+            playerSkin.material = MaterialSelector.Instance.materials[Player.Instance.currentSkin];
+
+            foreach (GameObject item in blaster)
+            {
+                item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[Player.Instance.currentBlaster];
+            }
 
             waitingForPlayerPanel.SetActive(false);
             playerDataPanel.SetActive(true);

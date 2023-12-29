@@ -150,6 +150,14 @@ namespace Com.GCTC.ZombCube
             return joinedPlayers.IndexOf(player);
         }
 
+        public void SetMaxNades()
+        {
+            foreach(GameObject player in joinedPlayers)
+            {
+                player.GetComponentInChildren<LaunchGrenade>().MaxNades();
+            }
+        }
+
         void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
