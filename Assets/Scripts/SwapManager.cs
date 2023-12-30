@@ -12,6 +12,8 @@ namespace Com.GCTC.ZombCube
         public List<GameObject> weapons = new List<GameObject>();
         protected GameObject currentWeapon;
         private ShootProjectile blaster;
+        private TripleShot tripleShot;
+        private FullyAuto fullyAuto;
         private LaunchGrenade grenade;
         protected bool isSwapping;
         protected bool startedHold;
@@ -22,6 +24,8 @@ namespace Com.GCTC.ZombCube
             currentWeapon = weapons[0];
             blaster = GetComponent<ShootProjectile>();
             grenade = GetComponent<LaunchGrenade>();
+            tripleShot = GetComponent<TripleShot>();
+            fullyAuto = GetComponent<FullyAuto>();
         }
 
         private void Update()
@@ -97,6 +101,8 @@ namespace Com.GCTC.ZombCube
             {
                 case 0:
                     blaster.enabled = newState;
+                    fullyAuto.enabled = false;
+                    tripleShot.enabled = false;
                     break;
                 case 1:
                     if (newState == true && grenade.grenadeCount > 0 || newState == false)
@@ -107,7 +113,10 @@ namespace Com.GCTC.ZombCube
                 case 2:
                     break;
                 default:
-                    blaster.enabled = newState;
+                    blaster.enabled = true;
+                    fullyAuto.enabled = false;
+                    tripleShot.enabled = false;
+                    grenade.enabled = false;
                     break;
             }
         }

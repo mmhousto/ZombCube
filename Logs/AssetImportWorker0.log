@@ -509,3 +509,79 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 28.89 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (67.4 KB). Loaded Objects now: 6710.
+Memory consumption went from 114.1 MB to 114.0 MB.
+Total: 5.735000 ms (FindLiveObjects: 0.371500 ms CreateObjectMapping: 0.180000 ms MarkObjects: 5.067600 ms  DeleteObjects: 0.114500 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 499.58 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (341.7 KB). Loaded Objects now: 6710.
+Memory consumption went from 112.1 MB to 111.8 MB.
+Total: 5.630000 ms (FindLiveObjects: 0.377900 ms CreateObjectMapping: 0.164100 ms MarkObjects: 4.954300 ms  DeleteObjects: 0.132200 ms)
+
+
+=================================================================
+	Native Crash Reporting
+=================================================================
+Got a UNKNOWN while executing native code. This usually indicates
+a fatal error in the mono runtime or one of the native libraries 
+used by your application.
+=================================================================
+
+=================================================================
+	Managed Stacktrace:
+=================================================================
+=================================================================
+Received signal SIGSEGV
+Obtained 27 stack frames
+0x00007ff626472a73 (Unity) keywords::KeywordRemap::Init
+0x00007ff626478e9a (Unity) ShaderLab::IntShader::CreateKeywordRemap
+0x00007ff62647b6a4 (Unity) ShaderLab::IntShader::ResolveFallback
+0x00007ff6263da64f (Unity) ShaderFromSerializedShaderMainThread
+0x00007ff627ead100 (Unity) Shader::CreateFromParsedForm
+0x00007ff627eabfe0 (Unity) Shader::AwakeFromLoad
+0x00007ff62677e39d (Unity) AwakeFromLoadQueue::InvokePersistentManagerAwake
+0x00007ff62677f371 (Unity) AwakeFromLoadQueue::PersistentManagerSingleQueueAwakeFromLoad
+0x00007ff62677efe0 (Unity) AwakeFromLoadQueue::PersistentManagerAwakeFromLoad_NoChecks
+0x00007ff6267507cf (Unity) PersistentManager::IntegrateAllThreadedObjects
+0x00007ff6267510f0 (Unity) PersistentManager::LoadAndIntegrateAllPreallocatedObjects
+0x00007ff62675226b (Unity) PersistentManager::LoadObjects
+0x00007ff627b61946 (Unity) ReloadAssetIfLoaded
+0x00007ff627b29c26 (Unity) ReloadUpdatedAssets
+0x00007ff627b1dfda (Unity) <lambda_b37b41f03089e3cb3f55061bbc93253d>::operator()
+0x00007ff627b579b2 (Unity) asio::detail::completion_handler<core::mutable_function<void __cdecl(void)>,asio::io_context::basic_executor_type<std::allocator<void>,0> >::do_complete
+0x00007ff627b4395e (Unity) asio::detail::win_iocp_io_context::do_one
+0x00007ff627b455c4 (Unity) asio::detail::win_iocp_io_context::run
+0x00007ff627b55d5c (Unity) IOService::Run
+0x00007ff627b2a51f (Unity) AssetImportWorkerClient::Run
+0x00007ff627af50d7 (Unity) RunAssetImportWorkerClientV2
+0x00007ff627af515b (Unity) RunAssetImporterV2
+0x00007ff6272f9271 (Unity) Application::InitializeProject
+0x00007ff62777f1a5 (Unity) WinMain
+0x00007ff628b68bae (Unity) __scrt_common_main_seh
+0x00007ff9f115257d (KERNEL32) BaseThreadInitThunk
+0x00007ff9f274aa58 (ntdll) RtlUserThreadStart
+
