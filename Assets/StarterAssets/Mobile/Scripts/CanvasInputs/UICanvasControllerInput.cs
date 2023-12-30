@@ -27,7 +27,10 @@ namespace StarterAssets
 
         private void Start()
         {
-            GetPlayer(gameManager.GetPlayer(), false);
+            if (SceneLoader.GetCurrentScene().name == "GameScene")
+            {
+                GetPlayer(gameManager.GetPlayer(), false);
+            }
         }
 
         public void GetPlayer(GameObject player)

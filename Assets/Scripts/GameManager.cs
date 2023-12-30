@@ -200,6 +200,8 @@ namespace Com.GCTC.ZombCube
 
             if(playerInputManager != null)
                 Destroy(playerInputManager.gameObject);
+
+            Time.timeScale = 1;
         }
 
         public void PauseInput()

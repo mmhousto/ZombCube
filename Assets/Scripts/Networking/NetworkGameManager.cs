@@ -125,6 +125,7 @@ namespace Com.GCTC.ZombCube
 
         private void LeaveServer()
         {
+            Time.timeScale = 1;
             SceneLoader.ToMainMenu();
         }
 

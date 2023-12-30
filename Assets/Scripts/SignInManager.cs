@@ -65,7 +65,9 @@ namespace Com.GCTC.ZombCube
 
         public void SignInGoogle()
         {
+#if UNITY_ANDROID
             CloudSaveLogin.Instance.LoginGooglePlayGames();
+#endif
         }
 
         public void SelectObject(GameObject uiElement)
