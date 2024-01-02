@@ -70,6 +70,8 @@ namespace Com.GCTC.ZombCube
             }
 
             myPlayer = FindPlayer.GetPlayer();
+
+            Projectile.pointsToAdd = 10;
         }
 
         // Update is called once per frame

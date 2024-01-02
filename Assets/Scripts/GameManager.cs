@@ -84,6 +84,8 @@ namespace Com.GCTC.ZombCube
                 Cursor.lockState = CursorLockMode.Locked;
             else
                 Cursor.lockState = CursorLockMode.None;
+
+            Projectile.pointsToAdd = 10;
         }
 
         // Update is called once per frame

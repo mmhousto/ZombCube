@@ -23,7 +23,6 @@ namespace Com.GCTC.ZombCube
             Invoke(nameof(DestroyProjectile), 3f);
             audioSource = GetComponent<AudioSource>();
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
-            pointsToAdd = 10;
 
             if(GameManager.Instance?.numOfPlayers > 1)
             {
