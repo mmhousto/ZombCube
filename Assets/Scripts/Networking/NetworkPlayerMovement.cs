@@ -27,6 +27,7 @@ namespace Com.GCTC.ZombCube
         private bool canJump = true;
         private bool hasJumped = false;
 
+        public float PlayerSpeed { get { return playerSpeed; } set { playerSpeed = value; } }
 
         #endregion
 
@@ -138,6 +139,25 @@ namespace Com.GCTC.ZombCube
                 playerVelocity.y += gravityValue * Time.deltaTime;
                 controller.Move(playerVelocity * Time.deltaTime);
             }
+        }
+
+        IEnumerator EndPowerup()
+        {
+            yield return new WaitForSeconds(25f);
+            PlayerSpeed = 20.0f;
+        }
+
+
+        #endregion
+
+
+        #region Public Methods
+        
+
+        public void ActivateSpeedBoost()
+        {
+            PlayerSpeed = PlayerSpeed * 2;
+            StartCoroutine(EndPowerup());
         }
 
 

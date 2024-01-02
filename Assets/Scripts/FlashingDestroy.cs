@@ -46,9 +46,9 @@ namespace Com.GCTC.ZombCube
 
         private void SetFlashingRecursive(Transform parent, bool flashing)
         {
-            MeshRenderer[] meshRenderers = parent.GetComponentsInChildren<MeshRenderer>();
+            Renderer[] meshRenderers = parent.GetComponentsInChildren<Renderer>();
 
-            foreach (MeshRenderer renderer in meshRenderers)
+            foreach (Renderer renderer in meshRenderers)
             {
                 renderer.enabled = flashing;
             }

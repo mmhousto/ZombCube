@@ -8,7 +8,7 @@ namespace Com.GCTC.ZombCube
 
     public class Projectile : MonoBehaviourPun
     {
-
+        public static int pointsToAdd = 10;
         protected int enemiesHit = 0;
         public GameObject[] powerUpPrefabs;
         public float dropChance = 0.5f;
@@ -23,6 +23,7 @@ namespace Com.GCTC.ZombCube
             Invoke(nameof(DestroyProjectile), 3f);
             audioSource = GetComponent<AudioSource>();
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
+            pointsToAdd = 10;
 
             if(GameManager.Instance?.numOfPlayers > 1)
             {
@@ -58,13 +59,13 @@ namespace Com.GCTC.ZombCube
                 {
 
                     Destroy(collision.gameObject);
-                    PlayerManager.AddPoints(10);
+                    PlayerManager.AddPoints(pointsToAdd);
                     if (Player.Instance != null)
                         Player.Instance.cubesEliminated++;
                 }
                 else if (this.photonView.IsMine)
                 {
-                    NetworkPlayerManager.AddPoints(10);
+                    NetworkPlayerManager.AddPoints(pointsToAdd);
                     if (Player.Instance != null)
                         Player.Instance.cubesEliminated++;
 

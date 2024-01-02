@@ -110,7 +110,7 @@ namespace Com.GCTC.ZombCube
 
                         Destroy(collider.gameObject);
                         
-                        PlayerManager.AddPoints(10);
+                        PlayerManager.AddPoints(pointsToAdd);
                         if (Player.Instance != null)
                             Player.Instance.cubesEliminated++;
 
@@ -128,7 +128,7 @@ namespace Com.GCTC.ZombCube
                     if(collider.gameObject.tag == "Enemy")
                     {
                         PhotonNetwork.Destroy(collider.gameObject);
-                        NetworkPlayerManager.AddPoints(10);
+                        NetworkPlayerManager.AddPoints(pointsToAdd);
                         if (Player.Instance != null)
                             Player.Instance.cubesEliminated++;
 

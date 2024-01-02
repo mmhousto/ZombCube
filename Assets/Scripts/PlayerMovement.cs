@@ -18,6 +18,7 @@ namespace Com.GCTC.ZombCube
         private bool groundedPlayer;
         private float vertical;
         private float horizontal;
+        [SerializeField]
         private float playerSpeed = 20.0f;
         private float jumpHeight = 1.7f;
         private float gravityValue = -20f;
@@ -132,12 +133,24 @@ namespace Com.GCTC.ZombCube
             controller.Move(move * Time.deltaTime * PlayerSpeed);
         }
 
+        IEnumerator EndPowerup()
+        {
+            yield return new WaitForSeconds(25f);
+            PlayerSpeed = 20.0f;
+        }
+
 
         #endregion
 
 
         #region Public Methods
 
+
+        public void ActivateSpeedBoost()
+        {
+            PlayerSpeed = PlayerSpeed * 2;
+            StartCoroutine(EndPowerup());
+        }
 
         /// <summary>
         /// Gets Input from user on Move action and assigns to float variables, horizontal and vertical respectfully.
