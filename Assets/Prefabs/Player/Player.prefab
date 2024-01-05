@@ -399,6 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedPlayer: 0
+  playerSpeed: 20
 --- !u!114 &777121368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,9 +801,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03212e15cdb708e408cd668ea8100b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
   tripleShotPowerup: {fileID: 1561829969}
   fullyAutoPowerup: {fileID: 1946388811}
   launchGrenade: {fileID: 973589659443734555}
+  networkPlayerMovement: {fileID: 0}
   networkLaunchGrenade: {fileID: 0}
   networkTriple: {fileID: 0}
   networkFullyAuto: {fileID: 0}
@@ -924,7 +927,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 959
+    m_Bits: 3007
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -977,8 +980,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 3068052714536643818}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -1023,7 +1025,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2433591943272941950
 Transform:
   m_ObjectHideFlags: 0
@@ -1046,7 +1048,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5813622264650191498}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -1465,6 +1467,14 @@ PrefabInstance:
     - target: {fileID: 4001086741567567557, guid: 8430d75e9c36d4747b7ff47d34417f7d, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4001086741567567557, guid: 8430d75e9c36d4747b7ff47d34417f7d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4001086741567567559, guid: 8430d75e9c36d4747b7ff47d34417f7d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4001086741567567559, guid: 8430d75e9c36d4747b7ff47d34417f7d, type: 3}
       propertyPath: orthographic size
