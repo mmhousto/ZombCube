@@ -203,7 +203,6 @@ GameObject:
   - component: {fileID: 9075206894603171989}
   - component: {fileID: 4608269452111594702}
   - component: {fileID: 6593665919976638477}
-  - component: {fileID: 1042996446887547275}
   - component: {fileID: 6785368606256340452}
   - component: {fileID: 4647255643153377711}
   - component: {fileID: 1402817036049641758}
@@ -319,33 +318,6 @@ CharacterController:
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1042996446887547275
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2452928897197623210}
-  serializedVersion: 4
-  m_Mass: 70
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!135 &6785368606256340452
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -380,6 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedPlayer: 0
+  playerSpeed: 20
 --- !u!114 &1402817036049641758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,9 +758,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03212e15cdb708e408cd668ea8100b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
   tripleShotPowerup: {fileID: 6814703832945700543}
   fullyAutoPowerup: {fileID: 5620109690649180127}
   launchGrenade: {fileID: 4896280261973145158}
+  networkPlayerMovement: {fileID: 0}
   networkLaunchGrenade: {fileID: 0}
   networkTriple: {fileID: 0}
   networkFullyAuto: {fileID: 0}
