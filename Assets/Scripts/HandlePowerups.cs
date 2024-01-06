@@ -43,20 +43,17 @@ namespace Com.GCTC.ZombCube
                     tripleShotPowerup.enabled = true;
                     Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("FullyAuto"))
+                else if(other.CompareTag("FullyAuto"))
                 {
                     fullyAutoPowerup.enabled = true;
                     Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("SpeedBoost"))
+                else if(other.CompareTag("SpeedBoost"))
                 {
                     playerMovement.ActivateSpeedBoost();
                     Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("x2"))
+                else if(other.CompareTag("x2"))
                 {
                     int currentPoints = Projectile.pointsToAdd;
                     int pointsAdded = currentPoints * 2 > 120 ? 120 - currentPoints : (currentPoints * 2) - currentPoints;
@@ -64,8 +61,7 @@ namespace Com.GCTC.ZombCube
                     StartCoroutine(EndMultiplierPowerup(pointsAdded));
                     Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("x3"))
+                else if(other.CompareTag("x3"))
                 {
                     int currentPoints = Projectile.pointsToAdd;
                     int pointsAdded = currentPoints * 3 > 120 ? 120 - currentPoints : (currentPoints * 3) - currentPoints;
@@ -73,8 +69,7 @@ namespace Com.GCTC.ZombCube
                     StartCoroutine(EndMultiplierPowerup(pointsAdded));
                     Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("MaxNades") && GameManager.mode == 0)
+                else if(other.CompareTag("MaxNades") && GameManager.mode == 0)
                 {
                     launchGrenade.grenadeCount = 4;
                     Destroy(other.gameObject);
@@ -85,33 +80,27 @@ namespace Com.GCTC.ZombCube
                     Destroy(other.gameObject);
                 }
             }
-            else
+            else if (SceneLoader.GetCurrentScene().name == "NetworkGameScene" && photonView.IsMine)
             {
                 if (other.CompareTag("TripleShot"))
                 {
-                    if (photonView.IsMine)
-                        networkTriple.enabled = true;
+                    networkTriple.enabled = true;
                     other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("FullyAuto"))
+                else if (other.CompareTag("FullyAuto"))
                 {
-                    if(photonView.IsMine)
-                        networkFullyAuto.enabled = true;
+                    networkFullyAuto.enabled = true;
                     other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("SpeedBoost"))
+                else if (other.CompareTag("SpeedBoost"))
                 {
-                    if (photonView.IsMine)
-                        networkPlayerMovement.ActivateSpeedBoost();
+                    networkPlayerMovement.ActivateSpeedBoost();
                     other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("x2"))
+                else if (other.CompareTag("x2"))
                 {
                     int currentPoints = Projectile.pointsToAdd;
                     int pointsAdded = currentPoints * 2 > 120 ? 120 - currentPoints : (currentPoints * 2) - currentPoints;
@@ -120,8 +109,7 @@ namespace Com.GCTC.ZombCube
                     other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("x3"))
+                else if (other.CompareTag("x3"))
                 {
                     int currentPoints = Projectile.pointsToAdd;
                     int pointsAdded = currentPoints * 3 > 120 ? 120 - currentPoints : (currentPoints * 3) - currentPoints;
@@ -130,8 +118,7 @@ namespace Com.GCTC.ZombCube
                     other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
                 }
-
-                if (other.CompareTag("MaxNades"))
+                else if (other.CompareTag("MaxNades"))
                 {
                     networkLaunchGrenade.grenadeCount = 4;
                     other.GetComponent<PhotonView>().RequestOwnership();

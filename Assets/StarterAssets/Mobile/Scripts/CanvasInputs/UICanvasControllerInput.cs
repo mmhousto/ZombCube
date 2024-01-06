@@ -44,7 +44,8 @@ namespace StarterAssets
             playerLookN = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
             playerManagerN = currentPlayer.GetComponent<NetworkPlayerManager>();
 
-            playerFireTripleN.enabled = false;
+            if (playerFireTripleN != null)
+                playerFireTripleN.enabled = false;
         }
 
         public void GetPlayer(GameObject player, bool online)
@@ -57,7 +58,8 @@ namespace StarterAssets
             playerFireTriple = currentPlayer.GetComponent<TripleShot>();
             playerLook = currentPlayer.GetComponentInChildren<MouseLook>();
 
-            playerFireTriple.enabled = false;
+            if(playerFireTriple != null)
+                playerFireTriple.enabled = false;
         }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
