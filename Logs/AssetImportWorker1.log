@@ -15,7 +15,7 @@ C:/Users/Morga/Documents/GitHub/ZombCube
 -logFile
 Logs/AssetImportWorker1.log
 -srvPort
-51710
+59996
 Successfully changed project path to: C:/Users/Morga/Documents/GitHub/ZombCube
 C:/Users/Morga/Documents/GitHub/ZombCube
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,11 +49,11 @@ C:/Users/Morga/Documents/GitHub/ZombCube
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [6480] Host "[IP] 192.168.0.146 [Port] 0 [Flags] 2 [Guid] 2599813399 [EditorId] 2599813399 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [14144] Host "[IP] 192.168.0.146 [Port] 0 [Flags] 2 [Guid] 1613456326 [EditorId] 1613456326 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [6480] Host "[IP] 192.168.0.146 [Port] 0 [Flags] 2 [Guid] 2599813399 [EditorId] 2599813399 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [14144] Host "[IP] 192.168.0.146 [Port] 0 [Flags] 2 [Guid] 1613456326 [EditorId] 1613456326 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
-Refreshing native plugins compatible for Editor in 507.25 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 1439.63 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.7f1 (b16b3b16c7a0)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/Resources/UnitySubsystems
@@ -69,7 +69,7 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56872
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56740
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
@@ -77,47 +77,47 @@ Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/E
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
-Registered in 0.016779 seconds.
-- Loaded All Assemblies, in  1.210 seconds
+Registered in 0.389116 seconds.
+- Loaded All Assemblies, in  5.560 seconds
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 Native extension for iOS target not found
 Native extension for Android target not found
-Android Extension - Scanning For ADB Devices 313 ms
+Android Extension - Scanning For ADB Devices 247 ms
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.717 seconds
-Domain Reload Profiling: 1925ms
-	BeginReloadAssembly (125ms)
+- Finished resetting the current domain, in  0.626 seconds
+Domain Reload Profiling: 6185ms
+	BeginReloadAssembly (3723ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (263ms)
-	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (77ms)
-	LoadAllAssembliesAndSetupDomain (731ms)
-		LoadAssemblies (124ms)
+		CreateAndSetChildDomain (0ms)
+	RebuildCommonClasses (312ms)
+	RebuildNativeTypeToScriptingClass (6ms)
+	initialDomainReloadingComplete (419ms)
+	LoadAllAssembliesAndSetupDomain (1099ms)
+		LoadAssemblies (3723ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (728ms)
-			TypeCache.Refresh (726ms)
-				TypeCache.ScanAssembly (495ms)
+		AnalyzeDomain (1097ms)
+			TypeCache.Refresh (1096ms)
+				TypeCache.ScanAssembly (951ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (718ms)
+	FinalizeReload (627ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (657ms)
+		SetupLoadedEditorAssemblies (593ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (503ms)
-			SetLoadedEditorAssemblies (4ms)
+			InitializePlatformSupportModulesInManaged (510ms)
+			SetLoadedEditorAssemblies (2ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (2ms)
-			ProcessInitializeOnLoadAttributes (95ms)
-			ProcessInitializeOnLoadMethodAttributes (53ms)
+			BeforeProcessingInitializeOnLoad (1ms)
+			ProcessInitializeOnLoadAttributes (49ms)
+			ProcessInitializeOnLoadMethodAttributes (30ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -126,78 +126,55 @@ Domain Reload Profiling: 1925ms
 Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
 Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.122 seconds
-Refreshing native plugins compatible for Editor in 29.10 ms, found 3 plugins.
+- Loaded All Assemblies, in  8.906 seconds
+Refreshing native plugins compatible for Editor in 10.25 ms, found 3 plugins.
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for Android target not found
 Native extension for WebGL target not found
-Unable to write to 'ProjectSettings\GvhProjectSettings.xml' (System.IO.IOException: Sharing violation on path C:\Users\Morga\Documents\GitHub\ZombCube\ProjectSettings\GvhProjectSettings.xml
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <b89873cb176e44a995a4781c7487d410>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <b89873cb176e44a995a4781c7487d410>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean useAsync) [0x00000] in <b89873cb176e44a995a4781c7487d410>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,bool)
-  at System.Xml.XmlWriterSettings.CreateWriter (System.String outputFileName) [0x00051] in <e14f12b8a91b42bd8e49b8fddfbeacba>:0 
-  at System.Xml.XmlWriter.Create (System.String outputFileName, System.Xml.XmlWriterSettings settings) [0x0000a] in <e14f12b8a91b42bd8e49b8fddfbeacba>:0 
-  at Google.ProjectSettings.Save () [0x0006d] in /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:821 , Project settings were not saved!
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-Google.Logger:Log (string,Google.LogLevel) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/Logger.cs:136)
-Google.ProjectSettings:Save () (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:844)
-Google.ProjectSettings:SetBool (string,bool,Google.SettingsLocation) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:485)
-Google.ProjectSettings:SetBool (string,bool) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:497)
-Google.IOSResolver:set_VerboseLoggingEnabled (bool) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/IOSResolver/src/IOSResolver.cs:998)
-Google.IOSResolver:.cctor () (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/IOSResolver/src/IOSResolver.cs:692)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs Line: 844)
-
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.954 seconds
-Domain Reload Profiling: 2068ms
-	BeginReloadAssembly (159ms)
+- Finished resetting the current domain, in  0.501 seconds
+Domain Reload Profiling: 9402ms
+	BeginReloadAssembly (89ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
+		DisableScriptedObjects (3ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (21ms)
-	RebuildCommonClasses (36ms)
-	RebuildNativeTypeToScriptingClass (12ms)
-	initialDomainReloadingComplete (80ms)
-	LoadAllAssembliesAndSetupDomain (827ms)
-		LoadAssemblies (572ms)
+		CreateAndSetChildDomain (13ms)
+	RebuildCommonClasses (19ms)
+	RebuildNativeTypeToScriptingClass (6ms)
+	initialDomainReloadingComplete (44ms)
+	LoadAllAssembliesAndSetupDomain (8744ms)
+		LoadAssemblies (8586ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (352ms)
-			TypeCache.Refresh (303ms)
-				TypeCache.ScanAssembly (280ms)
-			ScanForSourceGeneratedMonoScriptInfo (36ms)
-			ResolveRequiredComponents (13ms)
-	FinalizeReload (955ms)
+		AnalyzeDomain (211ms)
+			TypeCache.Refresh (182ms)
+				TypeCache.ScanAssembly (170ms)
+			ScanForSourceGeneratedMonoScriptInfo (21ms)
+			ResolveRequiredComponents (7ms)
+	FinalizeReload (501ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (727ms)
+		SetupLoadedEditorAssemblies (390ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (46ms)
-			SetLoadedEditorAssemblies (7ms)
+			InitializePlatformSupportModulesInManaged (21ms)
+			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (126ms)
-			ProcessInitializeOnLoadAttributes (306ms)
-			ProcessInitializeOnLoadMethodAttributes (235ms)
-			AfterProcessingInitializeOnLoad (8ms)
+			BeforeProcessingInitializeOnLoad (60ms)
+			ProcessInitializeOnLoadAttributes (165ms)
+			ProcessInitializeOnLoadMethodAttributes (136ms)
+			AfterProcessingInitializeOnLoad (4ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (7ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
-Refreshing native plugins compatible for Editor in 27.75 ms, found 3 plugins.
+		AwakeInstancesAfterBackupRestoration (3ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Refreshing native plugins compatible for Editor in 11.25 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 6287 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 155 unused Assets / (431.1 KB). Loaded Objects now: 6699.
-Memory consumption went from 248.9 MB to 248.5 MB.
-Total: 4.482400 ms (FindLiveObjects: 0.367400 ms CreateObjectMapping: 0.168600 ms MarkObjects: 3.631200 ms  DeleteObjects: 0.314000 ms)
+Unloading 155 unused Assets / (446.9 KB). Loaded Objects now: 6699.
+Memory consumption went from 248.8 MB to 248.4 MB.
+Total: 2.749400 ms (FindLiveObjects: 0.269800 ms CreateObjectMapping: 0.158600 ms MarkObjects: 2.125900 ms  DeleteObjects: 0.194400 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:scripting/monoscript/fileName/IEventsClient.cs: 490614701f477a29835b124093e6f4e7 -> 
@@ -248,499 +225,3 @@ AssetImportParameters requested are different than current active one (requested
   custom:scripting/monoscript/fileName/AndroidSavedGameClient.cs: 1ac71cec45080808da35f87ebcb3e79a -> 
   custom:scripting/monoscript/fileName/IPlayGamesClient.cs: 2ca28e9275059b613ba547b671074dfb -> 
   custom:scripting/monoscript/fileName/PlayerStats.cs: 13f936ba969548226f7b99de9ead9e41 -> 
-========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.674 seconds
-Refreshing native plugins compatible for Editor in 26.13 ms, found 3 plugins.
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for Android target not found
-Native extension for WebGL target not found
-Unable to write to 'ProjectSettings\GvhProjectSettings.xml' (System.IO.IOException: Sharing violation on path C:\Users\Morga\Documents\GitHub\ZombCube\ProjectSettings\GvhProjectSettings.xml
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <b89873cb176e44a995a4781c7487d410>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <b89873cb176e44a995a4781c7487d410>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean useAsync) [0x00000] in <b89873cb176e44a995a4781c7487d410>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,bool)
-  at System.Xml.XmlWriterSettings.CreateWriter (System.String outputFileName) [0x00051] in <e14f12b8a91b42bd8e49b8fddfbeacba>:0 
-  at System.Xml.XmlWriter.Create (System.String outputFileName, System.Xml.XmlWriterSettings settings) [0x0000a] in <e14f12b8a91b42bd8e49b8fddfbeacba>:0 
-  at Google.ProjectSettings.Save () [0x0006d] in /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:821 , Project settings were not saved!
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-Google.Logger:Log (string,Google.LogLevel) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/Logger.cs:136)
-Google.ProjectSettings:Save () (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:844)
-Google.ProjectSettings:SetBool (string,bool,Google.SettingsLocation) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:485)
-Google.ProjectSettings:SetBool (string,bool) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:497)
-Google.IOSResolver:set_VerboseLoggingEnabled (bool) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/IOSResolver/src/IOSResolver.cs:998)
-Google.IOSResolver:.cctor () (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/IOSResolver/src/IOSResolver.cs:692)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs Line: 844)
-
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.575 seconds
-Domain Reload Profiling: 3242ms
-	BeginReloadAssembly (177ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (38ms)
-	RebuildCommonClasses (35ms)
-	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (63ms)
-	LoadAllAssembliesAndSetupDomain (379ms)
-		LoadAssemblies (445ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (22ms)
-			TypeCache.Refresh (7ms)
-				TypeCache.ScanAssembly (0ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (14ms)
-	FinalizeReload (2575ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (561ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (40ms)
-			SetLoadedEditorAssemblies (6ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (116ms)
-			ProcessInitializeOnLoadAttributes (270ms)
-			ProcessInitializeOnLoadMethodAttributes (119ms)
-			AfterProcessingInitializeOnLoad (8ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (18ms)
-Refreshing native plugins compatible for Editor in 31.21 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6090 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 116 unused Assets / (427.9 KB). Loaded Objects now: 6704.
-Memory consumption went from 212.0 MB to 211.6 MB.
-Total: 4.338700 ms (FindLiveObjects: 0.363100 ms CreateObjectMapping: 0.166900 ms MarkObjects: 3.552200 ms  DeleteObjects: 0.255200 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:scripting/monoscript/fileName/IEventsClient.cs: 490614701f477a29835b124093e6f4e7 -> 
-  custom:scripting/monoscript/fileName/PlayGamesAchievement.cs: 4faa74100a6f37443d6536c8bb532a5e -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:scripting/monoscript/fileName/Achievement.cs: 34a444cc2c64c1df8b3122860f4a2cb5 -> 
-  custom:scripting/monoscript/fileName/PlayerProfile.cs: cdaa619d7b4c4b8093fe9c484085425f -> 
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:scripting/monoscript/fileName/GPGSUpgrader.cs: 0e924e1ca8e04d585123d9b1b9c2359b -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:scripting/monoscript/fileName/AndroidSnapshotMetadata.cs: 434b9795edbc047225f5dee3f9fd3f62 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:scripting/monoscript/fileName/PlayGamesUserProfile.cs: 0406e05eb0b7d757e65ed8e4d3c11941 -> 
-  custom:scripting/monoscript/fileName/DummyNearbyConnectionClient.cs: c5a6392552e6ef3593fbcbbcd95fba03 -> 
-  custom:scripting/monoscript/fileName/DummyClient.cs: 6806ba3b0cb3f44136d7f03e56ebd244 -> 
-  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
-  custom:scripting/monoscript/fileName/NearbyHelperObject.cs: bb4527bd1da27a040ec9eb841f73df9b -> 
-  custom:scripting/monoscript/fileName/AndroidHelperFragment.cs: fb9d25bf0365de8ea560328c8f555efb -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:scripting/monoscript/fileName/LeaderboardScoreData.cs: 4979fe6942be5c3e1bc0a28e499f8395 -> 
-  custom:scripting/monoscript/fileName/PlatformUtils.cs: 4d06ff4d12cc9d25f9a117befb68cfc6 -> 
-  custom:scripting/monoscript/fileName/AndroidNearbyConnectionClient.cs: 6b779eb60708bd67e3da441ebe1f7cf7 -> 
-  custom:scripting/monoscript/fileName/PlayGamesClientFactory.cs: d90fd440da3ed64c0542ba88e2908c30 -> 
-  custom:scripting/monoscript/fileName/NearbyConnectionClientFactory.cs: 181f0dcaab41a3008b26e4c7f97a498e -> 
-  custom:scripting/monoscript/fileName/GameInfo.cs: 4a747fef470df5e286a08bdededcb9f6 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:scripting/monoscript/fileName/AndroidEventsClient.cs: 46ce78040b8b7bc8464083c7dd55232a -> 
-  custom:scripting/monoscript/fileName/PlayGamesScore.cs: 968d89301f54c3071f616d6f3fff8f94 -> 
-  custom:scripting/monoscript/fileName/ScorePageToken.cs: 7c6febe92170234326cc5d1aeb8ec1d1 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:scripting/monoscript/fileName/AndroidUtils.cs: f14de4686b589a012e48daae776f3163 -> 
-  custom:scripting/monoscript/fileName/AndroidClient.cs: 0bd9dd9e9d097a6cd6ce1b8690d2e3ec -> 
-  custom:scripting/monoscript/fileName/PlayGamesLeaderboard.cs: 42111bb7f7f077d8bde7e5ba98045e3b -> 
-  custom:scripting/monoscript/fileName/GPGSPostBuild.cs: 2b24793b5237f406b18671714e81a38c -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/AndroidTaskUtils.cs: aef4459b026df1b4a512f3bef38f35e1 -> 
-  custom:scripting/monoscript/fileName/AndroidJavaConverter.cs: 926805c832222d5b8e4fc33c8ed42984 -> 
-  custom:scripting/monoscript/fileName/PlayGamesPlatform.cs: 2d24e6555106632ec79a995be5668547 -> 
-  custom:scripting/monoscript/fileName/AndroidBanner.cs: 282e9473b9351b3ad8cc7993d8b7cc25 -> 
-  custom:scripting/monoscript/fileName/AndroidPlatform.cs: ec502a76f2de8159fa482f5b711d49f3 -> 
-  custom:scripting/monoscript/fileName/Player.cs: 4ee1b23051609f6df1743e53ef483c49 -> fcc73d36ccb8f7928d8e51dc0f7f7715
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/PlayGamesLocalUser.cs: d6f4261cf1872dfb27cdfbbd83331271 -> 
-  custom:scripting/monoscript/fileName/NearbyConnectionUI.cs: 9d9e0378f5d86be1d9f6cfb8bddd7a7d -> 
-  custom:scripting/monoscript/fileName/AndroidSavedGameClient.cs: 1ac71cec45080808da35f87ebcb3e79a -> 
-  custom:scripting/monoscript/fileName/IPlayGamesClient.cs: 2ca28e9275059b613ba547b671074dfb -> 
-  custom:scripting/monoscript/fileName/PlayerStats.cs: 13f936ba969548226f7b99de9ead9e41 -> 
-========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.602 seconds
-Refreshing native plugins compatible for Editor in 27.05 ms, found 3 plugins.
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for Android target not found
-Native extension for WebGL target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.175 seconds
-Domain Reload Profiling: 1771ms
-	BeginReloadAssembly (168ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (34ms)
-	RebuildCommonClasses (34ms)
-	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (64ms)
-	LoadAllAssembliesAndSetupDomain (318ms)
-		LoadAssemblies (384ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (21ms)
-			TypeCache.Refresh (7ms)
-				TypeCache.ScanAssembly (0ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (13ms)
-	FinalizeReload (1175ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (533ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (40ms)
-			SetLoadedEditorAssemblies (6ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (116ms)
-			ProcessInitializeOnLoadAttributes (271ms)
-			ProcessInitializeOnLoadMethodAttributes (91ms)
-			AfterProcessingInitializeOnLoad (8ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (18ms)
-Refreshing native plugins compatible for Editor in 25.00 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6090 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 116 unused Assets / (403.6 KB). Loaded Objects now: 6709.
-Memory consumption went from 212.0 MB to 211.6 MB.
-Total: 4.090000 ms (FindLiveObjects: 0.363200 ms CreateObjectMapping: 0.150500 ms MarkObjects: 3.330700 ms  DeleteObjects: 0.244600 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:scripting/monoscript/fileName/IEventsClient.cs: 490614701f477a29835b124093e6f4e7 -> 
-  custom:scripting/monoscript/fileName/PlayGamesAchievement.cs: 4faa74100a6f37443d6536c8bb532a5e -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:scripting/monoscript/fileName/Achievement.cs: 34a444cc2c64c1df8b3122860f4a2cb5 -> 
-  custom:scripting/monoscript/fileName/PlayerProfile.cs: cdaa619d7b4c4b8093fe9c484085425f -> 
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:scripting/monoscript/fileName/GPGSUpgrader.cs: 0e924e1ca8e04d585123d9b1b9c2359b -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:scripting/monoscript/fileName/AndroidSnapshotMetadata.cs: 434b9795edbc047225f5dee3f9fd3f62 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:scripting/monoscript/fileName/PlayGamesUserProfile.cs: 0406e05eb0b7d757e65ed8e4d3c11941 -> 
-  custom:scripting/monoscript/fileName/DummyNearbyConnectionClient.cs: c5a6392552e6ef3593fbcbbcd95fba03 -> 
-  custom:scripting/monoscript/fileName/DummyClient.cs: 6806ba3b0cb3f44136d7f03e56ebd244 -> 
-  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
-  custom:scripting/monoscript/fileName/NearbyHelperObject.cs: bb4527bd1da27a040ec9eb841f73df9b -> 
-  custom:scripting/monoscript/fileName/AndroidHelperFragment.cs: fb9d25bf0365de8ea560328c8f555efb -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:scripting/monoscript/fileName/LeaderboardScoreData.cs: 4979fe6942be5c3e1bc0a28e499f8395 -> 
-  custom:scripting/monoscript/fileName/PlatformUtils.cs: 4d06ff4d12cc9d25f9a117befb68cfc6 -> 
-  custom:scripting/monoscript/fileName/AndroidNearbyConnectionClient.cs: 6b779eb60708bd67e3da441ebe1f7cf7 -> 
-  custom:scripting/monoscript/fileName/PlayGamesClientFactory.cs: d90fd440da3ed64c0542ba88e2908c30 -> 
-  custom:scripting/monoscript/fileName/NearbyConnectionClientFactory.cs: 181f0dcaab41a3008b26e4c7f97a498e -> 
-  custom:scripting/monoscript/fileName/GameInfo.cs: 4a747fef470df5e286a08bdededcb9f6 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:scripting/monoscript/fileName/AndroidEventsClient.cs: 46ce78040b8b7bc8464083c7dd55232a -> 
-  custom:scripting/monoscript/fileName/PlayGamesScore.cs: 968d89301f54c3071f616d6f3fff8f94 -> 
-  custom:scripting/monoscript/fileName/ScorePageToken.cs: 7c6febe92170234326cc5d1aeb8ec1d1 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:scripting/monoscript/fileName/AndroidUtils.cs: f14de4686b589a012e48daae776f3163 -> 
-  custom:scripting/monoscript/fileName/AndroidClient.cs: 0bd9dd9e9d097a6cd6ce1b8690d2e3ec -> 
-  custom:scripting/monoscript/fileName/PlayGamesLeaderboard.cs: 42111bb7f7f077d8bde7e5ba98045e3b -> 
-  custom:scripting/monoscript/fileName/GPGSPostBuild.cs: 2b24793b5237f406b18671714e81a38c -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/AndroidTaskUtils.cs: aef4459b026df1b4a512f3bef38f35e1 -> 
-  custom:scripting/monoscript/fileName/AndroidJavaConverter.cs: 926805c832222d5b8e4fc33c8ed42984 -> 
-  custom:scripting/monoscript/fileName/PlayGamesPlatform.cs: 2d24e6555106632ec79a995be5668547 -> 
-  custom:scripting/monoscript/fileName/AndroidBanner.cs: 282e9473b9351b3ad8cc7993d8b7cc25 -> 
-  custom:scripting/monoscript/fileName/AndroidPlatform.cs: ec502a76f2de8159fa482f5b711d49f3 -> 
-  custom:scripting/monoscript/fileName/Player.cs: 4ee1b23051609f6df1743e53ef483c49 -> fcc73d36ccb8f7928d8e51dc0f7f7715
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/PlayGamesLocalUser.cs: d6f4261cf1872dfb27cdfbbd83331271 -> 
-  custom:scripting/monoscript/fileName/NearbyConnectionUI.cs: 9d9e0378f5d86be1d9f6cfb8bddd7a7d -> 
-  custom:scripting/monoscript/fileName/AndroidSavedGameClient.cs: 1ac71cec45080808da35f87ebcb3e79a -> 
-  custom:scripting/monoscript/fileName/IPlayGamesClient.cs: 2ca28e9275059b613ba547b671074dfb -> 
-  custom:scripting/monoscript/fileName/PlayerStats.cs: 13f936ba969548226f7b99de9ead9e41 -> 
-========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.646 seconds
-Refreshing native plugins compatible for Editor in 25.38 ms, found 3 plugins.
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for Android target not found
-Native extension for WebGL target not found
-Unable to write to 'ProjectSettings\GvhProjectSettings.xml' (System.IO.IOException: Sharing violation on path C:\Users\Morga\Documents\GitHub\ZombCube\ProjectSettings\GvhProjectSettings.xml
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean anonymous, System.IO.FileOptions options) [0x0019e] in <b89873cb176e44a995a4781c7487d410>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.IO.FileOptions options) [0x00000] in <b89873cb176e44a995a4781c7487d410>:0 
-  at System.IO.FileStream..ctor (System.String path, System.IO.FileMode mode, System.IO.FileAccess access, System.IO.FileShare share, System.Int32 bufferSize, System.Boolean useAsync) [0x00000] in <b89873cb176e44a995a4781c7487d410>:0 
-  at (wrapper remoting-invoke-with-check) System.IO.FileStream..ctor(string,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,int,bool)
-  at System.Xml.XmlWriterSettings.CreateWriter (System.String outputFileName) [0x00051] in <e14f12b8a91b42bd8e49b8fddfbeacba>:0 
-  at System.Xml.XmlWriter.Create (System.String outputFileName, System.Xml.XmlWriterSettings settings) [0x0000a] in <e14f12b8a91b42bd8e49b8fddfbeacba>:0 
-  at Google.ProjectSettings.Save () [0x0006d] in /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:821 , Project settings were not saved!
-UnityEngine.StackTraceUtility:ExtractStackTrace ()
-UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
-UnityEngine.Logger:Log (UnityEngine.LogType,object)
-UnityEngine.Debug:LogError (object)
-Google.Logger:Log (string,Google.LogLevel) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/Logger.cs:136)
-Google.ProjectSettings:Save () (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:844)
-Google.ProjectSettings:SetBool (string,bool,Google.SettingsLocation) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:485)
-Google.ProjectSettings:SetBool (string,bool) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs:497)
-Google.IOSResolver:set_VerboseLoggingEnabled (bool) (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/IOSResolver/src/IOSResolver.cs:998)
-Google.IOSResolver:.cctor () (at /Users/chkuang/Workspace/git/unity-jar-resolver/source/IOSResolver/src/IOSResolver.cs:692)
-System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
-UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
-
-(Filename: /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs Line: 844)
-
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.989 seconds
-Domain Reload Profiling: 2629ms
-	BeginReloadAssembly (172ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (38ms)
-	RebuildCommonClasses (34ms)
-	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (62ms)
-	LoadAllAssembliesAndSetupDomain (359ms)
-		LoadAssemblies (426ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (20ms)
-			TypeCache.Refresh (6ms)
-				TypeCache.ScanAssembly (0ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (13ms)
-	FinalizeReload (1989ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (519ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (42ms)
-			SetLoadedEditorAssemblies (7ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (114ms)
-			ProcessInitializeOnLoadAttributes (257ms)
-			ProcessInitializeOnLoadMethodAttributes (90ms)
-			AfterProcessingInitializeOnLoad (9ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (18ms)
-Refreshing native plugins compatible for Editor in 32.93 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6090 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 116 unused Assets / (403.7 KB). Loaded Objects now: 6714.
-Memory consumption went from 212.0 MB to 211.6 MB.
-Total: 4.216100 ms (FindLiveObjects: 0.352000 ms CreateObjectMapping: 0.155300 ms MarkObjects: 3.454600 ms  DeleteObjects: 0.253200 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:scripting/monoscript/fileName/IEventsClient.cs: 490614701f477a29835b124093e6f4e7 -> 
-  custom:scripting/monoscript/fileName/PlayGamesAchievement.cs: 4faa74100a6f37443d6536c8bb532a5e -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:scripting/monoscript/fileName/Achievement.cs: 34a444cc2c64c1df8b3122860f4a2cb5 -> 
-  custom:scripting/monoscript/fileName/PlayerProfile.cs: cdaa619d7b4c4b8093fe9c484085425f -> 
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:scripting/monoscript/fileName/GPGSUpgrader.cs: 0e924e1ca8e04d585123d9b1b9c2359b -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:scripting/monoscript/fileName/AndroidSnapshotMetadata.cs: 434b9795edbc047225f5dee3f9fd3f62 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:scripting/monoscript/fileName/PlayGamesUserProfile.cs: 0406e05eb0b7d757e65ed8e4d3c11941 -> 
-  custom:scripting/monoscript/fileName/DummyNearbyConnectionClient.cs: c5a6392552e6ef3593fbcbbcd95fba03 -> 
-  custom:scripting/monoscript/fileName/DummyClient.cs: 6806ba3b0cb3f44136d7f03e56ebd244 -> 
-  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
-  custom:scripting/monoscript/fileName/NearbyHelperObject.cs: bb4527bd1da27a040ec9eb841f73df9b -> 
-  custom:scripting/monoscript/fileName/AndroidHelperFragment.cs: fb9d25bf0365de8ea560328c8f555efb -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:scripting/monoscript/fileName/LeaderboardScoreData.cs: 4979fe6942be5c3e1bc0a28e499f8395 -> 
-  custom:scripting/monoscript/fileName/PlatformUtils.cs: 4d06ff4d12cc9d25f9a117befb68cfc6 -> 
-  custom:scripting/monoscript/fileName/AndroidNearbyConnectionClient.cs: 6b779eb60708bd67e3da441ebe1f7cf7 -> 
-  custom:scripting/monoscript/fileName/PlayGamesClientFactory.cs: d90fd440da3ed64c0542ba88e2908c30 -> 
-  custom:scripting/monoscript/fileName/NearbyConnectionClientFactory.cs: 181f0dcaab41a3008b26e4c7f97a498e -> 
-  custom:scripting/monoscript/fileName/GameInfo.cs: 4a747fef470df5e286a08bdededcb9f6 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:scripting/monoscript/fileName/AndroidEventsClient.cs: 46ce78040b8b7bc8464083c7dd55232a -> 
-  custom:scripting/monoscript/fileName/PlayGamesScore.cs: 968d89301f54c3071f616d6f3fff8f94 -> 
-  custom:scripting/monoscript/fileName/ScorePageToken.cs: 7c6febe92170234326cc5d1aeb8ec1d1 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:scripting/monoscript/fileName/AndroidUtils.cs: f14de4686b589a012e48daae776f3163 -> 
-  custom:scripting/monoscript/fileName/AndroidClient.cs: 0bd9dd9e9d097a6cd6ce1b8690d2e3ec -> 
-  custom:scripting/monoscript/fileName/PlayGamesLeaderboard.cs: 42111bb7f7f077d8bde7e5ba98045e3b -> 
-  custom:scripting/monoscript/fileName/GPGSPostBuild.cs: 2b24793b5237f406b18671714e81a38c -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/AndroidTaskUtils.cs: aef4459b026df1b4a512f3bef38f35e1 -> 
-  custom:scripting/monoscript/fileName/AndroidJavaConverter.cs: 926805c832222d5b8e4fc33c8ed42984 -> 
-  custom:scripting/monoscript/fileName/PlayGamesPlatform.cs: 2d24e6555106632ec79a995be5668547 -> 
-  custom:scripting/monoscript/fileName/AndroidBanner.cs: 282e9473b9351b3ad8cc7993d8b7cc25 -> 
-  custom:scripting/monoscript/fileName/AndroidPlatform.cs: ec502a76f2de8159fa482f5b711d49f3 -> 
-  custom:scripting/monoscript/fileName/Player.cs: 4ee1b23051609f6df1743e53ef483c49 -> fcc73d36ccb8f7928d8e51dc0f7f7715
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/PlayGamesLocalUser.cs: d6f4261cf1872dfb27cdfbbd83331271 -> 
-  custom:scripting/monoscript/fileName/NearbyConnectionUI.cs: 9d9e0378f5d86be1d9f6cfb8bddd7a7d -> 
-  custom:scripting/monoscript/fileName/AndroidSavedGameClient.cs: 1ac71cec45080808da35f87ebcb3e79a -> 
-  custom:scripting/monoscript/fileName/IPlayGamesClient.cs: 2ca28e9275059b613ba547b671074dfb -> 
-  custom:scripting/monoscript/fileName/PlayerStats.cs: 13f936ba969548226f7b99de9ead9e41 -> 
-========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.612 seconds
-Refreshing native plugins compatible for Editor in 25.56 ms, found 3 plugins.
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for iOS target not found
-Native extension for Android target not found
-Native extension for WebGL target not found
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.192 seconds
-Domain Reload Profiling: 1799ms
-	BeginReloadAssembly (168ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (5ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (35ms)
-	RebuildCommonClasses (33ms)
-	RebuildNativeTypeToScriptingClass (13ms)
-	initialDomainReloadingComplete (62ms)
-	LoadAllAssembliesAndSetupDomain (329ms)
-		LoadAssemblies (395ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (21ms)
-			TypeCache.Refresh (6ms)
-				TypeCache.ScanAssembly (0ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
-			ResolveRequiredComponents (13ms)
-	FinalizeReload (1193ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (534ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (39ms)
-			SetLoadedEditorAssemblies (6ms)
-			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (115ms)
-			ProcessInitializeOnLoadAttributes (270ms)
-			ProcessInitializeOnLoadMethodAttributes (95ms)
-			AfterProcessingInitializeOnLoad (8ms)
-			EditorAssembliesLoaded (1ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (19ms)
-Refreshing native plugins compatible for Editor in 25.23 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6090 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 116 unused Assets / (403.8 KB). Loaded Objects now: 6719.
-Memory consumption went from 212.0 MB to 211.7 MB.
-Total: 4.192300 ms (FindLiveObjects: 0.341300 ms CreateObjectMapping: 0.154000 ms MarkObjects: 3.438000 ms  DeleteObjects: 0.257800 ms)
-
-Prepare: number of updated asset objects reloaded= 0
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:scripting/monoscript/fileName/IEventsClient.cs: 490614701f477a29835b124093e6f4e7 -> 
-  custom:scripting/monoscript/fileName/PlayGamesAchievement.cs: 4faa74100a6f37443d6536c8bb532a5e -> 
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:scripting/monoscript/fileName/Achievement.cs: 34a444cc2c64c1df8b3122860f4a2cb5 -> 
-  custom:scripting/monoscript/fileName/PlayerProfile.cs: cdaa619d7b4c4b8093fe9c484085425f -> 
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:scripting/monoscript/fileName/GPGSUpgrader.cs: 0e924e1ca8e04d585123d9b1b9c2359b -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:scripting/monoscript/fileName/AndroidSnapshotMetadata.cs: 434b9795edbc047225f5dee3f9fd3f62 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:scripting/monoscript/fileName/PlayGamesUserProfile.cs: 0406e05eb0b7d757e65ed8e4d3c11941 -> 
-  custom:scripting/monoscript/fileName/DummyNearbyConnectionClient.cs: c5a6392552e6ef3593fbcbbcd95fba03 -> 
-  custom:scripting/monoscript/fileName/DummyClient.cs: 6806ba3b0cb3f44136d7f03e56ebd244 -> 
-  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
-  custom:scripting/monoscript/fileName/NearbyHelperObject.cs: bb4527bd1da27a040ec9eb841f73df9b -> 
-  custom:scripting/monoscript/fileName/AndroidHelperFragment.cs: fb9d25bf0365de8ea560328c8f555efb -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:scripting/monoscript/fileName/LeaderboardScoreData.cs: 4979fe6942be5c3e1bc0a28e499f8395 -> 
-  custom:scripting/monoscript/fileName/PlatformUtils.cs: 4d06ff4d12cc9d25f9a117befb68cfc6 -> 
-  custom:scripting/monoscript/fileName/AndroidNearbyConnectionClient.cs: 6b779eb60708bd67e3da441ebe1f7cf7 -> 
-  custom:scripting/monoscript/fileName/PlayGamesClientFactory.cs: d90fd440da3ed64c0542ba88e2908c30 -> 
-  custom:scripting/monoscript/fileName/NearbyConnectionClientFactory.cs: 181f0dcaab41a3008b26e4c7f97a498e -> 
-  custom:scripting/monoscript/fileName/GameInfo.cs: 4a747fef470df5e286a08bdededcb9f6 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:scripting/monoscript/fileName/AndroidEventsClient.cs: 46ce78040b8b7bc8464083c7dd55232a -> 
-  custom:scripting/monoscript/fileName/PlayGamesScore.cs: 968d89301f54c3071f616d6f3fff8f94 -> 
-  custom:scripting/monoscript/fileName/ScorePageToken.cs: 7c6febe92170234326cc5d1aeb8ec1d1 -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:scripting/monoscript/fileName/AndroidUtils.cs: f14de4686b589a012e48daae776f3163 -> 
-  custom:scripting/monoscript/fileName/AndroidClient.cs: 0bd9dd9e9d097a6cd6ce1b8690d2e3ec -> 
-  custom:scripting/monoscript/fileName/PlayGamesLeaderboard.cs: 42111bb7f7f077d8bde7e5ba98045e3b -> 
-  custom:scripting/monoscript/fileName/GPGSPostBuild.cs: 2b24793b5237f406b18671714e81a38c -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/AndroidTaskUtils.cs: aef4459b026df1b4a512f3bef38f35e1 -> 
-  custom:scripting/monoscript/fileName/AndroidJavaConverter.cs: 926805c832222d5b8e4fc33c8ed42984 -> 
-  custom:scripting/monoscript/fileName/PlayGamesPlatform.cs: 2d24e6555106632ec79a995be5668547 -> 
-  custom:scripting/monoscript/fileName/AndroidBanner.cs: 282e9473b9351b3ad8cc7993d8b7cc25 -> 
-  custom:scripting/monoscript/fileName/AndroidPlatform.cs: ec502a76f2de8159fa482f5b711d49f3 -> 
-  custom:scripting/monoscript/fileName/Player.cs: 4ee1b23051609f6df1743e53ef483c49 -> fcc73d36ccb8f7928d8e51dc0f7f7715
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:scripting/monoscript/fileName/PlayGamesLocalUser.cs: d6f4261cf1872dfb27cdfbbd83331271 -> 
-  custom:scripting/monoscript/fileName/NearbyConnectionUI.cs: 9d9e0378f5d86be1d9f6cfb8bddd7a7d -> 
-  custom:scripting/monoscript/fileName/AndroidSavedGameClient.cs: 1ac71cec45080808da35f87ebcb3e79a -> 
-  custom:scripting/monoscript/fileName/IPlayGamesClient.cs: 2ca28e9275059b613ba547b671074dfb -> 
-  custom:scripting/monoscript/fileName/PlayerStats.cs: 13f936ba969548226f7b99de9ead9e41 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 264894.931125 seconds.
-  path: Assets/Photon/PhotonUnityNetworking/Demos/DemoSlotRacer/Kenney Assets/Racing Kit/Models/roadRampLongCurvedWall.fbx
-  artifactKey: Guid(002276cc119770f4c8b9797abd47f7e5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Photon/PhotonUnityNetworking/Demos/DemoSlotRacer/Kenney Assets/Racing Kit/Models/roadRampLongCurvedWall.fbx using Guid(002276cc119770f4c8b9797abd47f7e5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '15a7a77aaa32eaec4077b518aae85b86') in 0.040968 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 6
-========================================================================
-Received Import Request.
-  Time since last request: 0.000037 seconds.
-  path: Assets/Photon/PhotonUnityNetworking/Demos/DemoSlotRacer/Kenney Assets/Racing Kit/Models/roadStraightBridgeStart.fbx
-  artifactKey: Guid(f3190f178f6804a438514c250f12db6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Photon/PhotonUnityNetworking/Demos/DemoSlotRacer/Kenney Assets/Racing Kit/Models/roadStraightBridgeStart.fbx using Guid(f3190f178f6804a438514c250f12db6a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aa276db84a12cda71272c34818c07c86') in 0.003097 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 6
-========================================================================
-Received Import Request.
-  Time since last request: 0.000024 seconds.
-  path: Assets/Photon/PhotonUnityNetworking/Demos/DemoAsteroids/Models/Spaceship.fbx
-  artifactKey: Guid(65e16ec6a1570944a980e4988e715ae6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Photon/PhotonUnityNetworking/Demos/DemoAsteroids/Models/Spaceship.fbx using Guid(65e16ec6a1570944a980e4988e715ae6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4be1ff1d41fd71f4f553d1a1913ffbc0') in 0.004708 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 8
-========================================================================
-Received Import Request.
-  Time since last request: 0.000031 seconds.
-  path: Assets/Photon/PhotonUnityNetworking/Demos/DemoSlotRacer/Kenney Assets/Racing Kit/Models/roadStart.fbx
-  artifactKey: Guid(4a85baa15824c004e9265ae93708faf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Photon/PhotonUnityNetworking/Demos/DemoSlotRacer/Kenney Assets/Racing Kit/Models/roadStart.fbx using Guid(4a85baa15824c004e9265ae93708faf9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e85c8ceb1d1ba9efaad9f5c5c2ee6a38') in 0.002959 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 6
-Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
-TcpMessagingSession - receive error
-AssetImportWorkerClient::OnTransportError - code=2 error=End of file
-AssetImportWorker is now disconnected from the server
-Process exiting
-Exiting without the bug reporter. Application will terminate with return code 0
