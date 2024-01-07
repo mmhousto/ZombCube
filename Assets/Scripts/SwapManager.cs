@@ -1,22 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 namespace Com.GCTC.ZombCube
 {
     public class SwapManager : MonoBehaviour
     {
+        public GameObject weaponSelectUI; // Weapon Select UI
+        public Button[] weaponSelections; // Weapon Selection UI Buttons
+        public Image[] weaponImages; // All weapon images
+        public Image[] currentWeapons; // Current Weapons Player Has
+        public List<GameObject> weapons = new List<GameObject>(); // Actual Physical Weapon
+
+        protected GameObject currentWeapon;
         protected float holdTime;
         protected bool isSwapWeaponsHeld;
-        public List<GameObject> weapons = new List<GameObject>();
-        protected GameObject currentWeapon;
+        protected bool isSwapping;
+        protected bool startedHold;
+
         private ShootProjectile blaster;
         private TripleShot tripleShot;
         private FullyAuto fullyAuto;
         private LaunchGrenade grenade;
-        protected bool isSwapping;
-        protected bool startedHold;
+
+        
 
         private void Start()
         {
@@ -26,6 +36,8 @@ namespace Com.GCTC.ZombCube
             grenade = GetComponent<LaunchGrenade>();
             tripleShot = GetComponent<TripleShot>();
             fullyAuto = GetComponent<FullyAuto>();
+            weaponSelectUI = GameObject.Find("WeaponSelect");
+            weaponSelectUI.SetActive(false);
         }
 
         private void Update()
@@ -45,10 +57,15 @@ namespace Com.GCTC.ZombCube
         {
             isSwapping = newValue;
 
-            if (isSwapping && startedHold == false)
+            if (isSwapping && startedHold == false && isSwapWeaponsHeld == false)
             {
                 startedHold = true;
                 StartCoroutine(ChargeHoldTime());
+            }
+            else if(isSwapping && isSwapWeaponsHeld == true && weaponSelectUI.activeInHierarchy)
+            {
+                weaponSelectUI.SetActive(false);
+                isSwapWeaponsHeld = false;
             }
         }
 
@@ -68,6 +85,8 @@ namespace Com.GCTC.ZombCube
             {
                 // menu
                 Debug.Log("Holding!");
+                isSwapWeaponsHeld = true;
+                weaponSelectUI.SetActive(true);
             }
 
             holdTime = 0f; // Reset launch power after launching
@@ -91,22 +110,27 @@ namespace Com.GCTC.ZombCube
             }
             currentWeapon.SetActive(true);
             EnableDisableScriptComp(true);
-
+            isSwapWeaponsHeld = false;
 
         }
 
         protected virtual void EnableDisableScriptComp(bool newState)
         {
+            fullyAuto.enabled = false;
+            tripleShot.enabled = false;
+
             switch (weapons.IndexOf(currentWeapon))
             {
                 case 0:
                     blaster.enabled = newState;
-                    fullyAuto.enabled = false;
-                    tripleShot.enabled = false;
+                    grenade.enabled = false;
                     break;
                 case 1:
                     if (newState == true && grenade.grenadeCount > 0 || newState == false)
+                    {
+                        blaster.enabled = false;
                         grenade.enabled = newState;
+                    }
                     else
                         SwapToNextWeapon();
                     break;
@@ -114,8 +138,6 @@ namespace Com.GCTC.ZombCube
                     break;
                 default:
                     blaster.enabled = true;
-                    fullyAuto.enabled = false;
-                    tripleShot.enabled = false;
                     grenade.enabled = false;
                     break;
             }

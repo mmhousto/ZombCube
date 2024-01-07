@@ -8,6 +8,8 @@ namespace Com.GCTC.ZombCube
     {
         private NetworkShootProjectile blaster;
         private NetworkLaunchGrenade grenade;
+        private NetworkTripleShot tripleShot;
+        private NetworkFullyAuto fullyAuto;
         // Start is called before the first frame update
         void Start()
         {
@@ -15,6 +17,10 @@ namespace Com.GCTC.ZombCube
             currentWeapon = weapons[0];
             blaster = GetComponent<NetworkShootProjectile>();
             grenade = GetComponent<NetworkLaunchGrenade>();
+            tripleShot = GetComponent<NetworkTripleShot>();
+            fullyAuto = GetComponent<NetworkFullyAuto>();
+            weaponSelectUI = GameObject.Find("WeaponSelect");
+            weaponSelectUI.SetActive(false);
         }
 
         // Update is called once per frame
@@ -28,14 +34,20 @@ namespace Com.GCTC.ZombCube
 
         protected override void EnableDisableScriptComp(bool newState)
         {
+            fullyAuto.enabled = false;
+            tripleShot.enabled = false;
             switch (weapons.IndexOf(currentWeapon))
             {
                 case 0:
                     blaster.enabled = newState;
+                    grenade.enabled = false;
                     break;
                 case 1:
                     if (newState == true && grenade.grenadeCount > 0 || newState == false)
+                    {
                         grenade.enabled = newState;
+                        blaster.enabled = false;
+                    }
                     else
                         SwapToNextWeapon();
                     break;

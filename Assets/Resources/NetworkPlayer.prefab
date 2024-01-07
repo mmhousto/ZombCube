@@ -1427,10 +1427,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5077f72b1c4acf4fbda6f2e0a7f1edf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSelectUI: {fileID: 0}
+  weaponSelections: []
+  weaponImages: []
+  currentWeapons: []
   weapons:
   - {fileID: 2466518180367457844}
   - {fileID: 1431652738531077925}
-  - {fileID: 3797466345683175602}
 --- !u!1 &7442980236204753190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,6 +1578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Submachine Blaster
       objectReference: {fileID: 0}
+    - target: {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6429253466015552561, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1624,11 +1631,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
---- !u!1 &3797466345683175602 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
-  m_PrefabInstance: {fileID: 3200638137221491658}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8454303901958143995 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6429253466015552561, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}

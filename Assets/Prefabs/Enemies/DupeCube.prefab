@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 7621872444735342296}
   - component: {fileID: 7281148451364726401}
   - component: {fileID: -2847601926607234199}
+  - component: {fileID: -5309085047398625280}
   m_Layer: 0
   m_Name: DupeCube
   m_TagString: Enemy
@@ -344,6 +345,33 @@ MonoBehaviour:
   isGameOver: 0
   dupe: {fileID: 4041880343527893316, guid: 92ee555fcb1b98f4f8694fe9a98f0fe1, type: 3}
   offset: {x: 1, y: 1, z: 0}
+--- !u!54 &-5309085047398625280
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041880343527893316}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &8324576112931777529
 GameObject:
   m_ObjectHideFlags: 0
