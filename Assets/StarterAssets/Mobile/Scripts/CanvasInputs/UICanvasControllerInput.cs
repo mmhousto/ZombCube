@@ -27,10 +27,12 @@ namespace StarterAssets
 
         private void Start()
         {
+#if (UNITY_IOS || UNITY_ANDROID)
             if (SceneLoader.GetCurrentScene().name == "GameScene")
             {
                 GetPlayer(gameManager.GetPlayer(), false);
             }
+#endif
         }
 
         public void GetPlayer(GameObject player)

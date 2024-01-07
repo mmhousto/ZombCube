@@ -116,7 +116,7 @@ namespace Com.GCTC.ZombCube
             int index = couchCoopManager.joinedPlayerIDs.IndexOf(playerID);
 
             Debug.Log("Called Player Left");
-            if (currentPlayers > 0 && couchCoopManager.joinedPlayerIDs.Contains(playerID) && index != 0)
+            if (currentPlayers > 0 && couchCoopManager.joinedPlayerIDs.Contains(playerID) && index != 0 && SceneLoader.GetCurrentScene().name == "MainMenu")
             {
                 Debug.Log("Player index: " + index);
                 currentPlayers--;

@@ -18,7 +18,7 @@ namespace Com.GCTC.ZombCube
         public GameObject playerPrefab;
         public int CurrentRound { get; set; }
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls;
+        public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls, weaponSelect;
         public Camera eliminatedCam;
         private PlayerInput playerInput;
         private PlayerInputManager playerInputManager;
@@ -50,6 +50,7 @@ namespace Com.GCTC.ZombCube
                 playerInputManager = GameObject.Find("CoopManager").GetComponent<PlayerInputManager>();
                 couchCoopManager = playerInputManager.gameObject.GetComponent<CouchCoopManager>();
                 numOfPlayers = couchCoopManager.GetNumOfPlayers();
+                weaponSelect.SetActive(false);
             }
             else
             {

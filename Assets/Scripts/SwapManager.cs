@@ -36,7 +36,8 @@ namespace Com.GCTC.ZombCube
             grenade = GetComponent<LaunchGrenade>();
             tripleShot = GetComponent<TripleShot>();
             fullyAuto = GetComponent<FullyAuto>();
-            weaponSelectUI = GameObject.Find("WeaponSelect");
+            if(GameManager.mode == 0)
+                weaponSelectUI = GameObject.Find("WeaponSelect");
             weaponSelectUI.SetActive(false);
         }
 
