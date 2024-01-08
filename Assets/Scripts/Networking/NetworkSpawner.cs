@@ -118,6 +118,7 @@ namespace Com.GCTC.ZombCube
                     {
                         GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, zombCubeClone.transform.position, zombCubeClone.transform.rotation);
                         armorClone.transform.SetParent(zombCubeClone.transform);
+                        armorClone.transform.localScale = Vector3.one;
                     }
                 }
             }
@@ -137,7 +138,8 @@ namespace Com.GCTC.ZombCube
                         if (randChance >= 1 - armorChance)
                         {
                             GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, fastCubeClone.transform.position, fastCubeClone.transform.rotation);
-                            armorClone.transform.SetParent(fastCubeClone.transform, false);
+                            armorClone.transform.SetParent(fastCubeClone.transform);
+                            armorClone.transform.localScale = Vector3.one;
                         }
                     }
                 }
@@ -158,7 +160,8 @@ namespace Com.GCTC.ZombCube
                         if (randChance >= 1 - armorChance)
                         {
                             GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, dupeCubeClone.transform.position, dupeCubeClone.transform.rotation);
-                            armorClone.transform.SetParent(dupeCubeClone.transform, false);
+                            armorClone.transform.SetParent(dupeCubeClone.transform);
+                            armorClone.transform.localScale = Vector3.one;
                         }
                     }
                 }
