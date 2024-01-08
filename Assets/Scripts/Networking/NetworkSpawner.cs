@@ -117,7 +117,7 @@ namespace Com.GCTC.ZombCube
                     if (randChance >= 1 - armorChance)
                     {
                         GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, zombCubeClone.transform.position, zombCubeClone.transform.rotation);
-                        armorClone.transform.SetParent(zombCubeClone.transform, false);
+                        armorClone.transform.SetParent(zombCubeClone.transform);
                     }
                 }
             }
