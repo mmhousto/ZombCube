@@ -13,9 +13,11 @@ namespace Com.GCTC.ZombCube
         public GameObject weaponSelectUI; // Weapon Select UI
         private Button[] weaponSelections; // Weapon Selection UI Buttons
         public List<Sprite> weaponImages; // All weapon images = 0:Pistol, 1:Grenade, 2:SMB, 3:AB, 4:Shotblaster, 5:SB, 6:Sword
-        private Image[] currentWeapons; // Current Weapons Player Has
+        private Image[] currentWeaponImages; // Current Weapon Images Player Has
+        private List<int> currentWeaponIndexes; // Current Weapon Indexs Player Has
         public List<GameObject> weapons = new List<GameObject>(); // Actual Physical Weapon = 0:Pistol, 1:Grenade, 2:SMB, 3:AB, 4:Shotblaster, 5:SB, 6:Sword
 
+        protected int currentWeaponIndex;
         protected GameObject currentWeapon;
         protected float holdTime;
         protected bool isSwapWeaponsHeld;
@@ -33,27 +35,35 @@ namespace Com.GCTC.ZombCube
         {
             holdTime = 0;
             currentWeapon = weapons[0];
-            currentWeapons = new Image[4];
+            currentWeaponImages = new Image[4];
+            currentWeaponIndexes = new List<int>();
             blaster = GetComponent<ShootProjectile>();
             grenade = GetComponent<LaunchGrenade>();
             tripleShot = GetComponent<TripleShot>();
             fullyAuto = GetComponent<FullyAuto>();
+
             if(GameManager.mode == 0)
                 weaponSelectUI = GameObject.Find("WeaponSelect");
+
             if(weaponSelectUI != null )
             {
-                weaponSelections = GetComponentsInChildren<Button>();
+                weaponSelections = weaponSelectUI.GetComponentsInChildren<Button>();
                 int i = 0;
                 foreach (Button b in weaponSelections)
                 {
-                    currentWeapons[i] = b.GetComponentInChildren<Image>();
+                    currentWeaponImages[i] = b.transform.GetChild(0).GetComponent<Image>();
                     i++;
 #if (UNITY_IOS || UNITY_ANDROID)
                     b.interactable = true;
 #endif
                 }
-                currentWeapons[0].sprite = weaponImages[0];
-                currentWeapons[1].sprite = weaponImages[1];
+                currentWeaponImages[0].sprite = weaponImages[0];
+                currentWeaponImages[1].sprite = weaponImages[1];
+                currentWeaponImages[2].sprite = null;
+                currentWeaponImages[3].sprite = null;
+                currentWeaponIndexes.Add(0);
+                currentWeaponIndexes.Add(1);
+                currentWeaponIndex = currentWeaponIndexes[0];
 
                 weaponSelectUI.SetActive(false);
             }
@@ -155,34 +165,50 @@ namespace Com.GCTC.ZombCube
 
         protected void SwapToNextWeapon()
         {
-            Debug.Log("Swapping to the next weapon");
-            EnableDisableScriptComp(false);
-            currentWeapon.SetActive(false);
+            currentWeaponIndex++; // inceases index
 
-            if (weapons.IndexOf(currentWeapon) < weapons.Count - 1)
+            if (currentWeaponIndex <= 3 && currentWeaponImages[currentWeaponIndex].sprite != null) // checks if next weapon is null
             {
-                currentWeapon = weapons[weapons.IndexOf(currentWeapon) + 1];
-            }
-            else
-            {
-                currentWeapon = weapons[0];
-            }
-            currentWeapon.SetActive(true);
-            EnableDisableScriptComp(true);
-            isSwapWeaponsHeld = false;
+                Debug.Log("Swapping to the next weapon"); // Disable Current Weapon
+                EnableDisableScriptComp(false);
+                currentWeapon.SetActive(false);
 
+                // Get Next Weapon
+                int newWeaponImageIndex = weaponImages.IndexOf(currentWeaponImages[currentWeaponIndex].sprite);
+                currentWeapon = weapons[newWeaponImageIndex];
+
+                // Enable New Weapon
+                currentWeapon.SetActive(true);
+                EnableDisableScriptComp(true);
+                isSwapWeaponsHeld = false;
+            }
+            else // Out of index - reset to Pistol
+            {
+                currentWeaponIndex = 0;
+                // Disable Current Weapon
+                EnableDisableScriptComp(false);
+                currentWeapon.SetActive(false);
+
+                currentWeapon = weapons[0]; // Set weapon to pistol
+
+                //Enable Pistol
+                currentWeapon.SetActive(true);
+                EnableDisableScriptComp(true);
+                isSwapWeaponsHeld = false;
+
+            }
         }
 
         protected void SwapToWeapon(int weaponToSwapTo)
         {
-            if (currentWeapons[weaponToSwapTo] != null)
+            if (currentWeaponImages[weaponToSwapTo].sprite != null)
             {
                 Debug.Log("Swapping to weapon: " + weaponToSwapTo);
                 // Disable current weapon
                 EnableDisableScriptComp(false);
                 currentWeapon.SetActive(false);
 
-                int weaponIndex = weaponImages.IndexOf(currentWeapons[weaponToSwapTo].sprite);
+                int weaponIndex = weaponImages.IndexOf(currentWeaponImages[weaponToSwapTo].sprite);
                 // switch to selected weapon
                 currentWeapon = weapons[weaponIndex];
 
@@ -190,8 +216,13 @@ namespace Com.GCTC.ZombCube
                 currentWeapon.SetActive(true);
                 EnableDisableScriptComp(true);
             }
-            
 
+            // Disable UI if enabled
+            if (weaponSelectUI.activeInHierarchy)
+            {
+                isSwapWeaponsHeld = false;
+                weaponSelectUI.SetActive(false);
+            }
         }
 
         protected virtual void EnableDisableScriptComp(bool newState)
