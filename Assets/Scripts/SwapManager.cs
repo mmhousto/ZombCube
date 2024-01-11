@@ -201,6 +201,10 @@ namespace Com.GCTC.ZombCube
 
         protected void SwapToWeapon(int weaponToSwapTo)
         {
+            if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
+            if(currentWeapon == weapons[0] && weaponToSwapTo == 0) return; // Dont swap to pistol if has pistol
+            currentWeaponIndex = weaponToSwapTo;
+
             if (currentWeaponImages[weaponToSwapTo].sprite != null)
             {
                 Debug.Log("Swapping to weapon: " + weaponToSwapTo);
