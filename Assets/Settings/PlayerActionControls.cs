@@ -82,6 +82,42 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""WeaponUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""305ba046-2c57-45ee-b159-1b9cff84e4c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""5aadce5d-9413-4452-9f17-5f0756377ab5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""d106709d-4d43-4b36-952d-8ce6def6ccb8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""52d84c58-aac7-43a8-9915-446a63bacd63"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""c1c459bd-6e9f-4500-bda2-f9149c5e3e07"",
@@ -461,6 +497,94 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""SwitchWeapons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""74152e54-322c-4730-911f-ee5f8718c696"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""WeaponUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""218e3a98-6c2e-4cf8-8fb6-170aacd91706"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""WeaponUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe8f1f11-2a7f-4404-8639-1a1a35b68f98"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""WeaponRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a762f0f2-e155-4613-8ab1-0c90550d2af0"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""WeaponRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba54aaee-853e-40a4-b2a2-7f44ca3bb30f"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""WeaponDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""813cb132-0def-4819-91fe-c12ea0d32b28"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""WeaponDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75e18254-fba5-4aec-8df7-8506860663e6"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""WeaponLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b650797c-a3b3-4649-bbd4-75cb47fdc0b8"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""WeaponLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1098,6 +1222,10 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_GamePause = m_Player.FindAction("GamePause", throwIfNotFound: true);
         m_Player_NextPlayer = m_Player.FindAction("NextPlayer", throwIfNotFound: true);
+        m_Player_WeaponUp = m_Player.FindAction("WeaponUp", throwIfNotFound: true);
+        m_Player_WeaponRight = m_Player.FindAction("WeaponRight", throwIfNotFound: true);
+        m_Player_WeaponDown = m_Player.FindAction("WeaponDown", throwIfNotFound: true);
+        m_Player_WeaponLeft = m_Player.FindAction("WeaponLeft", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_SwitchWeapons = m_Player.FindAction("SwitchWeapons", throwIfNotFound: true);
         // UI
@@ -1179,6 +1307,10 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_GamePause;
     private readonly InputAction m_Player_NextPlayer;
+    private readonly InputAction m_Player_WeaponUp;
+    private readonly InputAction m_Player_WeaponRight;
+    private readonly InputAction m_Player_WeaponDown;
+    private readonly InputAction m_Player_WeaponLeft;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_SwitchWeapons;
     public struct PlayerActions
@@ -1191,6 +1323,10 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @GamePause => m_Wrapper.m_Player_GamePause;
         public InputAction @NextPlayer => m_Wrapper.m_Player_NextPlayer;
+        public InputAction @WeaponUp => m_Wrapper.m_Player_WeaponUp;
+        public InputAction @WeaponRight => m_Wrapper.m_Player_WeaponRight;
+        public InputAction @WeaponDown => m_Wrapper.m_Player_WeaponDown;
+        public InputAction @WeaponLeft => m_Wrapper.m_Player_WeaponLeft;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @SwitchWeapons => m_Wrapper.m_Player_SwitchWeapons;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1220,6 +1356,18 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
             @NextPlayer.started += instance.OnNextPlayer;
             @NextPlayer.performed += instance.OnNextPlayer;
             @NextPlayer.canceled += instance.OnNextPlayer;
+            @WeaponUp.started += instance.OnWeaponUp;
+            @WeaponUp.performed += instance.OnWeaponUp;
+            @WeaponUp.canceled += instance.OnWeaponUp;
+            @WeaponRight.started += instance.OnWeaponRight;
+            @WeaponRight.performed += instance.OnWeaponRight;
+            @WeaponRight.canceled += instance.OnWeaponRight;
+            @WeaponDown.started += instance.OnWeaponDown;
+            @WeaponDown.performed += instance.OnWeaponDown;
+            @WeaponDown.canceled += instance.OnWeaponDown;
+            @WeaponLeft.started += instance.OnWeaponLeft;
+            @WeaponLeft.performed += instance.OnWeaponLeft;
+            @WeaponLeft.canceled += instance.OnWeaponLeft;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
@@ -1248,6 +1396,18 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
             @NextPlayer.started -= instance.OnNextPlayer;
             @NextPlayer.performed -= instance.OnNextPlayer;
             @NextPlayer.canceled -= instance.OnNextPlayer;
+            @WeaponUp.started -= instance.OnWeaponUp;
+            @WeaponUp.performed -= instance.OnWeaponUp;
+            @WeaponUp.canceled -= instance.OnWeaponUp;
+            @WeaponRight.started -= instance.OnWeaponRight;
+            @WeaponRight.performed -= instance.OnWeaponRight;
+            @WeaponRight.canceled -= instance.OnWeaponRight;
+            @WeaponDown.started -= instance.OnWeaponDown;
+            @WeaponDown.performed -= instance.OnWeaponDown;
+            @WeaponDown.canceled -= instance.OnWeaponDown;
+            @WeaponLeft.started -= instance.OnWeaponLeft;
+            @WeaponLeft.performed -= instance.OnWeaponLeft;
+            @WeaponLeft.canceled -= instance.OnWeaponLeft;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
@@ -1442,6 +1602,10 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnGamePause(InputAction.CallbackContext context);
         void OnNextPlayer(InputAction.CallbackContext context);
+        void OnWeaponUp(InputAction.CallbackContext context);
+        void OnWeaponRight(InputAction.CallbackContext context);
+        void OnWeaponDown(InputAction.CallbackContext context);
+        void OnWeaponLeft(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnSwitchWeapons(InputAction.CallbackContext context);
     }
