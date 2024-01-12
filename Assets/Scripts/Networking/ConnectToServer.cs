@@ -25,6 +25,7 @@ namespace Com.GCTC.ZombCube
         private void Awake()
         {
             player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+            Time.timeScale = 1.0f;
         }
 
         /// <summary>

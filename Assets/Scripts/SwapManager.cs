@@ -5,10 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 using System.Linq;
+using Photon.Pun;
 
 namespace Com.GCTC.ZombCube
 {
-    public class SwapManager : MonoBehaviour
+    public class SwapManager : MonoBehaviourPun
     {
         public GameObject weaponSelectUI; // Weapon Select UI
         protected Button[] weaponSelections; // Weapon Selection UI Buttons

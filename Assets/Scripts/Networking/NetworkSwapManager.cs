@@ -1,7 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 namespace Com.GCTC.ZombCube
 {
@@ -14,45 +16,49 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            holdTime = 0;
-            currentWeapon = weapons[0];
-            currentWeaponImages = new Image[4];
-            currentWeaponIndexes = new List<int>();
-            blaster = GetComponent<NetworkShootProjectile>();
-            grenade = GetComponent<NetworkLaunchGrenade>();
-            tripleShot = GetComponent<NetworkTripleShot>();
-            fullyAuto = GetComponent<NetworkFullyAuto>();
-
-            weaponSelectUI = GameObject.Find("WeaponSelect");
-
-            if (weaponSelectUI != null)
+            if (photonView.IsMine)
             {
-                weaponSelections = weaponSelectUI.GetComponentsInChildren<Button>();
-                int i = 0;
-                foreach (Button b in weaponSelections)
+
+                holdTime = 0;
+                currentWeapon = weapons[0];
+                currentWeaponImages = new Image[4];
+                currentWeaponIndexes = new List<int>();
+                blaster = GetComponent<NetworkShootProjectile>();
+                grenade = GetComponent<NetworkLaunchGrenade>();
+                tripleShot = GetComponent<NetworkTripleShot>();
+                fullyAuto = GetComponent<NetworkFullyAuto>();
+
+                weaponSelectUI = GameObject.Find("WeaponSelect");
+
+                if (weaponSelectUI != null)
                 {
-                    currentWeaponImages[i] = b.transform.GetChild(0).GetComponent<Image>();
-                    i++;
+                    weaponSelections = weaponSelectUI.GetComponentsInChildren<Button>();
+                    int i = 0;
+                    foreach (Button b in weaponSelections)
+                    {
+                        currentWeaponImages[i] = b.transform.GetChild(0).GetComponent<Image>();
+                        i++;
 #if (UNITY_IOS || UNITY_ANDROID)
                     b.interactable = true;
 #endif
-                }
-                currentWeaponImages[0].sprite = weaponImages[0];
-                currentWeaponImages[1].sprite = weaponImages[1];
-                currentWeaponImages[2].sprite = null;
-                currentWeaponImages[3].sprite = null;
-                currentWeaponIndexes.Add(0);
-                currentWeaponIndexes.Add(1);
-                currentWeaponIndex = currentWeaponIndexes[0];
+                    }
+                    currentWeaponImages[0].sprite = weaponImages[0];
+                    currentWeaponImages[1].sprite = weaponImages[1];
+                    currentWeaponImages[2].sprite = null;
+                    currentWeaponImages[3].sprite = null;
+                    currentWeaponIndexes.Add(0);
+                    currentWeaponIndexes.Add(1);
+                    currentWeaponIndex = currentWeaponIndexes[0];
 
-                weaponSelectUI.SetActive(false);
+                    weaponSelectUI.SetActive(false);
+                }
             }
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (grenade.grenadeCount == 0 && grenade.enabled == true)
+            if (grenade.grenadeCount == 0 && grenade.enabled == true && photonView.IsMine)
             {
                 SwapToNextWeapon();
             }
@@ -60,6 +66,7 @@ namespace Com.GCTC.ZombCube
 
         protected override void SwapToWeapon(int weaponToSwapTo)
         {
+            if (!photonView.IsMine) { return; }
             if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
             if (currentWeapon == weapons[0] && weaponToSwapTo == 0) return; // Dont swap to pistol if has pistol
             currentWeaponIndex = weaponToSwapTo;
@@ -90,6 +97,7 @@ namespace Com.GCTC.ZombCube
 
         protected override void EnableDisableScriptComp(bool newState)
         {
+            if (!photonView.IsMine) { return; }
             fullyAuto.enabled = false;
             tripleShot.enabled = false;
             switch (weapons.IndexOf(currentWeapon))
