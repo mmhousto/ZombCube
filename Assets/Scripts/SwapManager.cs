@@ -11,10 +11,10 @@ namespace Com.GCTC.ZombCube
     public class SwapManager : MonoBehaviour
     {
         public GameObject weaponSelectUI; // Weapon Select UI
-        private Button[] weaponSelections; // Weapon Selection UI Buttons
+        protected Button[] weaponSelections; // Weapon Selection UI Buttons
         public List<Sprite> weaponImages; // All weapon images = 0:Pistol, 1:Grenade, 2:SMB, 3:AB, 4:Shotblaster, 5:SB, 6:Sword
-        private Image[] currentWeaponImages; // Current Weapon Images Player Has
-        private List<int> currentWeaponIndexes; // Current Weapon Indexs Player Has
+        protected Image[] currentWeaponImages; // Current Weapon Images Player Has
+        protected List<int> currentWeaponIndexes; // Current Weapon Indexs Player Has
         public List<GameObject> weapons = new List<GameObject>(); // Actual Physical Weapon = 0:Pistol, 1:Grenade, 2:SMB, 3:AB, 4:Shotblaster, 5:SB, 6:Sword
 
         protected int currentWeaponIndex;
@@ -199,7 +199,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        protected void SwapToWeapon(int weaponToSwapTo)
+        protected virtual void SwapToWeapon(int weaponToSwapTo)
         {
             if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
             if(currentWeapon == weapons[0] && weaponToSwapTo == 0) return; // Dont swap to pistol if has pistol

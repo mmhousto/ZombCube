@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Com.GCTC.ZombCube
 {
@@ -15,12 +16,37 @@ namespace Com.GCTC.ZombCube
         {
             holdTime = 0;
             currentWeapon = weapons[0];
+            currentWeaponImages = new Image[4];
+            currentWeaponIndexes = new List<int>();
             blaster = GetComponent<NetworkShootProjectile>();
             grenade = GetComponent<NetworkLaunchGrenade>();
             tripleShot = GetComponent<NetworkTripleShot>();
             fullyAuto = GetComponent<NetworkFullyAuto>();
+
             weaponSelectUI = GameObject.Find("WeaponSelect");
-            weaponSelectUI.SetActive(false);
+
+            if (weaponSelectUI != null)
+            {
+                weaponSelections = weaponSelectUI.GetComponentsInChildren<Button>();
+                int i = 0;
+                foreach (Button b in weaponSelections)
+                {
+                    currentWeaponImages[i] = b.transform.GetChild(0).GetComponent<Image>();
+                    i++;
+#if (UNITY_IOS || UNITY_ANDROID)
+                    b.interactable = true;
+#endif
+                }
+                currentWeaponImages[0].sprite = weaponImages[0];
+                currentWeaponImages[1].sprite = weaponImages[1];
+                currentWeaponImages[2].sprite = null;
+                currentWeaponImages[3].sprite = null;
+                currentWeaponIndexes.Add(0);
+                currentWeaponIndexes.Add(1);
+                currentWeaponIndex = currentWeaponIndexes[0];
+
+                weaponSelectUI.SetActive(false);
+            }
         }
 
         // Update is called once per frame
@@ -29,6 +55,36 @@ namespace Com.GCTC.ZombCube
             if (grenade.grenadeCount == 0 && grenade.enabled == true)
             {
                 SwapToNextWeapon();
+            }
+        }
+
+        protected override void SwapToWeapon(int weaponToSwapTo)
+        {
+            if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
+            if (currentWeapon == weapons[0] && weaponToSwapTo == 0) return; // Dont swap to pistol if has pistol
+            currentWeaponIndex = weaponToSwapTo;
+
+            if (currentWeaponImages[weaponToSwapTo].sprite != null)
+            {
+                Debug.Log("Swapping to weapon: " + weaponToSwapTo);
+                // Disable current weapon
+                EnableDisableScriptComp(false);
+                currentWeapon.SetActive(false);
+
+                int weaponIndex = weaponImages.IndexOf(currentWeaponImages[weaponToSwapTo].sprite);
+                // switch to selected weapon
+                currentWeapon = weapons[weaponIndex];
+
+                //enable weapon
+                currentWeapon.SetActive(true);
+                EnableDisableScriptComp(true);
+            }
+
+            // Disable UI if enabled
+            if (weaponSelectUI.activeInHierarchy)
+            {
+                isSwapWeaponsHeld = false;
+                weaponSelectUI.SetActive(false);
             }
         }
 
