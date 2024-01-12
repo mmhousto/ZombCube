@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using System.Linq;
 using Photon.Pun;
+using UnityEngine.Events;
 
 namespace Com.GCTC.ZombCube
 {
@@ -53,10 +54,26 @@ namespace Com.GCTC.ZombCube
                 foreach (Button b in weaponSelections)
                 {
                     currentWeaponImages[i] = b.transform.GetChild(0).GetComponent<Image>();
-                    i++;
+
 #if (UNITY_IOS || UNITY_ANDROID)
                     b.interactable = true;
+                    switch (i)
+                    {
+                        case 0:
+                            b.onClick.AddListener(delegate { WeaponUpInput(true); });
+                            break;
+                        case 1:
+                            b.onClick.AddListener(delegate { WeaponRightInput(true); });
+                            break;
+                        case 2:
+                            b.onClick.AddListener(delegate { WeaponDownInput(true); });
+                            break;
+                        case 3:
+                            b.onClick.AddListener(delegate { WeaponLeftInput(true); });
+                            break;
+                    }
 #endif
+                    i++;
                 }
                 currentWeaponImages[0].sprite = weaponImages[0];
                 currentWeaponImages[1].sprite = weaponImages[1];
