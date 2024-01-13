@@ -82,14 +82,24 @@ namespace Com.GCTC.ZombCube
                 SwapToNextWeapon();
             }
 
-            if((NetworkGameManager.Instance.IsGameOver() == true || NetworkGameManager.Instance.pauseMenu.activeInHierarchy || NetworkGameManager.Instance.settingsMenu.activeInHierarchy) && photonView.IsMine)
+            if((NetworkGameManager.Instance.IsGameOver() == true || NetworkGameManager.Instance.pauseMenu.activeInHierarchy == true || NetworkGameManager.Instance.settingsMenu.activeInHierarchy == true) && photonView.IsMine)
             {
                 // Disable UI if enabled
-                if (weaponSelectUI.activeInHierarchy)
+                if (weaponSelectUI.activeInHierarchy == true)
                 {
                     isSwapWeaponsHeld = false;
                     weaponSelectUI.SetActive(false);
                 }
+            }
+        }
+
+        private void OnDisable()
+        {
+            // Disable UI if enabled
+            if (weaponSelectUI.activeInHierarchy == true)
+            {
+                isSwapWeaponsHeld = false;
+                weaponSelectUI.SetActive(false);
             }
         }
 
