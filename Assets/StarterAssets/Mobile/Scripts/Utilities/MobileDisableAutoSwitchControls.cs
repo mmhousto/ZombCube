@@ -46,7 +46,7 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
 
     private void Update()
     {
-        SetSwipeOrStickLook();
+        //SetSwipeOrStickLook();
         //HandleMobileControls();
     }
 

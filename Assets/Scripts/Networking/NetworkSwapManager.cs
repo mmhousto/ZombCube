@@ -29,6 +29,9 @@ namespace Com.GCTC.ZombCube
                 fullyAuto = GetComponent<NetworkFullyAuto>();
 
                 weaponSelectUI = GameObject.Find("WeaponSelect");
+#if (UNITY_IOS || UNITY_ANDROID)
+                touchZone = GameObject.FindWithTag("TouchZone");
+#endif
 
                 if (weaponSelectUI != null)
                 {
@@ -78,6 +81,16 @@ namespace Com.GCTC.ZombCube
             {
                 SwapToNextWeapon();
             }
+
+            if((NetworkGameManager.Instance.IsGameOver() == true || NetworkGameManager.Instance.pauseMenu.activeInHierarchy || NetworkGameManager.Instance.settingsMenu.activeInHierarchy) && photonView.IsMine)
+            {
+                // Disable UI if enabled
+                if (weaponSelectUI.activeInHierarchy)
+                {
+                    isSwapWeaponsHeld = false;
+                    weaponSelectUI.SetActive(false);
+                }
+            }
         }
 
         protected override void SwapToWeapon(int weaponToSwapTo)
@@ -108,6 +121,13 @@ namespace Com.GCTC.ZombCube
             {
                 isSwapWeaponsHeld = false;
                 weaponSelectUI.SetActive(false);
+#if (UNITY_IOS || UNITY_ANDROID)
+                if (touchZone == null)
+                    touchZone = GameObject.FindWithTag("TouchZone");
+
+                if (touchZone!=null)
+                    touchZone.SetActive(true);
+#endif
             }
         }
 

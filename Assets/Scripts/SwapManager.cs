@@ -21,6 +21,7 @@ namespace Com.GCTC.ZombCube
 
         protected int currentWeaponIndex;
         protected GameObject currentWeapon;
+        protected GameObject touchZone;
         protected float holdTime;
         protected bool isSwapWeaponsHeld;
         protected bool isSwapping;
@@ -30,6 +31,7 @@ namespace Com.GCTC.ZombCube
         private TripleShot tripleShot;
         private FullyAuto fullyAuto;
         private LaunchGrenade grenade;
+
 
         
 
@@ -45,7 +47,13 @@ namespace Com.GCTC.ZombCube
             fullyAuto = GetComponent<FullyAuto>();
 
             if(GameManager.mode == 0)
+            {
                 weaponSelectUI = GameObject.Find("WeaponSelect");
+#if (UNITY_IOS || UNITY_ANDROID)
+                touchZone = GameObject.FindWithTag("TouchZone");
+#endif
+            }
+                
 
             if(weaponSelectUI != null )
             {
@@ -93,6 +101,16 @@ namespace Com.GCTC.ZombCube
             if(grenade.grenadeCount == 0 && grenade.enabled == true)
             {
                 SwapToNextWeapon();
+            }
+
+            if (GameManager.Instance.isGameOver == true || GameManager.Instance.pauseScreen.activeInHierarchy || GameManager.Instance.settingsScreen.activeInHierarchy)
+            {
+                // Disable UI if enabled
+                if (weaponSelectUI.activeInHierarchy)
+                {
+                    isSwapWeaponsHeld = false;
+                    weaponSelectUI.SetActive(false);
+                }
             }
         }
 
@@ -154,6 +172,13 @@ namespace Com.GCTC.ZombCube
             {
                 weaponSelectUI.SetActive(false);
                 isSwapWeaponsHeld = false;
+#if (UNITY_IOS || UNITY_ANDROID)
+                if (touchZone == null)
+                    touchZone = GameObject.FindWithTag("TouchZone");
+
+                if (touchZone != null)
+                    touchZone.SetActive(true);
+#endif
             }
         }
 
@@ -175,6 +200,13 @@ namespace Com.GCTC.ZombCube
                 Debug.Log("Holding!");
                 isSwapWeaponsHeld = true;
                 weaponSelectUI.SetActive(true);
+#if (UNITY_IOS || UNITY_ANDROID)
+                if (touchZone == null)
+                    touchZone = GameObject.FindWithTag("TouchZone");
+
+                if (touchZone != null)
+                    touchZone.SetActive(false);
+#endif
             }
 
             holdTime = 0f; // Reset launch power after launching
@@ -244,6 +276,13 @@ namespace Com.GCTC.ZombCube
             {
                 isSwapWeaponsHeld = false;
                 weaponSelectUI.SetActive(false);
+#if (UNITY_IOS || UNITY_ANDROID)
+                if (touchZone == null)
+                    touchZone = GameObject.FindWithTag("TouchZone");
+
+                if (touchZone != null)
+                    touchZone.SetActive(true);
+#endif
             }
         }
 

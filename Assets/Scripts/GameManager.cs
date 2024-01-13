@@ -158,7 +158,6 @@ namespace Com.GCTC.ZombCube
 #if (UNITY_IOS || UNITY_ANDROID)
             onScreenControls.SetActive(false);
 #endif
-
             gameOverScreen.SetActive(true);
             pauseScreen.SetActive(false);
             settingsScreen.SetActive(false);
