@@ -35,6 +35,11 @@ namespace Com.GCTC.ZombCube
         {
             if (photonView.IsMine)
             {
+                if (grenade == null) grenade = GetComponent<NetworkLaunchGrenade>();
+                if (blaster == null) blaster = GetComponent<NetworkShootProjectile>();
+                if (smb == null) smb = GetComponent<NetworkFullyAuto>();
+                if (swapManager == null) swapManager = GetComponent<NetworkSwapManager>();
+
                 if (grenade != null && grenade.enabled == true)
                 {
                     swapManager.SwapToNextWeapon();
@@ -82,6 +87,7 @@ namespace Com.GCTC.ZombCube
         {
             if (photonView.IsMine && fireAction != null)
             {
+                StopCoroutine(EndPowerup());
                 // Disable the fire action
                 fireAction.Disable();
                 fireAction.performed -= OnFired;

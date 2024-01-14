@@ -288,9 +288,6 @@ namespace Com.GCTC.ZombCube
 
         protected virtual void EnableDisableScriptComp(bool newState)
         {
-            fullyAuto.enabled = false;
-            tripleShot.enabled = false;
-
             switch (weapons.IndexOf(currentWeapon))
             {
                 case 0:// Pistol
@@ -302,6 +299,7 @@ namespace Com.GCTC.ZombCube
                     {
                         blaster.enabled = false;
                         grenade.enabled = newState;
+                        tripleShot.enabled = false;
                     }
                     else
                         SwapToNextWeapon();

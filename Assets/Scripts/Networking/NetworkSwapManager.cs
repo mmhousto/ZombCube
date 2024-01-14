@@ -144,8 +144,7 @@ namespace Com.GCTC.ZombCube
         protected override void EnableDisableScriptComp(bool newState)
         {
             if (!photonView.IsMine) { return; }
-            fullyAuto.enabled = false;
-            tripleShot.enabled = false;
+            
             switch (weapons.IndexOf(currentWeapon))
             {
                 case 0:// Blaster
@@ -157,6 +156,7 @@ namespace Com.GCTC.ZombCube
                     {
                         grenade.enabled = newState;
                         blaster.enabled = false;
+                        tripleShot.enabled = false;
                     }
                     else
                         SwapToNextWeapon();

@@ -29,6 +29,11 @@ namespace Com.GCTC.ZombCube
 
         private void OnEnable()
         {
+            if(grenade == null) grenade = GetComponent<LaunchGrenade>();
+            if(blaster == null) blaster = GetComponent<ShootProjectile>();
+            if(smb == null) smb = GetComponent<FullyAuto>();
+            if(swapManager == null) swapManager = GetComponent<SwapManager>();
+
             if (grenade != null && grenade.enabled == true)
             {
                 swapManager.SwapToNextWeapon();
@@ -50,6 +55,8 @@ namespace Com.GCTC.ZombCube
 
         private void OnDisable()
         {
+            StopCoroutine(EndPowerup());
+
             switch (swapManager.GetCurrentWeaponIndex())
             {
                 case 0:// Pistol
