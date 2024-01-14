@@ -1,12 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 using UnityEngine.UI;
-using System;
-using System.Threading.Tasks;
-using StarterAssets;
 
 namespace Com.GCTC.ZombCube
 {
@@ -32,6 +28,13 @@ namespace Com.GCTC.ZombCube
         private float healthPoints = 100f;
         private bool isGameOver;
         private bool pressedUse;
+        protected float holdTime;
+        [SerializeField]
+        protected bool isInteractHeld;
+        [SerializeField]
+        protected bool isInteracting;
+        [SerializeField]
+        protected bool startedHold;
 
         // Start is called before the first frame update
         void Start()
@@ -47,6 +50,7 @@ namespace Com.GCTC.ZombCube
 
             healthPoints = 100f;
             currentPoints = 0;
+            holdTime = 0;
 
             if(healthBar != null)
                 healthBar.value = healthPoints;
@@ -127,6 +131,7 @@ namespace Com.GCTC.ZombCube
                 GameManager.Instance.GameOver();
                 isGameOver = GameManager.Instance.isGameOver;
             }
+
         }
 
         private void OnTriggerExit(Collider other)
@@ -145,7 +150,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = other.GetComponent<HealthPack>().contextPrompt;
             }
 
-            if(other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && pressedUse && healthPoints <= 99 && currentPoints >= 500)
+            if(other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && isInteractHeld && healthPoints <= 99 && currentPoints >= 500)
             {
                 other.GetComponent<HealthPack>().StartResetHealthPack();
 
@@ -161,7 +166,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = other.GetComponent<WeaponPickup>().contextPrompt;
             }
 
-            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable && pressedUse && currentPoints >= 2500)
+            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable && isInteractHeld && currentPoints >= 2500)
             {
                 other.GetComponent<WeaponPickup>().StartResetWeapon();
 
@@ -234,12 +239,54 @@ namespace Com.GCTC.ZombCube
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            pressedUse = context.performed;
+            InteractInput(context.performed);
         }
 
         public void OnInteract(InputValue context)
         {
-            pressedUse = context.isPressed;
+            InteractInput(context.isPressed);
+        }
+
+        public void InteractInput(bool newValue)
+        {
+            isInteracting = newValue;
+
+            if (isInteracting && startedHold == false && isInteractHeld == false)
+            {
+                startedHold = true;
+                StartCoroutine(ChargeHoldTime());
+            }
+            else if (isInteracting == false)
+            {
+                isInteractHeld = false;
+            }
+        }
+
+        protected IEnumerator ChargeHoldTime()
+        {
+            while (isInteracting && holdTime < 0.5f)
+            {
+                holdTime += Time.deltaTime; // Increase launch power over time
+                yield return null;
+            }
+
+            if (holdTime < 0.5)
+            {
+                isInteractHeld = false;
+                Debug.Log("Not Holding!");
+            }
+            else
+            {
+                // interacting
+                Debug.Log("Holding!");
+                isInteractHeld = true;
+            }
+            yield return new WaitForSeconds(0.5f);
+
+            holdTime = 0f; // Reset
+            startedHold = false;
+            isInteractHeld = false;
+            isInteracting = false;
         }
 
         public void OnGamePause(InputAction.CallbackContext context)

@@ -43,7 +43,13 @@ namespace Com.GCTC.ZombCube
 
         public float healthPoints = 100f;
         private bool isGameOver;
-        private bool pressedUse;
+        protected float holdTime;
+        [SerializeField]
+        protected bool isInteractHeld;
+        [SerializeField]
+        protected bool isInteracting;
+        [SerializeField]
+        protected bool startedHold;
 
         private bool isAlive = true, isPaused = false;
 
@@ -88,6 +94,7 @@ namespace Com.GCTC.ZombCube
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
                 healthPoints = 100f;
                 currentPoints = 0;
+                holdTime = 0;
                 healthBar.value = healthPoints;
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
@@ -122,7 +129,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = other.GetComponent<NetworkHealthPack>().contextPrompt;
             }
 
-            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable && pressedUse && healthPoints <= 99 && currentPoints >= 500 && photonView.IsMine)
+            if (other.CompareTag("HealthPack") && other.GetComponent<NetworkHealthPack>().isUsable && isInteractHeld && healthPoints <= 99 && currentPoints >= 500 && photonView.IsMine)
             {
                 other.GetComponent<NetworkHealthPack>().StartResetHealthPack();
 
@@ -138,7 +145,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = other.GetComponent<WeaponPickup>().contextPrompt;
             }
 
-            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable && pressedUse && currentPoints >= 2500)
+            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable && isInteractHeld && currentPoints >= 2500)
             {
                 other.GetComponent<WeaponPickup>().StartResetWeapon();
 
@@ -229,9 +236,56 @@ namespace Com.GCTC.ZombCube
 
         }
 
-        public void OnInteract(InputValue value)
+        public void OnInteract(InputAction.CallbackContext context)
         {
-            pressedUse = value.isPressed;
+            InteractInput(context.performed);
+        }
+
+        public void OnInteract(InputValue context)
+        {
+            InteractInput(context.isPressed);
+        }
+
+        public void InteractInput(bool newValue)
+        {
+            isInteracting = newValue;
+
+            if (isInteracting && startedHold == false && isInteractHeld == false)
+            {
+                startedHold = true;
+                StartCoroutine(ChargeHoldTime());
+            }
+            else if (isInteracting == false)
+            {
+                isInteractHeld = false;
+            }
+        }
+
+        protected IEnumerator ChargeHoldTime()
+        {
+            while (isInteracting && holdTime < 0.5f)
+            {
+                holdTime += Time.deltaTime; // Increase launch power over time
+                yield return null;
+            }
+
+            if (holdTime < 0.5)
+            {
+                isInteractHeld = false;
+                Debug.Log("Not Holding!");
+            }
+            else
+            {
+                // interacting
+                Debug.Log("Holding!");
+                isInteractHeld = true;
+            }
+            yield return new WaitForSeconds(0.5f);
+
+            holdTime = 0f; // Reset
+            startedHold = false;
+            isInteractHeld = false;
+            isInteracting = false;
         }
 
         public void EnableInputResumeButton()
