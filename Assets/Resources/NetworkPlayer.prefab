@@ -1189,6 +1189,9 @@ MonoBehaviour:
   playerName: 
   playerHealth: {fileID: 5103094513037115617}
   healthPoints: 100
+  isInteractHeld: 0
+  isInteracting: 0
+  startedHold: 0
 --- !u!114 &-4992949897302118650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1355,6 +1358,8 @@ MonoBehaviour:
   tripleShotPowerup: {fileID: 0}
   fullyAutoPowerup: {fileID: 0}
   launchGrenade: {fileID: 0}
+  shoot: {fileID: 0}
+  networkShoot: {fileID: 0}
   networkPlayerMovement: {fileID: 0}
   networkLaunchGrenade: {fileID: 4639507335183050810}
   networkTriple: {fileID: -7729240528546759319}
@@ -1371,6 +1376,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62389c4464f3a8408e2bbb6581d76e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firePosition: {fileID: 0}
+  isFiring: 0
+  canFire: 1
+  fireRate: 0.8
+  anim: {fileID: 0}
+  projectile: {fileID: 0}
+  muzzle: {fileID: 0}
+  reserveAmmo: 30
+  currentAmmoInClip: 30
 --- !u!114 &-7729240528546759319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1436,6 +1450,7 @@ MonoBehaviour:
   - {fileID: 2466518180367457844}
   - {fileID: 1431652738531077925}
   - {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  currentWeaponIndex: 0
 --- !u!1 &7442980236204753190
 GameObject:
   m_ObjectHideFlags: 0

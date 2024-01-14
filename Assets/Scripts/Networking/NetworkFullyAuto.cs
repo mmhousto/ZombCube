@@ -137,7 +137,7 @@ namespace Com.GCTC.ZombCube
 
         public virtual void ReloadInput(bool newValue)
         {
-            if (reserveAmmo > clipSize && reloading == false)
+            if (reserveAmmo > clipSize && reloading == false && photonView.IsMine && this.enabled)
             {
                 //reload clip
                 StartCoroutine(Reload());
@@ -147,7 +147,7 @@ namespace Com.GCTC.ZombCube
                 reserveAmmo -= clipSize;
 
             }
-            else if (reserveAmmo > 0 && reloading == false)
+            else if (reserveAmmo > 0 && reloading == false && photonView.IsMine && this.enabled)
             {
                 //reload left
                 StartCoroutine(Reload());
