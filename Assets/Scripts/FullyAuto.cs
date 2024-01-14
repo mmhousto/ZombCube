@@ -11,6 +11,7 @@ namespace Com.GCTC.ZombCube
         int clipSize = 30;
         public int reserveAmmo = 30;
         public int currentAmmoInClip = 30;
+        private bool reloading = false;
 
         // Start is called before the first frame update
         void Start()
@@ -42,7 +43,7 @@ namespace Com.GCTC.ZombCube
 
         public override void LaunchProjectile()
         {
-            if(currentAmmoInClip > 0)
+            if(currentAmmoInClip > 0 && reloading == false)
             {
                 audioSource.Play();
                 anim.SetTrigger("IsFiring");
@@ -58,20 +59,63 @@ namespace Com.GCTC.ZombCube
                     CheckForTriggerHappyAchievements();
                 }
             }
-            else if (reserveAmmo > clipSize)
+            else if (reserveAmmo > clipSize && reloading == false)
             {
                 //reload clip
+                StartCoroutine(Reload());
+                anim.SetTrigger("IsReloading");
+                reloading = true;
                 currentAmmoInClip = clipSize;
                 reserveAmmo -= clipSize;
-            }else if (reserveAmmo > 0)
+                
+            }else if (reserveAmmo > 0 && reloading == false)
             {
                 //reload left
+                StartCoroutine(Reload());
+                anim.SetTrigger("IsReloading");
+                reloading = true;
                 currentAmmoInClip = reserveAmmo;
                 reserveAmmo = 0;
             }
-            
+        }
 
+        IEnumerator Reload()
+        {
+            yield return new WaitForSeconds(1);
+            reloading = false;
+        }
 
+        public void OnReload(InputAction.CallbackContext context)
+        {
+            ReloadInput(context.ReadValueAsButton());
+        }
+
+        public void OnReload(InputValue context)
+        {
+            ReloadInput(context.isPressed);
+        }
+
+        public virtual void ReloadInput(bool newValue)
+        {
+            if (reserveAmmo > clipSize && reloading == false)
+            {
+                //reload clip
+                StartCoroutine(Reload());
+                anim.SetTrigger("IsReloading");
+                reloading = true;
+                currentAmmoInClip = clipSize;
+                reserveAmmo -= clipSize;
+
+            }
+            else if (reserveAmmo > 0 && reloading == false)
+            {
+                //reload left
+                StartCoroutine(Reload());
+                anim.SetTrigger("IsReloading");
+                reloading = true;
+                currentAmmoInClip = reserveAmmo;
+                reserveAmmo = 0;
+            }
         }
 
         public void GetAmmo()

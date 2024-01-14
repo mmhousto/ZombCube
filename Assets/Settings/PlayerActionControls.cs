@@ -134,6 +134,15 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2),Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""ce12788c-3f1f-4c27-bbd4-b36a055ad203"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -585,6 +594,28 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""WeaponLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b3998d4-a97d-4bd0-ba16-90dd67f1677b"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a754aaed-47c0-41bf-b9fd-d01096c892e3"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1228,6 +1259,7 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
         m_Player_WeaponLeft = m_Player.FindAction("WeaponLeft", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_SwitchWeapons = m_Player.FindAction("SwitchWeapons", throwIfNotFound: true);
+        m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1313,6 +1345,7 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_WeaponLeft;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_SwitchWeapons;
+    private readonly InputAction m_Player_Reload;
     public struct PlayerActions
     {
         private @PlayerActionControls m_Wrapper;
@@ -1329,6 +1362,7 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
         public InputAction @WeaponLeft => m_Wrapper.m_Player_WeaponLeft;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @SwitchWeapons => m_Wrapper.m_Player_SwitchWeapons;
+        public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1374,6 +1408,9 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
             @SwitchWeapons.started += instance.OnSwitchWeapons;
             @SwitchWeapons.performed += instance.OnSwitchWeapons;
             @SwitchWeapons.canceled += instance.OnSwitchWeapons;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1414,6 +1451,9 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
             @SwitchWeapons.started -= instance.OnSwitchWeapons;
             @SwitchWeapons.performed -= instance.OnSwitchWeapons;
             @SwitchWeapons.canceled -= instance.OnSwitchWeapons;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1608,6 +1648,7 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
         void OnWeaponLeft(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnSwitchWeapons(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
