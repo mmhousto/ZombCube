@@ -20,9 +20,9 @@ namespace Com.GCTC.ZombCube
         private float vertical;
         private float horizontal;
         private float playerSpeed = 20.0f;
-        private float jumpHeight = 1.7f;
+        private float jumpHeight = 2f;
         private float gravityValue = -20f;
-        private float jumpTime = 1f;
+        private float jumpTime = 0.75f;
         private float jumpTimer;
         private bool canJump = true;
         private bool hasJumped = false;

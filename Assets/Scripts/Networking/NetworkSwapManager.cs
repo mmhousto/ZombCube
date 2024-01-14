@@ -152,11 +152,16 @@ namespace Com.GCTC.ZombCube
                     grenade.enabled = false;
                     break;
                 case 1:// Grenade
-                    if (newState == true && grenade.grenadeCount > 0 || newState == false)
+                    if (newState == true && grenade.grenadeCount > 0)
                     {
                         grenade.enabled = newState;
                         blaster.enabled = false;
                         tripleShot.enabled = false;
+                    }
+                    else if (newState == false)
+                    {
+                        blaster.enabled = false;
+                        grenade.enabled = newState;
                     }
                     else
                         SwapToNextWeapon();
