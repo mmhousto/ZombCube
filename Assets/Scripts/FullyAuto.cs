@@ -47,6 +47,8 @@ namespace Com.GCTC.ZombCube
                 audioSource.Play();
                 anim.SetTrigger("IsFiring");
                 muzzle.Play();
+                currentAmmoInClip--;
+
                 GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
                 clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
 

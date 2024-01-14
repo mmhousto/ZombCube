@@ -10,15 +10,22 @@ namespace Com.GCTC.ZombCube
     {
         [SerializeField]
         private float offset = 15f;
-        private NetworkShootProjectile shootProjectile;
+        private NetworkShootProjectile blaster; //blaster
+        private NetworkFullyAuto smb; //SMB
+        private NetworkLaunchGrenade grenade; // Grenade
+        private NetworkSwapManager swapManager;
 
         // Start is called before the first frame update
         void Start()
         {
             if (photonView.IsMine)
             {
+                swapManager = GetComponent<NetworkSwapManager>();
                 playerManager = GetComponent<NetworkPlayerManager>();
                 audioSource = GetComponent<AudioSource>();
+                blaster = GetComponent<NetworkShootProjectile>();
+                smb = GetComponent<NetworkFullyAuto>();
+                grenade = GetComponent<NetworkLaunchGrenade>();
                 fireRate = 0.8f;
                 launchVector = new Vector3(0, 0, launchVelocity);
             }
@@ -28,11 +35,21 @@ namespace Com.GCTC.ZombCube
         {
             if (photonView.IsMine)
             {
-                if (shootProjectile == null)
-                    shootProjectile = GetComponent<NetworkShootProjectile>();
-                
-                if(shootProjectile != null)
-                    shootProjectile.enabled = false;
+                if (grenade != null && grenade.enabled == true)
+                {
+                    swapManager.SwapToNextWeapon();
+                }
+
+                if (blaster != null && blaster.enabled == true)
+                {
+                    blaster.enabled = false;
+                    fireRate = blaster.fireRate;
+                }
+                else if(smb != null && smb.enabled == true)
+                {
+                    smb.enabled = false;
+                    fireRate = smb.fireRate;
+                }
 
                 // Get the PlayerInput component
                 PlayerInput playerInput = GetComponent<PlayerInput>();
@@ -69,7 +86,43 @@ namespace Com.GCTC.ZombCube
                 fireAction.Disable();
                 fireAction.performed -= OnFired;
                 fireAction.canceled -= OnFired;
-                shootProjectile.enabled = true;
+
+                switch (swapManager.GetCurrentWeaponIndex())
+                {
+                    case 0:// Pistol
+                        blaster.enabled = true;
+                        grenade.enabled = false;
+                        break;
+                    case 1:// Grenade
+                        if (grenade.grenadeCount > 0) // if has grenades switch, else swap to next weapon
+                        {
+                            blaster.enabled = false;
+                            grenade.enabled = true;
+                        }
+                        else
+                            swapManager.SwapToNextWeapon();
+                        break;
+                    case 2:// SMB
+                        if (smb.currentAmmoInClip > 0 || smb.reserveAmmo > 0)
+                        {
+                            smb.enabled = true;
+                            blaster.enabled = false;
+                            grenade.enabled = false;
+                        }
+                        else
+                        {
+                            swapManager.SwapToNextWeapon();
+                        }
+
+                        break;
+                    case 3:// Shotblaster
+                        break;
+                    default:
+                        blaster.enabled = true;
+                        smb.enabled = false;
+                        grenade.enabled = false;
+                        break;
+                }
             }
         }
 

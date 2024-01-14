@@ -213,7 +213,7 @@ namespace Com.GCTC.ZombCube
             startedHold = false;
         }
 
-        protected void SwapToNextWeapon()
+        public void SwapToNextWeapon()
         {
             currentWeaponIndex++; // inceases index
 
@@ -298,7 +298,7 @@ namespace Com.GCTC.ZombCube
                     grenade.enabled = false;
                     break;
                 case 1:// Grenade
-                    if (newState == true && grenade.grenadeCount > 0 || newState == false) // if has grenades switch, else swap to next weapon
+                    if ((newState == true && grenade.grenadeCount > 0) || newState == false) // if has grenades switch, else swap to next weapon
                     {
                         blaster.enabled = false;
                         grenade.enabled = newState;
@@ -307,7 +307,7 @@ namespace Com.GCTC.ZombCube
                         SwapToNextWeapon();
                     break;
                 case 2:// SMB
-                    if (fullyAuto.currentAmmoInClip > 0 || fullyAuto.reserveAmmo > 0)
+                    if ((newState == true && (fullyAuto.currentAmmoInClip > 0 || fullyAuto.reserveAmmo > 0)) || newState == false)
                     {
                         fullyAuto.enabled = newState;
                         blaster.enabled = false;
@@ -359,6 +359,11 @@ namespace Com.GCTC.ZombCube
                 currentWeaponImages[3].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[3] = weaponIndex;
             }
+        }
+
+        public int GetCurrentWeaponIndex()
+        {
+            return currentWeaponIndexes[currentWeaponIndex];
         }
     }
 }
