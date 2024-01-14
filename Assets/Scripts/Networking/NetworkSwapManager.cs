@@ -148,11 +148,11 @@ namespace Com.GCTC.ZombCube
             tripleShot.enabled = false;
             switch (weapons.IndexOf(currentWeapon))
             {
-                case 0:
+                case 0:// Blaster
                     blaster.enabled = newState;
                     grenade.enabled = false;
                     break;
-                case 1:
+                case 1:// Grenade
                     if (newState == true && grenade.grenadeCount > 0 || newState == false)
                     {
                         grenade.enabled = newState;
@@ -161,7 +161,19 @@ namespace Com.GCTC.ZombCube
                     else
                         SwapToNextWeapon();
                     break;
-                case 2:
+                case 2:// SMB
+                    if (fullyAuto.currentAmmoInClip > 0 || fullyAuto.reserveAmmo > 0)
+                    {
+                        fullyAuto.enabled = newState;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
+                    }
+                    else
+                    {
+                        SwapToNextWeapon();
+                    }
+                    break;
+                case 3:// Shotblaster
                     break;
                 default:
                     blaster.enabled = newState;

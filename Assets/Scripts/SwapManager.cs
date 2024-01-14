@@ -19,7 +19,7 @@ namespace Com.GCTC.ZombCube
         protected List<int> currentWeaponIndexes; // Current Weapon Indexs Player Has
         public List<GameObject> weapons = new List<GameObject>(); // Actual Physical Weapon = 0:Pistol, 1:Grenade, 2:SMB, 3:AB, 4:Shotblaster, 5:SB, 6:Sword
 
-        protected int currentWeaponIndex;
+        public int currentWeaponIndex;
         protected GameObject currentWeapon;
         protected GameObject touchZone;
         protected float holdTime;
@@ -29,7 +29,7 @@ namespace Com.GCTC.ZombCube
 
         private ShootProjectile blaster;
         private TripleShot tripleShot;
-        private FullyAuto fullyAuto;
+        private FullyAuto fullyAuto; // SMB
         private LaunchGrenade grenade;
 
 
@@ -306,14 +306,58 @@ namespace Com.GCTC.ZombCube
                     else
                         SwapToNextWeapon();
                     break;
-                case 2:// Weapon Class 1
+                case 2:// SMB
+                    if (fullyAuto.currentAmmoInClip > 0 || fullyAuto.reserveAmmo > 0)
+                    {
+                        fullyAuto.enabled = newState;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
+                    }
+                    else
+                    {
+                        SwapToNextWeapon();
+                    }
+                        
                     break;
-                case 3:// Weapon Class 2
+                case 3:// Shotblaster
                     break;
                 default:
                     blaster.enabled = true;
                     grenade.enabled = false;
                     break;
+            }
+        }
+
+        public bool HasWeapon(int weaponIndexToLookFor)
+        {
+            bool hasWeapon = false;
+            foreach(int  weaponIndex in currentWeaponIndexes)
+            {
+                if (weaponIndex == weaponIndexToLookFor) hasWeapon = true;
+            }
+            return hasWeapon;
+        }
+
+        public void GetWeapon(int weaponIndex)
+        {
+            if(currentWeaponImages[2].sprite == null)
+            {
+                currentWeaponImages[2].sprite = weaponImages[weaponIndex];
+                currentWeaponIndexes.Add(weaponIndex);
+            }
+            else if(currentWeaponImages[3].sprite == null)
+            {
+                currentWeaponImages[3].sprite = weaponImages[weaponIndex];
+                currentWeaponIndexes.Add(weaponIndex);
+            }else if(currentWeaponIndex == 2 && currentWeaponImages[2].sprite != null)
+            {
+                currentWeaponImages[2].sprite = weaponImages[weaponIndex];
+                currentWeaponIndexes[2] = weaponIndex;
+            }
+            else if (currentWeaponIndex == 3 && currentWeaponImages[3].sprite != null)
+            {
+                currentWeaponImages[3].sprite = weaponImages[weaponIndex];
+                currentWeaponIndexes[3] = weaponIndex;
             }
         }
     }

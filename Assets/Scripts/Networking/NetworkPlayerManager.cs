@@ -17,6 +17,8 @@ namespace Com.GCTC.ZombCube
 
         public bool isInputDisabled = false;
 
+        private NetworkSwapManager swapManager;
+        private NetworkFullyAuto fullyAutoSMB;
         private Player player;
         private GameObject onScreenControls;
         private GameObject currentPlayer;
@@ -61,6 +63,8 @@ namespace Com.GCTC.ZombCube
 
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
                 playerInput = GetComponent<PlayerInput>();
+                swapManager = GetComponent<NetworkSwapManager>();
+                fullyAutoSMB = GetComponent<NetworkFullyAuto>();
 
                 if (GetComponent<NetworkTripleShot>())
                 {
@@ -104,7 +108,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("HealthPack") && photonView.IsMine)
+            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB")) && photonView.IsMine)
             {
                 contextPrompt.SetActive(false);
             }
@@ -126,6 +130,28 @@ namespace Com.GCTC.ZombCube
                 SpendPoints(500);
 
                 if (healthPoints >= 100) { healthPoints = 100; }
+            }
+
+            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = other.GetComponent<WeaponPickup>().contextPrompt;
+            }
+
+            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable && pressedUse && currentPoints >= 2500)
+            {
+                other.GetComponent<WeaponPickup>().StartResetWeapon();
+
+                SpendPoints(2500);
+
+                if (swapManager.HasWeapon(2))
+                {
+                    fullyAutoSMB.GetAmmo();
+                }
+                else
+                {
+                    swapManager.GetWeapon(2);
+                }
             }
         }
 

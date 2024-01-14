@@ -158,7 +158,7 @@ namespace Com.GCTC.ZombCube
         /// Dynamic callback to see if player performed Fire player input action.
         /// </summary>
         /// <param name="context"></param>
-        private void OnFired(InputAction.CallbackContext context)
+        protected void OnFired(InputAction.CallbackContext context)
         {
             FireInput(context.ReadValueAsButton());
         }

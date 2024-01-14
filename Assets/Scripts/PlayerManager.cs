@@ -20,6 +20,8 @@ namespace Com.GCTC.ZombCube
 
         public static int currentPoints = 0;
 
+        private SwapManager swapManager;
+        private FullyAuto fullyAutoSMB;
         public TextMeshProUGUI scoreText;
         public TextMeshProUGUI waveText;
         public GameObject contextPrompt;
@@ -36,6 +38,9 @@ namespace Com.GCTC.ZombCube
         {
             player = Player.Instance;
             isGameOver = false;
+
+            swapManager = GetComponent<SwapManager>();
+            fullyAutoSMB = GetComponent<FullyAuto>();
 
             if(healthBar == null && GameObject.FindWithTag("Health") != null)
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
@@ -126,7 +131,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("HealthPack"))
+            if (other.CompareTag("HealthPack") || other.CompareTag("SMB"))
             {
                 contextPrompt.SetActive(false);
             }
@@ -148,6 +153,28 @@ namespace Com.GCTC.ZombCube
                 SpendPoints(500);
 
                 if(healthPoints >= 100) { healthPoints = 100; }
+            }
+
+            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = other.GetComponent<WeaponPickup>().contextPrompt;
+            }
+
+            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable && pressedUse && currentPoints >= 2500)
+            {
+                other.GetComponent<WeaponPickup>().StartResetWeapon();
+
+                SpendPoints(2500);
+
+                if (swapManager.HasWeapon(2))
+                {
+                    fullyAutoSMB.GetAmmo();
+                }
+                else
+                {
+                    swapManager.GetWeapon(2);
+                }
             }
         }
 

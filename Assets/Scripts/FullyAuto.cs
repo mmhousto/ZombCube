@@ -7,39 +7,29 @@ namespace Com.GCTC.ZombCube
 {
     public class FullyAuto : ShootProjectile
     {
-        private ShootProjectile shootProjectile;
-        private TripleShot tripleShot;
+        int ammoCap = 120;
+        int clipSize = 30;
+        public int reserveAmmo = 30;
+        public int currentAmmoInClip = 30;
 
         // Start is called before the first frame update
         void Start()
         {
-            shootProjectile = GetComponent<ShootProjectile>();
-            tripleShot = GetComponent<TripleShot>();
             audioSource = GetComponent<AudioSource>();
 
             //isFiring = true;
             fireRate = 0.2f;
             launchVector = new Vector3(0, 0, launchVelocity);
-
-            if (shootProjectile != null)
-                shootProjectile.fireRate = fireRate;
-
-            if (tripleShot != null)
-                tripleShot.fireRate = fireRate;
-
             //shootProjectile.enabled = false;
-            StartCoroutine(EndPowerup());
-        }
+            ammoCap = 120;
+            clipSize = 30;
+            reserveAmmo = 30;
+            currentAmmoInClip = 30;
+    }
 
         private void OnEnable()
         {
-            if(shootProjectile != null)
-                shootProjectile.fireRate = fireRate;
-            if(tripleShot != null)
-                tripleShot.fireRate = fireRate;
-
             //shootProjectile.enabled = false;
-            StartCoroutine(EndPowerup());
         }
 
         // Update is called once per frame
@@ -50,13 +40,43 @@ namespace Com.GCTC.ZombCube
             CheckForFiring();
         }
 
-        IEnumerator EndPowerup()
+        public override void LaunchProjectile()
         {
-            yield return new WaitForSeconds(25f);
-            this.enabled = false;
-            shootProjectile.fireRate = 0.8f;
-            tripleShot.fireRate = 0.8f;
-            //shootProjectile.enabled = true;
+            if(currentAmmoInClip > 0)
+            {
+                audioSource.Play();
+                anim.SetTrigger("IsFiring");
+                muzzle.Play();
+                GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
+                clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+
+                if (Player.Instance != null)
+                {
+                    Player.Instance.totalProjectilesFired++;
+                    CheckForTriggerHappyAchievements();
+                }
+            }
+            else if (reserveAmmo > clipSize)
+            {
+                //reload clip
+                currentAmmoInClip = clipSize;
+                reserveAmmo -= clipSize;
+            }else if (reserveAmmo > 0)
+            {
+                //reload left
+                currentAmmoInClip = reserveAmmo;
+                reserveAmmo = 0;
+            }
+            
+
+
         }
+
+        public void GetAmmo()
+        {
+            currentAmmoInClip = clipSize;
+            reserveAmmo = 90;
+        }
+
     }
 }
