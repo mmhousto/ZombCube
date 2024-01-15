@@ -122,7 +122,8 @@ namespace Com.GCTC.ZombCube
                 if (playerManager.isInputDisabled == false)
                 {
                     Vector3 move = transform.forward * vertical + transform.right * horizontal;
-                    controller.Move(move * Time.deltaTime * playerSpeed);
+                    float speed = Mathf.Clamp(PlayerSpeed, 20.0f, 80.0f);
+                    controller.Move(move * Time.deltaTime * speed);
                 }
                 
 
@@ -144,7 +145,7 @@ namespace Com.GCTC.ZombCube
         IEnumerator EndPowerup()
         {
             yield return new WaitForSeconds(25f);
-            PlayerSpeed = 20.0f;
+            PlayerSpeed -= 20.0f;
         }
 
 
@@ -156,7 +157,7 @@ namespace Com.GCTC.ZombCube
 
         public void ActivateSpeedBoost()
         {
-            PlayerSpeed = PlayerSpeed * 2;
+            PlayerSpeed += 20.0f;
             StartCoroutine(EndPowerup());
         }
 
