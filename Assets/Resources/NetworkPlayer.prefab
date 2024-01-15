@@ -1359,8 +1359,8 @@ MonoBehaviour:
   fullyAutoPowerup: {fileID: 0}
   launchGrenade: {fileID: 0}
   shoot: {fileID: 0}
-  networkShoot: {fileID: 0}
-  networkPlayerMovement: {fileID: 0}
+  networkShoot: {fileID: 9186342870912526607}
+  networkPlayerMovement: {fileID: -4992949897302118650}
   networkLaunchGrenade: {fileID: 4639507335183050810}
   networkTriple: {fileID: -7729240528546759319}
   networkFullyAuto: {fileID: -2837274883149557370}
@@ -1376,13 +1376,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62389c4464f3a8408e2bbb6581d76e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePosition: {fileID: 0}
+  firePosition: {fileID: 397069460184153470}
   isFiring: 0
   canFire: 1
-  fireRate: 0.8
-  anim: {fileID: 0}
-  projectile: {fileID: 0}
-  muzzle: {fileID: 0}
+  fireRate: 0.2
+  anim: {fileID: 5570798606814824969}
+  projectile: {fileID: 8881031184705359584, guid: e06ba88758e74be4c97806b9d6ca2447, type: 3}
+  muzzle: {fileID: 8646625557410728657}
   reserveAmmo: 30
   currentAmmoInClip: 30
 --- !u!114 &-7729240528546759319
@@ -1597,7 +1597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6429253466015552561, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1648,9 +1648,24 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+--- !u!4 &397069460184153470 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3019769087879878324, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  m_PrefabInstance: {fileID: 3200638137221491658}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5570798606814824969 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7000142744481423811, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  m_PrefabInstance: {fileID: 3200638137221491658}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8454303901958143995 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6429253466015552561, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  m_PrefabInstance: {fileID: 3200638137221491658}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8646625557410728657 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6598916174721868059, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
   m_PrefabInstance: {fileID: 3200638137221491658}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3369988640922704295

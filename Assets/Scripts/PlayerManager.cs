@@ -76,11 +76,13 @@ namespace Com.GCTC.ZombCube
 
             MeshRenderer[] blasters = GetComponentsInChildren<MeshRenderer>();
 
-            for(int i = 1; i < blasters.Length; i++)
+            for(int i = 0; i < blasters.Length; i++)
             {
                 if(blasters[i].tag == "Blaster")
                     blasters[i].material = blasterMaterial[(player != null) ? player.currentBlaster : 0];
             }
+
+            swapManager.DisableWeapons();
 
             /*foreach (GameObject item in blaster)
             {

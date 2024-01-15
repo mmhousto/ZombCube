@@ -29,8 +29,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1228844310953486240}
   - {fileID: 8071052617482279897}
+  - {fileID: 1228844310953486240}
   m_Father: {fileID: 2812065823642933555}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2812065823337649139
@@ -422,6 +422,9 @@ MonoBehaviour:
   contextPrompt: {fileID: 0}
   healthBar: {fileID: 0}
   minimapCam: {fileID: 694565547}
+  isInteractHeld: 0
+  isInteracting: 0
+  startedHold: 0
 --- !u!136 &690516304750937087
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1327,7 +1330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6429253466015552561, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
       propertyPath: m_LocalPosition.x

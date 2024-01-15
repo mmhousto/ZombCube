@@ -114,6 +114,14 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void DisableWeapons()
+        {
+            for (int i = 2; i < weapons.Count; i++)
+            {
+                weapons[i].SetActive(false);
+            }
+        }
+
         public void OnWeaponUp(InputValue context)
         {
             WeaponUpInput(context.isPressed);

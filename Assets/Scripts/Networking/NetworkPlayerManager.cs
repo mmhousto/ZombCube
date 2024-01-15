@@ -447,11 +447,13 @@ namespace Com.GCTC.ZombCube
 
             MeshRenderer[] blaster = GetComponentsInChildren<MeshRenderer>();
 
-            for(int i = 1; i < blaster.Length; i++)
+            for(int i = 0; i < blaster.Length; i++)
             {
                 if(blaster[i].tag == "Blaster")
                     blaster[i].material = blasterMaterial[blasterIndex];
             }
+
+            swapManager.DisableWeapons();
         }
 
 #endregion

@@ -586,6 +586,9 @@ MonoBehaviour:
   contextPrompt: {fileID: 5334277568107998397}
   healthBar: {fileID: 2805707331488421185}
   minimapCam: {fileID: 6469099855922012582}
+  isInteractHeld: 0
+  isInteracting: 0
+  startedHold: 0
 --- !u!136 &1331479113132776448
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -717,14 +720,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 989c97e63ca6e294a8c7d08b4baad821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePosition: {fileID: 4254093229754215600}
+  firePosition: {fileID: 833660634691011954}
   projectile: {fileID: 2453503468313422105, guid: d135785700ed41e44a700cca317e3a12, type: 3}
-  muzzle: {fileID: 2860741994464412721}
-  anim: {fileID: 1908114969282609709}
+  muzzle: {fileID: 8785838281583850205}
+  anim: {fileID: 4853788233737368069}
   isFiring: 0
   canFire: 1
-  fireRate: 0.8
+  fireRate: 0.2
   launchVelocity: 5000
+  reserveAmmo: 30
+  currentAmmoInClip: 30
 --- !u!114 &6814703832945700543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,10 +763,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03212e15cdb708e408cd668ea8100b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 0}
+  playerMovement: {fileID: 4647255643153377711}
   tripleShotPowerup: {fileID: 6814703832945700543}
   fullyAutoPowerup: {fileID: 5620109690649180127}
   launchGrenade: {fileID: 4896280261973145158}
+  shoot: {fileID: 1402817036049641758}
+  networkShoot: {fileID: 0}
   networkPlayerMovement: {fileID: 0}
   networkLaunchGrenade: {fileID: 0}
   networkTriple: {fileID: 0}
@@ -812,6 +819,7 @@ MonoBehaviour:
   - {fileID: 7506225901886237166}
   - {fileID: 1180567618230653746}
   - {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  currentWeaponIndex: 0
 --- !u!1 &4780018080825310074
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,7 +1658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6429253466015552561, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1701,6 +1709,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+--- !u!4 &833660634691011954 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3019769087879878324, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  m_PrefabInstance: {fileID: 2484190470745691078}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4853788233737368069 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7000142744481423811, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  m_PrefabInstance: {fileID: 2484190470745691078}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8785838281583850205 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6598916174721868059, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  m_PrefabInstance: {fileID: 2484190470745691078}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8881333644564318199 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6429253466015552561, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
