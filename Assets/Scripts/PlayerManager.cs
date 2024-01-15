@@ -146,15 +146,18 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerStay(Collider other)
         {
-            if(other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable)
+            HealthPack hp;
+            other.TryGetComponent<HealthPack>(out hp);
+
+            if(other.CompareTag("HealthPack") && hp.isUsable)
             {
                 contextPrompt.SetActive(true);
-                contextPromptText.text = other.GetComponent<HealthPack>().contextPrompt;
+                contextPromptText.text = hp.contextPrompt;
             }
 
-            if(other.CompareTag("HealthPack") && other.GetComponent<HealthPack>().isUsable && isInteractHeld && healthPoints <= 99 && currentPoints >= 500)
+            if(other.CompareTag("HealthPack") && hp.isUsable && isInteractHeld && healthPoints <= 99 && currentPoints >= 500)
             {
-                other.GetComponent<HealthPack>().StartResetHealthPack();
+                hp.StartResetHealthPack();
 
                 Damage(-20);
                 SpendPoints(500);
@@ -162,15 +165,18 @@ namespace Com.GCTC.ZombCube
                 if(healthPoints >= 100) { healthPoints = 100; }
             }
 
-            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable)
+            WeaponPickup wp;
+            other.TryGetComponent<WeaponPickup>(out wp);
+
+            if (other.CompareTag("SMB") && wp.isUsable)
             {
                 contextPrompt.SetActive(true);
-                contextPromptText.text = other.GetComponent<WeaponPickup>().contextPrompt;
+                contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("SMB") && other.GetComponent<WeaponPickup>().isUsable && isInteractHeld && currentPoints >= 2500)
+            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
             {
-                other.GetComponent<WeaponPickup>().StartResetWeapon();
+                wp.StartResetWeapon();
 
                 SpendPoints(2500);
 
