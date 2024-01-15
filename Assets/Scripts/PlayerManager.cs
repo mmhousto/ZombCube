@@ -69,7 +69,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
                 contextPrompt.SetActive(false);
             }
-            GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
+            GetComponentInChildren<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
 
             /*if (blaster == null)
                 blaster = GameObject.FindGameObjectsWithTag("Blaster");*/
