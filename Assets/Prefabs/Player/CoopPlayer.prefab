@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 4647255643153377711}
   - component: {fileID: 1402817036049641758}
   - component: {fileID: 6675812262329036427}
+  - component: {fileID: 1476888268983550262}
   - component: {fileID: 6808937747740703774}
   - component: {fileID: 1331479113132776448}
   - component: {fileID: 4888126391745117350}
@@ -214,7 +215,6 @@ GameObject:
   - component: {fileID: 6814703832945700543}
   - component: {fileID: 315563716975424987}
   - component: {fileID: 4896280261973145158}
-  - component: {fileID: 1476888268983550262}
   m_Layer: 0
   m_Name: CoopPlayer
   m_TagString: Player
@@ -559,6 +559,28 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 3448170369055235271}
+--- !u!114 &1476888268983550262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452928897197623210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc0ad234b726684c984251dba50cb3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponSelectUI: {fileID: 5218838755520210195}
+  weaponImages:
+  - {fileID: 21300000, guid: cde25b6af141656418f8247ebe8b1504, type: 3}
+  - {fileID: 21300000, guid: dd1bfc3e62f22e9469e06c5b27eae285, type: 3}
+  - {fileID: 21300000, guid: 520a84a7f0a37f94ab6cd90c7b466516, type: 3}
+  weapons:
+  - {fileID: 7506225901886237166}
+  - {fileID: 1180567618230653746}
+  - {fileID: 4224414908959223998}
+  currentWeaponIndex: 0
 --- !u!114 &6808937747740703774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,28 +820,6 @@ MonoBehaviour:
   launchPower: 0
   pin: {fileID: 4718297189667852673}
   pulledPin: 0
---- !u!114 &1476888268983550262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2452928897197623210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc0ad234b726684c984251dba50cb3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponSelectUI: {fileID: 5218838755520210195}
-  weaponImages:
-  - {fileID: 21300000, guid: cde25b6af141656418f8247ebe8b1504, type: 3}
-  - {fileID: 21300000, guid: dd1bfc3e62f22e9469e06c5b27eae285, type: 3}
-  - {fileID: 21300000, guid: 520a84a7f0a37f94ab6cd90c7b466516, type: 3}
-  weapons:
-  - {fileID: 7506225901886237166}
-  - {fileID: 1180567618230653746}
-  - {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
-  currentWeaponIndex: 0
 --- !u!1 &4780018080825310074
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,6 +1712,11 @@ PrefabInstance:
 --- !u!4 &833660634691011954 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3019769087879878324, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
+  m_PrefabInstance: {fileID: 2484190470745691078}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4224414908959223998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1790670031799313272, guid: 1948379264120694a80c2aeb7b3fdec0, type: 3}
   m_PrefabInstance: {fileID: 2484190470745691078}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &4853788233737368069 stripped

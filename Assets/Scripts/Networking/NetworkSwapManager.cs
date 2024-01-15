@@ -167,7 +167,7 @@ namespace Com.GCTC.ZombCube
                         SwapToNextWeapon();
                     break;
                 case 2:// SMB
-                    if (fullyAuto.currentAmmoInClip > 0 || fullyAuto.reserveAmmo > 0)
+                    if (((fullyAuto.currentAmmoInClip > 0 || fullyAuto.reserveAmmo > 0) && newState == true) || newState == false)
                     {
                         fullyAuto.enabled = newState;
                         blaster.enabled = false;

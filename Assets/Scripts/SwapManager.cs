@@ -227,7 +227,6 @@ namespace Com.GCTC.ZombCube
 
             if (currentWeaponIndex <= 3 && currentWeaponImages[currentWeaponIndex].sprite != null) // checks if next weapon is null
             {
-                Debug.Log("Swapping to the next weapon"); // Disable Current Weapon
                 EnableDisableScriptComp(false);
                 currentWeapon.SetActive(false);
 
