@@ -15,7 +15,7 @@ namespace Com.GCTC.ZombCube
         public GameObject weaponSelectUI; // Weapon Select UI
         protected Button[] weaponSelections; // Weapon Selection UI Buttons
         public List<Sprite> weaponImages; // All weapon images = 0:Pistol, 1:Grenade, 2:SMB, 3:AB, 4:Shotblaster, 5:SB, 6:Sword
-        protected Image[] currentWeaponImages; // Current Weapon Images Player Has
+        protected List<Image> currentWeaponImages; // Current Weapon Images Player Has
         protected List<int> currentWeaponIndexes; // Current Weapon Indexs Player Has
         public List<GameObject> weapons = new List<GameObject>(); // Actual Physical Weapon = 0:Pistol, 1:Grenade, 2:SMB, 3:AB, 4:Shotblaster, 5:SB, 6:Sword
 
@@ -39,7 +39,7 @@ namespace Com.GCTC.ZombCube
         {
             holdTime = 0;
             currentWeapon = weapons[0];
-            currentWeaponImages = new Image[4];
+            currentWeaponImages = new List<Image>();
             currentWeaponIndexes = new List<int>();
             blaster = GetComponent<ShootProjectile>();
             grenade = GetComponent<LaunchGrenade>();
@@ -61,7 +61,7 @@ namespace Com.GCTC.ZombCube
                 int i = 0;
                 foreach (Button b in weaponSelections)
                 {
-                    currentWeaponImages[i] = b.transform.GetChild(0).GetComponent<Image>();
+                    currentWeaponImages.Add(b.transform.GetChild(0).GetComponent<Image>());
 
 #if (UNITY_IOS || UNITY_ANDROID)
                     b.interactable = true;
@@ -350,24 +350,29 @@ namespace Com.GCTC.ZombCube
 
         public void GetWeapon(int weaponIndex)
         {
-            if(currentWeaponImages[2].sprite == null)
+            if(currentWeaponImages[2].sprite == null) // Gets New Weapon 2
             {
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes.Add(weaponIndex);
             }
-            else if(currentWeaponImages[3].sprite == null)
+            else if(currentWeaponImages[3].sprite == null) // Gets New Weapon 3
             {
                 currentWeaponImages[3].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes.Add(weaponIndex);
-            }else if(currentWeaponIndex == 2 && currentWeaponImages[2].sprite != null)
+            }else if(currentWeaponIndex == 2 && currentWeaponImages[2].sprite != null) // Replace Weapon 2
             {
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[2] = weaponIndex;
             }
-            else if (currentWeaponIndex == 3 && currentWeaponImages[3].sprite != null)
+            else if (currentWeaponIndex == 3 && currentWeaponImages[3].sprite != null) // Replace Weapon 3
             {
                 currentWeaponImages[3].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[3] = weaponIndex;
+            }
+            else // Replace Weapon 2 if holding nade or pistol
+            {
+                currentWeaponImages[2].sprite = weaponImages[weaponIndex];
+                currentWeaponIndexes[2] = weaponIndex;
             }
         }
 

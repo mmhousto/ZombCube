@@ -21,7 +21,7 @@ namespace Com.GCTC.ZombCube
 
                 holdTime = 0;
                 currentWeapon = weapons[0];
-                currentWeaponImages = new Image[4];
+                currentWeaponImages = new List<Image>();
                 currentWeaponIndexes = new List<int>();
                 blaster = GetComponent<NetworkShootProjectile>();
                 grenade = GetComponent<NetworkLaunchGrenade>();
@@ -39,7 +39,7 @@ namespace Com.GCTC.ZombCube
                     int i = 0;
                     foreach (Button b in weaponSelections)
                     {
-                        currentWeaponImages[i] = b.transform.GetChild(0).GetComponent<Image>();
+                        currentWeaponImages.Add(b.transform.GetChild(0).GetComponent<Image>());
                         
 #if (UNITY_IOS || UNITY_ANDROID)
                     b.interactable = true;
