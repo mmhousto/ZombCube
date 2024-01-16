@@ -528,7 +528,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 2812065823337649147}
   tripleShotPowerup: {fileID: 1561829969}
-  fullyAutoPowerup: {fileID: 1946388811}
+  smB: {fileID: 0}
+  assaultBlaster: {fileID: 0}
   launchGrenade: {fileID: 973589659443734555}
   shoot: {fileID: 777121368}
   networkShoot: {fileID: 0}
@@ -536,6 +537,7 @@ MonoBehaviour:
   networkLaunchGrenade: {fileID: 0}
   networkTriple: {fileID: 0}
   networkFullyAuto: {fileID: 0}
+  networkAB: {fileID: 0}
 --- !u!114 &973589659443734555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,7 +606,7 @@ MonoBehaviour:
   isFiring: 0
   canFire: 1
   fireRate: 0.3
-  launchVelocity: 7500
+  launchVelocity: 10000
   reserveAmmo: 60
   currentAmmoInClip: 30
 --- !u!1 &2812065823642933558
@@ -829,7 +831,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6c235270166d20047b30425b1edf8d70, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

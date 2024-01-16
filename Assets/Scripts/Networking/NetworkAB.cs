@@ -16,6 +16,7 @@ namespace Com.GCTC.ZombCube
             {
                 playerManager = GetComponent<NetworkPlayerManager>();
                 audioSource = GetComponent<AudioSource>();
+                launchVelocity = 10000f;
                 launchVector = new Vector3(0, 0, launchVelocity);
                 //isFiring = true;
                 fireRate = 0.3f;

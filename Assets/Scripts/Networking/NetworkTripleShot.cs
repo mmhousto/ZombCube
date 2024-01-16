@@ -75,7 +75,7 @@ namespace Com.GCTC.ZombCube
                     firePosition = aB.firePosition;
                     muzzle = aB.muzzle;
                     anim = aB.anim;
-                    launchVelocity = 7500;
+                    launchVelocity = 10000;
                     launchVector = new Vector3(0, 0, launchVelocity);
                 }
 
@@ -132,29 +132,15 @@ namespace Com.GCTC.ZombCube
                             swapManager.SwapToNextWeapon();
                         break;
                     case 2:// SMB
-                        if (smb.currentAmmoInClip > 0 || smb.reserveAmmo > 0)
-                        {
                             smb.enabled = true;
                             blaster.enabled = false;
                             grenade.enabled = false;
-                        }
-                        else
-                        {
-                            swapManager.SwapToNextWeapon();
-                        }
 
                         break;
                     case 3:// AB
-                        if (aB.currentAmmoInClip > 0 || aB.reserveAmmo > 0)
-                        {
                             aB.enabled = true;
                             blaster.enabled = false;
                             grenade.enabled = false;
-                        }
-                        else
-                        {
-                            swapManager.SwapToNextWeapon();
-                        }
                         break;
                     default:
                         blaster.enabled = true;

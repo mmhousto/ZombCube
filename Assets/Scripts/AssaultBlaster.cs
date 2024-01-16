@@ -15,6 +15,7 @@ namespace Com.GCTC.ZombCube
             reloading = false;
             //isFiring = true;
             fireRate = 0.3f;
+            launchVelocity = 10000f;
             launchVector = new Vector3(0, 0, launchVelocity);
             //shootProjectile.enabled = false;
             ammoCap = 240;

@@ -351,7 +351,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6c235270166d20047b30425b1edf8d70, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1277,6 +1277,7 @@ MonoBehaviour:
   isFiring: 0
   canFire: 1
   fireRate: 0.8
+  launchVelocity: 5000
   anim: {fileID: 5794815453279401463}
   projectile: {fileID: 8881031184705359584, guid: e06ba88758e74be4c97806b9d6ca2447, type: 3}
   muzzle: {fileID: 7900096771676943339}
@@ -1390,7 +1391,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 0}
   tripleShotPowerup: {fileID: 0}
-  fullyAutoPowerup: {fileID: 0}
+  smB: {fileID: 0}
+  assaultBlaster: {fileID: 0}
   launchGrenade: {fileID: 0}
   shoot: {fileID: 0}
   networkShoot: {fileID: 9186342870912526607}
@@ -1398,6 +1400,7 @@ MonoBehaviour:
   networkLaunchGrenade: {fileID: 4639507335183050810}
   networkTriple: {fileID: -7729240528546759319}
   networkFullyAuto: {fileID: -2837274883149557370}
+  networkAB: {fileID: 951122737243038304}
 --- !u!114 &-2837274883149557370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1414,6 +1417,7 @@ MonoBehaviour:
   isFiring: 0
   canFire: 1
   fireRate: 0.2
+  launchVelocity: 5000
   anim: {fileID: 5570798606814824969}
   projectile: {fileID: 8881031184705359584, guid: e06ba88758e74be4c97806b9d6ca2447, type: 3}
   muzzle: {fileID: 8646625557410728657}
@@ -1435,6 +1439,7 @@ MonoBehaviour:
   isFiring: 0
   canFire: 1
   fireRate: 0.8
+  launchVelocity: 5000
   anim: {fileID: 5794815453279401463}
   projectile: {fileID: 8881031184705359584, guid: e06ba88758e74be4c97806b9d6ca2447, type: 3}
   muzzle: {fileID: 7900096771676943339}
@@ -1455,6 +1460,7 @@ MonoBehaviour:
   isFiring: 0
   canFire: 1
   fireRate: 1
+  launchVelocity: 5000
   anim: {fileID: 0}
   projectile: {fileID: 6023615196854092910, guid: 935f951cdf4edb440924a963994c0e80, type: 3}
   muzzle: {fileID: 0}
@@ -1503,6 +1509,7 @@ MonoBehaviour:
   isFiring: 0
   canFire: 1
   fireRate: 0.3
+  launchVelocity: 10000
   anim: {fileID: 7404158253698378933}
   projectile: {fileID: 8881031184705359584, guid: e06ba88758e74be4c97806b9d6ca2447, type: 3}
   muzzle: {fileID: 6661199071472020589}

@@ -18,6 +18,7 @@ namespace Com.GCTC.ZombCube
         protected bool canFire = true;
         protected float fireTime = 0f;
         public float fireRate = 0.8f;
+        [SerializeField]
         protected float launchVelocity = 5000f;
         protected Vector3 launchVector;
         public Animator anim;
