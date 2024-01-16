@@ -54,25 +54,7 @@ namespace Com.GCTC.ZombCube
                     CheckForTriggerHappyAchievements();
                 }
             }
-            else if (reserveAmmo > clipSize && reloading == false)
-            {
-                //reload clip
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = clipSize;
-                reserveAmmo -= clipSize;
-
-            }
-            else if (reserveAmmo > 0 && reloading == false)
-            {
-                //reload left
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = reserveAmmo;
-                reserveAmmo = 0;
-            }
+            else ReloadWeapon();
         }
 
         public override void GetAmmo()

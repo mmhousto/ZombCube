@@ -98,24 +98,7 @@ namespace Com.GCTC.ZombCube
                 }
 
             }
-            else if (photonView.IsMine && playerManager.isInputDisabled == false && reserveAmmo > clipSize && reloading == false)
-            {
-                //reload clip
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = clipSize;
-                reserveAmmo -= clipSize;
-            }
-            else if (photonView.IsMine && playerManager.isInputDisabled == false && reserveAmmo > 0 && reloading == false)
-            {
-                //reload left
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = reserveAmmo;
-                reserveAmmo = 0;
-            }
+            else ReloadWeapon();
 
         }
 
@@ -137,12 +120,18 @@ namespace Com.GCTC.ZombCube
 
         public virtual void ReloadInput(bool newValue)
         {
-            if (reserveAmmo > clipSize && reloading == false && photonView.IsMine && this.enabled)
+            ReloadWeapon();
+        }
+
+        public void ReloadWeapon()
+        {
+            if ((reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && photonView.IsMine && this.enabled)
             {
                 //reload clip
                 StartCoroutine(Reload());
                 anim.SetTrigger("IsReloading");
                 reloading = true;
+                reserveAmmo += currentAmmoInClip;
                 currentAmmoInClip = clipSize;
                 reserveAmmo -= clipSize;
 
@@ -153,6 +142,7 @@ namespace Com.GCTC.ZombCube
                 StartCoroutine(Reload());
                 anim.SetTrigger("IsReloading");
                 reloading = true;
+                reserveAmmo += currentAmmoInClip;
                 currentAmmoInClip = reserveAmmo;
                 reserveAmmo = 0;
             }
