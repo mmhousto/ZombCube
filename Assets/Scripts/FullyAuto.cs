@@ -88,7 +88,7 @@ namespace Com.GCTC.ZombCube
 
         public void ReloadWeapon()
         {
-            if ((reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && this.enabled)
+            if (currentAmmoInClip != 30 && (reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && this.enabled)
             {
                 //reload clip
                 StartCoroutine(Reload());
@@ -99,7 +99,7 @@ namespace Com.GCTC.ZombCube
                 reserveAmmo -= clipSize;
 
             }
-            else if (reserveAmmo > 0 && reloading == false && this.enabled)
+            else if (currentAmmoInClip != 30 && reserveAmmo > 0 && reloading == false && this.enabled)
             {
                 //reload left
                 StartCoroutine(Reload());
