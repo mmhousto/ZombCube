@@ -449,7 +449,7 @@ namespace Com.GCTC.ZombCube
             playerName = name;
             playerNameText.text = playerName;
 
-            GetComponent<MeshRenderer>().material = blasterMaterial[skinIndex];
+            GetComponentInChildren<MeshRenderer>().material = blasterMaterial[skinIndex];
 
             MeshRenderer[] blaster = GetComponentsInChildren<MeshRenderer>();
 
