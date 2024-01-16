@@ -177,11 +177,11 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 10)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(2500);
+                SpendPoints(10);
 
                 if (swapManager.HasWeapon(2))
                 {
