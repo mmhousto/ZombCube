@@ -146,6 +146,11 @@ namespace Com.GCTC.ZombCube
                 currentAmmoInClip = reserveAmmo;
                 reserveAmmo = 0;
             }
+            else
+            {
+                // NO AMMO
+                anim.SetTrigger("IsOut");
+            }
         }
 
         public virtual void GetAmmo()

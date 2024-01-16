@@ -17,7 +17,6 @@ namespace Com.GCTC.ZombCube
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
-
             //isFiring = true;
             fireRate = 0.2f;
             launchVector = new Vector3(0, 0, launchVelocity);
@@ -108,6 +107,11 @@ namespace Com.GCTC.ZombCube
                 reserveAmmo += currentAmmoInClip;
                 currentAmmoInClip = reserveAmmo;
                 reserveAmmo = 0;
+            }
+            else
+            {
+                // No AMMO
+                anim.SetTrigger("IsOut");
             }
         }
 

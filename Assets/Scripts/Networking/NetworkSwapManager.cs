@@ -109,7 +109,7 @@ namespace Com.GCTC.ZombCube
         {
             if (!photonView.IsMine) { return; }
             if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
-            if (currentWeapon == weapons[0] && weaponToSwapTo == 0) return; // Dont swap to pistol if has pistol
+            if (currentWeaponIndex == weaponToSwapTo) return; // Dont swap to current weapon
             currentWeaponIndex = weaponToSwapTo;
 
             if (currentWeaponImages[weaponToSwapTo].sprite != null)
@@ -169,27 +169,19 @@ namespace Com.GCTC.ZombCube
                         SwapToNextWeapon();
                     break;
                 case 2:// SMB
-                    if (((fullyAuto.currentAmmoInClip > 0 || fullyAuto.reserveAmmo > 0) && newState == true) || newState == false)
+                    if (newState == true || newState == false)
                     {
                         fullyAuto.enabled = newState;
                         blaster.enabled = false;
                         grenade.enabled = false;
                     }
-                    else
-                    {
-                        SwapToNextWeapon();
-                    }
                     break;
                 case 3:// AB
-                    if ((newState == true && (assaultBlaster.currentAmmoInClip > 0 || assaultBlaster.reserveAmmo > 0)) || newState == false)
+                    if (newState == true || newState == false)
                     {
                         assaultBlaster.enabled = newState;
                         blaster.enabled = false;
                         grenade.enabled = false;
-                    }
-                    else
-                    {
-                        SwapToNextWeapon();
                     }
                     break;
                 default:
