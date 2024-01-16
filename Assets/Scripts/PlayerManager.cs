@@ -18,6 +18,8 @@ namespace Com.GCTC.ZombCube
 
         private SwapManager swapManager;
         private FullyAuto fullyAutoSMB;
+        private AssaultBlaster aB;
+
         public TextMeshProUGUI scoreText;
         public TextMeshProUGUI waveText;
         public GameObject contextPrompt;
@@ -44,6 +46,7 @@ namespace Com.GCTC.ZombCube
 
             swapManager = GetComponent<SwapManager>();
             fullyAutoSMB = GetComponent<FullyAuto>();
+            aB = GetComponent<AssaultBlaster>();
 
             if(healthBar == null && GameObject.FindWithTag("Health") != null)
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
@@ -138,7 +141,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("HealthPack") || other.CompareTag("SMB"))
+            if (other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB"))
             {
                 contextPrompt.SetActive(false);
             }
@@ -187,6 +190,28 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(2);
+                }
+            }
+
+            if (other.CompareTag("AB") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 10)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(10);
+
+                if (swapManager.HasWeapon(3))
+                {
+                    aB.GetAmmo();
+                }
+                else
+                {
+                    swapManager.GetWeapon(3);
                 }
             }
         }

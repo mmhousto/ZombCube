@@ -28,12 +28,10 @@ namespace Com.GCTC.ZombCube
         protected bool startedHold;
 
         private ShootProjectile blaster;
+        private LaunchGrenade grenade;
         private TripleShot tripleShot;
         private FullyAuto fullyAuto; // SMB
-        private LaunchGrenade grenade;
-
-
-        
+        private AssaultBlaster assaultBlaster; // AB
 
         private void Start()
         {
@@ -45,6 +43,7 @@ namespace Com.GCTC.ZombCube
             grenade = GetComponent<LaunchGrenade>();
             tripleShot = GetComponent<TripleShot>();
             fullyAuto = GetComponent<FullyAuto>();
+            assaultBlaster = GetComponent<AssaultBlaster>();
 
             if(GameManager.mode == 0)
             {
@@ -329,7 +328,17 @@ namespace Com.GCTC.ZombCube
                     }
                         
                     break;
-                case 3:// Shotblaster
+                case 3:// AB
+                    if ((newState == true && (assaultBlaster.currentAmmoInClip > 0 || assaultBlaster.reserveAmmo > 0)) || newState == false)
+                    {
+                        assaultBlaster.enabled = newState;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
+                    }
+                    else
+                    {
+                        SwapToNextWeapon();
+                    }
                     break;
                 default:
                     blaster.enabled = true;

@@ -5,28 +5,23 @@ using UnityEngine.InputSystem;
 
 namespace Com.GCTC.ZombCube
 {
-    public class FullyAuto : ShootProjectile
+    public class AssaultBlaster : FullyAuto
     {
-        protected int ammoCap = 120;
-        protected int clipSize = 30;
-        public int reserveAmmo = 30;
-        public int currentAmmoInClip = 30;
-        protected bool reloading = false;
-
         // Start is called before the first frame update
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
 
+            reloading = false;
             //isFiring = true;
-            fireRate = 0.2f;
+            fireRate = 0.3f;
             launchVector = new Vector3(0, 0, launchVelocity);
             //shootProjectile.enabled = false;
-            ammoCap = 120;
+            ammoCap = 240;
             clipSize = 30;
-            reserveAmmo = 30;
+            reserveAmmo = 60;
             currentAmmoInClip = 30;
-    }
+        }
 
         private void OnEnable()
         {
@@ -43,7 +38,7 @@ namespace Com.GCTC.ZombCube
 
         public override void LaunchProjectile()
         {
-            if(currentAmmoInClip > 0 && reloading == false)
+            if (currentAmmoInClip > 0 && reloading == false)
             {
                 audioSource.Play();
                 anim.SetTrigger("IsFiring");
@@ -67,8 +62,9 @@ namespace Com.GCTC.ZombCube
                 reloading = true;
                 currentAmmoInClip = clipSize;
                 reserveAmmo -= clipSize;
-                
-            }else if (reserveAmmo > 0 && reloading == false)
+
+            }
+            else if (reserveAmmo > 0 && reloading == false)
             {
                 //reload left
                 StartCoroutine(Reload());
@@ -79,49 +75,10 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        protected IEnumerator Reload()
-        {
-            yield return new WaitForSeconds(1);
-            reloading = false;
-        }
-
-        public void OnReload(InputAction.CallbackContext context)
-        {
-            ReloadInput(context.ReadValueAsButton());
-        }
-
-        public void OnReload(InputValue context)
-        {
-            ReloadInput(context.isPressed);
-        }
-
-        public virtual void ReloadInput(bool newValue)
-        {
-            if (reserveAmmo > clipSize && reloading == false && this.enabled)
-            {
-                //reload clip
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = clipSize;
-                reserveAmmo -= clipSize;
-
-            }
-            else if (reserveAmmo > 0 && reloading == false && this.enabled)
-            {
-                //reload left
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = reserveAmmo;
-                reserveAmmo = 0;
-            }
-        }
-
-        public virtual void GetAmmo()
+        public override void GetAmmo()
         {
             currentAmmoInClip = clipSize;
-            reserveAmmo = 90;
+            reserveAmmo = 210;
         }
 
     }

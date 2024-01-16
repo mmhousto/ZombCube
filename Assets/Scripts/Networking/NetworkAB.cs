@@ -6,13 +6,8 @@ using UnityEngine.InputSystem;
 
 namespace Com.GCTC.ZombCube
 {
-    public class NetworkFullyAuto : NetworkShootProjectile
+    public class NetworkAB : NetworkFullyAuto
     {
-        protected int ammoCap = 120;
-        protected int clipSize = 30;
-        public int reserveAmmo = 30;
-        public int currentAmmoInClip = 30;
-        protected bool reloading = false;
 
         // Start is called before the first frame update
         void Start()
@@ -23,10 +18,10 @@ namespace Com.GCTC.ZombCube
                 audioSource = GetComponent<AudioSource>();
                 launchVector = new Vector3(0, 0, launchVelocity);
                 //isFiring = true;
-                fireRate = 0.2f;
-                ammoCap = 120;
+                fireRate = 0.3f;
+                ammoCap = 240;
                 clipSize = 30;
-                reserveAmmo = 30;
+                reserveAmmo = 60;
                 currentAmmoInClip = 30;
             }
         }
@@ -35,7 +30,7 @@ namespace Com.GCTC.ZombCube
         {
             if (photonView.IsMine)
             {
-                fireRate = 0.2f;
+                fireRate = 0.3f;
                 // Get the PlayerInput component
                 PlayerInput playerInput = GetComponent<PlayerInput>();
                 if (playerInput != null)
@@ -119,49 +114,10 @@ namespace Com.GCTC.ZombCube
 
         }
 
-        protected IEnumerator Reload()
-        {
-            yield return new WaitForSeconds(1);
-            reloading = false;
-        }
-
-        public void OnReload(InputAction.CallbackContext context)
-        {
-            ReloadInput(context.ReadValueAsButton());
-        }
-
-        public void OnReload(InputValue context)
-        {
-            ReloadInput(context.isPressed);
-        }
-
-        public virtual void ReloadInput(bool newValue)
-        {
-            if (reserveAmmo > clipSize && reloading == false && photonView.IsMine && this.enabled)
-            {
-                //reload clip
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = clipSize;
-                reserveAmmo -= clipSize;
-
-            }
-            else if (reserveAmmo > 0 && reloading == false && photonView.IsMine && this.enabled)
-            {
-                //reload left
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = reserveAmmo;
-                reserveAmmo = 0;
-            }
-        }
-
-        public virtual void GetAmmo()
+        public override void GetAmmo()
         {
             currentAmmoInClip = clipSize;
-            reserveAmmo = 90;
+            reserveAmmo = 210;
         }
     }
 }

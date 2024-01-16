@@ -75,7 +75,7 @@ namespace Com.GCTC.ZombCube
         {
             if (other.CompareTag("Player") && hasHit == false)
             {
-                other.gameObject.GetComponent<NetworkPlayerManager>().DamagePlayerCall(20f);
+                other.transform.parent.GetComponent<NetworkPlayerManager>().DamagePlayerCall(20f);
                 hasHit = true;
 
                 photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
