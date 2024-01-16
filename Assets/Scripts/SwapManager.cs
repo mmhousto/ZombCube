@@ -362,11 +362,13 @@ namespace Com.GCTC.ZombCube
             if(currentWeaponImages[2].sprite == null) // Gets New Weapon 2
             {
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
+                currentWeaponImages[2].color = new Color(255, 255, 255, 255);
                 currentWeaponIndexes.Add(weaponIndex);
             }
             else if(currentWeaponImages[3].sprite == null) // Gets New Weapon 3
             {
                 currentWeaponImages[3].sprite = weaponImages[weaponIndex];
+                currentWeaponImages[3].color = new Color(255, 255, 255, 255);
                 currentWeaponIndexes.Add(weaponIndex);
             }else if(currentWeaponIndex == 2 && currentWeaponImages[2].sprite != null) // Replace Weapon 2
             {
