@@ -17,6 +17,7 @@ namespace Com.GCTC.ZombCube
         public static int mode;
         public GameObject playerPrefab;
         public int CurrentRound { get; set; }
+        public GameObject[] grenades;
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls, weaponSelect;
         public Camera eliminatedCam;
@@ -58,6 +59,12 @@ namespace Com.GCTC.ZombCube
                 player = Instantiate(playerPrefab, sp1.position, sp1.rotation);
                 playerInput = player.GetComponent<PlayerInput>();
                 EnableDisableElimCam(false);
+
+                if (grenades != null)
+                {
+                    grenades[2].transform.GetChild(0).gameObject.SetActive(false);
+                    grenades[3].transform.GetChild(0).gameObject.SetActive(false);
+                }
                 numOfPlayers = 1;
             }
         }
@@ -94,7 +101,16 @@ namespace Com.GCTC.ZombCube
         {
             CheckForPause();
             SetCursorState();
-           
+
+            if (grenades != null && grenades.Length > 0 && mode == 0)
+            {
+                for (int i = 0; i < grenades.Length; i++)
+                {
+                    if (i < player.GetComponent<PlayerManager>().grenade.grenadeCount)
+                        grenades[i].transform.GetChild(0).gameObject.SetActive(true);
+                    else grenades[i].transform.GetChild(0).gameObject.SetActive(false);
+                }
+            }
         }
 
         public GameObject GetPlayer()

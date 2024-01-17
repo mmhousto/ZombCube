@@ -20,6 +20,7 @@ namespace Com.GCTC.ZombCube
         public Camera eliminatedCam;
 
         public int CurrentRound { get; set; }
+        public GameObject[] grenades;
         public TextMeshProUGUI waveTxt;
         public GameObject gameOverScreen, restart, pauseMenu, settingsButton, settingsMenu;
 
@@ -47,6 +48,12 @@ namespace Com.GCTC.ZombCube
                 _instance = this;
             }
             players.Clear();
+
+            if (grenades != null)
+            {
+                grenades[2].transform.GetChild(0).gameObject.SetActive(false);
+                grenades[3].transform.GetChild(0).gameObject.SetActive(false);
+            }
         }
 
         // Start is called before the first frame update
@@ -78,6 +85,18 @@ namespace Com.GCTC.ZombCube
         void Update()
         {
             waveTxt.text = "Wave: " + CurrentRound.ToString();
+
+            if(myPlayer == null) myPlayer = FindPlayer.GetPlayer();
+
+            if (grenades != null && grenades.Length > 0 && myPlayer != null) 
+            {
+                for (int i = 0; i < grenades.Length; i++)
+                {
+                    if (i < myPlayer.GetComponent<NetworkPlayerManager>().grenade.grenadeCount)
+                        grenades[i].transform.GetChild(0).gameObject.SetActive(true);
+                    else grenades[i].transform.GetChild(0).gameObject.SetActive(false);
+                }
+            }
         }
 
 

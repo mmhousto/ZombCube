@@ -20,6 +20,7 @@ namespace Com.GCTC.ZombCube
         private NetworkSwapManager swapManager;
         private NetworkFullyAuto fullyAutoSMB;
         private NetworkAB aB;
+        public NetworkLaunchGrenade grenade;
         private Player player;
         private GameObject onScreenControls;
         private GameObject currentPlayer;
@@ -34,13 +35,14 @@ namespace Com.GCTC.ZombCube
         public NetworkMouseLook mouseLook;
 
         public TextMeshProUGUI playerNameText;
-        
+
         public string playerName;
 
         public Slider playerHealth;
 
         private TextMeshProUGUI scoreText;
         private Slider healthBar;
+        private TextMeshProUGUI ammoText;
 
         public float healthPoints = 100f;
         private bool isGameOver;
@@ -73,6 +75,7 @@ namespace Com.GCTC.ZombCube
                 swapManager = GetComponent<NetworkSwapManager>();
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
                 aB = GetComponent<NetworkAB>();
+                grenade = GetComponent<NetworkLaunchGrenade>();
 
                 if (GetComponent<NetworkTripleShot>())
                 {
@@ -100,6 +103,14 @@ namespace Com.GCTC.ZombCube
                 healthBar.value = healthPoints;
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
+
+                if (ammoText == null && GameObject.FindWithTag("Ammo") != null)
+                {
+                    ammoText = GameObject.FindWithTag("Ammo").GetComponent<TextMeshProUGUI>();
+                }
+
+                if (ammoText != null)
+                    ammoText.text = "";
 
                 contextPrompt = GameObject.Find("ContextPrompt");
                 contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
@@ -422,6 +433,13 @@ namespace Com.GCTC.ZombCube
                 healthBar.value = healthPoints;
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
+
+                if (ammoText != null && fullyAutoSMB.enabled == true)
+                    ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
+                else if (ammoText != null && aB.enabled == true)
+                    ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
+                else if (ammoText != null)
+                    ammoText.text = "";
             }
         }
 
