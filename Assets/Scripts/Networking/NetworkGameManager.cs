@@ -88,7 +88,7 @@ namespace Com.GCTC.ZombCube
 
             if(myPlayer == null) myPlayer = FindPlayer.GetPlayer();
 
-            if (grenades != null && grenades.Length > 0 && myPlayer != null) 
+            if (grenades != null && grenades.Length > 0 && myPlayer != null && myPlayer.GetComponent<NetworkPlayerManager>().grenade != null) 
             {
                 for (int i = 0; i < grenades.Length; i++)
                 {
