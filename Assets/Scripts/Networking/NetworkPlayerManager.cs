@@ -19,6 +19,7 @@ namespace Com.GCTC.ZombCube
 
         private NetworkSwapManager swapManager;
         private NetworkFullyAuto fullyAutoSMB;
+        private NetworkAB aB;
         private Player player;
         private GameObject onScreenControls;
         private GameObject currentPlayer;
@@ -71,6 +72,7 @@ namespace Com.GCTC.ZombCube
                 playerInput = GetComponent<PlayerInput>();
                 swapManager = GetComponent<NetworkSwapManager>();
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
+                aB = GetComponent<NetworkAB>();
 
                 if (GetComponent<NetworkTripleShot>())
                 {
@@ -115,7 +117,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB")) && photonView.IsMine)
+            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB")) && photonView.IsMine)
             {
                 contextPrompt.SetActive(false);
             }
@@ -164,6 +166,28 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(2);
+                }
+            }
+
+            if (other.CompareTag("AB") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(2500);
+
+                if (swapManager.HasWeapon(3))
+                {
+                    aB.GetAmmo();
+                }
+                else
+                {
+                    swapManager.GetWeapon(3);
                 }
             }
         }
