@@ -31,7 +31,7 @@ namespace Com.GCTC.ZombCube
             {
                 Dupe();
                 Destroy(gameObject);
-                other.transform.parent.GetComponent<PlayerManager>().Damage(20);
+                other.transform.root.GetComponent<PlayerManager>().Damage(20);
             }
         }
 

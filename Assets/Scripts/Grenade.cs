@@ -120,7 +120,7 @@ namespace Com.GCTC.ZombCube
                     }
                     if (collider.gameObject.tag == "Player")
                     {
-                        collider.transform.parent.GetComponent<PlayerManager>().Damage(15);
+                        collider.transform.root.GetComponent<PlayerManager>().Damage(15);
                     }
                 }
                 else if (this.photonView != null & this.photonView.IsMine)
@@ -139,7 +139,7 @@ namespace Com.GCTC.ZombCube
 
                     if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
                     {
-                        collider.transform.parent.GetComponent<NetworkPlayerManager>().Damage(15);
+                        collider.transform.root.GetComponent<NetworkPlayerManager>().Damage(15);
                     }
                 }
             }
@@ -149,11 +149,11 @@ namespace Com.GCTC.ZombCube
             {
                 if (collider.gameObject.tag == "Player" && this.photonView == null)
                 {
-                    collider.transform.parent.GetComponent<PlayerManager>().Damage(35);
+                    collider.transform.root.GetComponent<PlayerManager>().Damage(35);
                 }
                 else if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
                 {
-                    collider.transform.parent.GetComponent<NetworkPlayerManager>().Damage(35);
+                    collider.transform.root.GetComponent<NetworkPlayerManager>().Damage(35);
                 }
             }
 
@@ -162,11 +162,11 @@ namespace Com.GCTC.ZombCube
             {
                 if (collider.gameObject.tag == "Player" && this.photonView == null)
                 {
-                    collider.transform.parent.GetComponent<PlayerManager>().Damage(50);
+                    collider.transform.root.GetComponent<PlayerManager>().Damage(50);
                 }
                 else if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
                 {
-                    collider.transform.parent.GetComponent<NetworkPlayerManager>().Damage(50);
+                    collider.transform.root.GetComponent<NetworkPlayerManager>().Damage(50);
                 }
             }
         }
