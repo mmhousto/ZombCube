@@ -13,6 +13,7 @@ namespace Com.GCTC.ZombCube
         private NetworkLaunchGrenade grenade;
         private NetworkTripleShot tripleShot;
         private NetworkFullyAuto fullyAuto;
+        private NetworkAB assaultBlaster; // AB
         // Start is called before the first frame update
         void Start()
         {
@@ -27,6 +28,7 @@ namespace Com.GCTC.ZombCube
                 grenade = GetComponent<NetworkLaunchGrenade>();
                 tripleShot = GetComponent<NetworkTripleShot>();
                 fullyAuto = GetComponent<NetworkFullyAuto>();
+                assaultBlaster = GetComponent<NetworkAB>();
 
                 weaponSelectUI = GameObject.Find("WeaponSelect");
 #if (UNITY_IOS || UNITY_ANDROID)
@@ -107,7 +109,7 @@ namespace Com.GCTC.ZombCube
         {
             if (!photonView.IsMine) { return; }
             if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
-            if (currentWeapon == weapons[0] && weaponToSwapTo == 0) return; // Dont swap to pistol if has pistol
+            if (currentWeaponIndex == weaponToSwapTo) return; // Dont swap to current weapon
             currentWeaponIndex = weaponToSwapTo;
 
             if (currentWeaponImages[weaponToSwapTo].sprite != null)
@@ -167,18 +169,20 @@ namespace Com.GCTC.ZombCube
                         SwapToNextWeapon();
                     break;
                 case 2:// SMB
-                    if (((fullyAuto.currentAmmoInClip > 0 || fullyAuto.reserveAmmo > 0) && newState == true) || newState == false)
+                    if (newState == true || newState == false)
                     {
                         fullyAuto.enabled = newState;
                         blaster.enabled = false;
                         grenade.enabled = false;
                     }
-                    else
-                    {
-                        SwapToNextWeapon();
-                    }
                     break;
-                case 3:// Shotblaster
+                case 3:// AB
+                    if (newState == true || newState == false)
+                    {
+                        assaultBlaster.enabled = newState;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
+                    }
                     break;
                 default:
                     blaster.enabled = newState;

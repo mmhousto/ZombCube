@@ -14,6 +14,8 @@ public static class FindPlayer
         players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players)
         {
+            if (player.GetComponent<PhotonView>() == null) { continue; }
+
             int playerID = player.GetComponent<PhotonView>().Owner.ActorNumber;
             if (playerID == myID)
             {

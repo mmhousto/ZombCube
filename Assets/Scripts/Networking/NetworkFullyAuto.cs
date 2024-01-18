@@ -8,11 +8,11 @@ namespace Com.GCTC.ZombCube
 {
     public class NetworkFullyAuto : NetworkShootProjectile
     {
-        int ammoCap = 120;
-        int clipSize = 30;
+        protected int ammoCap = 120;
+        protected int clipSize = 30;
         public int reserveAmmo = 30;
         public int currentAmmoInClip = 30;
-        private bool reloading = false;
+        protected bool reloading = false;
 
         // Start is called before the first frame update
         void Start()
@@ -98,28 +98,11 @@ namespace Com.GCTC.ZombCube
                 }
 
             }
-            else if (photonView.IsMine && playerManager.isInputDisabled == false && reserveAmmo > clipSize && reloading == false)
-            {
-                //reload clip
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = clipSize;
-                reserveAmmo -= clipSize;
-            }
-            else if (photonView.IsMine && playerManager.isInputDisabled == false && reserveAmmo > 0 && reloading == false)
-            {
-                //reload left
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                currentAmmoInClip = reserveAmmo;
-                reserveAmmo = 0;
-            }
+            else ReloadWeapon();
 
         }
 
-        IEnumerator Reload()
+        protected IEnumerator Reload()
         {
             yield return new WaitForSeconds(1);
             reloading = false;
@@ -137,29 +120,47 @@ namespace Com.GCTC.ZombCube
 
         public virtual void ReloadInput(bool newValue)
         {
-            if (reserveAmmo > clipSize && reloading == false && photonView.IsMine && this.enabled)
+            ReloadWeapon();
+        }
+
+        public void ReloadWeapon()
+        {
+            if (currentAmmoInClip != clipSize && (reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && photonView.IsMine && this.enabled)
             {
                 //reload clip
                 StartCoroutine(Reload());
                 anim.SetTrigger("IsReloading");
                 reloading = true;
+                reserveAmmo += currentAmmoInClip;
                 currentAmmoInClip = clipSize;
                 reserveAmmo -= clipSize;
 
             }
-            else if (reserveAmmo > 0 && reloading == false && photonView.IsMine && this.enabled)
+            else if (currentAmmoInClip != clipSize && reserveAmmo > 0 && reloading == false && photonView.IsMine && this.enabled)
             {
                 //reload left
                 StartCoroutine(Reload());
                 anim.SetTrigger("IsReloading");
                 reloading = true;
+                reserveAmmo += currentAmmoInClip;
                 currentAmmoInClip = reserveAmmo;
                 reserveAmmo = 0;
             }
+            else if (currentAmmoInClip == 0 && reserveAmmo == 0)
+            {
+                // NO AMMO
+                anim.SetTrigger("IsOut");
+            }
         }
 
-        public void GetAmmo()
+        public virtual void GetAmmo()
         {
+            if (currentAmmoInClip == 0 && reserveAmmo == 0)
+            {
+                // GOT AMMO
+                anim.SetTrigger("GotAmmo");
+            }
+
             currentAmmoInClip = clipSize;
             reserveAmmo = 90;
         }

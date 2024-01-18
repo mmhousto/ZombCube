@@ -11,6 +11,8 @@ namespace StarterAssets
         private NetworkSwapManager swapManagerN;
         private NetworkMouseLook playerLookN;
         private NetworkShootProjectile playerFireN;
+        private NetworkFullyAuto smBN;
+        private NetworkAB aBN;
         private NetworkTripleShot playerFireTripleN;
         private NetworkLaunchGrenade playerGrenadeN;
         private NetworkPlayerManager playerManagerN;
@@ -20,6 +22,8 @@ namespace StarterAssets
         public SwapManager swapManager;
         public MouseLook playerLook;
         public ShootProjectile playerFire;
+        public FullyAuto smB;
+        public AssaultBlaster aB;
         public TripleShot playerFireTriple;
         public LaunchGrenade playerGrenade;
 
@@ -42,12 +46,20 @@ namespace StarterAssets
             swapManagerN = currentPlayer.GetComponent<NetworkSwapManager>();
             playerGrenadeN = currentPlayer.GetComponent<NetworkLaunchGrenade>();
             playerFireN = currentPlayer.GetComponent<NetworkShootProjectile>();
+            smBN = currentPlayer.GetComponent<NetworkFullyAuto>();
+            aBN = currentPlayer.GetComponent<NetworkAB>();
             playerFireTripleN = currentPlayer.GetComponent<NetworkTripleShot>();
             playerLookN = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
             playerManagerN = currentPlayer.GetComponent<NetworkPlayerManager>();
 
             if (playerFireTripleN != null)
                 playerFireTripleN.enabled = false;
+
+            if (smBN != null)
+                smBN.enabled = false;
+
+            if (aBN != null)
+                aBN.enabled = false;
         }
 
         public void GetPlayer(GameObject player, bool online)
@@ -57,11 +69,19 @@ namespace StarterAssets
             swapManager = currentPlayer.GetComponent<SwapManager>();
             playerGrenade = currentPlayer.GetComponent<LaunchGrenade>();
             playerFire = currentPlayer.GetComponent<ShootProjectile>();
+            smB = currentPlayer.GetComponent<FullyAuto>();
+            aB = currentPlayer.GetComponent<AssaultBlaster>();
             playerFireTriple = currentPlayer.GetComponent<TripleShot>();
             playerLook = currentPlayer.GetComponentInChildren<MouseLook>();
 
             if(playerFireTriple != null)
                 playerFireTriple.enabled = false;
+
+            if (smB != null)
+                smB.enabled = false;
+
+            if (aB != null)
+                aB.enabled = false;
         }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
@@ -135,6 +155,12 @@ namespace StarterAssets
                 if (playerFireN != null)
                     playerFireN.FireInput(virtualFireState);
 
+                if (smBN != null)
+                    smBN.FireInput(virtualFireState);
+
+                if (aBN != null)
+                    aBN.FireInput(virtualFireState);
+
                 if (playerFireTripleN != null)
                     playerFireTripleN.FireInput(virtualFireState);
 
@@ -145,6 +171,12 @@ namespace StarterAssets
             {
                 if (playerFire != null)
                     playerFire.FireInput(virtualFireState);
+
+                if (smB != null)
+                    smB.FireInput(virtualFireState);
+
+                if (aB != null)
+                    aB.FireInput(virtualFireState);
 
                 if (playerFireTriple != null)
                     playerFireTriple.FireInput(virtualFireState);

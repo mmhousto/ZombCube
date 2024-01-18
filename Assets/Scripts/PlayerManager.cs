@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,8 +19,13 @@ namespace Com.GCTC.ZombCube
 
         private SwapManager swapManager;
         private FullyAuto fullyAutoSMB;
+        private AssaultBlaster aB;
+        public LaunchGrenade grenade;
+
         public TextMeshProUGUI scoreText;
         public TextMeshProUGUI waveText;
+        public TextMeshProUGUI ammoText;
+        public GameObject[] grenades;
         public GameObject contextPrompt;
         private TextMeshProUGUI contextPromptText;
         public Slider healthBar;
@@ -44,6 +50,8 @@ namespace Com.GCTC.ZombCube
 
             swapManager = GetComponent<SwapManager>();
             fullyAutoSMB = GetComponent<FullyAuto>();
+            aB = GetComponent<AssaultBlaster>();
+            grenade = GetComponent<LaunchGrenade>();
 
             if(healthBar == null && GameObject.FindWithTag("Health") != null)
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
@@ -61,7 +69,27 @@ namespace Com.GCTC.ZombCube
             if(scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-            if(contextPrompt == null && GameObject.FindWithTag("ContextPrompt") != null)
+            if (waveText == null && GameObject.FindWithTag("Wave") != null)
+                waveText = GameObject.FindWithTag("Wave").GetComponent<TextMeshProUGUI>();
+
+            if(waveText != null)
+                waveText.text = "Wave: 1";
+
+            if(ammoText == null && GameObject.FindWithTag("Ammo") != null)
+            {
+                ammoText = GameObject.FindWithTag("Ammo").GetComponent<TextMeshProUGUI>();
+            }
+
+            if (ammoText != null)
+                ammoText.text = "";
+
+            if (grenades != null && grenades.Length > 0)
+            {
+                grenades[2].transform.GetChild(0).gameObject.SetActive(false);
+                grenades[3].transform.GetChild(0).gameObject.SetActive(false);
+            }
+
+            if (contextPrompt == null && GameObject.FindWithTag("ContextPrompt") != null)
                 contextPrompt = GameObject.FindWithTag("ContextPrompt");
 
             if(contextPrompt != null)
@@ -69,7 +97,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
                 contextPrompt.SetActive(false);
             }
-            GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
+            GetComponentInChildren<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
 
             /*if (blaster == null)
                 blaster = GameObject.FindGameObjectsWithTag("Blaster");*/
@@ -99,7 +127,25 @@ namespace Com.GCTC.ZombCube
             if (scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-            if(waveText != null && waveText?.text != GameManager.Instance?.waveTxt.text)
+            if (ammoText != null && fullyAutoSMB.enabled == true)
+                ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
+            else if (ammoText != null && aB.enabled == true)
+                ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
+            else if(ammoText != null)
+                ammoText.text = "";
+
+            if(grenades != null && grenades.Length > 0)
+            {
+                for (int i = 0; i < grenades.Length; i++)
+                {
+                    if (i < grenade.grenadeCount)
+                        grenades[i].transform.GetChild(0).gameObject.SetActive(true);
+                    else
+                        grenades[i].transform.GetChild(0).gameObject.SetActive(false);
+                }
+            }
+
+            if (waveText != null && waveText?.text != GameManager.Instance?.waveTxt.text)
                 waveText.text = GameManager.Instance?.waveTxt.text;
 
             if (healthPoints <= 0 && isGameOver == false)
@@ -138,7 +184,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("HealthPack") || other.CompareTag("SMB"))
+            if (other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB"))
             {
                 contextPrompt.SetActive(false);
             }
@@ -187,6 +233,28 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(2);
+                }
+            }
+
+            if (other.CompareTag("AB") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(2500);
+
+                if (swapManager.HasWeapon(3))
+                {
+                    aB.GetAmmo();
+                }
+                else
+                {
+                    swapManager.GetWeapon(3);
                 }
             }
         }

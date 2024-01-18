@@ -19,6 +19,8 @@ namespace Com.GCTC.ZombCube
 
         private NetworkSwapManager swapManager;
         private NetworkFullyAuto fullyAutoSMB;
+        private NetworkAB aB;
+        public NetworkLaunchGrenade grenade;
         private Player player;
         private GameObject onScreenControls;
         private GameObject currentPlayer;
@@ -33,13 +35,14 @@ namespace Com.GCTC.ZombCube
         public NetworkMouseLook mouseLook;
 
         public TextMeshProUGUI playerNameText;
-        
+
         public string playerName;
 
         public Slider playerHealth;
 
         private TextMeshProUGUI scoreText;
         private Slider healthBar;
+        private TextMeshProUGUI ammoText;
 
         public float healthPoints = 100f;
         private bool isGameOver;
@@ -71,6 +74,8 @@ namespace Com.GCTC.ZombCube
                 playerInput = GetComponent<PlayerInput>();
                 swapManager = GetComponent<NetworkSwapManager>();
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
+                aB = GetComponent<NetworkAB>();
+                grenade = GetComponent<NetworkLaunchGrenade>();
 
                 if (GetComponent<NetworkTripleShot>())
                 {
@@ -99,6 +104,14 @@ namespace Com.GCTC.ZombCube
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
 
+                if (ammoText == null && GameObject.FindWithTag("Ammo") != null)
+                {
+                    ammoText = GameObject.FindWithTag("Ammo").GetComponent<TextMeshProUGUI>();
+                }
+
+                if (ammoText != null)
+                    ammoText.text = "";
+
                 contextPrompt = GameObject.Find("ContextPrompt");
                 contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
                 contextPrompt.SetActive(false);
@@ -115,7 +128,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB")) && photonView.IsMine)
+            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB")) && photonView.IsMine)
             {
                 contextPrompt.SetActive(false);
             }
@@ -164,6 +177,28 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(2);
+                }
+            }
+
+            if (other.CompareTag("AB") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(2500);
+
+                if (swapManager.HasWeapon(3))
+                {
+                    aB.GetAmmo();
+                }
+                else
+                {
+                    swapManager.GetWeapon(3);
                 }
             }
         }
@@ -398,6 +433,13 @@ namespace Com.GCTC.ZombCube
                 healthBar.value = healthPoints;
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
+
+                if (ammoText != null && fullyAutoSMB.enabled == true)
+                    ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
+                else if (ammoText != null && aB.enabled == true)
+                    ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
+                else if (ammoText != null)
+                    ammoText.text = "";
             }
         }
 
@@ -449,7 +491,7 @@ namespace Com.GCTC.ZombCube
             playerName = name;
             playerNameText.text = playerName;
 
-            GetComponent<MeshRenderer>().material = blasterMaterial[skinIndex];
+            GetComponentInChildren<MeshRenderer>().material = blasterMaterial[skinIndex];
 
             MeshRenderer[] blaster = GetComponentsInChildren<MeshRenderer>();
 

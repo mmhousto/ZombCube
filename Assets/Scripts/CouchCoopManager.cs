@@ -84,9 +84,13 @@ namespace Com.GCTC.ZombCube
                 canvas.transform.GetChild(0).gameObject.SetActive(false);
                 canvas.transform.GetChild(1).gameObject.SetActive(false);
                 canvas.transform.GetChild(2).gameObject.SetActive(false);
+                canvas.transform.GetChild(3).gameObject.SetActive(false);
+                canvas.transform.GetChild(4).gameObject.SetActive(false);
                 canvas.transform.GetChild(6).gameObject.SetActive(false);
                 canvas.transform.GetChild(7).gameObject.SetActive(false);
+                canvas.transform.GetChild(8).gameObject.SetActive(false);
                 canvas.transform.GetChild(9).gameObject.SetActive(false);
+                canvas.transform.GetChild(11).gameObject.SetActive(false);
 
                 
                 // Gets spawn points

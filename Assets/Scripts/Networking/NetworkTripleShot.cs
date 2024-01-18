@@ -12,6 +12,7 @@ namespace Com.GCTC.ZombCube
         private float offset = 15f;
         private NetworkShootProjectile blaster; //blaster
         private NetworkFullyAuto smb; //SMB
+        private NetworkAB aB; //AB
         private NetworkLaunchGrenade grenade; // Grenade
         private NetworkSwapManager swapManager;
 
@@ -25,6 +26,7 @@ namespace Com.GCTC.ZombCube
                 audioSource = GetComponent<AudioSource>();
                 blaster = GetComponent<NetworkShootProjectile>();
                 smb = GetComponent<NetworkFullyAuto>();
+                aB = GetComponent<NetworkAB>();
                 grenade = GetComponent<NetworkLaunchGrenade>();
                 fireRate = 0.8f;
                 launchVector = new Vector3(0, 0, launchVelocity);
@@ -38,6 +40,7 @@ namespace Com.GCTC.ZombCube
                 if (grenade == null) grenade = GetComponent<NetworkLaunchGrenade>();
                 if (blaster == null) blaster = GetComponent<NetworkShootProjectile>();
                 if (smb == null) smb = GetComponent<NetworkFullyAuto>();
+                if (aB == null) aB = GetComponent<NetworkAB>();
                 if (swapManager == null) swapManager = GetComponent<NetworkSwapManager>();
 
                 if (grenade != null && grenade.enabled == true)
@@ -49,11 +52,31 @@ namespace Com.GCTC.ZombCube
                 {
                     blaster.enabled = false;
                     fireRate = blaster.fireRate;
+                    firePosition = blaster.firePosition;
+                    muzzle = blaster.muzzle;
+                    anim = blaster.anim;
+                    launchVelocity = 5000;
+                    launchVector = new Vector3(0, 0, launchVelocity);
                 }
-                else if(smb != null && smb.enabled == true)
+                else if (smb != null && smb.enabled == true)
                 {
                     smb.enabled = false;
                     fireRate = smb.fireRate;
+                    firePosition = smb.firePosition;
+                    muzzle = smb.muzzle;
+                    anim = smb.anim;
+                    launchVelocity = 5000;
+                    launchVector = new Vector3(0, 0, launchVelocity);
+                }
+                else if (aB != null && aB.enabled == true)
+                {
+                    aB.enabled = false;
+                    fireRate = aB.fireRate;
+                    firePosition = aB.firePosition;
+                    muzzle = aB.muzzle;
+                    anim = aB.anim;
+                    launchVelocity = 10000;
+                    launchVector = new Vector3(0, 0, launchVelocity);
                 }
 
                 // Get the PlayerInput component
@@ -109,23 +132,20 @@ namespace Com.GCTC.ZombCube
                             swapManager.SwapToNextWeapon();
                         break;
                     case 2:// SMB
-                        if (smb.currentAmmoInClip > 0 || smb.reserveAmmo > 0)
-                        {
                             smb.enabled = true;
                             blaster.enabled = false;
                             grenade.enabled = false;
-                        }
-                        else
-                        {
-                            swapManager.SwapToNextWeapon();
-                        }
 
                         break;
-                    case 3:// Shotblaster
+                    case 3:// AB
+                            aB.enabled = true;
+                            blaster.enabled = false;
+                            grenade.enabled = false;
                         break;
                     default:
                         blaster.enabled = true;
                         smb.enabled = false;
+                        aB.enabled = false;
                         grenade.enabled = false;
                         break;
                 }

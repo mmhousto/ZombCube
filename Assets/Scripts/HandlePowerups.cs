@@ -9,14 +9,16 @@ namespace Com.GCTC.ZombCube
     {
         public PlayerMovement playerMovement;
         public TripleShot tripleShotPowerup;
-        public FullyAuto fullyAutoPowerup;
+        public FullyAuto smB; // SMB
+        public AssaultBlaster assaultBlaster; // AB
         public LaunchGrenade launchGrenade;
         public ShootProjectile shoot;
         public NetworkShootProjectile networkShoot;
         public NetworkPlayerMovement networkPlayerMovement;
         public NetworkLaunchGrenade networkLaunchGrenade;
         public NetworkTripleShot networkTriple;
-        public NetworkFullyAuto networkFullyAuto;
+        public NetworkFullyAuto networkFullyAuto; // SMB
+        public NetworkAB networkAB; // AB
 
         private void Start()
         {
@@ -25,7 +27,8 @@ namespace Com.GCTC.ZombCube
                 shoot = GetComponent<ShootProjectile>();
                 playerMovement = GetComponent<PlayerMovement>();
                 tripleShotPowerup = GetComponent<TripleShot>();
-                fullyAutoPowerup = GetComponent<FullyAuto>();
+                smB = GetComponent<FullyAuto>();
+                assaultBlaster = GetComponent<AssaultBlaster>();
                 launchGrenade = GetComponent<LaunchGrenade>();
             }
             else if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
@@ -35,6 +38,7 @@ namespace Com.GCTC.ZombCube
                 networkLaunchGrenade = GetComponent<NetworkLaunchGrenade>();
                 networkTriple = GetComponent<NetworkTripleShot>();
                 networkFullyAuto = GetComponent<NetworkFullyAuto>();
+                networkAB = GetComponent<NetworkAB>();
             }
         }
 
@@ -51,7 +55,8 @@ namespace Com.GCTC.ZombCube
                 {
                     shoot.fireRate /= 2;
                     tripleShotPowerup.fireRate /= 2;
-                    fullyAutoPowerup.fireRate /= 2;
+                    smB.fireRate /= 2;
+                    assaultBlaster.fireRate /= 2;
                     StartCoroutine(EndFullAutoPowerup());
                     Destroy(other.gameObject);
                 }
@@ -100,6 +105,7 @@ namespace Com.GCTC.ZombCube
                     networkShoot.fireRate /= 2;
                     networkTriple.fireRate /= 2;
                     networkFullyAuto.fireRate /= 2;
+                    networkAB.fireRate /= 2;
                     StartCoroutine(EndFullAutoPowerup());
                     other.GetComponent<PhotonView>().RequestOwnership();
                     PhotonNetwork.Destroy(other.gameObject);
@@ -151,13 +157,15 @@ namespace Com.GCTC.ZombCube
             {
                 tripleShotPowerup.fireRate *= 2;
                 shoot.fireRate *= 2;
-                fullyAutoPowerup.fireRate *= 2;
+                smB.fireRate *= 2;
+                assaultBlaster.fireRate *= 2;
             }
             else if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
             {
                 networkTriple.fireRate *= 2;
                 networkShoot.fireRate *= 2;
                 networkFullyAuto.fireRate *= 2;
+                networkAB.fireRate *= 2;
             }
         }
     }
