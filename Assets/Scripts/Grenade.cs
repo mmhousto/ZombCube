@@ -120,7 +120,11 @@ namespace Com.GCTC.ZombCube
                     }
                     if (collider.gameObject.tag == "Player")
                     {
-                        collider.transform.root.GetComponent<PlayerManager>().Damage(15);
+                        if (collider.name == "Capsule")
+                            collider.transform.parent.GetComponent<PlayerManager>().Damage(15);
+                           else
+                            collider.GetComponent<PlayerManager>().Damage(15);
+                           
                     }
                 }
                 else if (this.photonView != null & this.photonView.IsMine)
@@ -149,7 +153,10 @@ namespace Com.GCTC.ZombCube
             {
                 if (collider.gameObject.tag == "Player" && this.photonView == null)
                 {
-                    collider.transform.root.GetComponent<PlayerManager>().Damage(35);
+                    if (collider.name == "Capsule")
+                        collider.transform.parent.GetComponent<PlayerManager>().Damage(35);
+                    else
+                        collider.GetComponent<PlayerManager>().Damage(35);
                 }
                 else if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
                 {
@@ -162,7 +169,10 @@ namespace Com.GCTC.ZombCube
             {
                 if (collider.gameObject.tag == "Player" && this.photonView == null)
                 {
-                    collider.transform.root.GetComponent<PlayerManager>().Damage(50);
+                    if (collider.name == "Capsule")
+                        collider.transform.parent.GetComponent<PlayerManager>().Damage(50);
+                    else
+                        collider.GetComponent<PlayerManager>().Damage(50);
                 }
                 else if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
                 {
