@@ -128,6 +128,15 @@ namespace Com.GCTC.ZombCube
             UpdateStats();
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Armor"))
+            {
+                other.GetComponent<NetworkEnemy>().photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
+                DamagePlayerCall(20);
+            }
+        }
+
         private void OnTriggerExit(Collider other)
         {
             if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster")) && photonView.IsMine)

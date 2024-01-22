@@ -186,6 +186,15 @@ namespace Com.GCTC.ZombCube
 
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Armor"))
+            {
+                Destroy(other.gameObject);
+                Damage(20);
+            }
+        }
+
         private void OnTriggerExit(Collider other)
         {
             if (other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster"))
@@ -224,11 +233,11 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 10)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(2500);
+                SpendPoints(10);
 
                 if (swapManager.HasWeapon(2))
                 {
@@ -246,11 +255,11 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 10)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(2500);
+                SpendPoints(10);
 
                 if (swapManager.HasWeapon(3))
                 {
