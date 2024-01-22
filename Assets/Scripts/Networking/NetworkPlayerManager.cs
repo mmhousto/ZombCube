@@ -20,6 +20,7 @@ namespace Com.GCTC.ZombCube
         private NetworkSwapManager swapManager;
         private NetworkFullyAuto fullyAutoSMB;
         private NetworkAB aB;
+        private NetworkShotblaster shotblaster;
         public NetworkLaunchGrenade grenade;
         private Player player;
         private GameObject onScreenControls;
@@ -75,6 +76,7 @@ namespace Com.GCTC.ZombCube
                 swapManager = GetComponent<NetworkSwapManager>();
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
                 aB = GetComponent<NetworkAB>();
+                shotblaster = GetComponent<NetworkShotblaster>();
                 grenade = GetComponent<NetworkLaunchGrenade>();
 
                 if (GetComponent<NetworkTripleShot>())
@@ -128,7 +130,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB")) && photonView.IsMine)
+            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster")) && photonView.IsMine)
             {
                 contextPrompt.SetActive(false);
             }
@@ -199,6 +201,28 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(3);
+                }
+            }
+
+            if (other.CompareTag("Shotblaster") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("Shotblaster") && wp.isUsable && isInteractHeld && currentPoints >= 10)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(10);
+
+                if (swapManager.HasWeapon(4))
+                {
+                    shotblaster.GetAmmo();
+                }
+                else
+                {
+                    swapManager.GetWeapon(4);
                 }
             }
         }

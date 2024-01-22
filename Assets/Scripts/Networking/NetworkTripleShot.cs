@@ -13,6 +13,7 @@ namespace Com.GCTC.ZombCube
         private NetworkShootProjectile blaster; //blaster
         private NetworkFullyAuto smb; //SMB
         private NetworkAB aB; //AB
+        private NetworkShotblaster shotblaster; //Shotblaster
         private NetworkLaunchGrenade grenade; // Grenade
         private NetworkSwapManager swapManager;
 
@@ -27,9 +28,8 @@ namespace Com.GCTC.ZombCube
                 blaster = GetComponent<NetworkShootProjectile>();
                 smb = GetComponent<NetworkFullyAuto>();
                 aB = GetComponent<NetworkAB>();
+                shotblaster = GetComponent<NetworkShotblaster>();
                 grenade = GetComponent<NetworkLaunchGrenade>();
-                fireRate = 0.8f;
-                launchVector = new Vector3(0, 0, launchVelocity);
             }
         }
 
@@ -41,6 +41,7 @@ namespace Com.GCTC.ZombCube
                 if (blaster == null) blaster = GetComponent<NetworkShootProjectile>();
                 if (smb == null) smb = GetComponent<NetworkFullyAuto>();
                 if (aB == null) aB = GetComponent<NetworkAB>();
+                if (shotblaster == null) shotblaster = GetComponent<NetworkShotblaster>();
                 if (swapManager == null) swapManager = GetComponent<NetworkSwapManager>();
 
                 if (grenade != null && grenade.enabled == true)
@@ -55,6 +56,7 @@ namespace Com.GCTC.ZombCube
                     firePosition = blaster.firePosition;
                     muzzle = blaster.muzzle;
                     anim = blaster.anim;
+                    projectile = blaster.projectile;
                     launchVelocity = 5000;
                     launchVector = new Vector3(0, 0, launchVelocity);
                 }
@@ -65,6 +67,7 @@ namespace Com.GCTC.ZombCube
                     firePosition = smb.firePosition;
                     muzzle = smb.muzzle;
                     anim = smb.anim;
+                    projectile = smb.projectile;
                     launchVelocity = 5000;
                     launchVector = new Vector3(0, 0, launchVelocity);
                 }
@@ -75,7 +78,19 @@ namespace Com.GCTC.ZombCube
                     firePosition = aB.firePosition;
                     muzzle = aB.muzzle;
                     anim = aB.anim;
+                    projectile = aB.projectile;
                     launchVelocity = 10000;
+                    launchVector = new Vector3(0, 0, launchVelocity);
+                }
+                else if (shotblaster != null && shotblaster.enabled == true)
+                {
+                    shotblaster.enabled = false;
+                    fireRate = shotblaster.fireRate;
+                    firePosition = shotblaster.firePosition;
+                    muzzle = shotblaster.muzzle;
+                    anim = shotblaster.anim;
+                    projectile = shotblaster.projectile;
+                    launchVelocity = 5000;
                     launchVector = new Vector3(0, 0, launchVelocity);
                 }
 
@@ -101,7 +116,7 @@ namespace Com.GCTC.ZombCube
                 {
                     Debug.LogError("PlayerInput component not found.");
                 }
-                
+
                 StartCoroutine(EndPowerup());
             }
         }
@@ -132,15 +147,20 @@ namespace Com.GCTC.ZombCube
                             swapManager.SwapToNextWeapon();
                         break;
                     case 2:// SMB
-                            smb.enabled = true;
-                            blaster.enabled = false;
-                            grenade.enabled = false;
+                        smb.enabled = true;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
 
                         break;
                     case 3:// AB
-                            aB.enabled = true;
-                            blaster.enabled = false;
-                            grenade.enabled = false;
+                        aB.enabled = true;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
+                        break;
+                    case 4:// Shotblaster
+                        shotblaster.enabled = true;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
                         break;
                     default:
                         blaster.enabled = true;
@@ -170,9 +190,19 @@ namespace Com.GCTC.ZombCube
                 GameObject clone2 = PhotonNetwork.Instantiate(projectile.name, firePosition.position, Quaternion.AngleAxis(-offset, Vector3.up) * firePosition.rotation);
                 GameObject clone3 = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
 
-                clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
-                clone2.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
-                clone3.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                GameObject[] projs = { clone, clone2, clone3 };
+
+                foreach (GameObject proj in projs)
+                {
+                    if (projectile == shotblaster.projectile)
+                    {
+                        foreach (Projectile p in proj.GetComponentsInChildren<Projectile>())
+                        {
+                            p.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                        }
+                    }
+                    proj.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                }
 
                 if (Player.Instance != null)
                 {
@@ -183,15 +213,6 @@ namespace Com.GCTC.ZombCube
                     CheckForTriggerHappyAchievements();
                 }
             }
-        }
-
-        /// <summary>
-        /// Dynamic callback to see if player performed Fire player input action.
-        /// </summary>
-        /// <param name="context"></param>
-        private void OnFired(InputAction.CallbackContext context)
-        {
-            isFiring = context.ReadValueAsButton();
         }
 
         IEnumerator EndPowerup()

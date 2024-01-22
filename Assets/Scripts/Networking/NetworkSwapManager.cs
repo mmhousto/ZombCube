@@ -14,6 +14,7 @@ namespace Com.GCTC.ZombCube
         private NetworkTripleShot tripleShot;
         private NetworkFullyAuto fullyAuto;
         private NetworkAB assaultBlaster; // AB
+        private NetworkShotblaster shotblaster; // Shotblaster
         // Start is called before the first frame update
         void Start()
         {
@@ -29,6 +30,7 @@ namespace Com.GCTC.ZombCube
                 tripleShot = GetComponent<NetworkTripleShot>();
                 fullyAuto = GetComponent<NetworkFullyAuto>();
                 assaultBlaster = GetComponent<NetworkAB>();
+                shotblaster = GetComponent<NetworkShotblaster>();
 
                 weaponSelectUI = GameObject.Find("WeaponSelect");
 #if (UNITY_IOS || UNITY_ANDROID)
@@ -180,6 +182,14 @@ namespace Com.GCTC.ZombCube
                     if (newState == true || newState == false)
                     {
                         assaultBlaster.enabled = newState;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
+                    }
+                    break;
+                case 4:// Shotblaster
+                    if (newState == true || newState == false)
+                    {
+                        shotblaster.enabled = newState;
                         blaster.enabled = false;
                         grenade.enabled = false;
                     }

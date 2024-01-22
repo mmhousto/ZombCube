@@ -20,6 +20,7 @@ namespace Com.GCTC.ZombCube
         private SwapManager swapManager;
         private FullyAuto fullyAutoSMB;
         private AssaultBlaster aB;
+        private Shotblaster shotblaster;
         public LaunchGrenade grenade;
 
         public TextMeshProUGUI scoreText;
@@ -50,6 +51,7 @@ namespace Com.GCTC.ZombCube
 
             swapManager = GetComponent<SwapManager>();
             fullyAutoSMB = GetComponent<FullyAuto>();
+            shotblaster = GetComponent<Shotblaster>();
             aB = GetComponent<AssaultBlaster>();
             grenade = GetComponent<LaunchGrenade>();
 
@@ -131,6 +133,8 @@ namespace Com.GCTC.ZombCube
                 ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
             else if (ammoText != null && aB.enabled == true)
                 ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
+            else if (ammoText != null && shotblaster.enabled == true)
+                ammoText.text = $"{shotblaster.currentAmmoInClip}/{shotblaster.reserveAmmo}";
             else if(ammoText != null)
                 ammoText.text = "";
 
@@ -184,7 +188,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB"))
+            if (other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster"))
             {
                 contextPrompt.SetActive(false);
             }
@@ -255,6 +259,28 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(3);
+                }
+            }
+
+            if (other.CompareTag("Shotblaster") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("Shotblaster") && wp.isUsable && isInteractHeld && currentPoints >= 10)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(10);
+
+                if (swapManager.HasWeapon(4))
+                {
+                    shotblaster.GetAmmo();
+                }
+                else
+                {
+                    swapManager.GetWeapon(4);
                 }
             }
         }
