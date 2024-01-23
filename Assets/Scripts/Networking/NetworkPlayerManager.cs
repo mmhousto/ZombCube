@@ -188,6 +188,7 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(2);
+                    fullyAutoSMB.GetAmmo();
                 }
             }
 
@@ -210,6 +211,7 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(3);
+                    aB.GetAmmo();
                 }
             }
 
@@ -232,6 +234,7 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(4);
+                    shotblaster.GetAmmo();
                 }
             }
         }

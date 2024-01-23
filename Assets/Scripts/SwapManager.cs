@@ -260,7 +260,6 @@ namespace Com.GCTC.ZombCube
         protected virtual void SwapToWeapon(int weaponToSwapTo)
         {
             if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
-            if(currentWeaponIndex == weaponToSwapTo) return; // Dont swap to current weapon
             currentWeaponIndex = weaponToSwapTo;
 
             if (currentWeaponImages[weaponToSwapTo].sprite != null)
@@ -365,27 +364,34 @@ namespace Com.GCTC.ZombCube
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
                 currentWeaponImages[2].color = new Color(255, 255, 255, 255);
                 currentWeaponIndexes.Add(weaponIndex);
+                SwapToWeapon(2);
             }
             else if(currentWeaponImages[3].sprite == null) // Gets New Weapon 3
             {
                 currentWeaponImages[3].sprite = weaponImages[weaponIndex];
                 currentWeaponImages[3].color = new Color(255, 255, 255, 255);
                 currentWeaponIndexes.Add(weaponIndex);
-            }else if(currentWeaponIndex == 2 && currentWeaponImages[2].sprite != null) // Replace Weapon 2
+                SwapToWeapon(3);
+            }
+            else if(currentWeaponIndex == 2 && currentWeaponImages[2].sprite != null) // Replace Weapon 2
             {
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[2] = weaponIndex;
+                SwapToWeapon(2);
             }
             else if (currentWeaponIndex == 3 && currentWeaponImages[3].sprite != null) // Replace Weapon 3
             {
                 currentWeaponImages[3].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[3] = weaponIndex;
+                SwapToWeapon(3);
             }
             else // Replace Weapon 2 if holding nade or pistol
             {
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[2] = weaponIndex;
+                SwapToWeapon(2);
             }
+            
         }
 
         public int GetCurrentWeaponIndex()

@@ -111,7 +111,7 @@ namespace Com.GCTC.ZombCube
         {
             if (!photonView.IsMine) { return; }
             if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
-            if (currentWeaponIndex == weaponToSwapTo) return; // Dont swap to current weapon
+            //if (currentWeaponIndex == weaponToSwapTo) return; // Dont swap to current weapon
             currentWeaponIndex = weaponToSwapTo;
 
             if (currentWeaponImages[weaponToSwapTo].sprite != null)
