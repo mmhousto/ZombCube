@@ -190,7 +190,7 @@ namespace Com.GCTC.ZombCube
         {
             if (other.CompareTag("Armor"))
             {
-                Destroy(other.gameObject);
+                Destroy(other.transform.root.gameObject);
                 Damage(20);
             }
         }

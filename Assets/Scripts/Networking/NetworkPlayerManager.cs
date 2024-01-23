@@ -132,7 +132,7 @@ namespace Com.GCTC.ZombCube
         {
             if (other.CompareTag("Armor"))
             {
-                other.GetComponent<NetworkEnemy>().photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
+                other.transform.root.GetComponent<NetworkEnemy>().photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
                 DamagePlayerCall(20);
             }
         }
