@@ -8,12 +8,14 @@ namespace Com.GCTC.ZombCube
 {
     public class NetworkShotblaster : NetworkFullyAuto
     {
+        private ShotblasterReload reload;
 
         // Start is called before the first frame update
         void Start()
         {
             if (photonView.IsMine)
             {
+                reload = GetComponentInChildren<ShotblasterReload>();
                 playerManager = GetComponent<NetworkPlayerManager>();
                 audioSource = GetComponent<AudioSource>();
                 launchVelocity = 5000f;
@@ -121,6 +123,38 @@ namespace Com.GCTC.ZombCube
         {
             currentAmmoInClip = clipSize;
             reserveAmmo = 35;
+        }
+
+        protected override void ReloadWeapon()
+        {
+            if (currentAmmoInClip != clipSize && (reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && this.enabled)
+            {
+                //reload clip
+                reload.SetAmmo(currentAmmoInClip);
+                StartCoroutine(Reload());
+                anim.SetTrigger("IsReloading");
+                reloading = true;
+                reserveAmmo += currentAmmoInClip;
+                currentAmmoInClip = clipSize;
+                reserveAmmo -= clipSize;
+
+            }
+            else if (currentAmmoInClip != clipSize && reserveAmmo > 0 && reloading == false && this.enabled)
+            {
+                //reload left
+                reload.SetAmmo(currentAmmoInClip);
+                StartCoroutine(Reload());
+                anim.SetTrigger("IsReloading");
+                reloading = true;
+                reserveAmmo += currentAmmoInClip;
+                currentAmmoInClip = reserveAmmo;
+                reserveAmmo = 0;
+            }
+            else if (currentAmmoInClip == 0 && reserveAmmo == 0)
+            {
+                // No AMMO
+                anim.SetTrigger("IsOut");
+            }
         }
     }
 }

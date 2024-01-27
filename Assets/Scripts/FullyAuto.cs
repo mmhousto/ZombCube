@@ -87,7 +87,7 @@ namespace Com.GCTC.ZombCube
             ReloadWeapon();
         }
 
-        public void ReloadWeapon()
+        protected virtual void ReloadWeapon()
         {
             if (currentAmmoInClip != clipSize && (reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && this.enabled)
             {
