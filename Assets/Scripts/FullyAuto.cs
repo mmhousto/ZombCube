@@ -16,7 +16,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = GetComponent<AudioSource>();
             //isFiring = true;
             fireRate = 0.2f;
             launchVector = new Vector3(0, 0, launchVelocity);
@@ -29,7 +29,9 @@ namespace Com.GCTC.ZombCube
 
         private void OnEnable()
         {
-            //shootProjectile.enabled = false;
+            if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+            audioSource.clip = fireSound;
         }
 
         // Update is called once per frame

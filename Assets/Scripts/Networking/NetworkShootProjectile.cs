@@ -18,6 +18,7 @@ namespace Com.GCTC.ZombCube
         protected bool canFire = true;
         protected float fireTime = 0f;
         public float fireRate = 0.8f;
+        public AudioClip fireSound;
         [SerializeField]
         protected float launchVelocity = 5000f;
         protected Vector3 launchVector;
@@ -62,6 +63,10 @@ namespace Com.GCTC.ZombCube
                 {
                     Debug.LogError("PlayerInput component not found.");
                 }
+
+                if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+                audioSource.clip = fireSound;
             }
         }
 

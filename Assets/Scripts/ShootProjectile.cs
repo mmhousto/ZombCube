@@ -16,6 +16,7 @@ namespace Com.GCTC.ZombCube
         public GameObject projectile;
         public ParticleSystem muzzle;
         public Animator anim;
+        public AudioClip fireSound;
         protected AudioSource audioSource;
 
         [SerializeField]
@@ -38,7 +39,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = GetComponent<AudioSource>();
             // Assignes launchVector
             launchVector = new Vector3(0, 0, launchVelocity);
         }
@@ -58,6 +59,13 @@ namespace Com.GCTC.ZombCube
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(firePosition.position, firePosition.forward * launchVelocity);
+        }
+
+        private void OnEnable()
+        {
+            if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+            audioSource.clip = fireSound;
         }
 
         #endregion

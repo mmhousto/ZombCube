@@ -55,6 +55,10 @@ namespace Com.GCTC.ZombCube
                     Debug.LogError("PlayerInput component not found.");
                 }
             }
+
+            if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+            audioSource.clip = fireSound;
         }
 
         private void OnDisable()

@@ -24,7 +24,7 @@ namespace Com.GCTC.ZombCube
             {
                 swapManager = GetComponent<NetworkSwapManager>();
                 playerManager = GetComponent<NetworkPlayerManager>();
-                audioSource = GetComponent<AudioSource>();
+                if (audioSource == null) audioSource = GetComponent<AudioSource>();
                 blaster = GetComponent<NetworkShootProjectile>();
                 smb = GetComponent<NetworkFullyAuto>();
                 aB = GetComponent<NetworkAB>();
@@ -43,6 +43,7 @@ namespace Com.GCTC.ZombCube
                 if (aB == null) aB = GetComponent<NetworkAB>();
                 if (shotblaster == null) shotblaster = GetComponent<NetworkShotblaster>();
                 if (swapManager == null) swapManager = GetComponent<NetworkSwapManager>();
+                if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
                 if (grenade != null && grenade.enabled == true)
                 {
@@ -54,6 +55,7 @@ namespace Com.GCTC.ZombCube
                     blaster.enabled = false;
                     fireRate = blaster.fireRate;
                     firePosition = blaster.firePosition;
+                    fireSound = blaster.fireSound;
                     muzzle = blaster.muzzle;
                     anim = blaster.anim;
                     projectile = blaster.projectile;
@@ -65,6 +67,7 @@ namespace Com.GCTC.ZombCube
                     smb.enabled = false;
                     fireRate = smb.fireRate;
                     firePosition = smb.firePosition;
+                    fireSound = smb.fireSound;
                     muzzle = smb.muzzle;
                     anim = smb.anim;
                     projectile = smb.projectile;
@@ -76,6 +79,7 @@ namespace Com.GCTC.ZombCube
                     aB.enabled = false;
                     fireRate = aB.fireRate;
                     firePosition = aB.firePosition;
+                    fireSound = aB.fireSound;
                     muzzle = aB.muzzle;
                     anim = aB.anim;
                     projectile = aB.projectile;
@@ -87,12 +91,14 @@ namespace Com.GCTC.ZombCube
                     shotblaster.enabled = false;
                     fireRate = shotblaster.fireRate;
                     firePosition = shotblaster.firePosition;
+                    fireSound = shotblaster.fireSound;
                     muzzle = shotblaster.muzzle;
                     anim = shotblaster.anim;
                     projectile = shotblaster.projectile;
                     launchVelocity = 5000;
                     launchVector = new Vector3(0, 0, launchVelocity);
                 }
+                audioSource.clip = fireSound;
 
                 // Get the PlayerInput component
                 PlayerInput playerInput = GetComponent<PlayerInput>();
