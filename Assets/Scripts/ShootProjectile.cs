@@ -125,9 +125,9 @@ namespace Com.GCTC.ZombCube
             anim.SetTrigger("IsFiring");
             muzzle.Play();
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
-            clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+            clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
 
-            if(Player.Instance != null)
+            if (Player.Instance != null)
             {
                 Player.Instance.totalProjectilesFired++;
                 CheckForTriggerHappyAchievements();
