@@ -25,8 +25,7 @@ namespace Com.GCTC.ZombCube
         protected bool canFire = true;
         protected float fireTime = 0f;
         public float fireRate = 0.8f;
-        [SerializeField]
-        protected float launchVelocity = 5000f;
+        public float launchVelocity = 5000f;
         protected Vector3 launchVector;
 
 
@@ -149,6 +148,11 @@ namespace Com.GCTC.ZombCube
 
 
         #region Public Methods
+
+        public void SetFireSound()
+        {
+            audioSource.clip = fireSound;
+        }
 
         /// <summary>
         /// Dynamic callback to see if player performed Fire player input action.

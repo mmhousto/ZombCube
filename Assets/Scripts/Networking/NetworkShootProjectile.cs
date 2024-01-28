@@ -19,8 +19,7 @@ namespace Com.GCTC.ZombCube
         protected float fireTime = 0f;
         public float fireRate = 0.8f;
         public AudioClip fireSound;
-        [SerializeField]
-        protected float launchVelocity = 5000f;
+        public float launchVelocity = 5000f;
         protected Vector3 launchVector;
         public Animator anim;
         public GameObject projectile;
@@ -172,6 +171,11 @@ namespace Com.GCTC.ZombCube
         public virtual void FireInput(bool newValue)
         {
             isFiring = newValue;
+        }
+
+        public void SetFireSound()
+        {
+            audioSource.clip = fireSound;
         }
     }
 

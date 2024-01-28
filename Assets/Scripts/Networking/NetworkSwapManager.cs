@@ -148,30 +148,57 @@ namespace Com.GCTC.ZombCube
         protected override void EnableDisableScriptComp(bool newState)
         {
             if (!photonView.IsMine) { return; }
-            
+
             switch (weapons.IndexOf(currentWeapon))
             {
-                case 0:// Blaster
-                    blaster.enabled = newState;
+                case 0:// Pistol
+                    if (tripleShot.enabled == true)
+                    {
+                        blaster.enabled = false;
+                        tripleShot.projectile = blaster.projectile;
+                        tripleShot.fireRate = blaster.fireRate;
+                        tripleShot.firePosition = blaster.firePosition;
+                        tripleShot.fireSound = blaster.fireSound;
+                        tripleShot.muzzle = blaster.muzzle;
+                        tripleShot.anim = blaster.anim;
+                        tripleShot.launchVelocity = 5000;
+                        tripleShot.SetFireSound();
+                    }
+                    else
+                    {
+                        blaster.enabled = newState;
+                    }
                     grenade.enabled = false;
                     break;
                 case 1:// Grenade
-                    if (newState == true && grenade.grenadeCount > 0)
+                    if (newState == true && grenade.grenadeCount > 0) // if has grenades switch
                     {
-                        grenade.enabled = newState;
                         blaster.enabled = false;
+                        grenade.enabled = newState;
                         tripleShot.enabled = false;
                     }
-                    else if (newState == false)
+                    else if (newState == false) // disable
                     {
                         blaster.enabled = false;
                         grenade.enabled = newState;
                     }
                     else
-                        SwapToNextWeapon();
+                        SwapToNextWeapon(); // out of nades
                     break;
                 case 2:// SMB
-                    if (newState == true || newState == false)
+                    if (tripleShot.enabled == true)
+                    {
+                        fullyAuto.enabled = false;
+                        tripleShot.projectile = fullyAuto.projectile;
+                        tripleShot.fireRate = fullyAuto.fireRate;
+                        tripleShot.firePosition = fullyAuto.firePosition;
+                        tripleShot.fireSound = fullyAuto.fireSound;
+                        tripleShot.muzzle = fullyAuto.muzzle;
+                        tripleShot.anim = fullyAuto.anim;
+                        tripleShot.launchVelocity = 5000;
+                        tripleShot.SetFireSound();
+                    }
+                    else if (newState == true || newState == false)
                     {
                         fullyAuto.enabled = newState;
                         blaster.enabled = false;
@@ -179,7 +206,19 @@ namespace Com.GCTC.ZombCube
                     }
                     break;
                 case 3:// AB
-                    if (newState == true || newState == false)
+                    if (tripleShot.enabled == true)
+                    {
+                        assaultBlaster.enabled = false;
+                        tripleShot.projectile = assaultBlaster.projectile;
+                        tripleShot.fireRate = assaultBlaster.fireRate;
+                        tripleShot.firePosition = assaultBlaster.firePosition;
+                        tripleShot.fireSound = assaultBlaster.fireSound;
+                        tripleShot.muzzle = assaultBlaster.muzzle;
+                        tripleShot.anim = assaultBlaster.anim;
+                        tripleShot.launchVelocity = 10000;
+                        tripleShot.SetFireSound();
+                    }
+                    else if (newState == true || newState == false)
                     {
                         assaultBlaster.enabled = newState;
                         blaster.enabled = false;
@@ -187,7 +226,19 @@ namespace Com.GCTC.ZombCube
                     }
                     break;
                 case 4:// Shotblaster
-                    if (newState == true || newState == false)
+                    if (tripleShot.enabled == true)
+                    {
+                        shotblaster.enabled = false;
+                        tripleShot.projectile = shotblaster.projectile;
+                        tripleShot.fireRate = shotblaster.fireRate;
+                        tripleShot.firePosition = shotblaster.firePosition;
+                        tripleShot.fireSound = shotblaster.fireSound;
+                        tripleShot.muzzle = shotblaster.muzzle;
+                        tripleShot.anim = shotblaster.anim;
+                        tripleShot.launchVelocity = 5000;
+                        tripleShot.SetFireSound();
+                    }
+                    else if (newState == true || newState == false)
                     {
                         shotblaster.enabled = newState;
                         blaster.enabled = false;
@@ -195,7 +246,8 @@ namespace Com.GCTC.ZombCube
                     }
                     break;
                 default:
-                    blaster.enabled = newState;
+                    blaster.enabled = true;
+                    grenade.enabled = false;
                     break;
             }
         }
