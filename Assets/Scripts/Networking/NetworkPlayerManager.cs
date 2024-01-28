@@ -175,20 +175,20 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 10)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(2500);
+                SpendPoints(10);
 
                 if (swapManager.HasWeapon(2))
                 {
-                    fullyAutoSMB.GetAmmo();
+                    fullyAutoSMB.GetAmmo(90);
                 }
                 else
                 {
                     swapManager.GetWeapon(2);
-                    fullyAutoSMB.GetAmmo();
+                    fullyAutoSMB.GetAmmo(90);
                 }
             }
 
@@ -198,20 +198,20 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 10)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(2500);
+                SpendPoints(10);
 
                 if (swapManager.HasWeapon(3))
                 {
-                    aB.GetAmmo();
+                    aB.GetAmmo(210);
                 }
                 else
                 {
                     swapManager.GetWeapon(3);
-                    aB.GetAmmo();
+                    aB.GetAmmo(210);
                 }
             }
 
@@ -229,12 +229,12 @@ namespace Com.GCTC.ZombCube
 
                 if (swapManager.HasWeapon(4))
                 {
-                    shotblaster.GetAmmo();
+                    shotblaster.GetAmmo(35);
                 }
                 else
                 {
                     swapManager.GetWeapon(4);
-                    shotblaster.GetAmmo();
+                    shotblaster.GetAmmo(35);
                 }
             }
         }
@@ -474,6 +474,8 @@ namespace Com.GCTC.ZombCube
                     ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
                 else if (ammoText != null && aB.enabled == true)
                     ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
+                else if (ammoText != null && shotblaster.enabled == true)
+                    ammoText.text = $"{shotblaster.currentAmmoInClip}/{shotblaster.reserveAmmo}";
                 else if (ammoText != null)
                     ammoText.text = "";
             }

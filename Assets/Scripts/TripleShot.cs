@@ -32,17 +32,17 @@ namespace Com.GCTC.ZombCube
         private void OnEnable()
         {
             if (grenade == null) grenade = GetComponent<LaunchGrenade>();
+            if (grenade != null && grenade.enabled == true)
+            {
+                swapManager.SwapToNextWeapon();
+            }
+
             if (blaster == null) blaster = GetComponent<ShootProjectile>();
             if (smb == null) smb = GetComponent<FullyAuto>();
             if (aB == null) aB = GetComponent<AssaultBlaster>();
             if (shotblaster == null) shotblaster = GetComponent<Shotblaster>();
             if (swapManager == null) swapManager = GetComponent<SwapManager>();
             if (audioSource == null) audioSource = GetComponent<AudioSource>();
-
-            if (grenade != null && grenade.enabled == true)
-            {
-                swapManager.SwapToNextWeapon();
-            }
 
             if (blaster != null && blaster.enabled == true)
             {
@@ -166,10 +166,21 @@ namespace Com.GCTC.ZombCube
                 {
                     foreach (Projectile p in proj.GetComponentsInChildren<Projectile>())
                     {
-                        p.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                        if (p.name.Contains("Blast")) continue;
+                        float x = Random.Range(-6f, 6f);
+                        float y = Random.Range(-6f, 6f);
+                        p.transform.SetParent(null);
+                        p.transform.localRotation *= Quaternion.Euler(new Vector3(x, y, 0));
+                        p.GetComponent<Rigidbody>().AddForce(p.transform.forward * launchVelocity);
+
+
                     }
-                }
-                proj.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                    float cx = Random.Range(-6f, 6f);
+                    float cy = Random.Range(-6f, 6f);
+                    proj.transform.localRotation *= Quaternion.Euler(new Vector3(cx, cy, 0));
+                    proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * launchVelocity);
+                }else
+                    proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * launchVelocity);
             }
 
             if (Player.Instance != null)

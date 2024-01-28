@@ -204,10 +204,21 @@ namespace Com.GCTC.ZombCube
                     {
                         foreach (Projectile p in proj.GetComponentsInChildren<Projectile>())
                         {
-                            p.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                            if (p.name.Contains("Blast")) continue;
+                            float x = Random.Range(-6f, 6f);
+                            float y = Random.Range(-6f, 6f);
+                            p.transform.SetParent(null);
+                            p.transform.localRotation *= Quaternion.Euler(new Vector3(x, y, 0));
+                            p.GetComponent<Rigidbody>().AddForce(p.transform.forward * launchVelocity);
+
+
                         }
-                    }
-                    proj.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                        float cx = Random.Range(-6f, 6f);
+                        float cy = Random.Range(-6f, 6f);
+                        proj.transform.localRotation *= Quaternion.Euler(new Vector3(cx, cy, 0));
+                        proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * launchVelocity);
+                    }else
+                        proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * launchVelocity);
                 }
 
                 if (Player.Instance != null)

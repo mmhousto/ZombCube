@@ -241,12 +241,12 @@ namespace Com.GCTC.ZombCube
 
                 if (swapManager.HasWeapon(2))
                 {
-                    fullyAutoSMB.GetAmmo();
+                    fullyAutoSMB.GetAmmo(90);
                 }
                 else
                 {
                     swapManager.GetWeapon(2);
-                    fullyAutoSMB.GetAmmo();
+                    fullyAutoSMB.GetAmmo(90);
                 }
             }
 
@@ -264,12 +264,12 @@ namespace Com.GCTC.ZombCube
 
                 if (swapManager.HasWeapon(3))
                 {
-                    aB.GetAmmo();
+                    aB.GetAmmo(210);
                 }
                 else
                 {
                     swapManager.GetWeapon(3);
-                    aB.GetAmmo();
+                    aB.GetAmmo(210);
                 }
             }
 
@@ -287,12 +287,12 @@ namespace Com.GCTC.ZombCube
 
                 if (swapManager.HasWeapon(4))
                 {
-                    shotblaster.GetAmmo();
+                    shotblaster.GetAmmo(35);
                 }
                 else
                 {
                     swapManager.GetWeapon(4);
-                    shotblaster.GetAmmo();
+                    shotblaster.GetAmmo(35);
                 }
             }
         }

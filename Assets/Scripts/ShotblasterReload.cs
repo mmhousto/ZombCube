@@ -31,18 +31,17 @@ namespace Com.GCTC.ZombCube
 
         public void Reload()
         {
-            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene" && ammoToReload > 0)
-            {
-                ammoToReload--;
-
-                RewindAnimationClip();
-            }
-            else if (ammoToReload > 0)
+            if (ammoToReload > 1)
             {
                 ammoToReload--;
 
                 RewindAnimationClip();
                 Debug.Log("Shotblaster Reload");
+            }
+            else
+            {
+                ammoToReload--;
+                Debug.Log("Shotblaster Reload 1");
             }
 
         }

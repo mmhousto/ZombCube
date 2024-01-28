@@ -226,7 +226,7 @@ namespace Com.GCTC.ZombCube
         {
             currentWeaponIndex++; // inceases index
 
-            if (currentWeaponIndex <= 3 && currentWeaponImages[currentWeaponIndex].sprite != null) // checks if next weapon is null
+            if (currentWeaponIndex <= 3 && currentWeaponIndex >= 0 && currentWeaponImages[currentWeaponIndex].sprite != null) // checks if next weapon is null
             {
                 EnableDisableScriptComp(false);
                 currentWeapon.SetActive(false);
@@ -298,25 +298,35 @@ namespace Com.GCTC.ZombCube
             switch (weapons.IndexOf(currentWeapon))
             {
                 case 0:// Pistol
-                    blaster.enabled = newState;
+                    if (tripleShot.enabled == true)
+                    {
+                        blaster.enabled = false;
+                    }
+                    else
+                    {
+                        blaster.enabled = newState;
+                    }
                     grenade.enabled = false;
                     break;
                 case 1:// Grenade
-                    if (newState == true && grenade.grenadeCount > 0) // if has grenades switch, else swap to next weapon
+                    if (newState == true && grenade.grenadeCount > 0) // if has grenades switch
                     {
                         blaster.enabled = false;
                         grenade.enabled = newState;
-                        tripleShot.enabled = false;
                     }
-                    else if (newState == false)
+                    else if (newState == false) // disable
                     {
                         blaster.enabled = false;
                         grenade.enabled = newState;
                     }
                     else
-                        SwapToNextWeapon();
+                        SwapToNextWeapon(); // out of nades
                     break;
                 case 2:// SMB
+                    if (tripleShot.enabled == true)
+                    {
+                        fullyAuto.enabled = false;
+                    }
                     if (newState == true || newState == false)
                     {
                         fullyAuto.enabled = newState;
@@ -325,6 +335,10 @@ namespace Com.GCTC.ZombCube
                     }
                     break;
                 case 3:// AB
+                    if (tripleShot.enabled == true)
+                    {
+                        assaultBlaster.enabled = false;
+                    }
                     if (newState == true || newState == false)
                     {
                         assaultBlaster.enabled = newState;
@@ -333,6 +347,10 @@ namespace Com.GCTC.ZombCube
                     }
                     break;
                 case 4:// Shotblaster
+                    if (tripleShot.enabled == true)
+                    {
+                        shotBlaster.enabled = false;
+                    }
                     if (newState == true || newState == false)
                     {
                         shotBlaster.enabled = newState;

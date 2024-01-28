@@ -52,7 +52,7 @@ namespace Com.GCTC.ZombCube
                 currentAmmoInClip--;
 
                 GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
-                clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
 
                 if (Player.Instance != null)
                 {
@@ -117,7 +117,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        public virtual void GetAmmo()
+        public void GetAmmo(int reserve)
         {
             if (currentAmmoInClip == 0 && reserveAmmo == 0)
             {
@@ -126,7 +126,7 @@ namespace Com.GCTC.ZombCube
             }
 
             currentAmmoInClip = clipSize;
-            reserveAmmo = 90;
+            reserveAmmo = reserve;
         }
 
     }

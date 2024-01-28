@@ -80,12 +80,6 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        public override void GetAmmo()
-        {
-            currentAmmoInClip = clipSize;
-            reserveAmmo = 35;
-        }
-
         protected override void ReloadWeapon()
         {
             if (currentAmmoInClip != clipSize && (reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && this.enabled)
