@@ -13,9 +13,9 @@ namespace Com.GCTC.ZombCube
         public GameObject[] powerUpPrefabs;
         public float dropChance = 0.5f;
         protected AudioSource audioSource;
-        private AudioSource ovAudioSource;
+        protected AudioSource ovAudioSource;
         public AudioClip[] clips;
-        private CouchCoopManager couchCoopManager;
+        protected CouchCoopManager couchCoopManager;
 
         private void Start()
         {
