@@ -175,11 +175,11 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 10)
+            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(10);
+                SpendPoints(1500);
 
                 if (swapManager.HasWeapon(2))
                 {
@@ -198,11 +198,11 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 10)
+            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(10);
+                SpendPoints(1500);
 
                 if (swapManager.HasWeapon(3))
                 {
@@ -221,11 +221,11 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("Shotblaster") && wp.isUsable && isInteractHeld && currentPoints >= 10)
+            if (other.CompareTag("Shotblaster") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(10);
+                SpendPoints(1500);
 
                 if (swapManager.HasWeapon(4))
                 {
