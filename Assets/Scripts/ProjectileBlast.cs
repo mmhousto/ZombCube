@@ -33,7 +33,6 @@ namespace Com.GCTC.ZombCube
                 audioSource.Play();
                 if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
                     Destroy(collision.gameObject);
-                DestroyProjectile();
             }
 
             if (collision.gameObject.tag == "Enemy")
@@ -58,8 +57,7 @@ namespace Com.GCTC.ZombCube
                 CheckForCubeDestroyerAchievements();
 
                 SpawnPowerup(collision.transform.position);
-
-                DestroyProjectile();
+                
             }
 
             if (collision.gameObject.tag == "Player" && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)
@@ -77,6 +75,8 @@ namespace Com.GCTC.ZombCube
                 ovAudioSource.clip = clips[NetworkGameManager.players.IndexOf(collision.gameObject)];
                 ovAudioSource.Play();
             }
+
+            DestroyProjectile();
         }
     }
 }
