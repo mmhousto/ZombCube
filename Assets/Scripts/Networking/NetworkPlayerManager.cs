@@ -20,6 +20,7 @@ namespace Com.GCTC.ZombCube
         private NetworkSwapManager swapManager;
         private NetworkFullyAuto fullyAutoSMB;
         private NetworkAB aB;
+        private NetworkShotblaster shotblaster;
         public NetworkLaunchGrenade grenade;
         private Player player;
         private GameObject onScreenControls;
@@ -75,6 +76,7 @@ namespace Com.GCTC.ZombCube
                 swapManager = GetComponent<NetworkSwapManager>();
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
                 aB = GetComponent<NetworkAB>();
+                shotblaster = GetComponent<NetworkShotblaster>();
                 grenade = GetComponent<NetworkLaunchGrenade>();
 
                 if (GetComponent<NetworkTripleShot>())
@@ -126,9 +128,18 @@ namespace Com.GCTC.ZombCube
             UpdateStats();
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Armor"))
+            {
+                other.transform.root.GetComponent<NetworkEnemy>().photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
+                DamagePlayerCall(20);
+            }
+        }
+
         private void OnTriggerExit(Collider other)
         {
-            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB")) && photonView.IsMine)
+            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster")) && photonView.IsMine)
             {
                 contextPrompt.SetActive(false);
             }
@@ -164,19 +175,20 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(2500);
+                SpendPoints(1500);
 
                 if (swapManager.HasWeapon(2))
                 {
-                    fullyAutoSMB.GetAmmo();
+                    fullyAutoSMB.GetAmmo(90);
                 }
                 else
                 {
                     swapManager.GetWeapon(2);
+                    fullyAutoSMB.GetAmmo(90);
                 }
             }
 
@@ -186,19 +198,43 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 2500)
+            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(2500);
+                SpendPoints(1500);
 
                 if (swapManager.HasWeapon(3))
                 {
-                    aB.GetAmmo();
+                    aB.GetAmmo(210);
                 }
                 else
                 {
                     swapManager.GetWeapon(3);
+                    aB.GetAmmo(210);
+                }
+            }
+
+            if (other.CompareTag("Shotblaster") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("Shotblaster") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(1500);
+
+                if (swapManager.HasWeapon(4))
+                {
+                    shotblaster.GetAmmo(35);
+                }
+                else
+                {
+                    swapManager.GetWeapon(4);
+                    shotblaster.GetAmmo(35);
                 }
             }
         }
@@ -438,6 +474,8 @@ namespace Com.GCTC.ZombCube
                     ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
                 else if (ammoText != null && aB.enabled == true)
                     ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
+                else if (ammoText != null && shotblaster.enabled == true)
+                    ammoText.text = $"{shotblaster.currentAmmoInClip}/{shotblaster.reserveAmmo}";
                 else if (ammoText != null)
                     ammoText.text = "";
             }

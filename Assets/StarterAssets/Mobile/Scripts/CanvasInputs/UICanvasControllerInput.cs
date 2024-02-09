@@ -13,6 +13,7 @@ namespace StarterAssets
         private NetworkShootProjectile playerFireN;
         private NetworkFullyAuto smBN;
         private NetworkAB aBN;
+        private NetworkShotblaster shotblasterN;
         private NetworkTripleShot playerFireTripleN;
         private NetworkLaunchGrenade playerGrenadeN;
         private NetworkPlayerManager playerManagerN;
@@ -24,6 +25,7 @@ namespace StarterAssets
         public ShootProjectile playerFire;
         public FullyAuto smB;
         public AssaultBlaster aB;
+        public Shotblaster shotblaster;
         public TripleShot playerFireTriple;
         public LaunchGrenade playerGrenade;
 
@@ -48,6 +50,7 @@ namespace StarterAssets
             playerFireN = currentPlayer.GetComponent<NetworkShootProjectile>();
             smBN = currentPlayer.GetComponent<NetworkFullyAuto>();
             aBN = currentPlayer.GetComponent<NetworkAB>();
+            shotblasterN = currentPlayer.GetComponent<NetworkShotblaster>();
             playerFireTripleN = currentPlayer.GetComponent<NetworkTripleShot>();
             playerLookN = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
             playerManagerN = currentPlayer.GetComponent<NetworkPlayerManager>();
@@ -60,6 +63,9 @@ namespace StarterAssets
 
             if (aBN != null)
                 aBN.enabled = false;
+
+            if (shotblasterN != null)
+                shotblasterN.enabled = false;
         }
 
         public void GetPlayer(GameObject player, bool online)
@@ -71,6 +77,7 @@ namespace StarterAssets
             playerFire = currentPlayer.GetComponent<ShootProjectile>();
             smB = currentPlayer.GetComponent<FullyAuto>();
             aB = currentPlayer.GetComponent<AssaultBlaster>();
+            shotblaster =currentPlayer.GetComponent<Shotblaster>();
             playerFireTriple = currentPlayer.GetComponent<TripleShot>();
             playerLook = currentPlayer.GetComponentInChildren<MouseLook>();
 
@@ -82,6 +89,9 @@ namespace StarterAssets
 
             if (aB != null)
                 aB.enabled = false;
+
+            if(shotblaster != null)
+                shotblaster.enabled = false;
         }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
@@ -161,6 +171,9 @@ namespace StarterAssets
                 if (aBN != null)
                     aBN.FireInput(virtualFireState);
 
+                if (shotblasterN != null)
+                    shotblasterN.FireInput(virtualFireState);
+
                 if (playerFireTripleN != null)
                     playerFireTripleN.FireInput(virtualFireState);
 
@@ -177,6 +190,9 @@ namespace StarterAssets
 
                 if (aB != null)
                     aB.FireInput(virtualFireState);
+
+                if (shotblaster != null)
+                    shotblaster.FireInput(virtualFireState);
 
                 if (playerFireTriple != null)
                     playerFireTriple.FireInput(virtualFireState);

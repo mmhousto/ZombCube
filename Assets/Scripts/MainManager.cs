@@ -56,6 +56,39 @@ namespace Com.GCTC.ZombCube
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
             }
+
+            if (Social.localUser.authenticated && Player.Instance != null)
+            {
+                if (Player.Instance.cubesEliminated >= 10_000)
+                {
+                    LeaderboardManager.UnlockCubeDestroyerI();
+                }
+
+                if (Player.Instance.cubesEliminated >= 100_000)
+                {
+                    LeaderboardManager.UnlockCubeDestroyerII();
+                }
+
+                if (Player.Instance.cubesEliminated >= 1_000_000)
+                {
+                    LeaderboardManager.UnlockCubeDestroyerIII();
+                }
+
+                if (Player.Instance.totalProjectilesFired >= 100_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyI();
+                }
+
+                if (Player.Instance.totalProjectilesFired >= 1_000_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyII();
+                }
+
+                if (Player.Instance.totalProjectilesFired >= 10_000_000)
+                {
+                    LeaderboardManager.UnlockTriggerHappyIII();
+                }
+            }
         }
 
         // Update is called once per frame

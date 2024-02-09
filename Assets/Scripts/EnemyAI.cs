@@ -52,7 +52,10 @@ namespace Com.GCTC.ZombCube
             if (other.CompareTag("Player"))
             {
                 Destroy(gameObject);
-                other.transform.root.GetComponent<PlayerManager>().Damage(20);
+                if (other.name == "Capsule")
+                    other.transform.parent.GetComponent<PlayerManager>().Damage(20);
+                else
+                    other.GetComponent<PlayerManager>().Damage(20);
 
             }
         }

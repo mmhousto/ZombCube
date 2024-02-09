@@ -13,6 +13,7 @@ namespace Com.GCTC.ZombCube
         private ShootProjectile blaster;
         private FullyAuto smb; //SMB
         private AssaultBlaster aB; // AB
+        private Shotblaster shotblaster; // Shotblaster
         private LaunchGrenade grenade; // Grenade
         private SwapManager swapManager;
 
@@ -23,32 +24,35 @@ namespace Com.GCTC.ZombCube
             blaster = GetComponent<ShootProjectile>();
             smb = GetComponent<FullyAuto>();
             aB = GetComponent<AssaultBlaster>();
+            shotblaster = GetComponent<Shotblaster>();
             grenade = GetComponent<LaunchGrenade>();
             audioSource = GetComponent<AudioSource>();
-            fireRate = 0.8f;
-            launchVector = new Vector3(0, 0, launchVelocity);
         }
 
         private void OnEnable()
         {
             if (grenade == null) grenade = GetComponent<LaunchGrenade>();
-            if (blaster == null) blaster = GetComponent<ShootProjectile>();
-            if (smb == null) smb = GetComponent<FullyAuto>();
-            if (aB == null) aB = GetComponent<AssaultBlaster>();
-            if (swapManager == null) swapManager = GetComponent<SwapManager>();
-
             if (grenade != null && grenade.enabled == true)
             {
                 swapManager.SwapToNextWeapon();
             }
+
+            if (blaster == null) blaster = GetComponent<ShootProjectile>();
+            if (smb == null) smb = GetComponent<FullyAuto>();
+            if (aB == null) aB = GetComponent<AssaultBlaster>();
+            if (shotblaster == null) shotblaster = GetComponent<Shotblaster>();
+            if (swapManager == null) swapManager = GetComponent<SwapManager>();
+            if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
             if (blaster != null && blaster.enabled == true)
             {
                 blaster.enabled = false;
                 fireRate = blaster.fireRate;
                 firePosition = blaster.firePosition;
+                fireSound = blaster.fireSound;
                 muzzle = blaster.muzzle;
                 anim = blaster.anim;
+                projectile = blaster.projectile;
                 launchVelocity = 5000;
                 launchVector = new Vector3(0, 0, launchVelocity);
             }
@@ -57,8 +61,10 @@ namespace Com.GCTC.ZombCube
                 smb.enabled = false;
                 fireRate = smb.fireRate;
                 firePosition = smb.firePosition;
+                fireSound = smb.fireSound;
                 muzzle = smb.muzzle;
                 anim = smb.anim;
+                projectile = smb.projectile;
                 launchVelocity = 5000;
                 launchVector = new Vector3(0, 0, launchVelocity);
             }
@@ -67,11 +73,26 @@ namespace Com.GCTC.ZombCube
                 aB.enabled = false;
                 fireRate = aB.fireRate;
                 firePosition = aB.firePosition;
+                fireSound = aB.fireSound;
                 muzzle = aB.muzzle;
                 anim = aB.anim;
+                projectile = aB.projectile;
                 launchVelocity = 10000;
                 launchVector = new Vector3(0, 0, launchVelocity);
             }
+            else if (shotblaster != null && shotblaster.enabled == true)
+            {
+                shotblaster.enabled = false;
+                fireRate = shotblaster.fireRate;
+                firePosition = shotblaster.firePosition;
+                fireSound = shotblaster.fireSound;
+                muzzle = shotblaster.muzzle;
+                anim = shotblaster.anim;
+                projectile = shotblaster.projectile;
+                launchVelocity = 5000;
+                launchVector = new Vector3(0, 0, launchVelocity);
+            }
+            audioSource.clip = fireSound;
 
             StartCoroutine(EndPowerup());
         }
@@ -107,6 +128,12 @@ namespace Com.GCTC.ZombCube
                     grenade.enabled = false;
 
                     break;
+                case 4:// Shotblaster
+                    shotblaster.enabled = true;
+                    blaster.enabled = false;
+                    grenade.enabled = false;
+
+                    break;
                 default:
                     blaster.enabled = true;
                     smb.enabled = false;
@@ -131,10 +158,30 @@ namespace Com.GCTC.ZombCube
             GameObject clone = Instantiate(projectile, firePosition.position, Quaternion.AngleAxis(offset, Vector3.up) * firePosition.rotation);
             GameObject clone2 = Instantiate(projectile, firePosition.position, Quaternion.AngleAxis(-offset, Vector3.up) * firePosition.rotation);
             GameObject clone3 = Instantiate(projectile, firePosition.position, firePosition.rotation);
+            GameObject[] projs = { clone, clone2, clone3 };
 
-            clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
-            clone2.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
-            clone3.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+            foreach (GameObject proj in projs)
+            {
+                if (projectile == shotblaster.projectile)
+                {
+                    foreach (Projectile p in proj.GetComponentsInChildren<Projectile>())
+                    {
+                        if (p.name.Contains("Blast")) continue;
+                        float x = Random.Range(-6f, 6f);
+                        float y = Random.Range(-6f, 6f);
+                        p.transform.SetParent(null);
+                        p.transform.localRotation *= Quaternion.Euler(new Vector3(x, y, 0));
+                        p.GetComponent<Rigidbody>().AddForce(p.transform.forward * launchVelocity);
+
+
+                    }
+                    float cx = Random.Range(-6f, 6f);
+                    float cy = Random.Range(-6f, 6f);
+                    proj.transform.localRotation *= Quaternion.Euler(new Vector3(cx, cy, 0));
+                    proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * launchVelocity);
+                }else
+                    proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * launchVelocity);
+            }
 
             if (Player.Instance != null)
             {

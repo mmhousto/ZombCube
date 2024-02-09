@@ -31,13 +31,16 @@ namespace Com.GCTC.ZombCube
             {
                 Dupe();
                 Destroy(gameObject);
-                other.transform.root.GetComponent<PlayerManager>().Damage(20);
+                if (other.name == "Capsule")
+                    other.transform.parent.GetComponent<PlayerManager>().Damage(20);
+                else
+                    other.GetComponent<PlayerManager>().Damage(20);
             }
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Bullet"))
+            if (collision.gameObject.CompareTag("Projectile"))
             {
                 Dupe();
             }

@@ -58,6 +58,10 @@ namespace Com.GCTC.ZombCube
                 {
                     Debug.LogError("PlayerInput component not found.");
                 }
+
+                if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+                audioSource.clip = fireSound;
             }
         }
 
@@ -89,7 +93,7 @@ namespace Com.GCTC.ZombCube
                 currentAmmoInClip--;
 
                 GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
-                clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
 
                 if (Player.Instance != null)
                 {
@@ -123,7 +127,7 @@ namespace Com.GCTC.ZombCube
             ReloadWeapon();
         }
 
-        public void ReloadWeapon()
+        protected virtual void ReloadWeapon()
         {
             if (currentAmmoInClip != clipSize && (reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && photonView.IsMine && this.enabled)
             {
@@ -153,7 +157,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        public virtual void GetAmmo()
+        public void GetAmmo(int reserve)
         {
             if (currentAmmoInClip == 0 && reserveAmmo == 0)
             {
@@ -162,7 +166,7 @@ namespace Com.GCTC.ZombCube
             }
 
             currentAmmoInClip = clipSize;
-            reserveAmmo = 90;
+            reserveAmmo = reserve;
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Com.GCTC.ZombCube
         private TripleShot tripleShot;
         private FullyAuto fullyAuto; // SMB
         private AssaultBlaster assaultBlaster; // AB
+        private Shotblaster shotBlaster; // Shotblaster
 
         private void Start()
         {
@@ -44,6 +45,7 @@ namespace Com.GCTC.ZombCube
             tripleShot = GetComponent<TripleShot>();
             fullyAuto = GetComponent<FullyAuto>();
             assaultBlaster = GetComponent<AssaultBlaster>();
+            shotBlaster = GetComponent<Shotblaster>();
 
             if(GameManager.mode == 0)
             {
@@ -224,7 +226,7 @@ namespace Com.GCTC.ZombCube
         {
             currentWeaponIndex++; // inceases index
 
-            if (currentWeaponIndex <= 3 && currentWeaponImages[currentWeaponIndex].sprite != null) // checks if next weapon is null
+            if (currentWeaponIndex <= 3 && currentWeaponIndex >= 0 && currentWeaponImages[currentWeaponIndex].sprite != null) // checks if next weapon is null
             {
                 EnableDisableScriptComp(false);
                 currentWeapon.SetActive(false);
@@ -258,7 +260,6 @@ namespace Com.GCTC.ZombCube
         protected virtual void SwapToWeapon(int weaponToSwapTo)
         {
             if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
-            if(currentWeaponIndex == weaponToSwapTo) return; // Dont swap to current weapon
             currentWeaponIndex = weaponToSwapTo;
 
             if (currentWeaponImages[weaponToSwapTo].sprite != null)
@@ -297,26 +298,53 @@ namespace Com.GCTC.ZombCube
             switch (weapons.IndexOf(currentWeapon))
             {
                 case 0:// Pistol
-                    blaster.enabled = newState;
+                    if (tripleShot.enabled == true)
+                    {
+                        blaster.enabled = false;
+                        tripleShot.projectile = blaster.projectile;
+                        tripleShot.fireRate = blaster.fireRate;
+                        tripleShot.firePosition = blaster.firePosition;
+                        tripleShot.fireSound = blaster.fireSound;
+                        tripleShot.muzzle = blaster.muzzle;
+                        tripleShot.anim = blaster.anim;
+                        tripleShot.launchVelocity = 5000;
+                        tripleShot.SetFireSound();
+                    }
+                    else
+                    {
+                        blaster.enabled = newState;
+                    }
                     grenade.enabled = false;
                     break;
                 case 1:// Grenade
-                    if (newState == true && grenade.grenadeCount > 0) // if has grenades switch, else swap to next weapon
+                    if (newState == true && grenade.grenadeCount > 0) // if has grenades switch
                     {
                         blaster.enabled = false;
                         grenade.enabled = newState;
                         tripleShot.enabled = false;
                     }
-                    else if (newState == false)
+                    else if (newState == false) // disable
                     {
                         blaster.enabled = false;
                         grenade.enabled = newState;
                     }
                     else
-                        SwapToNextWeapon();
+                        SwapToNextWeapon(); // out of nades
                     break;
                 case 2:// SMB
-                    if (newState == true || newState == false)
+                    if (tripleShot.enabled == true)
+                    {
+                        fullyAuto.enabled = false;
+                        tripleShot.projectile = fullyAuto.projectile;
+                        tripleShot.fireRate = fullyAuto.fireRate;
+                        tripleShot.firePosition = fullyAuto.firePosition;
+                        tripleShot.fireSound = fullyAuto.fireSound;
+                        tripleShot.muzzle = fullyAuto.muzzle;
+                        tripleShot.anim = fullyAuto.anim;
+                        tripleShot.launchVelocity = 5000;
+                        tripleShot.SetFireSound();
+                    }
+                    else if (newState == true || newState == false)
                     {
                         fullyAuto.enabled = newState;
                         blaster.enabled = false;
@@ -324,9 +352,41 @@ namespace Com.GCTC.ZombCube
                     }
                     break;
                 case 3:// AB
-                    if (newState == true || newState == false)
+                    if (tripleShot.enabled == true)
+                    {
+                        assaultBlaster.enabled = false;
+                        tripleShot.projectile = assaultBlaster.projectile;
+                        tripleShot.fireRate = assaultBlaster.fireRate;
+                        tripleShot.firePosition = assaultBlaster.firePosition;
+                        tripleShot.fireSound = assaultBlaster.fireSound;
+                        tripleShot.muzzle = assaultBlaster.muzzle;
+                        tripleShot.anim = assaultBlaster.anim;
+                        tripleShot.launchVelocity = 10000;
+                        tripleShot.SetFireSound();
+                    }
+                    else if (newState == true || newState == false)
                     {
                         assaultBlaster.enabled = newState;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
+                    }
+                    break;
+                case 4:// Shotblaster
+                    if (tripleShot.enabled == true)
+                    {
+                        shotBlaster.enabled = false;
+                        tripleShot.projectile = shotBlaster.projectile;
+                        tripleShot.fireRate = shotBlaster.fireRate;
+                        tripleShot.firePosition = shotBlaster.firePosition;
+                        tripleShot.fireSound = shotBlaster.fireSound;
+                        tripleShot.muzzle = shotBlaster.muzzle;
+                        tripleShot.anim = shotBlaster.anim;
+                        tripleShot.launchVelocity = 5000;
+                        tripleShot.SetFireSound();
+                    }
+                    else if (newState == true || newState == false)
+                    {
+                        shotBlaster.enabled = newState;
                         blaster.enabled = false;
                         grenade.enabled = false;
                     }
@@ -355,27 +415,34 @@ namespace Com.GCTC.ZombCube
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
                 currentWeaponImages[2].color = new Color(255, 255, 255, 255);
                 currentWeaponIndexes.Add(weaponIndex);
+                SwapToWeapon(2);
             }
             else if(currentWeaponImages[3].sprite == null) // Gets New Weapon 3
             {
                 currentWeaponImages[3].sprite = weaponImages[weaponIndex];
                 currentWeaponImages[3].color = new Color(255, 255, 255, 255);
                 currentWeaponIndexes.Add(weaponIndex);
-            }else if(currentWeaponIndex == 2 && currentWeaponImages[2].sprite != null) // Replace Weapon 2
+                SwapToWeapon(3);
+            }
+            else if(currentWeaponIndex == 2 && currentWeaponImages[2].sprite != null) // Replace Weapon 2
             {
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[2] = weaponIndex;
+                SwapToWeapon(2);
             }
             else if (currentWeaponIndex == 3 && currentWeaponImages[3].sprite != null) // Replace Weapon 3
             {
                 currentWeaponImages[3].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[3] = weaponIndex;
+                SwapToWeapon(3);
             }
             else // Replace Weapon 2 if holding nade or pistol
             {
                 currentWeaponImages[2].sprite = weaponImages[weaponIndex];
                 currentWeaponIndexes[2] = weaponIndex;
+                SwapToWeapon(2);
             }
+            
         }
 
         public int GetCurrentWeaponIndex()

@@ -18,8 +18,8 @@ namespace Com.GCTC.ZombCube
         protected bool canFire = true;
         protected float fireTime = 0f;
         public float fireRate = 0.8f;
-        [SerializeField]
-        protected float launchVelocity = 5000f;
+        public AudioClip fireSound;
+        public float launchVelocity = 5000f;
         protected Vector3 launchVector;
         public Animator anim;
         public GameObject projectile;
@@ -62,6 +62,10 @@ namespace Com.GCTC.ZombCube
                 {
                     Debug.LogError("PlayerInput component not found.");
                 }
+
+                if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+                audioSource.clip = fireSound;
             }
         }
 
@@ -91,7 +95,7 @@ namespace Com.GCTC.ZombCube
                 anim.SetTrigger("IsFiring");
                 muzzle.Play();
                 GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
-                clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+                clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
 
                 if (Player.Instance != null)
                 {
@@ -167,6 +171,11 @@ namespace Com.GCTC.ZombCube
         public virtual void FireInput(bool newValue)
         {
             isFiring = newValue;
+        }
+
+        public void SetFireSound()
+        {
+            audioSource.clip = fireSound;
         }
     }
 

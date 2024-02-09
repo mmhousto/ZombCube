@@ -16,6 +16,7 @@ namespace Com.GCTC.ZombCube
         public GameObject projectile;
         public ParticleSystem muzzle;
         public Animator anim;
+        public AudioClip fireSound;
         protected AudioSource audioSource;
 
         [SerializeField]
@@ -24,8 +25,7 @@ namespace Com.GCTC.ZombCube
         protected bool canFire = true;
         protected float fireTime = 0f;
         public float fireRate = 0.8f;
-        [SerializeField]
-        protected float launchVelocity = 5000f;
+        public float launchVelocity = 5000f;
         protected Vector3 launchVector;
 
 
@@ -38,7 +38,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = GetComponent<AudioSource>();
             // Assignes launchVector
             launchVector = new Vector3(0, 0, launchVelocity);
         }
@@ -58,6 +58,13 @@ namespace Com.GCTC.ZombCube
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(firePosition.position, firePosition.forward * launchVelocity);
+        }
+
+        private void OnEnable()
+        {
+            if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+            audioSource.clip = fireSound;
         }
 
         #endregion
@@ -125,9 +132,9 @@ namespace Com.GCTC.ZombCube
             anim.SetTrigger("IsFiring");
             muzzle.Play();
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
-            clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);
+            clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
 
-            if(Player.Instance != null)
+            if (Player.Instance != null)
             {
                 Player.Instance.totalProjectilesFired++;
                 CheckForTriggerHappyAchievements();
@@ -141,6 +148,11 @@ namespace Com.GCTC.ZombCube
 
 
         #region Public Methods
+
+        public void SetFireSound()
+        {
+            audioSource.clip = fireSound;
+        }
 
         /// <summary>
         /// Dynamic callback to see if player performed Fire player input action.
