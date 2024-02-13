@@ -21,6 +21,7 @@ namespace Com.GCTC.ZombCube
         private FullyAuto fullyAutoSMB;
         private AssaultBlaster aB;
         private Shotblaster shotblaster;
+        private SniperBlaster sniperBlaster;
         public LaunchGrenade grenade;
 
         public TextMeshProUGUI scoreText;
@@ -53,6 +54,7 @@ namespace Com.GCTC.ZombCube
             fullyAutoSMB = GetComponent<FullyAuto>();
             shotblaster = GetComponent<Shotblaster>();
             aB = GetComponent<AssaultBlaster>();
+            sniperBlaster = GetComponent<SniperBlaster>();
             grenade = GetComponent<LaunchGrenade>();
 
             if(healthBar == null && GameObject.FindWithTag("Health") != null)
@@ -135,6 +137,8 @@ namespace Com.GCTC.ZombCube
                 ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
             else if (ammoText != null && shotblaster.enabled == true)
                 ammoText.text = $"{shotblaster.currentAmmoInClip}/{shotblaster.reserveAmmo}";
+            else if (ammoText != null && sniperBlaster.enabled == true)
+                ammoText.text = $"{sniperBlaster.currentAmmoInClip}/{sniperBlaster.reserveAmmo}";
             else if(ammoText != null)
                 ammoText.text = "";
 
@@ -197,7 +201,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster"))
+            if (other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster") || other.CompareTag("Sniper"))
             {
                 contextPrompt.SetActive(false);
             }
@@ -293,6 +297,29 @@ namespace Com.GCTC.ZombCube
                 {
                     swapManager.GetWeapon(4);
                     shotblaster.GetAmmo(35);
+                }
+            }
+
+            if (other.CompareTag("Sniper") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("Sniper") && wp.isUsable && isInteractHeld && currentPoints >= 10)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(10);
+
+                if (swapManager.HasWeapon(5))
+                {
+                    sniperBlaster.GetAmmo(20);
+                }
+                else
+                {
+                    swapManager.GetWeapon(5);
+                    shotblaster.GetAmmo(20);
                 }
             }
         }
