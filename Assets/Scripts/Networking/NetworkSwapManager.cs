@@ -102,7 +102,7 @@ namespace Com.GCTC.ZombCube
         private void OnDisable()
         {
             // Disable UI if enabled
-            if (weaponSelectUI.activeInHierarchy == true)
+            if (weaponSelectUI != null && weaponSelectUI.activeInHierarchy == true)
             {
                 isSwapWeaponsHeld = false;
                 weaponSelectUI.SetActive(false);

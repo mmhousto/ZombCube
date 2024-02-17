@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Com.GCTC.ZombCube
 {
@@ -43,6 +44,13 @@ namespace Com.GCTC.ZombCube
                 if (hit.transform.CompareTag("Enemy"))
                 {
                     audioSource.Play();
+
+                    CheckForCubeDestroyerAchievements();
+
+                    SpawnPowerup(hit.transform.position);
+
+                    objectsHit++;
+
                     if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
                     {
 
@@ -56,14 +64,9 @@ namespace Com.GCTC.ZombCube
                         NetworkPlayerManager.AddPoints(pointsToAdd);
                         if (Player.Instance != null)
                             Player.Instance.cubesEliminated++;
-
+                        hit.transform.GetComponent<NetworkEnemy>().DestroyEnemyCall();
                     }
-
-                    CheckForCubeDestroyerAchievements();
-
-                    SpawnPowerup(hit.transform.position);
-
-                    objectsHit++;
+                    
                 }
 
                 if (hit.transform.CompareTag("Player") && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)
