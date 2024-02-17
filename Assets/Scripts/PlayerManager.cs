@@ -319,7 +319,7 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     swapManager.GetWeapon(5);
-                    shotblaster.GetAmmo(20);
+                    sniperBlaster.GetAmmo(20);
                 }
             }
         }

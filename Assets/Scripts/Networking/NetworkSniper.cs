@@ -6,26 +6,24 @@ using UnityEngine.InputSystem;
 
 namespace Com.GCTC.ZombCube
 {
-    public class NetworkShotblaster : NetworkFullyAuto
+    public class NetworkSniper : NetworkFullyAuto
     {
-        private ShotblasterReload reload;
 
         // Start is called before the first frame update
         void Start()
         {
             if (photonView.IsMine)
             {
-                reload = GetComponentInChildren<ShotblasterReload>();
                 playerManager = GetComponent<NetworkPlayerManager>();
                 audioSource = GetComponent<AudioSource>();
-                launchVelocity = 5000f;
+                launchVelocity = 10000f;
                 launchVector = new Vector3(0, 0, launchVelocity);
                 //isFiring = true;
-                fireRate = 0.4f;
-                ammoCap = 40;
+                fireRate = 1f;
+                ammoCap = 25;
                 clipSize = 5;
-                reserveAmmo = 35;
-                currentAmmoInClip = 5;
+                reserveAmmo = 20;
+                currentAmmoInClip = clipSize;
             }
         }
 
@@ -33,7 +31,7 @@ namespace Com.GCTC.ZombCube
         {
             if (photonView.IsMine)
             {
-                fireRate = 0.4f;
+                fireRate = 1f;
                 // Get the PlayerInput component
                 PlayerInput playerInput = GetComponent<PlayerInput>();
                 if (playerInput != null)
@@ -56,11 +54,11 @@ namespace Com.GCTC.ZombCube
                 {
                     Debug.LogError("PlayerInput component not found.");
                 }
+
+                if (audioSource == null) audioSource = GetComponent<AudioSource>();
+
+                audioSource.clip = fireSound;
             }
-
-            if (audioSource == null) audioSource = GetComponent<AudioSource>();
-
-            audioSource.clip = fireSound;
         }
 
         private void OnDisable()
@@ -91,21 +89,6 @@ namespace Com.GCTC.ZombCube
                 currentAmmoInClip--;
 
                 GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
-
-                foreach (Projectile p in clone.GetComponentsInChildren<Projectile>())
-                {
-                    if (p.name.Contains("Blast")) continue;
-                    float x = Random.Range(-6f, 6f);
-                    float y = Random.Range(-6f, 6f);
-                    p.transform.SetParent(null);
-                    p.transform.localRotation *= Quaternion.Euler(new Vector3(x, y, 0));
-                    p.GetComponent<Rigidbody>().AddForce(p.transform.forward * launchVelocity);
-
-
-                }
-                float cx = Random.Range(-6f, 6f);
-                float cy = Random.Range(-6f, 6f);
-                clone.transform.localRotation *= Quaternion.Euler(new Vector3(cx, cy, 0));
                 clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
 
                 if (Player.Instance != null)
@@ -117,38 +100,6 @@ namespace Com.GCTC.ZombCube
             }
             else ReloadWeapon();
 
-        }
-
-        protected override void ReloadWeapon()
-        {
-            if (currentAmmoInClip != clipSize && (reserveAmmo > clipSize || (currentAmmoInClip + reserveAmmo) > clipSize) && reloading == false && this.enabled)
-            {
-                //reload clip
-                reload.SetAmmo(currentAmmoInClip);
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                reserveAmmo += currentAmmoInClip;
-                currentAmmoInClip = clipSize;
-                reserveAmmo -= clipSize;
-
-            }
-            else if (currentAmmoInClip != clipSize && reserveAmmo > 0 && reloading == false && this.enabled)
-            {
-                //reload left
-                reload.SetAmmo(currentAmmoInClip);
-                StartCoroutine(Reload());
-                anim.SetTrigger("IsReloading");
-                reloading = true;
-                reserveAmmo += currentAmmoInClip;
-                currentAmmoInClip = reserveAmmo;
-                reserveAmmo = 0;
-            }
-            else if (currentAmmoInClip == 0 && reserveAmmo == 0)
-            {
-                // No AMMO
-                anim.SetTrigger("IsOut");
-            }
         }
     }
 }

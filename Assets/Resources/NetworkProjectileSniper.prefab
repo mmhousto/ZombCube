@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 8881031184705359589}
   - component: {fileID: 8881031184705359590}
   - component: {fileID: 8881031184705359591}
-  - component: {fileID: 4142799274643186651}
   - component: {fileID: -3805077219973053846}
   - component: {fileID: -108511073254321224}
   - component: {fileID: -7101081401288123710}
+  - component: {fileID: 1723060077763212458}
   m_Layer: 9
-  m_Name: NetworkProjectile
+  m_Name: NetworkProjectileSniper
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +105,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -138,31 +138,6 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &4142799274643186651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8881031184705359584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c3e95d88a49214c889162272664961, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerUpPrefabs:
-  - {fileID: 5380396378207050214, guid: 5921a86bdb643ae4c84d585ffd6a8408, type: 3}
-  - {fileID: 7636424766528263164, guid: 66467349a4486a0448719aff4746da5b, type: 3}
-  - {fileID: 3249143239858949676, guid: c669b31882bf84449a4cd7c7918f57d3, type: 3}
-  - {fileID: 6042435787072075525, guid: dfc8447f0e0a59c4a8fc056d59ede2b8, type: 3}
-  - {fileID: 6499588074282829669, guid: 61582e79866d06d45babf4e21ce72cdf, type: 3}
-  - {fileID: 4857286073802944868, guid: 5bdef61d6f1a50344a0fe40cdc490e32, type: 3}
-  dropChance: 0.05
-  clips:
-  - {fileID: 8300000, guid: 95f9d4762fc30dc47b387899dcc48a93, type: 3}
-  - {fileID: 8300000, guid: 1118c89ed7aacd947a0ff172ad7d5b4c, type: 3}
-  - {fileID: 8300000, guid: 9b0d05cdf5509264596c6a8b1a704ddf, type: 3}
-  - {fileID: 8300000, guid: b3a58220a9083ef4f8109918d7bb2213, type: 3}
 --- !u!114 &-3805077219973053846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +273,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1723060077763212458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8881031184705359584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 431677cea3366c44fbca04e3e5e42bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpPrefabs:
+  - {fileID: 4189329722586846838, guid: 6bfbdfa8d89835546a901391c7eb051e, type: 3}
+  - {fileID: 5823673767199051757, guid: 4e2c921c01d341e46868fe66e2c93b0f, type: 3}
+  - {fileID: 8220871562803749875, guid: d7512135433352440a6edadb52a845de, type: 3}
+  - {fileID: 4093364329111039053, guid: e40b63aef0ddaae48a4fe7aee515a62d, type: 3}
+  - {fileID: 1487968689091222204, guid: f8fe1e17093519042824432230fd08eb, type: 3}
+  - {fileID: 8325699859347107975, guid: 39f03c117d2328b498dffdf28e65ee9e, type: 3}
+  dropChance: 0.05
+  clips:
+  - {fileID: 8300000, guid: 95f9d4762fc30dc47b387899dcc48a93, type: 3}
+  - {fileID: 8300000, guid: 1118c89ed7aacd947a0ff172ad7d5b4c, type: 3}
+  - {fileID: 8300000, guid: 9b0d05cdf5509264596c6a8b1a704ddf, type: 3}
+  - {fileID: 8300000, guid: b3a58220a9083ef4f8109918d7bb2213, type: 3}
 --- !u!1001 &1603656376995161157
 PrefabInstance:
   m_ObjectHideFlags: 0

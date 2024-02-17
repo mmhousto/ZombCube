@@ -57,7 +57,14 @@ namespace Com.GCTC.ZombCube
                 CheckForCubeDestroyerAchievements();
 
                 SpawnPowerup(collision.transform.position);
-                
+
+                enemiesHit++;
+
+                if (enemiesHit >= 5 && Social.localUser.authenticated)
+                {
+                    LeaderboardManager.UnlockRicochetKing();
+                }
+
             }
 
             if (collision.gameObject.tag == "Player" && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)

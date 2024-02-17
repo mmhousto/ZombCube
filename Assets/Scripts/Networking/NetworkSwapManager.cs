@@ -12,9 +12,10 @@ namespace Com.GCTC.ZombCube
         private NetworkShootProjectile blaster;
         private NetworkLaunchGrenade grenade;
         private NetworkTripleShot tripleShot;
-        private NetworkFullyAuto fullyAuto;
+        private NetworkFullyAuto fullyAuto; // SMB
         private NetworkAB assaultBlaster; // AB
         private NetworkShotblaster shotblaster; // Shotblaster
+        private NetworkSniper sniper; // Sniper
         // Start is called before the first frame update
         void Start()
         {
@@ -31,6 +32,7 @@ namespace Com.GCTC.ZombCube
                 fullyAuto = GetComponent<NetworkFullyAuto>();
                 assaultBlaster = GetComponent<NetworkAB>();
                 shotblaster = GetComponent<NetworkShotblaster>();
+                sniper = GetComponent<NetworkSniper>();
 
                 weaponSelectUI = GameObject.Find("WeaponSelect");
 #if (UNITY_IOS || UNITY_ANDROID)
@@ -241,6 +243,26 @@ namespace Com.GCTC.ZombCube
                     else if (newState == true || newState == false)
                     {
                         shotblaster.enabled = newState;
+                        blaster.enabled = false;
+                        grenade.enabled = false;
+                    }
+                    break;
+                case 5:// Sniper
+                    if (tripleShot.enabled == true)
+                    {
+                        sniper.enabled = false;
+                        tripleShot.projectile = sniper.projectile;
+                        tripleShot.fireRate = sniper.fireRate;
+                        tripleShot.firePosition = sniper.firePosition;
+                        tripleShot.fireSound = sniper.fireSound;
+                        tripleShot.muzzle = sniper.muzzle;
+                        tripleShot.anim = sniper.anim;
+                        tripleShot.launchVelocity = 15000;
+                        tripleShot.SetFireSound();
+                    }
+                    else if (newState == true || newState == false)
+                    {
+                        sniper.enabled = newState;
                         blaster.enabled = false;
                         grenade.enabled = false;
                     }

@@ -73,6 +73,13 @@ namespace Com.GCTC.ZombCube
                 CheckForCubeDestroyerAchievements();
 
                 SpawnPowerup(collision.transform.position);
+
+                enemiesHit++;
+
+                if (enemiesHit >= 5 && Social.localUser.authenticated)
+                {
+                    LeaderboardManager.UnlockRicochetKing();
+                }
             }
 
             if (collision.gameObject.tag == "Player" && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)
@@ -88,19 +95,6 @@ namespace Com.GCTC.ZombCube
             {
                 ovAudioSource.clip = clips[NetworkGameManager.players.IndexOf(collision.gameObject)];
                 ovAudioSource.Play();
-            }
-        }
-
-        private void OnCollisionExit(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Enemy"))
-            {
-                enemiesHit++;
-
-                if (enemiesHit == 5 && Social.localUser.authenticated)
-                {
-                    LeaderboardManager.UnlockRicochetKing();
-                }
             }
         }
 

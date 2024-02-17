@@ -23,7 +23,7 @@ namespace Com.GCTC.ZombCube
             //shootProjectile.enabled = false;
             ammoCap = 40;
             clipSize = 5;
-            reserveAmmo = 15;
+            reserveAmmo = 35;
             currentAmmoInClip = 5;
         }
 

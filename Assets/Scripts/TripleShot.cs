@@ -14,6 +14,7 @@ namespace Com.GCTC.ZombCube
         private FullyAuto smb; //SMB
         private AssaultBlaster aB; // AB
         private Shotblaster shotblaster; // Shotblaster
+        private SniperBlaster sniperBlaster; // Sniper
         private LaunchGrenade grenade; // Grenade
         private SwapManager swapManager;
 
@@ -25,6 +26,7 @@ namespace Com.GCTC.ZombCube
             smb = GetComponent<FullyAuto>();
             aB = GetComponent<AssaultBlaster>();
             shotblaster = GetComponent<Shotblaster>();
+            sniperBlaster = GetComponent<SniperBlaster>();
             grenade = GetComponent<LaunchGrenade>();
             audioSource = GetComponent<AudioSource>();
         }
@@ -41,6 +43,7 @@ namespace Com.GCTC.ZombCube
             if (smb == null) smb = GetComponent<FullyAuto>();
             if (aB == null) aB = GetComponent<AssaultBlaster>();
             if (shotblaster == null) shotblaster = GetComponent<Shotblaster>();
+            if(sniperBlaster == null) sniperBlaster= GetComponent<SniperBlaster>();
             if (swapManager == null) swapManager = GetComponent<SwapManager>();
             if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
@@ -92,6 +95,18 @@ namespace Com.GCTC.ZombCube
                 launchVelocity = 5000;
                 launchVector = new Vector3(0, 0, launchVelocity);
             }
+            else if (sniperBlaster != null && sniperBlaster.enabled == true)
+            {
+                sniperBlaster.enabled = false;
+                fireRate = sniperBlaster.fireRate;
+                firePosition = sniperBlaster.firePosition;
+                fireSound = sniperBlaster.fireSound;
+                muzzle = sniperBlaster.muzzle;
+                anim = sniperBlaster.anim;
+                projectile = sniperBlaster.projectile;
+                launchVelocity = 15000;
+                launchVector = new Vector3(0, 0, launchVelocity);
+            }
             audioSource.clip = fireSound;
 
             StartCoroutine(EndPowerup());
@@ -130,6 +145,12 @@ namespace Com.GCTC.ZombCube
                     break;
                 case 4:// Shotblaster
                     shotblaster.enabled = true;
+                    blaster.enabled = false;
+                    grenade.enabled = false;
+
+                    break;
+                case 5:// Sniper
+                    sniperBlaster.enabled = true;
                     blaster.enabled = false;
                     grenade.enabled = false;
 
@@ -185,8 +206,6 @@ namespace Com.GCTC.ZombCube
 
             if (Player.Instance != null)
             {
-                Player.Instance.totalProjectilesFired++;
-                Player.Instance.totalProjectilesFired++;
                 Player.Instance.totalProjectilesFired++;
 
                 CheckForTriggerHappyAchievements();
