@@ -5,18 +5,15 @@ using UnityEngine.AI;
 
 namespace Com.GCTC.ZombCube
 {
-    public class DupeCube : EnemyAI
+    public class ShieldedCube : EnemyAI
     {
-
-        public GameObject dupe;
-        public Vector3 offset;
+        public GameObject shield;
 
         // Start is called before the first frame update
         void Start()
         {
             ai = GetComponent<NavMeshAgent>();
             target = GameObject.FindWithTag("Player").transform;
-            offset = Vector3.right + Vector3.up;
         }
 
         // Update is called once per frame
@@ -47,24 +44,12 @@ namespace Com.GCTC.ZombCube
         {
             if (other.CompareTag("Player"))
             {
-                Dupe();
                 Destroy(gameObject);
                 if (other.name == "Capsule")
                     other.transform.parent.GetComponent<PlayerManager>().Damage(20);
                 else
                     other.GetComponent<PlayerManager>().Damage(20);
             }
-        }
-
-        private void OnDestroy()
-        {
-            Dupe();
-        }
-
-        public void Dupe()
-        {
-            Instantiate(dupe, transform.position + offset, transform.rotation);
-            Instantiate(dupe, transform.position - offset, transform.rotation);
         }
     }
 }

@@ -167,6 +167,27 @@ namespace Com.GCTC.ZombCube
                 }
             }
 
+            if (currentRound > 6)
+            {
+                for (int i = 0; i < cubesToSpawn / 30; i++)
+                {
+                    int j = Random.Range(0, spawnPoints.Length);
+                    GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkShieldedCube",
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
+                    if (currentRound > 11)
+                    {
+                        float randChance = Random.value;
+                        if (randChance >= 1 - armorChance)
+                        {
+                            GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, cubeClone.transform.position, cubeClone.transform.rotation);
+                            armorClone.transform.SetParent(cubeClone.transform);
+                            armorClone.transform.localScale = Vector3.one;
+                        }
+                    }
+                }
+            }
+
         }
 
         [PunRPC]

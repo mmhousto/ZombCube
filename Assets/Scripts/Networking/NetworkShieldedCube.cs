@@ -2,29 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
 namespace Com.GCTC.ZombCube
 {
-    public class DupeCube : EnemyAI
+    public class NetworkShieldedCube : NetworkEnemy
     {
-
-        public GameObject dupe;
-        public Vector3 offset;
+        public GameObject shield;
 
         // Start is called before the first frame update
         void Start()
         {
+            if (!this.photonView.IsMine)
+            {
+                ai = GetComponent<NavMeshAgent>();
+                ai.enabled = false;
+                return;
+            }
+
             ai = GetComponent<NavMeshAgent>();
-            target = GameObject.FindWithTag("Player").transform;
-            offset = Vector3.right + Vector3.up;
+            isGameOver = NetworkGameManager.Instance.IsGameOver();
+            players = GameObject.FindGameObjectsWithTag("Player");
+            target = GetClosestPlayer(players);
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (!this.photonView.IsMine) { return; }
+
             players = GameObject.FindGameObjectsWithTag("Player");
 
-            isGameOver = (GameManager.Instance != null) ? GameManager.Instance.isGameOver : false;
+            isGameOver = NetworkGameManager.Instance.IsGameOver();
 
             if (isGameOver == false)
             {
@@ -45,26 +54,14 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && hasHit == false)
             {
-                Dupe();
-                Destroy(gameObject);
-                if (other.name == "Capsule")
-                    other.transform.parent.GetComponent<PlayerManager>().Damage(20);
-                else
-                    other.GetComponent<PlayerManager>().Damage(20);
+                other.transform.root.GetComponent<NetworkPlayerManager>().DamagePlayerCall(20f);
+                hasHit = true;
+
+                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
             }
         }
 
-        private void OnDestroy()
-        {
-            Dupe();
-        }
-
-        public void Dupe()
-        {
-            Instantiate(dupe, transform.position + offset, transform.rotation);
-            Instantiate(dupe, transform.position - offset, transform.rotation);
-        }
     }
 }

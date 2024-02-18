@@ -33,60 +33,101 @@ namespace Com.GCTC.ZombCube
             // to see if it is about to hit anything.
             if (Physics.SphereCast(transform.position, .1f, transform.forward, out hit, 5))
             {
-                if (hit.transform.CompareTag("Armor"))
-                {
-                    audioSource.Play();
-                    if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
-                        Destroy(hit.transform.gameObject);
-                    objectsHit++;
-                }
+                CheckHitArmor(hit);
 
-                if (hit.transform.CompareTag("Enemy"))
-                {
-                    audioSource.Play();
+                CheckHitEnemy(hit);
 
-                    CheckForCubeDestroyerAchievements();
+                CheckHitPlayer(hit);
 
-                    SpawnPowerup(hit.transform.position);
+                CheckHitShield(hit);
 
-                    objectsHit++;
-
-                    if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
-                    {
-
-                        Destroy(hit.transform.gameObject);
-                        PlayerManager.AddPoints(pointsToAdd);
-                        if (Player.Instance != null)
-                            Player.Instance.cubesEliminated++;
-                    }
-                    else if (this.photonView.IsMine)
-                    {
-                        NetworkPlayerManager.AddPoints(pointsToAdd);
-                        if (Player.Instance != null)
-                            Player.Instance.cubesEliminated++;
-                        hit.transform.GetComponent<NetworkEnemy>().DestroyEnemyCall();
-                    }
-                    
-                }
-
-                if (hit.transform.CompareTag("Player") && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)
-                {
-                    ovAudioSource.clip = clips[0];
-                    ovAudioSource.Play();
-                }
-                else if (hit.transform.CompareTag("Player") && this.photonView == null && GameManager.Instance?.numOfPlayers > 1)
-                {
-                    ovAudioSource.clip = clips[couchCoopManager.GetPlayerIndex(hit.transform.parent.gameObject)];
-                    ovAudioSource.Play();
-                }
-                else if (hit.transform.CompareTag("Player") && this.photonView.IsMine)
-                {
-                    ovAudioSource.clip = clips[NetworkGameManager.players.IndexOf(hit.transform.gameObject)];
-                    ovAudioSource.Play();
-                }
-                
+                CheckHitShielded(hit);
 
                 if (objectsHit > 5) { DestroyProjectile(); }
+            }
+        }
+
+        private void CheckHitEnemy(RaycastHit hit)
+        {
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                HitEnemy(hit);
+                
+                SpawnPowerup(hit.transform.position);
+
+            }
+        }
+
+        private void CheckHitPlayer(RaycastHit hit)
+        {
+            if (hit.transform.CompareTag("Player") && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)
+            {
+                ovAudioSource.clip = clips[0];
+                ovAudioSource.Play();
+            }
+            else if (hit.transform.CompareTag("Player") && this.photonView == null && GameManager.Instance?.numOfPlayers > 1)
+            {
+                ovAudioSource.clip = clips[couchCoopManager.GetPlayerIndex(hit.transform.parent.gameObject)];
+                ovAudioSource.Play();
+            }
+            else if (hit.transform.CompareTag("Player") && this.photonView.IsMine)
+            {
+                ovAudioSource.clip = clips[NetworkGameManager.players.IndexOf(hit.transform.gameObject)];
+                ovAudioSource.Play();
+            }
+        }
+
+        private void CheckHitArmor(RaycastHit hit)
+        {
+            if (hit.transform.CompareTag("Armor"))
+            {
+                audioSource.Play();
+                if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
+                    Destroy(hit.transform.gameObject);
+                objectsHit++;
+            }
+        }
+
+        protected void CheckHitShield(RaycastHit hit)
+        {
+            if (hit.transform.CompareTag("Shield"))
+            {
+                HitEnemy(hit);
+            }
+        }
+
+        protected void CheckHitShielded(RaycastHit hit)
+        {
+            if (hit.transform.CompareTag("Shielded") && hit.transform.GetComponent<ShieldedCube>().shield == null)
+            {
+                HitEnemy(hit);
+
+                SpawnPowerup(hit.transform.position);
+            }
+        }
+
+        void HitEnemy(RaycastHit hit)
+        {
+            audioSource.Play();
+
+            CheckForCubeDestroyerAchievements();
+
+            objectsHit++;
+
+            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+            {
+
+                Destroy(hit.transform.gameObject);
+                PlayerManager.AddPoints(pointsToAdd);
+                if (Player.Instance != null)
+                    Player.Instance.cubesEliminated++;
+            }
+            else if (this.photonView.IsMine)
+            {
+                NetworkPlayerManager.AddPoints(pointsToAdd);
+                if (Player.Instance != null)
+                    Player.Instance.cubesEliminated++;
+                hit.transform.GetComponent<NetworkEnemy>().DestroyEnemyCall();
             }
         }
     }
