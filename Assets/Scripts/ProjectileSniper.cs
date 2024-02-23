@@ -21,17 +21,21 @@ namespace Com.GCTC.ZombCube
             {
                 couchCoopManager = GameObject.Find("CoopManager").GetComponent<CouchCoopManager>();
             }
+
+            DetectCollision(1);
         }
 
         // Update is called once per frame
         void Update()
         {
+            DetectCollision(5);
+        }
+
+        private void DetectCollision(int max)
+        {
             RaycastHit hit;
 
-
-            // Cast a sphere wrapping projectile 3 meters forward
-            // to see if it is about to hit anything.
-            if (Physics.SphereCast(transform.position, .1f, transform.forward, out hit, 5))
+            if (Physics.SphereCast(transform.position, .1f, transform.forward, out hit, max))
             {
                 CheckHitArmor(hit);
 
