@@ -32,6 +32,7 @@ namespace Com.GCTC.ZombCube
             if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
             audioSource.clip = fireSound;
+            audioSource.pitch = audioPitch;
         }
 
         // Update is called once per frame

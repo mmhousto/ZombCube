@@ -10,7 +10,7 @@ namespace Com.GCTC.ZombCube
         private int objectsHit = 0;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             enemiesHit = 0;
             Invoke(nameof(DestroyProjectile), 3f);
@@ -22,10 +22,19 @@ namespace Com.GCTC.ZombCube
                 couchCoopManager = GameObject.Find("CoopManager").GetComponent<CouchCoopManager>();
             }
 
-            DetectCollision(1);
+            DetectCollision(5);
         }
 
-        // Update is called once per frame
+        private void OnEnable()
+        {
+            DetectCollision(5);
+        }
+
+        private void Start()
+        {
+            DetectCollision(5);
+        }
+
         void Update()
         {
             DetectCollision(5);
@@ -35,7 +44,7 @@ namespace Com.GCTC.ZombCube
         {
             RaycastHit hit;
 
-            if (Physics.SphereCast(transform.position, .1f, transform.forward, out hit, max))
+            if (Physics.SphereCast(transform.position - (transform.forward), .1f, transform.forward, out hit, max))
             {
                 CheckHitArmor(hit);
 

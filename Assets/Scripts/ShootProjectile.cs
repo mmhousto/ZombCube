@@ -26,6 +26,7 @@ namespace Com.GCTC.ZombCube
         protected float fireTime = 0f;
         public float fireRate = 0.8f;
         public float launchVelocity = 5000f;
+        public float audioPitch = 1f;
         protected Vector3 launchVector;
 
 
@@ -65,6 +66,7 @@ namespace Com.GCTC.ZombCube
             if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
             audioSource.clip = fireSound;
+            audioSource.pitch = audioPitch;
         }
 
         #endregion
