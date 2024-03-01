@@ -48,6 +48,10 @@ namespace Com.GCTC.ZombCube
                 ownedBlasters = temp;
                 ownedBlasters = player.ownedBlasters;
             }
+            else
+            {
+                ownedBlasters = player.ownedBlasters;
+            }
 
             currentSkin = player.currentSkin;
             if (player.ownedSkins == null)
@@ -61,6 +65,10 @@ namespace Com.GCTC.ZombCube
                 ownedSkins = temp;
                 ownedSkins = player.ownedSkins;
 
+            }
+            else
+            {
+                ownedSkins = player.ownedSkins;
             }
 
             cubesEliminated = player.cubesEliminated;
