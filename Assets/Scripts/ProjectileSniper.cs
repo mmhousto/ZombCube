@@ -97,7 +97,10 @@ namespace Com.GCTC.ZombCube
                 audioSource.Play();
                 if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
                     Destroy(hit.transform.gameObject);
-                objectsHit++;
+                else if (this.photonView.IsMine)
+                {
+                    hit.transform.GetComponent<NetworkArmor>().CallDestroyEnemy();
+                }
             }
         }
 
