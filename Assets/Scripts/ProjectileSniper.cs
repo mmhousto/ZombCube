@@ -21,30 +21,46 @@ namespace Com.GCTC.ZombCube
             {
                 couchCoopManager = GameObject.Find("CoopManager").GetComponent<CouchCoopManager>();
             }
-
-            DetectCollision(5);
         }
 
         private void OnEnable()
         {
-            DetectCollision(5);
-        }
-
-        private void Start()
-        {
-            DetectCollision(5);
+            DetectAllCollision(5);
         }
 
         void Update()
         {
-            DetectCollision(5);
+            DetectCollision(2);
+        }
+
+        private void DetectAllCollision(int max)
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position - (transform.forward), .05f, transform.forward, max);
+
+            if (hits.Length > 0)
+            {
+                foreach (RaycastHit hit in hits)
+                {
+                    CheckHitArmor(hit);
+
+                    CheckHitEnemy(hit);
+
+                    CheckHitPlayer(hit);
+
+                    CheckHitShield(hit);
+
+                    CheckHitShielded(hit);
+
+                }
+            }
+            if (objectsHit > 5) { DestroyProjectile(); }
         }
 
         private void DetectCollision(int max)
         {
             RaycastHit hit;
 
-            if (Physics.SphereCast(transform.position - (transform.forward), .1f, transform.forward, out hit, max))
+            if (Physics.SphereCast(transform.position, .05f, transform.forward, out hit, max))
             {
                 CheckHitArmor(hit);
 
