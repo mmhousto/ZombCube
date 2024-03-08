@@ -30,7 +30,7 @@ namespace Com.GCTC.ZombCube
 
         void Update()
         {
-            DetectCollision(2);
+            DetectCollision(5);
         }
 
         private void DetectAllCollision(int max)
