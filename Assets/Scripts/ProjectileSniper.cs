@@ -21,6 +21,8 @@ namespace Com.GCTC.ZombCube
             {
                 couchCoopManager = GameObject.Find("CoopManager").GetComponent<CouchCoopManager>();
             }
+
+            DetectAllCollision(5);
         }
 
         private void OnEnable()

@@ -306,11 +306,11 @@ namespace Com.GCTC.ZombCube
                 contextPromptText.text = wp.contextPrompt;
             }
 
-            if (other.CompareTag("Sniper") && wp.isUsable && isInteractHeld && currentPoints >= 10)
+            if (other.CompareTag("Sniper") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
             {
                 wp.StartResetWeapon();
 
-                SpendPoints(10);
+                SpendPoints(1500);
 
                 if (swapManager.HasWeapon(5))
                 {
