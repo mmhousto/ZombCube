@@ -46,9 +46,9 @@ namespace Com.GCTC.ZombCube
             {
                 Destroy(gameObject);
                 if (other.name == "Capsule")
-                    other.transform.parent.GetComponent<PlayerManager>().Damage(20);
+                    other.transform.parent.GetComponent<PlayerManager>().Damage(25);
                 else
-                    other.GetComponent<PlayerManager>().Damage(20);
+                    other.GetComponent<PlayerManager>().Damage(25);
             }
         }
     }

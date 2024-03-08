@@ -30,7 +30,7 @@ namespace Com.GCTC.ZombCube
 
         void Update()
         {
-            DetectCollision(5);
+            DetectCollision(6);
         }
 
         private void DetectAllCollision(int max)
@@ -130,7 +130,13 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitShielded(RaycastHit hit)
         {
-            if (hit.transform.CompareTag("Shielded") && hit.transform.GetComponent<ShieldedCube>().shield == null)
+            if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display") && hit.transform.CompareTag("Shielded") && hit.transform.GetComponent<ShieldedCube>().shield == null)
+            {
+                HitEnemy(hit);
+
+                SpawnPowerup(hit.transform.position);
+            }
+            else if (hit.transform.CompareTag("Shielded") && hit.transform.GetComponent<NetworkShieldedCube>().shield == null)
             {
                 HitEnemy(hit);
 

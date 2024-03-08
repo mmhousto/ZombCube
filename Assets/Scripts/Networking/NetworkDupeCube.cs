@@ -55,7 +55,8 @@ namespace Com.GCTC.ZombCube
 
         private void OnDestroy()
         {
-            Dupe();
+            if(isGameOver == false)
+                Dupe();
         }
 
         private void OnTriggerEnter(Collider other)

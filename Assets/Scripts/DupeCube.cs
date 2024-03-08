@@ -58,7 +58,8 @@ namespace Com.GCTC.ZombCube
 
         private void OnDestroy()
         {
-            Dupe();
+            if(isGameOver == false)
+                Dupe();
         }
 
         public void Dupe()
