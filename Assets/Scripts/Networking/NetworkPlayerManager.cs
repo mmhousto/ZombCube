@@ -21,6 +21,7 @@ namespace Com.GCTC.ZombCube
         private NetworkFullyAuto fullyAutoSMB;
         private NetworkAB aB;
         private NetworkShotblaster shotblaster;
+        private NetworkSniper sniper;
         public NetworkLaunchGrenade grenade;
         private Player player;
         private GameObject onScreenControls;
@@ -77,6 +78,7 @@ namespace Com.GCTC.ZombCube
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
                 aB = GetComponent<NetworkAB>();
                 shotblaster = GetComponent<NetworkShotblaster>();
+                sniper = GetComponent<NetworkSniper>();
                 grenade = GetComponent<NetworkLaunchGrenade>();
 
                 if (GetComponent<NetworkTripleShot>())
@@ -139,7 +141,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerExit(Collider other)
         {
-            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster")) && photonView.IsMine)
+            if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster") || other.CompareTag("Sniper")) && photonView.IsMine)
             {
                 contextPrompt.SetActive(false);
             }
@@ -235,6 +237,29 @@ namespace Com.GCTC.ZombCube
                 {
                     swapManager.GetWeapon(4);
                     shotblaster.GetAmmo(35);
+                }
+            }
+
+            if (other.CompareTag("Sniper") && wp.isUsable)
+            {
+                contextPrompt.SetActive(true);
+                contextPromptText.text = wp.contextPrompt;
+            }
+
+            if (other.CompareTag("Sniper") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
+            {
+                wp.StartResetWeapon();
+
+                SpendPoints(1500);
+
+                if (swapManager.HasWeapon(5))
+                {
+                    sniper.GetAmmo(20);
+                }
+                else
+                {
+                    swapManager.GetWeapon(5);
+                    sniper.GetAmmo(20);
                 }
             }
         }
@@ -476,6 +501,8 @@ namespace Com.GCTC.ZombCube
                     ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
                 else if (ammoText != null && shotblaster.enabled == true)
                     ammoText.text = $"{shotblaster.currentAmmoInClip}/{shotblaster.reserveAmmo}";
+                else if (ammoText != null && sniper.enabled == true)
+                    ammoText.text = $"{sniper.currentAmmoInClip}/{sniper.reserveAmmo}";
                 else if (ammoText != null)
                     ammoText.text = "";
             }

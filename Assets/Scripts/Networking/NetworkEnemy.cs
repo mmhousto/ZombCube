@@ -101,6 +101,10 @@ namespace Com.GCTC.ZombCube
             return tMin;
         }
 
+        public void DestroyEnemyCall()
+        {
+            photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
+        }
 
         [PunRPC]
         public void DestroyEnemy()

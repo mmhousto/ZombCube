@@ -1112,6 +1112,10 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 data.ownedBlasters = temp;
                 player.ownedBlasters = data.ownedBlasters;
             }
+            else
+            {
+                player.ownedBlasters = data.ownedBlasters;
+            }
 
             player.currentSkin = data.currentSkin;
 
@@ -1126,6 +1130,10 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 data.ownedSkins = temp;
                 player.ownedSkins = data.ownedSkins;
 
+            }
+            else
+            {
+                player.ownedSkins = data.ownedSkins;
             }
         }
 

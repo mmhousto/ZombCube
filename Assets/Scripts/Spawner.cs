@@ -132,6 +132,25 @@ namespace Com.GCTC.ZombCube
                 }
             }
 
+            if (currentRound > 6)
+            {
+                for (int i = 0; i < cubesToSpawn / 30; i++)
+                {
+                    int j = Random.Range(0, spawnPoints.Length);
+                    GameObject cubeClone = Instantiate(enemies[3],
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
+                    if (currentRound > 11)
+                    {
+                        float randChance = Random.value;
+                        if (randChance >= 1 - armorChance)
+                        {
+                            Instantiate(armor, cubeClone.transform);
+                        }
+                    }
+                }
+            }
+
         }
 
 

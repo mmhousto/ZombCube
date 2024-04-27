@@ -23,7 +23,7 @@ namespace Com.GCTC.ZombCube
             //shootProjectile.enabled = false;
             ammoCap = 40;
             clipSize = 5;
-            reserveAmmo = 15;
+            reserveAmmo = 35;
             currentAmmoInClip = 5;
         }
 
@@ -32,6 +32,7 @@ namespace Com.GCTC.ZombCube
             if (audioSource == null) audioSource = GetComponent<AudioSource>();
 
             audioSource.clip = fireSound;
+            audioSource.pitch = audioPitch;
         }
 
         // Update is called once per frame

@@ -14,6 +14,7 @@ namespace StarterAssets
         private NetworkFullyAuto smBN;
         private NetworkAB aBN;
         private NetworkShotblaster shotblasterN;
+        private NetworkSniper sniperBlasterN;
         private NetworkTripleShot playerFireTripleN;
         private NetworkLaunchGrenade playerGrenadeN;
         private NetworkPlayerManager playerManagerN;
@@ -26,6 +27,7 @@ namespace StarterAssets
         public FullyAuto smB;
         public AssaultBlaster aB;
         public Shotblaster shotblaster;
+        public SniperBlaster sniperBlaster;
         public TripleShot playerFireTriple;
         public LaunchGrenade playerGrenade;
 
@@ -51,6 +53,7 @@ namespace StarterAssets
             smBN = currentPlayer.GetComponent<NetworkFullyAuto>();
             aBN = currentPlayer.GetComponent<NetworkAB>();
             shotblasterN = currentPlayer.GetComponent<NetworkShotblaster>();
+            sniperBlasterN = currentPlayer.GetComponent<NetworkSniper>();
             playerFireTripleN = currentPlayer.GetComponent<NetworkTripleShot>();
             playerLookN = currentPlayer.GetComponentInChildren<NetworkMouseLook>();
             playerManagerN = currentPlayer.GetComponent<NetworkPlayerManager>();
@@ -66,6 +69,9 @@ namespace StarterAssets
 
             if (shotblasterN != null)
                 shotblasterN.enabled = false;
+
+            if(sniperBlasterN != null)
+                sniperBlasterN.enabled = false;
         }
 
         public void GetPlayer(GameObject player, bool online)
@@ -78,6 +84,7 @@ namespace StarterAssets
             smB = currentPlayer.GetComponent<FullyAuto>();
             aB = currentPlayer.GetComponent<AssaultBlaster>();
             shotblaster =currentPlayer.GetComponent<Shotblaster>();
+            sniperBlaster = currentPlayer.GetComponent<SniperBlaster>();
             playerFireTriple = currentPlayer.GetComponent<TripleShot>();
             playerLook = currentPlayer.GetComponentInChildren<MouseLook>();
 
@@ -92,6 +99,9 @@ namespace StarterAssets
 
             if(shotblaster != null)
                 shotblaster.enabled = false;
+
+            if(sniperBlaster != null)
+                sniperBlaster.enabled = false;
         }
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
@@ -174,6 +184,9 @@ namespace StarterAssets
                 if (shotblasterN != null)
                     shotblasterN.FireInput(virtualFireState);
 
+                if(sniperBlasterN != null)
+                    sniperBlasterN.FireInput(virtualFireState);
+
                 if (playerFireTripleN != null)
                     playerFireTripleN.FireInput(virtualFireState);
 
@@ -193,6 +206,9 @@ namespace StarterAssets
 
                 if (shotblaster != null)
                     shotblaster.FireInput(virtualFireState);
+
+                if(sniperBlaster != null)
+                    sniperBlaster.FireInput(virtualFireState);
 
                 if (playerFireTriple != null)
                     playerFireTriple.FireInput(virtualFireState);

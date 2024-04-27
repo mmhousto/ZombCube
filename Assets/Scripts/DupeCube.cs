@@ -22,7 +22,25 @@ namespace Com.GCTC.ZombCube
         // Update is called once per frame
         void Update()
         {
-            ai.SetDestination(target.position);
+            players = GameObject.FindGameObjectsWithTag("Player");
+
+            isGameOver = (GameManager.Instance != null) ? GameManager.Instance.isGameOver : false;
+
+            if (isGameOver == false)
+            {
+                target = GetClosestPlayer(players);
+                if (target == null) { return; }
+                else
+                {
+                    ai.SetDestination(target.position);
+                }
+
+            }
+            else
+            {
+                if (ai != null && ai.isStopped == false)
+                    ai.isStopped = true;
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -38,12 +56,10 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnDestroy()
         {
-            if (collision.gameObject.CompareTag("Projectile"))
-            {
+            if(isGameOver == false)
                 Dupe();
-            }
         }
 
         public void Dupe()

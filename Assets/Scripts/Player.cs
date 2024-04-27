@@ -41,11 +41,15 @@ namespace Com.GCTC.ZombCube
             {
                 ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
             }
-            else if (player.ownedBlasters.Length != 9)
+            else if (player.ownedBlasters.Length != ownedBlasters.Length)
             {
                 int[] temp = new int[9];
                 ownedBlasters.CopyTo(temp, 0);
                 ownedBlasters = temp;
+                ownedBlasters = player.ownedBlasters;
+            }
+            else
+            {
                 ownedBlasters = player.ownedBlasters;
             }
 
@@ -54,13 +58,17 @@ namespace Com.GCTC.ZombCube
             {
                 player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
             }
-            else if (player.ownedSkins.Length != 9)
+            else if (player.ownedSkins.Length != ownedSkins.Length)
             {
                 int[] temp = new int[9];
                 ownedSkins.CopyTo(temp, 0);
                 ownedSkins = temp;
                 ownedSkins = player.ownedSkins;
 
+            }
+            else
+            {
+                ownedSkins = player.ownedSkins;
             }
 
             cubesEliminated = player.cubesEliminated;

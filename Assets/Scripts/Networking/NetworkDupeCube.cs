@@ -53,19 +53,10 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnDestroy()
         {
-            if (collision.gameObject.CompareTag("Projectile"))
-            {
-                PhotonNetwork.InstantiateRoomObject("NetworkDupedCube",
-                        transform.position + offset,
-                        transform.rotation);
-                PhotonNetwork.InstantiateRoomObject("NetworkDupedCube",
-                        transform.position - offset,
-                        transform.rotation);
-                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
-
-            }
+            if(isGameOver == false)
+                Dupe();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -77,6 +68,16 @@ namespace Com.GCTC.ZombCube
 
                 photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
             }
+        }
+
+        public void Dupe()
+        {
+            PhotonNetwork.InstantiateRoomObject("NetworkDupedCube",
+                        transform.position + offset,
+                        transform.rotation);
+            PhotonNetwork.InstantiateRoomObject("NetworkDupedCube",
+                    transform.position - offset,
+                    transform.rotation);
         }
     }
 }
