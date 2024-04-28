@@ -95,13 +95,22 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitEnemy(Collision collision)
         {
-            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
+            if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
+            {
+                collision.gameObject.GetComponent<DupeCube>().Dupe();
+            }
+
+            if (collision.transform.name.Contains("Duped") && SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
+            {
+                audioSource.Play();
+                Destroy(collision.gameObject);
+            }
+            else if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
             {
                 audioSource.Play();
                 collision.gameObject.SetActive(false);
-                return;
             }
-            if (collision.gameObject.tag == "Enemy")
+            else if (collision.gameObject.tag == "Enemy")
             {
                 HitEnemy(collision);
 
@@ -175,6 +184,11 @@ namespace Com.GCTC.ZombCube
         private void HitEnemy(Collision collision)
         {
             audioSource.Play();
+
+            if (collision.transform.name.Contains("Dupe"))
+            {
+                collision.gameObject.GetComponent<DupeCube>().Dupe();
+            }
             
             if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
             {

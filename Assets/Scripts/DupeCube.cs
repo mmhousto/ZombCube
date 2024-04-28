@@ -56,14 +56,6 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void OnDestroy()
-        {
-            if (SceneLoader.GetCurrentScene().name == "MainMenu")
-                return;
-            if(isGameOver == false)
-                Dupe();
-        }
-
         public void Dupe()
         {
             Instantiate(dupe, transform.position + offset, transform.rotation);
