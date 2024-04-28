@@ -167,7 +167,19 @@ namespace Com.GCTC.ZombCube
                 NetworkPlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)
                     Player.Instance.cubesEliminated++;
-                hit.transform.GetComponent<NetworkEnemy>().DestroyEnemyCall();
+
+                if (hit.transform.TryGetComponent<NetworkDupeCube>(out NetworkDupeCube dupeCube))
+                {
+                    dupeCube.Dupe();
+                }
+                else if (hit.transform.TryGetComponent<NetworkEnemy>(out NetworkEnemy enemy))
+                {
+                    enemy.DestroyEnemyCall();
+                }
+                else
+                {
+                    PhotonNetwork.Destroy(hit.transform.gameObject);
+                }
             }
         }
     }
