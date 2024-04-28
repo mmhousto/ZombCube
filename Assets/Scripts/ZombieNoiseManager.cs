@@ -27,8 +27,11 @@ namespace Com.GCTC.ZombCube
         
         void PlayRandomClip()
         {
-            audioSource.clip = clips[Random.Range(0, clips.Length - 1)];
-            audioSource.Play();
+            if(audioSource.isActiveAndEnabled)
+            {
+                audioSource.clip = clips[Random.Range(0, clips.Length - 1)];
+                audioSource.Play();
+            }
             Invoke(nameof(PlayRandomClip), Random.Range(3.5f, 20.5f));
         }
     }

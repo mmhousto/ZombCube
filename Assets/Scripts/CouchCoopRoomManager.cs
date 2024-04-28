@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.SceneManagement;
 
 namespace Com.GCTC.ZombCube
 {
@@ -104,6 +106,8 @@ namespace Com.GCTC.ZombCube
                     Destroy(couchCoopManager.joinedPlayers[i]);
                 }
             }
+
+            SceneManager.MoveGameObjectToScene(couchCoopManager.joinedPlayers[0], SceneManager.GetActiveScene());
             
             couchCoopManager.joinedPlayerIDs.Clear();
             couchCoopManager.joinedPlayers.Clear();

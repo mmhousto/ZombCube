@@ -58,6 +58,8 @@ namespace Com.GCTC.ZombCube
 
         private void OnDestroy()
         {
+            if (SceneLoader.GetCurrentScene().name == "MainMenu")
+                return;
             if(isGameOver == false)
                 Dupe();
         }

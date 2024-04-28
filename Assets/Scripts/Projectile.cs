@@ -32,7 +32,7 @@ namespace Com.GCTC.ZombCube
 
         protected void DestroyProjectile()
         {
-            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
             {
                 Destroy(gameObject);
             }
@@ -95,6 +95,12 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitEnemy(Collision collision)
         {
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
+            {
+                audioSource.Play();
+                collision.gameObject.SetActive(false);
+                return;
+            }
             if (collision.gameObject.tag == "Enemy")
             {
                 HitEnemy(collision);
@@ -105,6 +111,11 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitPlayer(Collision collision)
         {
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Player")
+            {
+                
+                return;
+            }
             if (collision.gameObject.tag == "Player" && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)
             {
                 ovAudioSource.clip = clips[0];
@@ -127,14 +138,21 @@ namespace Com.GCTC.ZombCube
             if (collision.gameObject.CompareTag("Armor"))
             {
                 audioSource.Play();
-                if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
+                if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
                     Destroy(collision.gameObject);
+                else if (SceneLoader.GetCurrentScene().name == "MainMenu")
+                    collision.gameObject.SetActive(false);
             }
         }
 
         protected void CheckHitShield(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Shield"))
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.CompareTag("Shield"))
+            {
+                audioSource.Play();
+                collision.gameObject.SetActive(false);
+                return;
+            }else if (collision.gameObject.CompareTag("Shield"))
             {
                 HitEnemy(collision);
             }
@@ -142,7 +160,11 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitShielded(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<ShieldedCube>().shield == null)
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.CompareTag("Shielded"))
+            {
+                audioSource.Play();
+                collision.gameObject.SetActive(false);
+            }else if (collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<ShieldedCube>().shield == null)
             {
                 HitEnemy(collision);
 
@@ -153,6 +175,7 @@ namespace Com.GCTC.ZombCube
         private void HitEnemy(Collision collision)
         {
             audioSource.Play();
+            
             if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
             {
 
