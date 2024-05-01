@@ -53,12 +53,6 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void OnDestroy()
-        {
-            if(isGameOver == false)
-                Dupe();
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player") && hasHit == false)

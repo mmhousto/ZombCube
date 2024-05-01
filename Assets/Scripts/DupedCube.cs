@@ -49,5 +49,10 @@ namespace Com.GCTC.ZombCube
                     other.GetComponent<PlayerManager>().Damage(5);
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            Destroy(gameObject);
+        }
     }
 }

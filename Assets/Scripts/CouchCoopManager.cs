@@ -81,16 +81,17 @@ namespace Com.GCTC.ZombCube
 
                 // Sets up canvas
                 var canvas = GameObject.FindWithTag("Canvas");
-                canvas.transform.GetChild(0).gameObject.SetActive(false);
-                canvas.transform.GetChild(1).gameObject.SetActive(false);
-                canvas.transform.GetChild(2).gameObject.SetActive(false);
-                canvas.transform.GetChild(3).gameObject.SetActive(false);
-                canvas.transform.GetChild(4).gameObject.SetActive(false);
-                canvas.transform.GetChild(6).gameObject.SetActive(false);
-                canvas.transform.GetChild(7).gameObject.SetActive(false);
-                canvas.transform.GetChild(8).gameObject.SetActive(false);
-                canvas.transform.GetChild(9).gameObject.SetActive(false);
-                canvas.transform.GetChild(11).gameObject.SetActive(false);
+                var safeArea = canvas.transform.GetChild(0);
+                safeArea.GetChild(0).gameObject.SetActive(false);
+                safeArea.GetChild(1).gameObject.SetActive(false);
+                safeArea.GetChild(2).gameObject.SetActive(false);
+                safeArea.GetChild(3).gameObject.SetActive(false);
+                safeArea.GetChild(4).gameObject.SetActive(false);
+                safeArea.GetChild(6).gameObject.SetActive(false);
+                safeArea.GetChild(7).gameObject.SetActive(false);
+                safeArea.GetChild(8).gameObject.SetActive(false);
+                safeArea.GetChild(9).gameObject.SetActive(false);
+                safeArea.GetChild(11).gameObject.SetActive(false);
 
                 
                 // Gets spawn points

@@ -56,12 +56,6 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void OnDestroy()
-        {
-            if(isGameOver == false)
-                Dupe();
-        }
-
         public void Dupe()
         {
             Instantiate(dupe, transform.position + offset, transform.rotation);

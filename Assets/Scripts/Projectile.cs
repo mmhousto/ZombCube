@@ -32,7 +32,7 @@ namespace Com.GCTC.ZombCube
 
         protected void DestroyProjectile()
         {
-            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
             {
                 Destroy(gameObject);
             }
@@ -95,7 +95,22 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitEnemy(Collision collision)
         {
-            if (collision.gameObject.tag == "Enemy")
+            if (collision.transform.name.Contains("Duped") && SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
+            {
+                audioSource.Play();
+                Destroy(collision.gameObject);
+            }
+            else if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
+            {
+                collision.gameObject.GetComponent<DupeCube>().Dupe();
+            }
+            
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
+            {
+                audioSource.Play();
+                collision.gameObject.SetActive(false);
+            }
+            else if (collision.gameObject.tag == "Enemy")
             {
                 HitEnemy(collision);
 
@@ -105,6 +120,11 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitPlayer(Collision collision)
         {
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Player")
+            {
+                
+                return;
+            }
             if (collision.gameObject.tag == "Player" && this.photonView == null && GameManager.Instance?.numOfPlayers == 1)
             {
                 ovAudioSource.clip = clips[0];
@@ -127,14 +147,21 @@ namespace Com.GCTC.ZombCube
             if (collision.gameObject.CompareTag("Armor"))
             {
                 audioSource.Play();
-                if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
+                if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
                     Destroy(collision.gameObject);
+                else if (SceneLoader.GetCurrentScene().name == "MainMenu")
+                    collision.gameObject.SetActive(false);
             }
         }
 
         protected void CheckHitShield(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Shield"))
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.CompareTag("Shield"))
+            {
+                audioSource.Play();
+                collision.gameObject.SetActive(false);
+                return;
+            }else if (collision.gameObject.CompareTag("Shield"))
             {
                 HitEnemy(collision);
             }
@@ -142,20 +169,37 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitShielded(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<ShieldedCube>().shield == null)
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.CompareTag("Shielded"))
+            {
+                audioSource.Play();
+                collision.gameObject.SetActive(false);
+                return;
+            }
+            else if (SceneLoader.GetCurrentScene().name == "GameScene" && collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<ShieldedCube>().shield == null)
             {
                 HitEnemy(collision);
 
                 SpawnPowerup(collision.transform.position);
+            }
+            else if (SceneLoader.GetCurrentScene().name != "MainMenu" && this.photonView.IsMine && collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<NetworkShieldedCube>() && collision.gameObject.GetComponent<NetworkShieldedCube>().shield == null)
+            {
+                    HitEnemy(collision);
+
+                    SpawnPowerup(collision.transform.position);
+                
             }
         }
 
         private void HitEnemy(Collision collision)
         {
             audioSource.Play();
+            
             if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
             {
-
+                if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
+                {
+                    collision.gameObject.GetComponent<DupeCube>().Dupe();
+                }
                 Destroy(collision.gameObject);
                 PlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)
@@ -166,7 +210,10 @@ namespace Com.GCTC.ZombCube
                 NetworkPlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)
                     Player.Instance.cubesEliminated++;
-
+                if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
+                {
+                    collision.gameObject.GetComponent<NetworkDupeCube>().Dupe();
+                }
             }
 
             CheckForCubeDestroyerAchievements();
