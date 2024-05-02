@@ -191,9 +191,15 @@ namespace Com.GCTC.ZombCube
                 audioSource.Play();
                 collision.gameObject.SetActive(false);
                 return;
-            }else if (collision.gameObject.CompareTag("Shield"))
+            }else if (collision.gameObject.CompareTag("Shield") && this.photonView == null)
             {
                 HitEnemy(collision);
+            }
+            else if(photonView != null && collision.gameObject.CompareTag("Shield"))
+            {
+                collision.transform.GetComponent<PhotonView>().RequestOwnership();
+                if(collision.transform.GetComponent<PhotonView>().IsMine)
+                    PhotonNetwork.Destroy(collision.gameObject);
             }
         }
 
@@ -250,11 +256,13 @@ namespace Com.GCTC.ZombCube
                 NetworkPlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)
                     Player.Instance.cubesEliminated++;
-                if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
+                if (collision.transform.TryGetComponent(out NetworkDupeCube dupeCube))
                 {
-                    collision.gameObject.GetComponent<NetworkDupeCube>().Dupe();
+                    dupeCube.Dupe();
 
                 }
+
+                collision.gameObject.GetComponent<NetworkEnemy>().DestroyEnemyCall();
             }
 
             CheckForCubeDestroyerAchievements();

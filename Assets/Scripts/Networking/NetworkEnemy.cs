@@ -66,7 +66,7 @@ namespace Com.GCTC.ZombCube
         {
             if (collision.gameObject.CompareTag("Projectile"))
             {
-                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
+                //photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
 
             }
         }

@@ -135,7 +135,7 @@ namespace Com.GCTC.ZombCube
                     if (currentRound > 7)
                     {
                         float randChance = Random.value;
-                        if (randChance >= 1 - armorChance)
+                        if (randChance >= 1 - armorChance && fastCubeClone != null)
                         {
                             GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, fastCubeClone.transform.position, fastCubeClone.transform.rotation);
                             armorClone.transform.SetParent(fastCubeClone.transform);
@@ -157,7 +157,7 @@ namespace Com.GCTC.ZombCube
                     if (currentRound > 9)
                     {
                         float randChance = Random.value;
-                        if (randChance >= 1 - armorChance)
+                        if (randChance >= 1 - armorChance && dupeCubeClone != null)
                         {
                             GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, dupeCubeClone.transform.position, dupeCubeClone.transform.rotation);
                             armorClone.transform.SetParent(dupeCubeClone.transform);
@@ -178,7 +178,7 @@ namespace Com.GCTC.ZombCube
                     if (currentRound > 11)
                     {
                         float randChance = Random.value;
-                        if (randChance >= 1 - armorChance)
+                        if (randChance >= 1 - armorChance && cubeClone != null)
                         {
                             GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, cubeClone.transform.position, cubeClone.transform.rotation);
                             armorClone.transform.SetParent(cubeClone.transform);

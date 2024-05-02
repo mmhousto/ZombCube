@@ -123,8 +123,13 @@ namespace Com.GCTC.ZombCube
         public void StartGame()
         {
             NetworkSpawner.Instance.Spawn();
-            NetworkSpawner.Instance.hasStarted = true;
-            CustomAnalytics.SendGameStart();
+
+            if (NetworkSpawner.Instance.hasStarted == false)
+            {
+                CustomAnalytics.SendGameStart();
+                NetworkSpawner.Instance.hasStarted = true;
+            }
+            
             
         }
 
