@@ -555,6 +555,11 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void CallDamageRPC(float damageTaken)
+        {
+            photonView.RPC(nameof(Damage), RpcTarget.AllBuffered, damageTaken);
+        }
+
         [PunRPC]
         public void Damage(float damageTaken)
         {
