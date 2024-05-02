@@ -95,19 +95,13 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitEnemy(Collision collision)
         {
-            Debug.Log(collision.transform.name);
 
             if (collision.transform.name.Contains("Duped") && SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
             {
                 audioSource.Play();
                 Destroy(collision.gameObject);
             }
-            else if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
-            {
-                collision.gameObject.GetComponent<DupeCube>().Dupe();
-            }
-
-            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.transform.name.Contains("Shielded"))
+            else if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.transform.name.Contains("Shielded"))
             {
                 audioSource.Play();
                 collision.gameObject.SetActive(false);
@@ -142,7 +136,6 @@ namespace Com.GCTC.ZombCube
             }
             else if (collision.gameObject.tag == "Enemy")
             {
-                Debug.Log("Base Enemy Hit");
                 HitEnemy(collision);
 
                 SpawnPowerup(collision.transform.position);
@@ -235,6 +228,12 @@ namespace Com.GCTC.ZombCube
             
             if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
             {
+
+                if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
+                {
+                    collision.gameObject.GetComponent<DupeCube>().Dupe();
+                }
+
                 Destroy(collision.gameObject);
                 PlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)
