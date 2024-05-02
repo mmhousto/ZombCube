@@ -247,6 +247,7 @@ namespace Com.GCTC.ZombCube
                 if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
                 {
                     collision.gameObject.GetComponent<NetworkDupeCube>().Dupe();
+
                 }
             }
 

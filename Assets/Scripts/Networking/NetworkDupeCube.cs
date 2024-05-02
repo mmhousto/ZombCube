@@ -53,6 +53,11 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void CallDestroyEnemy()
+        {
+            photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player") && hasHit == false)

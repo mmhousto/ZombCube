@@ -207,6 +207,7 @@ namespace Com.GCTC.ZombCube
                 if (hit.transform.TryGetComponent<NetworkDupeCube>(out NetworkDupeCube dupeCube))
                 {
                     dupeCube.Dupe();
+                    dupeCube.CallDestroyEnemy();
                 }
                 else if (hit.transform.TryGetComponent<NetworkEnemy>(out NetworkEnemy enemy))
                 {
