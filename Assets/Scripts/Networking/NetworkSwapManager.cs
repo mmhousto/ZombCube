@@ -83,6 +83,8 @@ namespace Com.GCTC.ZombCube
         // Update is called once per frame
         void Update()
         {
+            if (photonView.IsMine == false) return;
+
             if (grenade.grenadeCount == 0 && grenade.enabled == true && photonView.IsMine)
             {
                 SwapToNextWeapon();
@@ -271,6 +273,21 @@ namespace Com.GCTC.ZombCube
                     blaster.enabled = true;
                     grenade.enabled = false;
                     break;
+            }
+
+        }
+
+        public void CallDisableWeapons()
+        {
+            photonView.RPC(nameof(DisableNetworkWeapons), RpcTarget.AllBuffered);
+        }
+
+        [PunRPC]
+        public void DisableNetworkWeapons()
+        {
+            for (int i = 2; i < weapons.Count; i++)
+            {
+                weapons[i].SetActive(false);
             }
         }
     }

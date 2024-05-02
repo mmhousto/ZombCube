@@ -161,7 +161,7 @@ namespace Com.GCTC.ZombCube
             }
             else if (collision.gameObject.tag == "Player" && this.photonView != null && this.photonView.IsMine)
             {
-                ovAudioSource.clip = clips[NetworkGameManager.players.IndexOf(collision.gameObject)];
+                ovAudioSource.clip = clips[Random.Range(0, clips.Length)];
                 ovAudioSource.Play();
             }
         }

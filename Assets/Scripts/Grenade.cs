@@ -131,7 +131,11 @@ namespace Com.GCTC.ZombCube
                 {
                     if(collider.gameObject.tag == "Enemy")
                     {
-                        PhotonNetwork.Destroy(collider.gameObject);
+                        collider.GetComponent<PhotonView>().RequestOwnership();
+                        if (collider.GetComponent<PhotonView>().IsMine)
+                        {
+                            PhotonNetwork.Destroy(collider.gameObject);
+                        }
                         NetworkPlayerManager.AddPoints(pointsToAdd);
                         if (Player.Instance != null)
                             Player.Instance.cubesEliminated++;
@@ -141,7 +145,7 @@ namespace Com.GCTC.ZombCube
                         SpawnPowerup(collider.transform.position);
                     }
 
-                    if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
+                    if (collider.gameObject.tag == "Player" && collider.transform.root.GetComponent<PhotonView>().IsMine)
                     {
                         collider.transform.root.GetComponent<NetworkPlayerManager>().Damage(15);
                     }

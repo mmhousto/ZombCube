@@ -65,6 +65,8 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            swapManager = GetComponent<NetworkSwapManager>();
+
             if (photonView.IsMine)
             {
                 isAlive = true;
@@ -74,7 +76,7 @@ namespace Com.GCTC.ZombCube
 
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
                 playerInput = GetComponent<PlayerInput>();
-                swapManager = GetComponent<NetworkSwapManager>();
+                
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
                 aB = GetComponent<NetworkAB>();
                 shotblaster = GetComponent<NetworkShotblaster>();
@@ -564,9 +566,11 @@ namespace Com.GCTC.ZombCube
             {
                 if(blaster[i].tag == "Blaster")
                     blaster[i].material = blasterMaterial[blasterIndex];
+
             }
 
-            swapManager.DisableWeapons();
+            if(swapManager != null)
+                swapManager.CallDisableWeapons();
         }
 
 #endregion
