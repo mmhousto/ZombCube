@@ -81,7 +81,7 @@ namespace Com.GCTC.ZombCube
 
         private void CheckHitEnemy(RaycastHit hit)
         {
-            if (hit.transform.name.Contains("Shielded") && TryGetComponent<ShieldedCube>(out ShieldedCube shielded))
+            if (hit.transform.name.Contains("Shielded") && hit.transform.TryGetComponent(out ShieldedCube shielded))
             {
 
                 if (shielded != null && shielded.shield == null)
@@ -93,7 +93,7 @@ namespace Com.GCTC.ZombCube
 
 
             }
-            else if (hit.transform.name.Contains("Shielded") && TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
+            else if (hit.transform.name.Contains("Shielded") && hit.transform.TryGetComponent(out NetworkShieldedCube networkShielded))
             {
                 if (networkShielded != null && networkShielded.shield == null)
                 {
@@ -154,7 +154,7 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitShielded(RaycastHit hit)
         {
-            if(hit.transform.name.Contains("Shielded") && TryGetComponent<ShieldedCube>(out ShieldedCube shielded))
+            if(hit.transform.name.Contains("Shielded") && hit.transform.TryGetComponent(out ShieldedCube shielded))
             {
 
                 if (shielded != null && shielded.shield == null)
@@ -166,7 +166,7 @@ namespace Com.GCTC.ZombCube
 
                 
             }
-            else if (hit.transform.name.Contains("Shielded") && TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
+            else if (hit.transform.name.Contains("Shielded") && hit.transform.TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
             {
                 if (networkShielded != null && networkShielded.shield == null)
                 {

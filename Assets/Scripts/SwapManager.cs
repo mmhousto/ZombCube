@@ -106,7 +106,7 @@ namespace Com.GCTC.ZombCube
                 SwapToNextWeapon();
             }
 
-            if (GameManager.Instance.isGameOver == true || GameManager.Instance.pauseScreen.activeInHierarchy || GameManager.Instance.settingsScreen.activeInHierarchy)
+            if (GameManager.Instance != null && (GameManager.Instance.isGameOver == true || GameManager.Instance.pauseScreen.activeInHierarchy || GameManager.Instance.settingsScreen.activeInHierarchy))
             {
                 // Disable UI if enabled
                 if (weaponSelectUI.activeInHierarchy)

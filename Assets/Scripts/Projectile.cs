@@ -95,6 +95,8 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitEnemy(Collision collision)
         {
+            Debug.Log(collision.transform.name);
+
             if (collision.transform.name.Contains("Duped") && SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
             {
                 audioSource.Play();
@@ -111,7 +113,7 @@ namespace Com.GCTC.ZombCube
                 collision.gameObject.SetActive(false);
                 return;
             }
-            else if (collision.transform.name.Contains("Shielded") && TryGetComponent<ShieldedCube>(out ShieldedCube shielded))
+            else if (collision.transform.name.Contains("Shielded") && collision.transform.TryGetComponent(out ShieldedCube shielded))
             {
 
                 if (shielded != null && shielded.shield == null)
@@ -121,9 +123,9 @@ namespace Com.GCTC.ZombCube
                     SpawnPowerup(collision.transform.position);
                 }
 
-
+                return;
             }
-            else if (collision.transform.CompareTag("Shielded") && TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
+            else if (collision.transform.name.Contains("Shielded") && collision.transform.TryGetComponent(out NetworkShieldedCube networkShielded))
             {
                 if (networkShielded != null && networkShielded.shield == null)
                 {
@@ -131,6 +133,7 @@ namespace Com.GCTC.ZombCube
 
                     SpawnPowerup(collision.transform.position);
                 }
+                return;
             }
             else if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
             {
@@ -139,6 +142,7 @@ namespace Com.GCTC.ZombCube
             }
             else if (collision.gameObject.tag == "Enemy")
             {
+                Debug.Log("Base Enemy Hit");
                 HitEnemy(collision);
 
                 SpawnPowerup(collision.transform.position);
@@ -162,7 +166,7 @@ namespace Com.GCTC.ZombCube
                 ovAudioSource.clip = clips[couchCoopManager.GetPlayerIndex(collision.transform.parent.gameObject)];
                 ovAudioSource.Play();
             }
-            else if (collision.gameObject.tag == "Player" && this.photonView.IsMine)
+            else if (collision.gameObject.tag == "Player" && this.photonView != null && this.photonView.IsMine)
             {
                 ovAudioSource.clip = clips[NetworkGameManager.players.IndexOf(collision.gameObject)];
                 ovAudioSource.Play();
@@ -202,7 +206,7 @@ namespace Com.GCTC.ZombCube
                 collision.gameObject.SetActive(false);
                 return;
             }
-            else if (collision.transform.name.Contains("Shielded") && TryGetComponent<ShieldedCube>(out ShieldedCube shielded))
+            else if (collision.transform.name.Contains("Shielded") && collision.transform.TryGetComponent(out ShieldedCube shielded))
             {
 
                 if (shielded != null && shielded.shield == null)
@@ -214,7 +218,7 @@ namespace Com.GCTC.ZombCube
 
 
             }
-            else if (collision.transform.CompareTag("Shielded") && TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
+            else if (collision.transform.CompareTag("Shielded") && collision.transform.TryGetComponent(out NetworkShieldedCube networkShielded))
             {
                 if (networkShielded != null && networkShielded.shield == null)
                 {
