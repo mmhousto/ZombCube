@@ -134,9 +134,9 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Armor"))
+            if (other.CompareTag("Armor") && other.transform.root.TryGetComponent(out NetworkEnemy enemy))
             {
-                other.transform.root.GetComponent<NetworkEnemy>().photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
+                enemy.photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
                 DamagePlayerCall(20);
             }
         }
@@ -168,6 +168,8 @@ namespace Com.GCTC.ZombCube
                 SpendPoints(500);
 
                 if (healthPoints >= 100) { healthPoints = 100; }
+
+                contextPrompt.SetActive(false);
             }
 
             WeaponPickup wp;
@@ -194,6 +196,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(2);
                     fullyAutoSMB.GetAmmo(90);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("AB") && wp.isUsable)
@@ -217,6 +221,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(3);
                     aB.GetAmmo(210);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("Shotblaster") && wp.isUsable)
@@ -240,6 +246,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(4);
                     shotblaster.GetAmmo(35);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("Sniper") && wp.isUsable)
@@ -263,6 +271,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(5);
                     sniper.GetAmmo(20);
                 }
+
+                contextPrompt.SetActive(false);
             }
         }
 

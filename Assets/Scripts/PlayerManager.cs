@@ -226,6 +226,8 @@ namespace Com.GCTC.ZombCube
                 SpendPoints(500);
 
                 if(healthPoints >= 100) { healthPoints = 100; }
+
+                contextPrompt.SetActive(false);
             }
 
             WeaponPickup wp;
@@ -252,6 +254,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(2);
                     fullyAutoSMB.GetAmmo(90);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("AB") && wp.isUsable)
@@ -275,6 +279,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(3);
                     aB.GetAmmo(210);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("Shotblaster") && wp.isUsable)
@@ -298,6 +304,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(4);
                     shotblaster.GetAmmo(35);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("Sniper") && wp.isUsable)
@@ -321,6 +329,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(5);
                     sniperBlaster.GetAmmo(20);
                 }
+
+                contextPrompt.SetActive(false);
             }
         }
 

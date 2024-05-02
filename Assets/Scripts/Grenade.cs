@@ -145,10 +145,6 @@ namespace Com.GCTC.ZombCube
                         SpawnPowerup(collider.transform.position);
                     }
 
-                    if (collider.gameObject.tag == "Player" && collider.transform.root.GetComponent<PhotonView>().IsMine)
-                    {
-                        collider.transform.root.GetComponent<NetworkPlayerManager>().Damage(15);
-                    }
                 }
             }
 
