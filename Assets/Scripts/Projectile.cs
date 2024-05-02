@@ -52,7 +52,7 @@ namespace Com.GCTC.ZombCube
 
             CheckHitShield(collision);
 
-            CheckHitShielded(collision);
+            //CheckHitShielded(collision);
             
         }
 
@@ -104,8 +104,35 @@ namespace Com.GCTC.ZombCube
             {
                 collision.gameObject.GetComponent<DupeCube>().Dupe();
             }
-            
-            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
+
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.transform.name.Contains("Shielded"))
+            {
+                audioSource.Play();
+                collision.gameObject.SetActive(false);
+                return;
+            }
+            else if (collision.transform.name.Contains("Shielded") && TryGetComponent<ShieldedCube>(out ShieldedCube shielded))
+            {
+
+                if (shielded != null && shielded.shield == null)
+                {
+                    HitEnemy(collision);
+
+                    SpawnPowerup(collision.transform.position);
+                }
+
+
+            }
+            else if (collision.transform.CompareTag("Shielded") && TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
+            {
+                if (networkShielded != null && networkShielded.shield == null)
+                {
+                    HitEnemy(collision);
+
+                    SpawnPowerup(collision.transform.position);
+                }
+            }
+            else if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
             {
                 audioSource.Play();
                 collision.gameObject.SetActive(false);
@@ -169,24 +196,32 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitShielded(Collision collision)
         {
-            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.CompareTag("Shielded"))
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.transform.name.Contains("Shielded"))
             {
                 audioSource.Play();
                 collision.gameObject.SetActive(false);
                 return;
             }
-            else if (SceneLoader.GetCurrentScene().name == "GameScene" && collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<ShieldedCube>().shield == null)
+            else if (collision.transform.name.Contains("Shielded") && TryGetComponent<ShieldedCube>(out ShieldedCube shielded))
             {
-                HitEnemy(collision);
 
-                SpawnPowerup(collision.transform.position);
-            }
-            else if (SceneLoader.GetCurrentScene().name != "MainMenu" && this.photonView.IsMine && collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<NetworkShieldedCube>() && collision.gameObject.GetComponent<NetworkShieldedCube>().shield == null)
-            {
+                if (shielded != null && shielded.shield == null)
+                {
                     HitEnemy(collision);
 
                     SpawnPowerup(collision.transform.position);
-                
+                }
+
+
+            }
+            else if (collision.transform.CompareTag("Shielded") && TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
+            {
+                if (networkShielded != null && networkShielded.shield == null)
+                {
+                    HitEnemy(collision);
+
+                    SpawnPowerup(collision.transform.position);
+                }
             }
         }
 
@@ -196,10 +231,6 @@ namespace Com.GCTC.ZombCube
             
             if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
             {
-                if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
-                {
-                    collision.gameObject.GetComponent<DupeCube>().Dupe();
-                }
                 Destroy(collision.gameObject);
                 PlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)

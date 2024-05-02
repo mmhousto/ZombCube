@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.ProBuilder.MeshOperations;
 
 namespace Com.GCTC.ZombCube
 {
@@ -51,7 +52,7 @@ namespace Com.GCTC.ZombCube
 
                     CheckHitShield(hit);
 
-                    CheckHitShielded(hit);
+                    //CheckHitShielded(hit);
 
                 }
             }
@@ -72,7 +73,7 @@ namespace Com.GCTC.ZombCube
 
                 CheckHitShield(hit);
 
-                CheckHitShielded(hit);
+                //CheckHitShielded(hit);
 
                 if (objectsHit > 5) { DestroyProjectile(); }
             }
@@ -80,7 +81,28 @@ namespace Com.GCTC.ZombCube
 
         private void CheckHitEnemy(RaycastHit hit)
         {
-            if (hit.transform.CompareTag("Enemy"))
+            if (hit.transform.name.Contains("Shielded") && TryGetComponent<ShieldedCube>(out ShieldedCube shielded))
+            {
+
+                if (shielded != null && shielded.shield == null)
+                {
+                    HitEnemy(hit);
+
+                    SpawnPowerup(hit.transform.position);
+                }
+
+
+            }
+            else if (hit.transform.name.Contains("Shielded") && TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
+            {
+                if (networkShielded != null && networkShielded.shield == null)
+                {
+                    HitEnemy(hit);
+
+                    SpawnPowerup(hit.transform.position);
+                }
+            }
+            else if (hit.transform.CompareTag("Enemy"))
             {
                 HitEnemy(hit);
                 
@@ -132,17 +154,26 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitShielded(RaycastHit hit)
         {
-            if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display") && hit.transform.CompareTag("Shielded") && hit.transform.GetComponent<ShieldedCube>().shield == null)
+            if(hit.transform.name.Contains("Shielded") && TryGetComponent<ShieldedCube>(out ShieldedCube shielded))
             {
-                HitEnemy(hit);
 
-                SpawnPowerup(hit.transform.position);
+                if (shielded != null && shielded.shield == null)
+                {
+                    HitEnemy(hit);
+
+                    SpawnPowerup(hit.transform.position);
+                }
+
+                
             }
-            else if (hit.transform.CompareTag("Shielded") && hit.transform.GetComponent<NetworkShieldedCube>().shield == null)
+            else if (hit.transform.name.Contains("Shielded") && TryGetComponent<NetworkShieldedCube>(out NetworkShieldedCube networkShielded))
             {
-                HitEnemy(hit);
+                if (networkShielded != null && networkShielded.shield == null)
+                {
+                    HitEnemy(hit);
 
-                SpawnPowerup(hit.transform.position);
+                    SpawnPowerup(hit.transform.position);
+                }
             }
         }
 
@@ -156,6 +187,11 @@ namespace Com.GCTC.ZombCube
 
             if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
             {
+
+                if (hit.transform.TryGetComponent<DupeCube>(out DupeCube dupeCube))
+                {
+                    dupeCube.Dupe();
+                }
 
                 Destroy(hit.transform.gameObject);
                 PlayerManager.AddPoints(pointsToAdd);

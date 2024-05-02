@@ -36,7 +36,7 @@ namespace Com.GCTC.ZombCube
 
             CheckHitShield(collision);
 
-            CheckHitShielded(collision);
+            //CheckHitShielded(collision);
 
             DestroyProjectile();
         }
