@@ -123,9 +123,18 @@ namespace Com.GCTC.ZombCube
             {
                 if (networkShielded != null && networkShielded.shield == null)
                 {
-                    HitEnemy(collision);
+                    networkShielded.DestroyEnemyCall();
 
                     SpawnPowerup(collision.transform.position);
+
+                    CheckForCubeDestroyerAchievements();
+
+                    enemiesHit++;
+
+                    if (enemiesHit >= 5 && Social.localUser.authenticated)
+                    {
+                        LeaderboardManager.UnlockRicochetKing();
+                    }
                 }
                 return;
             }
