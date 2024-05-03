@@ -198,7 +198,7 @@ namespace Com.GCTC.ZombCube
             else if(photonView != null && collision.gameObject.CompareTag("Shield"))
             {
                 collision.transform.GetComponent<PhotonView>().RequestOwnership();
-                if(collision.transform.GetComponent<PhotonView>().IsMine)
+                if (collision.transform.GetComponent<PhotonView>().IsMine)
                     PhotonNetwork.Destroy(collision.gameObject);
             }
         }
@@ -256,13 +256,14 @@ namespace Com.GCTC.ZombCube
                 NetworkPlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)
                     Player.Instance.cubesEliminated++;
-                if (collision.transform.TryGetComponent(out NetworkDupeCube dupeCube))
+                if (collision.transform.TryGetComponent<NetworkDupeCube>(out NetworkDupeCube dupeCube))
                 {
-                    dupeCube.Dupe();
-
+                    dupeCube.CallDupe();
                 }
-
-                collision.gameObject.GetComponent<NetworkEnemy>().DestroyEnemyCall();
+                else if (collision.transform.TryGetComponent<NetworkEnemy>(out NetworkEnemy enemy))
+                {
+                    enemy.DestroyEnemyCall();
+                }
             }
 
             CheckForCubeDestroyerAchievements();
@@ -273,6 +274,17 @@ namespace Com.GCTC.ZombCube
             {
                 LeaderboardManager.UnlockRicochetKing();
             }
+        }
+
+        public void DestroyEnemyCall(GameObject enemy)
+        {
+            photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient, enemy);
+        }
+
+        [PunRPC]
+        public void DestroyEnemy(GameObject enemy)
+        {
+            PhotonNetwork.Destroy(enemy);
         }
 
     }

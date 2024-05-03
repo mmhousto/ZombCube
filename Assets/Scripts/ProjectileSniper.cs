@@ -206,8 +206,7 @@ namespace Com.GCTC.ZombCube
 
                 if (hit.transform.TryGetComponent<NetworkDupeCube>(out NetworkDupeCube dupeCube))
                 {
-                    dupeCube.Dupe();
-                    dupeCube.CallDestroyEnemy();
+                    dupeCube.CallDupe();
                 }
                 else if (hit.transform.TryGetComponent<NetworkEnemy>(out NetworkEnemy enemy))
                 {
@@ -215,7 +214,11 @@ namespace Com.GCTC.ZombCube
                 }
                 else
                 {
-                    PhotonNetwork.Destroy(hit.transform.gameObject);
+                    hit.transform.GetComponent<PhotonView>().RequestOwnership();
+                    if (hit.transform.GetComponent<PhotonView>().IsMine)
+                    {
+                        PhotonNetwork.Destroy(hit.transform.gameObject);
+                    }
                 }
             }
         }
