@@ -815,6 +815,7 @@ namespace Com.GCTC.ZombCube
 
             PlayGamesPlatform.InitializeInstance(config);*/
             PlayGamesPlatform.Activate();
+            LoginGooglePlayGames();
         }
 
         public void LoginGooglePlayGames()
@@ -824,6 +825,7 @@ namespace Com.GCTC.ZombCube
             try
             {
                 PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
+                //PlayGamesPlatform.Instance.ManuallyAuthenticate(OnGooglePlayGamesLogin);
             }
             catch (Exception e)
             {
@@ -867,7 +869,7 @@ namespace Com.GCTC.ZombCube
         {
             try
             {
-                await AuthenticationService.Instance.SignInWithGoogleAsync(idToken);
+                await AuthenticationService.Instance.SignInWithGooglePlayGamesAsync(idToken);
 
                 SetPlayer(AuthenticationService.Instance.PlayerId, userName);
 

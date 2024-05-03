@@ -28,6 +28,7 @@ public static class GPGSIds
         public const string achievement_cube_destroyer_ii = "CgkI07-ynroOEAIQCA"; // <GPGSID>
         public const string achievement_ngamer1 = "CgkI07-ynroOEAIQDg"; // <GPGSID>
         public const string achievement_ricochet_king = "CgkI07-ynroOEAIQCg"; // <GPGSID>
+        public const string achievement_stayin_alive_together = "CgkI07-ynroOEAIQDw"; // <GPGSID>
         public const string leaderboard_cubes_destroyed = "CgkI07-ynroOEAIQBA"; // <GPGSID>
         public const string achievement_trigger_happy_ii = "CgkI07-ynroOEAIQDA"; // <GPGSID>
         public const string leaderboard_highest_party_wave_on_starting_level = "CgkI07-ynroOEAIQAg"; // <GPGSID>
@@ -36,7 +37,7 @@ public static class GPGSIds
         public const string achievement_trigger_happy_iii = "CgkI07-ynroOEAIQDQ"; // <GPGSID>
         public const string achievement_cube_destroyer_i = "CgkI07-ynroOEAIQBw"; // <GPGSID>
         public const string leaderboard_highest_wave_on_starting_level = "CgkI07-ynroOEAIQAQ"; // <GPGSID>
-        public const string achievement_stayin_alive = "CgkI07-ynroOEAIQBg"; // <GPGSID>
+        public const string achievement_stayin_alive_alone = "CgkI07-ynroOEAIQBg"; // <GPGSID>
         public const string achievement_cube_destroyer_iii = "CgkI07-ynroOEAIQCQ"; // <GPGSID>
 
 }
