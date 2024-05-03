@@ -59,32 +59,32 @@ namespace Com.GCTC.ZombCube
 
             if (Social.localUser.authenticated && player != null)
             {
-                if (player.cubesEliminated >= 10_000)
+                if (player.cubesEliminated >= 10000)
                 {
                     LeaderboardManager.UnlockCubeDestroyerI();
                 }
 
-                if (player.cubesEliminated >= 100_000)
+                if (player.cubesEliminated >= 100000)
                 {
                     LeaderboardManager.UnlockCubeDestroyerII();
                 }
 
-                if (player.cubesEliminated >= 1_000_000)
+                if (player.cubesEliminated >= 1000000)
                 {
                     LeaderboardManager.UnlockCubeDestroyerIII();
                 }
 
-                if (player.totalProjectilesFired >= 100_000)
+                if (player.totalProjectilesFired >= 100000)
                 {
                     LeaderboardManager.UnlockTriggerHappyI();
                 }
 
-                if (player.totalProjectilesFired >= 1_000_000)
+                if (player.totalProjectilesFired >= 1000000)
                 {
                     LeaderboardManager.UnlockTriggerHappyII();
                 }
 
-                if (player.totalProjectilesFired >= 10_000_000)
+                if (player.totalProjectilesFired >= 10000000)
                 {
                     LeaderboardManager.UnlockTriggerHappyIII();
                 }
