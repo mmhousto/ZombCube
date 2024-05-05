@@ -29,13 +29,14 @@ namespace Com.GCTC.ZombCube
 
         public void CallDestroyEnemy()
         {
-            photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
+            photonView.RPC(nameof(DestroyEnemy), RpcTarget.AllBuffered);
         }
 
         [PunRPC]
         public void DestroyEnemy()
         {
-            PhotonNetwork.Destroy(gameObject);
+            //PhotonNetwork.Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

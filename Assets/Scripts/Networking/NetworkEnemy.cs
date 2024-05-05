@@ -76,14 +76,14 @@ namespace Com.GCTC.ZombCube
             armor.SetActive(true);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        /*private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Projectile"))
             {
                 //photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
 
             }
-        }
+        }*/
 
         private void OnTriggerEnter(Collider other)
         {
@@ -123,7 +123,11 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void DestroyEnemy()
         {
-            PhotonNetwork.Destroy(this.gameObject);
+            if(this.gameObject != null)
+            {
+                PhotonNetwork.Destroy(this.gameObject);
+            }
+            
         }
     }
 

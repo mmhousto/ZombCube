@@ -214,11 +214,7 @@ namespace Com.GCTC.ZombCube
                 }
                 else
                 {
-                    hit.transform.GetComponent<PhotonView>().RequestOwnership();
-                    if (hit.transform.GetComponent<PhotonView>().IsMine)
-                    {
-                        PhotonNetwork.Destroy(hit.transform.gameObject);
-                    }
+                    hit.transform.GetComponent<NetworkArmor>().CallDestroyEnemy();
                 }
             }
         }

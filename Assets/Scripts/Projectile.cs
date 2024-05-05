@@ -122,7 +122,7 @@ namespace Com.GCTC.ZombCube
             }
             else if (collision.transform.name.Contains("Shielded") && collision.transform.TryGetComponent(out NetworkShieldedCube networkShielded))
             {
-                if (networkShielded != null && networkShielded.shield == null)
+                if (networkShielded != null && networkShielded.shield.activeInHierarchy == false)
                 {
                     networkShielded.DestroyEnemyCall();
 
@@ -207,9 +207,7 @@ namespace Com.GCTC.ZombCube
             }
             else if(photonView != null && collision.gameObject.CompareTag("Shield"))
             {
-                collision.transform.GetComponent<PhotonView>().RequestOwnership();
-                if (collision.transform.GetComponent<PhotonView>().IsMine)
-                    PhotonNetwork.Destroy(collision.gameObject);
+                collision.transform.GetComponent<NetworkArmor>().CallDestroyEnemy();
             }
         }
 
