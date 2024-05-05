@@ -42,6 +42,7 @@ Transform:
   m_Children:
   - {fileID: 8943582964915731255}
   - {fileID: 156771662684221038}
+  - {fileID: 7113121048787517852}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2086898392220273114
@@ -153,8 +154,8 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
+  OwnershipTransfer: 1
+  observableSearch: 1
   ObservedComponents:
   - {fileID: 3789367499412513347}
   - {fileID: 6778665069069957825}
@@ -345,6 +346,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameOver: 0
+  armorEnabled: 0
+  armor: {fileID: 7623020515223822371}
   offset: {x: 1, y: 1, z: 0}
 --- !u!1 &3020702716171621257
 GameObject:
@@ -430,6 +433,77 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1413126889680451450
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2086898392220273109}
+    m_Modifications:
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815241766352115545, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_Name
+      value: NetworkArmor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815241766352115545, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+--- !u!4 &7113121048787517852 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8154486770287851238, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+  m_PrefabInstance: {fileID: 1413126889680451450}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7623020515223822371 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8815241766352115545, guid: 8ce0af4e00c475c4c9dd4d599886461f, type: 3}
+  m_PrefabInstance: {fileID: 1413126889680451450}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2025756361012474140
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,6 +7,17 @@ namespace Com.GCTC.ZombCube
 {
     public class NetworkArmor : MonoBehaviourPun
     {
+       /* bool destroying;
+
+        private void Update()
+        {
+            if (transform.root.tag != "Enemy" && destroying == false)
+            {
+                destroying = true;
+                CallDestroyEnemy();
+            }
+        }*/ 
+
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Projectile"))
@@ -24,7 +35,7 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void DestroyEnemy()
         {
-            PhotonNetwork.Destroy(this.gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }

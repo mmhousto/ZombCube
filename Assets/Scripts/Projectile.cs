@@ -73,6 +73,7 @@ namespace Com.GCTC.ZombCube
         }
 
         protected void CheckForCubeDestroyerAchievements()
+
         {
             if (Social.localUser.authenticated && Player.Instance != null)
             {

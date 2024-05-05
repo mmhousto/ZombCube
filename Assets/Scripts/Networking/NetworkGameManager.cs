@@ -122,7 +122,10 @@ namespace Com.GCTC.ZombCube
 
         public void StartGame()
         {
-            NetworkSpawner.Instance.Spawn();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                NetworkSpawner.Instance.CallSpawn();
+            }
 
             if (NetworkSpawner.Instance.hasStarted == false)
             {

@@ -9,13 +9,13 @@ namespace Com.GCTC.ZombCube
 {
     public class NetworkSwapManager : SwapManager
     {
-        private NetworkShootProjectile blaster;
-        private NetworkLaunchGrenade grenade;
-        private NetworkTripleShot tripleShot;
-        private NetworkFullyAuto fullyAuto; // SMB
-        private NetworkAB assaultBlaster; // AB
-        private NetworkShotblaster shotblaster; // Shotblaster
-        private NetworkSniper sniper; // Sniper
+        private NetworkShootProjectile blasterN;
+        private NetworkLaunchGrenade grenadeN;
+        private NetworkTripleShot tripleShotN;
+        private NetworkFullyAuto fullyAutoN; // SMB
+        private NetworkAB assaultBlasterN; // AB
+        private NetworkShotblaster shotblasterN; // Shotblaster
+        private NetworkSniper sniperN; // Sniper
         // Start is called before the first frame update
         void Start()
         {
@@ -26,13 +26,13 @@ namespace Com.GCTC.ZombCube
                 currentWeapon = weapons[0];
                 currentWeaponImages = new List<Image>();
                 currentWeaponIndexes = new List<int>();
-                blaster = GetComponent<NetworkShootProjectile>();
-                grenade = GetComponent<NetworkLaunchGrenade>();
-                tripleShot = GetComponent<NetworkTripleShot>();
-                fullyAuto = GetComponent<NetworkFullyAuto>();
-                assaultBlaster = GetComponent<NetworkAB>();
-                shotblaster = GetComponent<NetworkShotblaster>();
-                sniper = GetComponent<NetworkSniper>();
+                blasterN = GetComponent<NetworkShootProjectile>();
+                grenadeN = GetComponent<NetworkLaunchGrenade>();
+                tripleShotN = GetComponent<NetworkTripleShot>();
+                fullyAutoN = GetComponent<NetworkFullyAuto>();
+                assaultBlasterN = GetComponent<NetworkAB>();
+                shotblasterN = GetComponent<NetworkShotblaster>();
+                sniperN = GetComponent<NetworkSniper>();
 
                 weaponSelectUI = GameObject.Find("WeaponSelect");
 #if (UNITY_IOS || UNITY_ANDROID)
@@ -85,7 +85,7 @@ namespace Com.GCTC.ZombCube
         {
             if (photonView.IsMine == false) return;
 
-            if (grenade.grenadeCount == 0 && grenade.enabled == true && photonView.IsMine)
+            if (grenadeN.grenadeCount == 0 && grenadeN.enabled == true && photonView.IsMine)
             {
                 SwapToNextWeapon();
             }
@@ -114,7 +114,7 @@ namespace Com.GCTC.ZombCube
         protected override void SwapToWeapon(int weaponToSwapTo)
         {
             if (!photonView.IsMine) { return; }
-            if ((weaponToSwapTo == 1 && grenade.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
+            if ((weaponToSwapTo == 1 && grenadeN.grenadeCount <= 0) || (currentWeapon == weapons[1] && weaponToSwapTo == 1)) return; // Dont swap to nades
             //if (currentWeaponIndex == weaponToSwapTo) return; // Dont swap to current weapon
             currentWeaponIndex = weaponToSwapTo;
 
@@ -156,122 +156,122 @@ namespace Com.GCTC.ZombCube
             switch (weapons.IndexOf(currentWeapon))
             {
                 case 0:// Pistol
-                    if (tripleShot.enabled == true)
+                    if (tripleShotN.enabled == true)
                     {
-                        blaster.enabled = false;
-                        tripleShot.projectile = blaster.projectile;
-                        tripleShot.fireRate = blaster.fireRate;
-                        tripleShot.firePosition = blaster.firePosition;
-                        tripleShot.fireSound = blaster.fireSound;
-                        tripleShot.muzzle = blaster.muzzle;
-                        tripleShot.anim = blaster.anim;
-                        tripleShot.launchVelocity = 5000;
-                        tripleShot.SetFireSound();
+                        blasterN.enabled = false;
+                        tripleShotN.projectile = blasterN.projectile;
+                        tripleShotN.fireRate = blasterN.fireRate;
+                        tripleShotN.firePosition = blasterN.firePosition;
+                        tripleShotN.fireSound = blasterN.fireSound;
+                        tripleShotN.muzzle = blasterN.muzzle;
+                        tripleShotN.anim = blasterN.anim;
+                        tripleShotN.launchVelocity = 5000;
+                        tripleShotN.SetFireSound();
                     }
                     else
                     {
-                        blaster.enabled = newState;
+                        blasterN.enabled = newState;
                     }
-                    grenade.enabled = false;
+                    grenadeN.enabled = false;
                     break;
                 case 1:// Grenade
-                    if (newState == true && grenade.grenadeCount > 0) // if has grenades switch
+                    if (newState == true && grenadeN.grenadeCount > 0) // if has grenades switch
                     {
-                        blaster.enabled = false;
-                        grenade.enabled = newState;
-                        tripleShot.enabled = false;
+                        blasterN.enabled = false;
+                        grenadeN.enabled = newState;
+                        tripleShotN.enabled = false;
                     }
                     else if (newState == false) // disable
                     {
-                        blaster.enabled = false;
-                        grenade.enabled = newState;
+                        blasterN.enabled = false;
+                        grenadeN.enabled = newState;
                     }
                     else
                         SwapToNextWeapon(); // out of nades
                     break;
                 case 2:// SMB
-                    if (tripleShot.enabled == true)
+                    if (tripleShotN.enabled == true)
                     {
-                        fullyAuto.enabled = false;
-                        tripleShot.projectile = fullyAuto.projectile;
-                        tripleShot.fireRate = fullyAuto.fireRate;
-                        tripleShot.firePosition = fullyAuto.firePosition;
-                        tripleShot.fireSound = fullyAuto.fireSound;
-                        tripleShot.muzzle = fullyAuto.muzzle;
-                        tripleShot.anim = fullyAuto.anim;
-                        tripleShot.launchVelocity = 5000;
-                        tripleShot.SetFireSound();
+                        fullyAutoN.enabled = false;
+                        tripleShotN.projectile = fullyAutoN.projectile;
+                        tripleShotN.fireRate = fullyAutoN.fireRate;
+                        tripleShotN.firePosition = fullyAutoN.firePosition;
+                        tripleShotN.fireSound = fullyAutoN.fireSound;
+                        tripleShotN.muzzle = fullyAutoN.muzzle;
+                        tripleShotN.anim = fullyAutoN.anim;
+                        tripleShotN.launchVelocity = 5000;
+                        tripleShotN.SetFireSound();
                     }
                     else if (newState == true || newState == false)
                     {
-                        fullyAuto.enabled = newState;
-                        blaster.enabled = false;
-                        grenade.enabled = false;
+                        fullyAutoN.enabled = newState;
+                        blasterN.enabled = false;
+                        grenadeN.enabled = false;
                     }
                     break;
                 case 3:// AB
-                    if (tripleShot.enabled == true)
+                    if (tripleShotN.enabled == true)
                     {
-                        assaultBlaster.enabled = false;
-                        tripleShot.projectile = assaultBlaster.projectile;
-                        tripleShot.fireRate = assaultBlaster.fireRate;
-                        tripleShot.firePosition = assaultBlaster.firePosition;
-                        tripleShot.fireSound = assaultBlaster.fireSound;
-                        tripleShot.muzzle = assaultBlaster.muzzle;
-                        tripleShot.anim = assaultBlaster.anim;
-                        tripleShot.launchVelocity = 10000;
-                        tripleShot.SetFireSound();
+                        assaultBlasterN.enabled = false;
+                        tripleShotN.projectile = assaultBlasterN.projectile;
+                        tripleShotN.fireRate = assaultBlasterN.fireRate;
+                        tripleShotN.firePosition = assaultBlasterN.firePosition;
+                        tripleShotN.fireSound = assaultBlasterN.fireSound;
+                        tripleShotN.muzzle = assaultBlasterN.muzzle;
+                        tripleShotN.anim = assaultBlasterN.anim;
+                        tripleShotN.launchVelocity = 10000;
+                        tripleShotN.SetFireSound();
                     }
                     else if (newState == true || newState == false)
                     {
-                        assaultBlaster.enabled = newState;
-                        blaster.enabled = false;
-                        grenade.enabled = false;
+                        assaultBlasterN.enabled = newState;
+                        blasterN.enabled = false;
+                        grenadeN.enabled = false;
                     }
                     break;
                 case 4:// Shotblaster
-                    if (tripleShot.enabled == true)
+                    if (tripleShotN.enabled == true)
                     {
-                        shotblaster.enabled = false;
-                        tripleShot.projectile = shotblaster.projectile;
-                        tripleShot.fireRate = shotblaster.fireRate;
-                        tripleShot.firePosition = shotblaster.firePosition;
-                        tripleShot.fireSound = shotblaster.fireSound;
-                        tripleShot.muzzle = shotblaster.muzzle;
-                        tripleShot.anim = shotblaster.anim;
-                        tripleShot.launchVelocity = 5000;
-                        tripleShot.SetFireSound();
+                        shotblasterN.enabled = false;
+                        tripleShotN.projectile = shotblasterN.projectile;
+                        tripleShotN.fireRate = shotblasterN.fireRate;
+                        tripleShotN.firePosition = shotblasterN.firePosition;
+                        tripleShotN.fireSound = shotblasterN.fireSound;
+                        tripleShotN.muzzle = shotblasterN.muzzle;
+                        tripleShotN.anim = shotblasterN.anim;
+                        tripleShotN.launchVelocity = 5000;
+                        tripleShotN.SetFireSound();
                     }
                     else if (newState == true || newState == false)
                     {
-                        shotblaster.enabled = newState;
-                        blaster.enabled = false;
-                        grenade.enabled = false;
+                        shotblasterN.enabled = newState;
+                        blasterN.enabled = false;
+                        grenadeN.enabled = false;
                     }
                     break;
                 case 5:// Sniper
-                    if (tripleShot.enabled == true)
+                    if (tripleShotN.enabled == true)
                     {
-                        sniper.enabled = false;
-                        tripleShot.projectile = sniper.projectile;
-                        tripleShot.fireRate = sniper.fireRate;
-                        tripleShot.firePosition = sniper.firePosition;
-                        tripleShot.fireSound = sniper.fireSound;
-                        tripleShot.muzzle = sniper.muzzle;
-                        tripleShot.anim = sniper.anim;
-                        tripleShot.launchVelocity = 15000;
-                        tripleShot.SetFireSound();
+                        sniperN.enabled = false;
+                        tripleShotN.projectile = sniperN.projectile;
+                        tripleShotN.fireRate = sniperN.fireRate;
+                        tripleShotN.firePosition = sniperN.firePosition;
+                        tripleShotN.fireSound = sniperN.fireSound;
+                        tripleShotN.muzzle = sniperN.muzzle;
+                        tripleShotN.anim = sniperN.anim;
+                        tripleShotN.launchVelocity = 15000;
+                        tripleShotN.SetFireSound();
                     }
                     else if (newState == true || newState == false)
                     {
-                        sniper.enabled = newState;
-                        blaster.enabled = false;
-                        grenade.enabled = false;
+                        sniperN.enabled = newState;
+                        blasterN.enabled = false;
+                        grenadeN.enabled = false;
                     }
                     break;
                 default:
-                    blaster.enabled = true;
-                    grenade.enabled = false;
+                    blasterN.enabled = true;
+                    grenadeN.enabled = false;
                     break;
             }
 

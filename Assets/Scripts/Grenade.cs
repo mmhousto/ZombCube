@@ -131,11 +131,16 @@ namespace Com.GCTC.ZombCube
                 {
                     if(collider.gameObject.tag == "Enemy")
                     {
-                        collider.GetComponent<PhotonView>().RequestOwnership();
-                        if (collider.GetComponent<PhotonView>().IsMine)
+                        if (collider.TryGetComponent(out NetworkDupeCube dupeNCube))
                         {
-                            PhotonNetwork.Destroy(collider.gameObject);
+                            dupeNCube.Dupe();
                         }
+
+                        if(collider.TryGetComponent(out NetworkEnemy enemy))
+                        {
+                            enemy.DestroyEnemyCall();
+                        }
+                        
                         NetworkPlayerManager.AddPoints(pointsToAdd);
                         if (Player.Instance != null)
                             Player.Instance.cubesEliminated++;

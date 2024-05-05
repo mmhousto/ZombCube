@@ -101,6 +101,12 @@ namespace Com.GCTC.ZombCube
                 countDownLabel.text = $"Next Wave in {timeTilNextWave}...";
         }
 
+        public void CallSpawn()
+        {
+            photonView.RPC(nameof(Spawn), RpcTarget.AllBuffered);
+        }
+
+        [PunRPC]
         public void Spawn()
         {
             int currentRound = NetworkGameManager.Instance.CurrentRound;
@@ -116,9 +122,7 @@ namespace Com.GCTC.ZombCube
                     float randChance = Random.value;
                     if (randChance >= 1 - armorChance && zombCubeClone != null)
                     {
-                        GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, zombCubeClone.transform.position, zombCubeClone.transform.rotation);
-                        armorClone.transform.SetParent(zombCubeClone.transform);
-                        armorClone.transform.localScale = Vector3.one;
+                        zombCubeClone.GetComponent<NetworkEnemy>().EnableDisableArmor();
                     }
                 }
             }
@@ -137,9 +141,7 @@ namespace Com.GCTC.ZombCube
                         float randChance = Random.value;
                         if (randChance >= 1 - armorChance && fastCubeClone != null)
                         {
-                            GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, fastCubeClone.transform.position, fastCubeClone.transform.rotation);
-                            armorClone.transform.SetParent(fastCubeClone.transform);
-                            armorClone.transform.localScale = Vector3.one;
+                            fastCubeClone.GetComponent<NetworkEnemy>().EnableDisableArmor();
                         }
                     }
                 }
@@ -159,9 +161,7 @@ namespace Com.GCTC.ZombCube
                         float randChance = Random.value;
                         if (randChance >= 1 - armorChance && dupeCubeClone != null)
                         {
-                            GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, dupeCubeClone.transform.position, dupeCubeClone.transform.rotation);
-                            armorClone.transform.SetParent(dupeCubeClone.transform);
-                            armorClone.transform.localScale = Vector3.one;
+                            dupeCubeClone.GetComponent<NetworkDupeCube>().EnableDisableArmor();
                         }
                     }
                 }
@@ -180,9 +180,7 @@ namespace Com.GCTC.ZombCube
                         float randChance = Random.value;
                         if (randChance >= 1 - armorChance && cubeClone != null)
                         {
-                            GameObject armorClone = PhotonNetwork.InstantiateRoomObject(armor.name, cubeClone.transform.position, cubeClone.transform.rotation);
-                            armorClone.transform.SetParent(cubeClone.transform);
-                            armorClone.transform.localScale = Vector3.one;
+                            cubeClone.GetComponent<NetworkShieldedCube>().EnableDisableArmor();
                         }
                     }
                 }
