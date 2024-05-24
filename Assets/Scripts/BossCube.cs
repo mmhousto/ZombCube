@@ -40,6 +40,7 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     ai.SetDestination(target.position);
+                    transform.LookAt(target.position);
                 }
 
             }

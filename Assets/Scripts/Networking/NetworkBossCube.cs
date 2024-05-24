@@ -40,6 +40,7 @@ namespace Com.GCTC.ZombCube
                 else
                 {
                     ai.SetDestination(target.position);
+                    transform.LookAt(target.position);
                 }
 
             }
@@ -52,7 +53,7 @@ namespace Com.GCTC.ZombCube
 
         void AttackPlayer()
         {
-            if (isGameOver == true) return;
+            if (isGameOver == true || photonView.IsMine == false) return;
 
             Vector3 direction = target.position - transform.position;
             GameObject clone = PhotonNetwork.Instantiate(projectile.name, transform.position, Quaternion.identity);

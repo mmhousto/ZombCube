@@ -106,23 +106,23 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 3
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.75
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.5
+    agentClimb: 2
     ledgeDropHeight: 13
     maxJumpAcrossDistance: 8
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.25
     manualTileSize: 0
     tileSize: 256
-    buildHeightMesh: 0
+    buildHeightMesh: 1
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: c63624cf04be6d042885de531280f38d, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!43 &444306
 Mesh:
   m_ObjectHideFlags: 0
@@ -7453,6 +7453,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824410949}
   m_CullTransparentMesh: 1
+--- !u!1001 &827577094
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2999333531298331734, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 9abf724379e40004080aea322f0d0c49, type: 2}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392146886332757639, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_Name
+      value: Navigation
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576239456324971672, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 46471e6432c5b6a4e9b268de46e16c31, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
 --- !u!43 &852263325
 Mesh:
   m_ObjectHideFlags: 0
@@ -19406,6 +19471,7 @@ SceneRoots:
   - {fileID: 792625097}
   - {fileID: 1928338206}
   - {fileID: 121477657}
+  - {fileID: 827577094}
   - {fileID: 1576100413}
   - {fileID: 956391995}
   - {fileID: 491008835}

@@ -25,8 +25,8 @@ namespace Com.GCTC.ZombCube
 
         private void OnCollisionEnter(Collision collision)
         {
-            Explode();
             audioSource.Play();
+            Explode();
         }
 
         private void OnDrawGizmosSelected()
@@ -40,12 +40,11 @@ namespace Com.GCTC.ZombCube
             RaycastHit[] hits;
             hits = Physics.SphereCastAll(transform.position, 8f, Vector3.forward, 0f, playerLayer);
             List<GameObject> hitPlayers = new List<GameObject>();
-            int i = 0;
 
             foreach (RaycastHit hit in hits)
             {
                 Transform hitPlayer = hit.transform;
-                if (hitPlayer.CompareTag("Player") && SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
+                if (hitPlayer.CompareTag("Player") && (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu"))
                 {
                     if (hitPlayers.Contains(hitPlayer.gameObject) || hitPlayer.parent != null && hitPlayers.Contains(hitPlayer.parent.gameObject))
                         continue;

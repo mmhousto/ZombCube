@@ -107,22 +107,22 @@ NavMeshSettings:
     serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.75
-    agentHeight: 2
+    agentHeight: 13
     agentSlope: 45
-    agentClimb: 0.5
-    ledgeDropHeight: 13
+    agentClimb: 13
+    ledgeDropHeight: 0
     maxJumpAcrossDistance: 8
     minRegionArea: 2
     manualCellSize: 0
     cellSize: 0.25
     manualTileSize: 0
     tileSize: 256
-    buildHeightMesh: 0
+    buildHeightMesh: 1
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 9c0f8132044304ae79be55b84e2a5ffa, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!43 &21301175
 Mesh:
   m_ObjectHideFlags: 0
@@ -457,6 +457,11 @@ Mesh:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8342093426712839048, guid: 0751740bd8889fc4db64b57341cabe4c, type: 3}
   m_PrefabInstance: {fileID: 208607578783800526}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &52818895 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+  m_PrefabInstance: {fileID: 2699454740263596665}
   m_PrefabAsset: {fileID: 0}
 --- !u!43 &59026348
 Mesh:
@@ -10496,6 +10501,7 @@ Transform:
   - {fileID: 267207705}
   - {fileID: 1184513558}
   - {fileID: 1930874025}
+  - {fileID: 52818895}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1616660620
@@ -14849,6 +14855,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3df1f53f3c1ee0b4a9763a70b76fd1e7, type: 3}
+--- !u!1001 &2699454740263596665
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1607318555}
+    m_Modifications:
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344479617939595760, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392146886332757639, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
+      propertyPath: m_Name
+      value: Navigation
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b26658a8fc150d8468a71bff6b56d5b7, type: 3}
 --- !u!1 &5031852284856039635 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5093540558926931928, guid: 0751740bd8889fc4db64b57341cabe4c, type: 3}
