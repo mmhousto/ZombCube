@@ -136,7 +136,7 @@ namespace Com.GCTC.ZombCube
             GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
             clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
 
-            if (Player.Instance != null)
+            if (Player.Instance != null && SceneLoader.GetCurrentScene().name != "MainMenu")
             {
                 Player.Instance.totalProjectilesFired++;
                 CheckForTriggerHappyAchievements();
