@@ -156,9 +156,13 @@ namespace Com.GCTC.ZombCube
 
                 SpawnPowerup(collision.transform.position);
             }
-            else if (collision.gameObject.tag == "BossCube")
+            else if (collision.gameObject.tag == "BossCube" && collision.gameObject.TryGetComponent(out BossCube bC))
             {
-                collision.gameObject.GetComponent<BossCube>().TakeDamage();
+                bC.TakeDamage();
+            }
+            else if (collision.gameObject.tag == "BossCube" && collision.gameObject.TryGetComponent(out NetworkBossCube nbC))
+            {
+                nbC.TakeDamage();
             }
         }
 

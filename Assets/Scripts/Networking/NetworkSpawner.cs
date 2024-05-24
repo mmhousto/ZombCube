@@ -186,6 +186,14 @@ namespace Com.GCTC.ZombCube
                 }
             }
 
+            if (currentRound == 1)
+            {
+                    int j = Random.Range(0, spawnPoints.Length);
+                    GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
+                    spawnPoints[j].transform.position,
+                    spawnPoints[j].transform.rotation);
+            }
+
         }
 
         [PunRPC]
