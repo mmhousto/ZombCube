@@ -39,7 +39,7 @@ namespace Com.GCTC.ZombCube
             highestWaveParty = player.highestWaveParty;
             playerName = player.playerName;
 
-            if(RewardOvertime.IsNullOrEmpty())
+            if(RewardOvertime == null || RewardOvertime == "")
                 RewardOvertime = DateTime.Now.AddHours(-2).ToString();
             else
                 RewardOvertime = player.RewardOvertime;

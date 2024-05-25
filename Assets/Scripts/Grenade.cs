@@ -115,8 +115,6 @@ namespace Com.GCTC.ZombCube
                             Player.Instance.cubesEliminated++;
 
                         CheckForCubeDestroyerAchievements();
-
-                        SpawnPowerup(collider.transform.position);
                     }
                     if (collider.gameObject.tag == "Player")
                     {
@@ -146,8 +144,6 @@ namespace Com.GCTC.ZombCube
                             Player.Instance.cubesEliminated++;
 
                         CheckForCubeDestroyerAchievements();
-
-                        SpawnPowerup(collider.transform.position);
                     }
 
                     if (collider.gameObject.tag == "Player" && this.photonView.IsMine)

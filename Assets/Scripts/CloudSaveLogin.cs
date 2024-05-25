@@ -1229,7 +1229,7 @@ namespace Com.GCTC.ZombCube
 
             player.playerName = data.playerName;
 
-            if (data.rewardOverTime.IsNullOrEmpty())
+            if (data.rewardOverTime == null || data.rewardOverTime == "")
                 player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
             else
                 player.SetRewardOvertime(data.rewardOverTime);
@@ -1304,7 +1304,7 @@ namespace Com.GCTC.ZombCube
             
             player.playerName = data.playerName;
 
-            if (data.rewardOverTime.IsNullOrEmpty())
+            if (data.rewardOverTime == null || data.rewardOverTime == "")
                 player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
             else
                 player.SetRewardOvertime(data.rewardOverTime);
