@@ -22,6 +22,7 @@ using System.Threading;
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
 using GooglePlayGames;
+using WebSocketSharp;
 #endif
 #if !DISABLESTEAMWORKS
 using Steamworks;
@@ -1188,6 +1189,7 @@ namespace Com.GCTC.ZombCube
             player.userID = id;
             player.userName = name;
             player.playerName = "PlayerName";
+            player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;
@@ -1226,6 +1228,12 @@ namespace Com.GCTC.ZombCube
             }
 
             player.playerName = data.playerName;
+
+            if (data.rewardOverTime.IsNullOrEmpty())
+                player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
+            else
+                player.SetRewardOvertime(data.rewardOverTime);
+
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
@@ -1295,6 +1303,12 @@ namespace Com.GCTC.ZombCube
             }
             
             player.playerName = data.playerName;
+
+            if (data.rewardOverTime.IsNullOrEmpty())
+                player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
+            else
+                player.SetRewardOvertime(data.rewardOverTime);
+
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
@@ -1347,6 +1361,7 @@ namespace Com.GCTC.ZombCube
             player.userID = "";
             player.userName = "";
             player.playerName = "";
+            player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;

@@ -1,3 +1,5 @@
+using System;
+
 namespace Com.GCTC.ZombCube
 {
     [System.Serializable]
@@ -12,6 +14,7 @@ namespace Com.GCTC.ZombCube
         public int highestWave = 0;
         public int highestWaveParty = 0;
         public string playerName = "PlayerName";
+        public string rewardOverTime;
         public int[] ownedBlasters;
         public int[] ownedSkins;
         public int cubesEliminated = 0;
@@ -23,6 +26,7 @@ namespace Com.GCTC.ZombCube
             userID = "";
             userName = "";
             playerName = "PlayerName";
+            rewardOverTime = DateTime.Now.AddHours(-2).ToString();
             coins = 0;
             points = 0;
             highestWave = 0;
@@ -41,6 +45,7 @@ namespace Com.GCTC.ZombCube
             userID = player.userID;
             userName = player.userName;
             playerName = player.playerName;
+            rewardOverTime = player.RewardOvertime;
             coins = player.coins;
             points = player.points;
             highestWave = player.highestWave;

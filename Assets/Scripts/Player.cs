@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WebSocketSharp;
 
 namespace Com.GCTC.ZombCube
 {
@@ -20,6 +22,7 @@ namespace Com.GCTC.ZombCube
         public int highestWave = 0;
         public int highestWaveParty = 0;
         public string playerName = "PlayerName";
+        public string RewardOvertime { get; private set; }
         public int[] ownedBlasters = { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
         public int[] ownedSkins = { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
         public int cubesEliminated = 0;
@@ -35,6 +38,11 @@ namespace Com.GCTC.ZombCube
             highestWave = player.highestWave;
             highestWaveParty = player.highestWaveParty;
             playerName = player.playerName;
+
+            if(RewardOvertime.IsNullOrEmpty())
+                RewardOvertime = DateTime.Now.AddHours(-2).ToString();
+            else
+                RewardOvertime = player.RewardOvertime;
 
             currentBlaster = player.currentBlaster;
             if (player.ownedBlasters == null)
@@ -91,7 +99,12 @@ namespace Com.GCTC.ZombCube
 
         public void GainPoints()
         {
-            points += 500;
+            points += 1000;
+        }
+
+        public void SetRewardOvertime(string time)
+        {
+            RewardOvertime = time;
         }
 
     }
