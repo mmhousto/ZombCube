@@ -89,6 +89,11 @@ namespace Com.GCTC.ZombCube
             DontDestroyOnLoad(this.gameObject);
         }
 
+        public void GainPoints()
+        {
+            points += 500;
+        }
+
     }
 
 }

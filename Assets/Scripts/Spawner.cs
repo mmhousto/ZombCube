@@ -149,7 +149,7 @@ namespace Com.GCTC.ZombCube
                 }
             }
 
-            if (currentRound == 1)
+            if (currentRound == 50)
             {
                 int j = Random.Range(0, spawnPoints.Length);
                 GameObject cubeClone = Instantiate(enemies[4],
