@@ -276,6 +276,15 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        private new void OnEnable()
+        {
+            NetworkGameManager.endGame += SaveDataEndGame;
+        }
+
+        private new void OnDisable()
+        {
+            NetworkGameManager.endGame -= SaveDataEndGame;
+        }
 
         #endregion
 
@@ -303,7 +312,53 @@ namespace Com.GCTC.ZombCube
             SaveSystem.SavePlayer(player);
         }
 
+        public void SaveDataEndGame()
+        {
+            UpdateTotalPoints();
+            UpdateHighestWave();
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                    UpdateLeaderboards();
+                    onScreenControls.SetActive(false);
+#endif
+
+            try
+            {
+                SavePlayerData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save local data");
+            }
+
+            try
+            {
+                CloudSaveLogin.Instance.SaveCloudData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save cloud data");
+            }
+
+            //NetworkGameManager.Instance.ActivateCamera();
+            NetworkGameManager.Instance.CallGameOver();
+            isGameOver = true;
+            isPaused = false;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
         // Input for Pausing -------------------------------------------------------
+
+        public void PauseForContinue()
+        {
+            isInputDisabled = true;
+
+            Cursor.lockState = CursorLockMode.None;
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(false);
+#endif
+        }
 
         public void PauseInput()
         {

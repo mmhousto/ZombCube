@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Com.GCTC.ZombCube
@@ -13,7 +14,9 @@ namespace Com.GCTC.ZombCube
         public Slider healthBar;
         [SerializeField]
         private float health = 1000;
-        
+        public delegate void BossDead();
+        public static event BossDead bossDead;
+
 
         // Start is called before the first frame update
         void Start()
@@ -64,6 +67,17 @@ namespace Com.GCTC.ZombCube
         {
             health--;
             healthBar.value--;
+
+            if(health <= 0 && bossDead != null)
+            {
+                bossDead();
+                PlayerManager.AddPoints(5000);
+
+                if (Player.Instance != null)
+                    Player.Instance.cubesEliminated++;
+
+                Destroy(gameObject);
+            }
         }
 
         private void OnTriggerEnter(Collider other)

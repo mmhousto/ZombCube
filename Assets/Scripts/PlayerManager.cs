@@ -160,34 +160,49 @@ namespace Com.GCTC.ZombCube
             {
                 healthPoints = 0;
 
-                //Update player stats and save to cloud and disk.
-                UpdateTotalPoints();
-                UpdateHighestWave();
-                UpdateLeaderboards();
-
-                try
-                {
-                    SavePlayerData();
-                }
-                catch
-                {
-                    Debug.Log("Failed to save local data");
-                }
-
-                try
-                {
-                    CloudSaveLogin.Instance.SaveCloudData();
-                }
-                catch
-                {
-                    Debug.Log("Failed to save cloud data");
-                }
-
-
-                GameManager.Instance.GameOver();
-                isGameOver = GameManager.Instance.isGameOver;
+                SaveDataEndGame();
             }
 
+        }
+
+        private void OnEnable()
+        {
+            GameManager.endGame += SaveDataEndGame;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.endGame -= SaveDataEndGame;
+        }
+
+        public void SaveDataEndGame()
+        {
+            //Update player stats and save to cloud and disk.
+            UpdateTotalPoints();
+            UpdateHighestWave();
+            UpdateLeaderboards();
+
+            try
+            {
+                SavePlayerData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save local data");
+            }
+
+            try
+            {
+                CloudSaveLogin.Instance.SaveCloudData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save cloud data");
+            }
+
+
+            GameManager.Instance.GameOver();
+            isGameOver = GameManager.Instance.isGameOver;
         }
 
         private void OnTriggerEnter(Collider other)

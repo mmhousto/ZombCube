@@ -7,6 +7,7 @@ using Photon.Realtime;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using ExitGames.Client.Photon;
 
 namespace Com.GCTC.ZombCube
 {
@@ -17,18 +18,24 @@ namespace Com.GCTC.ZombCube
 
         public static NetworkGameManager Instance { get { return _instance; } }
 
+        public delegate void EndGame();
+        public static event EndGame endGame;
+
+        public const byte EndGameEventCode = 2;
+
         public Camera eliminatedCam;
 
         public int CurrentRound { get; set; }
         public GameObject[] grenades;
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, restart, pauseMenu, settingsButton, settingsMenu;
+        public GameObject gameOverScreen, restart, pauseMenu, settingsButton, settingsMenu, continueScreen, endButton;
 
         public int playersEliminated = 0;
 
         public int playersSpawned = 0;
 
         public bool isGameOver = false;
+        private bool isContinue = false;
 
         GameObject myPlayer;
         public static List<GameObject> players = new List<GameObject>();
@@ -99,6 +106,17 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        private new void OnEnable()
+        {
+            NetworkBossCube.bossDead += CallPauseForContinue;
+            Debug.Log("BossDead Assigned");
+        }
+
+        private new void OnDisable()
+        {
+            NetworkBossCube.bossDead -= CallPauseForContinue;
+        }
+
 
         #endregion
 
@@ -115,9 +133,13 @@ namespace Com.GCTC.ZombCube
         {
             pauseMenu.SetActive(false);
             settingsMenu.SetActive(false);
-            if(myPlayer == null)
+            isContinue = false;
+            continueScreen.SetActive(false);
+            if (myPlayer == null)
                 myPlayer = FindPlayer.GetPlayer();
             myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
+
+            Time.timeScale = 1.0f;
         }
 
         public void StartGame()
@@ -191,13 +213,24 @@ namespace Com.GCTC.ZombCube
 
         public void CallEliminatePlayer()
         {
-            this.photonView.RPC(nameof(RPC_EliminatePlayer), RpcTarget.All);
+            this.photonView.RPC(nameof(RPC_EliminatePlayer), RpcTarget.AllBuffered);
         }
 
         public void NextWaveCall()
         {
-            photonView.RPC(nameof(NextWave), RpcTarget.All);
+            photonView.RPC(nameof(NextWave), RpcTarget.AllBuffered);
         }
+
+        public void CallEndGame()
+        {
+            photonView.RPC(nameof(EndTheGame), RpcTarget.All);
+        }
+
+        public void CallPauseForContinue()
+        {
+            photonView.RPC(nameof(PauseForContinue), RpcTarget.All);
+        }
+
         // END RPC Remote Calls -----------------------------------------------------------------
 
 
@@ -259,6 +292,7 @@ namespace Com.GCTC.ZombCube
             gameOverScreen.SetActive(isGameOver);
             pauseMenu.SetActive(false);
             settingsMenu.SetActive(false);
+            continueScreen.SetActive(false);
             CustomAnalytics.SendGameOver();
         }
 
@@ -289,7 +323,32 @@ namespace Com.GCTC.ZombCube
             playersEliminated++;
         }
 
-#endregion
+        [PunRPC]
+        public void PauseForContinue()
+        {
+            isContinue = true;
+
+            if (myPlayer == null)
+                myPlayer = FindPlayer.GetPlayer();
+            myPlayer.GetComponent<NetworkPlayerManager>().PauseForContinue();
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(false);
+#endif
+
+            Time.timeScale = 0;
+            continueScreen.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(endButton);
+        }
+
+        [PunRPC]
+        public void EndTheGame()
+        {
+            endGame();
+        }
+
+        #endregion
 
     }
 }

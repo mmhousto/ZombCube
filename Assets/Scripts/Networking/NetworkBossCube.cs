@@ -1,4 +1,6 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,16 +15,19 @@ namespace Com.GCTC.ZombCube
         public Slider healthBar;
         [SerializeField]
         private float health = 1000;
+        public delegate void BossDead();
+        public static event BossDead bossDead;
 
+        public const byte BossDeadEventCode = 1;
 
         // Start is called before the first frame update
         void Start()
         {
             ai = GetComponent<NavMeshAgent>();
             target = GameObject.FindWithTag("Player").transform;
-            health = 1000;
+            health = 10;
             healthBar.maxValue = 1000;
-            healthBar.value = 1000;
+            healthBar.value = 10;
             InvokeRepeating(nameof(AttackPlayer), 2f, 3f);
         }
 
@@ -70,6 +75,20 @@ namespace Com.GCTC.ZombCube
         {
             health--;
             healthBar.value--;
+
+            if (health <= 0 && bossDead != null)
+            {
+                bossDead();
+                //RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All }; // You would have to set the Receivers to All in order to receive this event on the local client as well
+                //PhotonNetwork.RaiseEvent(BossDeadEventCode, null, raiseEventOptions, SendOptions.SendReliable);
+
+                NetworkPlayerManager.AddPoints(5000);
+
+                if (Player.Instance != null)
+                    Player.Instance.cubesEliminated++;
+
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
 
         private void OnTriggerEnter(Collider other)
