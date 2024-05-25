@@ -186,7 +186,7 @@ namespace Com.GCTC.ZombCube
                 }
             }
 
-            if (currentRound == 50)
+            if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
             {
                     int j = Random.Range(0, spawnPoints.Length);
                     GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
