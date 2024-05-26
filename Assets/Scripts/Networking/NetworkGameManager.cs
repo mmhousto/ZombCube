@@ -384,10 +384,6 @@ namespace Com.GCTC.ZombCube
                 myPlayer = FindPlayer.GetPlayer();
             myPlayer.GetComponent<NetworkPlayerManager>().PauseForContinue();
 
-#if (UNITY_IOS || UNITY_ANDROID)
-                onScreenControls.SetActive(false);
-#endif
-
             Time.timeScale = 0;
             continueScreen.SetActive(true);
 
