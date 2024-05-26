@@ -25,9 +25,9 @@ namespace Com.GCTC.ZombCube
         {
             ai = GetComponent<NavMeshAgent>();
             target = GameObject.FindWithTag("Player").transform;
-            health = 10;
-            healthBar.maxValue = 1000;
-            healthBar.value = 10;
+            health = 500 + (NetworkGameManager.Instance.playersSpawned * 500);
+            healthBar.maxValue = health;
+            healthBar.value = health;
             InvokeRepeating(nameof(AttackPlayer), 2f, 3f);
         }
 
@@ -36,7 +36,7 @@ namespace Com.GCTC.ZombCube
         {
             players = GameObject.FindGameObjectsWithTag("Player");
 
-            isGameOver = (GameManager.Instance != null) ? GameManager.Instance.isGameOver : false;
+            isGameOver = NetworkGameManager.Instance.IsGameOver();
 
             if (isGameOver == false)
             {
@@ -57,7 +57,7 @@ namespace Com.GCTC.ZombCube
 
         void AttackPlayer()
         {
-            if (isGameOver == true || photonView.IsMine == false) return;
+            if (isGameOver == true || photonView.IsMine == false || target == null) return;
 
             Vector3 direction = target.position - transform.position;
             GameObject clone = PhotonNetwork.Instantiate(projectile.name, transform.position, Quaternion.identity);

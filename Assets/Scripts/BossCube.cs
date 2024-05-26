@@ -23,9 +23,9 @@ namespace Com.GCTC.ZombCube
         {
             ai = GetComponent<NavMeshAgent>();
             target = GameObject.FindWithTag("Player").transform;
-            health = 1000;
-            healthBar.maxValue = 1000;
-            healthBar.value = 1000;
+            health = 500 + (GameManager.Instance.numOfPlayers * 500);
+            healthBar.maxValue = health;
+            healthBar.value = health;
             InvokeRepeating(nameof(AttackPlayer), 2f, 3f);
         }
 
@@ -56,7 +56,7 @@ namespace Com.GCTC.ZombCube
 
         void AttackPlayer()
         {
-            if (isGameOver == true) return;
+            if (isGameOver == true || target == null) return;
 
             Vector3 direction = target.position - transform.position;
             GameObject clone = Instantiate(projectile, transform.position, Quaternion.identity);
