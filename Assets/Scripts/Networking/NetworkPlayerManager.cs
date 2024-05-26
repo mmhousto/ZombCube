@@ -278,12 +278,12 @@ namespace Com.GCTC.ZombCube
 
         private new void OnEnable()
         {
-            NetworkGameManager.endGame += SaveDataEndGame;
+            NetworkGameManager.endGame += CallSaveDataEndGame;
         }
 
         private new void OnDisable()
         {
-            NetworkGameManager.endGame -= SaveDataEndGame;
+            NetworkGameManager.endGame -= CallSaveDataEndGame;
         }
 
         #endregion
@@ -312,6 +312,13 @@ namespace Com.GCTC.ZombCube
             SaveSystem.SavePlayer(player);
         }
 
+        public void CallSaveDataEndGame()
+        {
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(SaveDataEndGame), RpcTarget.AllBuffered);
+        }
+
+        [PunRPC]
         public void SaveDataEndGame()
         {
             UpdateTotalPoints();
@@ -577,13 +584,20 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateTotalPoints()
         {
-            player.points += currentPoints;
+            if (player == null)
+                player = Player.Instance;
+
+            if(player != null)
+                player.points += currentPoints;
         }
 
         private void UpdateHighestWave()
         {
+            if (player == null)
+                player = Player.Instance;
+
             int endingRound = NetworkGameManager.Instance.CurrentRound;
-            if (player.highestWaveParty < endingRound)
+            if (player != null && player.highestWaveParty < endingRound)
             {
                 player.highestWaveParty = endingRound;
             }

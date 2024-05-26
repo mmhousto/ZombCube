@@ -87,7 +87,7 @@ namespace Com.GCTC.ZombCube
                 if (Player.Instance != null)
                     Player.Instance.cubesEliminated++;
 
-                PhotonNetwork.Destroy(gameObject);
+                if(photonView.IsMine) PhotonNetwork.Destroy(gameObject);
             }
         }
 

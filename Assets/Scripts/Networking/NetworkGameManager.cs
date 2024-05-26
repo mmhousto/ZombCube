@@ -61,6 +61,8 @@ namespace Com.GCTC.ZombCube
                 grenades[2].transform.GetChild(0).gameObject.SetActive(false);
                 grenades[3].transform.GetChild(0).gameObject.SetActive(false);
             }
+
+            PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate = 0;
         }
 
         // Start is called before the first frame update
@@ -223,12 +225,20 @@ namespace Com.GCTC.ZombCube
 
         public void CallEndGame()
         {
-            photonView.RPC(nameof(EndTheGame), RpcTarget.All);
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(EndTheGame), RpcTarget.AllBuffered);
         }
 
         public void CallPauseForContinue()
         {
-            photonView.RPC(nameof(PauseForContinue), RpcTarget.All);
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(PauseForContinue), RpcTarget.All);
+        }
+
+        public void CallResumeAfterGame()
+        {
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(ResumeAfterGame), RpcTarget.AllBuffered);
         }
 
         // END RPC Remote Calls -----------------------------------------------------------------
@@ -282,6 +292,21 @@ namespace Com.GCTC.ZombCube
         }
 
         [PunRPC]
+        public void ResumeAfterGame()
+        {
+            Debug.Log("ResumeAfterGame RPC Called");
+            pauseMenu.SetActive(false);
+            settingsMenu.SetActive(false);
+            isContinue = false;
+            continueScreen.SetActive(false);
+            if (myPlayer == null)
+                myPlayer = FindPlayer.GetPlayer();
+            myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
+
+            Time.timeScale = 1.0f;
+        }
+
+        [PunRPC]
         public void GameOver()
         {
             ActivateCamera();
@@ -293,6 +318,7 @@ namespace Com.GCTC.ZombCube
             pauseMenu.SetActive(false);
             settingsMenu.SetActive(false);
             continueScreen.SetActive(false);
+            isContinue = false;
             CustomAnalytics.SendGameOver();
         }
 
@@ -310,6 +336,7 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void Restart()
         {
+            Time.timeScale = 1.0f;
             CurrentRound = 1;
             playersSpawned = 0;
             playersEliminated = 0;
