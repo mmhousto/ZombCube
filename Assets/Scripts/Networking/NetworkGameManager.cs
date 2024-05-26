@@ -8,6 +8,7 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using ExitGames.Client.Photon;
+using UnityEngine.SceneManagement;
 
 namespace Com.GCTC.ZombCube
 {
@@ -28,7 +29,7 @@ namespace Com.GCTC.ZombCube
         public int CurrentRound { get; set; }
         public GameObject[] grenades;
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, restart, pauseMenu, settingsButton, settingsMenu, continueScreen, endButton;
+        public GameObject gameOverScreen, restart, pauseMenu, settingsButton, settingsMenu, continueScreen, continueButton, endButton, waitingText;
 
         public int playersEliminated = 0;
 
@@ -251,10 +252,22 @@ namespace Com.GCTC.ZombCube
 
         IEnumerator DisconnectAndLoad()
         {
+            pauseMenu.SetActive(false);
+
             PhotonNetwork.LeaveRoom();
             while (PhotonNetwork.InRoom)
                 yield return null;
             Debug.Log("Disconnected from room!!!!!!");
+
+            players.Remove(myPlayer);
+            
+            PhotonNetwork.Disconnect();
+            while(PhotonNetwork.IsConnectedAndReady)
+                yield return null;
+            Debug.Log("Disconnected from server!!!!!!");
+
+            yield return new WaitForSeconds(1);
+            LeaveServer();
         }
 
 
@@ -262,17 +275,6 @@ namespace Com.GCTC.ZombCube
 
 
         #region PunCallbacks
-
-        public override void OnConnectedToMaster()
-        {
-            PhotonNetwork.Disconnect();
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            players.Remove(myPlayer);
-            LeaveServer();
-        }
 
         #endregion
 
@@ -365,8 +367,19 @@ namespace Com.GCTC.ZombCube
 
             Time.timeScale = 0;
             continueScreen.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(endButton);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(endButton);
+            }
+            else
+            {
+                endButton.SetActive(false);
+                continueButton.SetActive(false);
+                waitingText.SetActive(true);
+            }
+            
         }
 
         [PunRPC]

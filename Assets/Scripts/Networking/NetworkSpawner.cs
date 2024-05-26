@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using System.Collections;
 using TMPro;
+using UnityEngine;
 
 namespace Com.GCTC.ZombCube
 {
@@ -88,10 +87,14 @@ namespace Com.GCTC.ZombCube
         {
             while (timeTilNextWave > 0)
             {
-                photonView.RPC(nameof(DecreaseTime), RpcTarget.All);
+                if(PhotonNetwork.IsConnectedAndReady)
+                    photonView.RPC(nameof(DecreaseTime), RpcTarget.All);
                 yield return new WaitForSeconds(1);
             }
-            photonView.RPC(nameof(DisableCountDown), RpcTarget.All);
+
+            if (PhotonNetwork.IsConnectedAndReady)
+                photonView.RPC(nameof(DisableCountDown), RpcTarget.All);
+
             yield return null;
         }
 
@@ -188,10 +191,10 @@ namespace Com.GCTC.ZombCube
 
             if (currentRound == 1 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
             {
-                    int j = Random.Range(0, spawnPoints.Length);
-                    GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
-                    spawnPoints[j].transform.position,
-                    spawnPoints[j].transform.rotation);
+                int j = Random.Range(0, spawnPoints.Length);
+                GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
+                spawnPoints[j].transform.position,
+                spawnPoints[j].transform.rotation);
             }
 
         }
