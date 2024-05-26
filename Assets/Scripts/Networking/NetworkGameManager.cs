@@ -181,6 +181,15 @@ namespace Com.GCTC.ZombCube
         {
             Time.timeScale = 1;
             SceneLoader.ToMainMenu();
+            Debug.Log("left server");
+        }
+
+        private void LeaveRoom()
+        {
+            Time.timeScale = 1;
+            //SceneLoader.ToLobby();
+            PhotonNetwork.LoadLevel(3);
+            Debug.Log("left room");
         }
 
         public bool IsGameOver()
@@ -254,20 +263,31 @@ namespace Com.GCTC.ZombCube
         {
             pauseMenu.SetActive(false);
 
-            PhotonNetwork.LeaveRoom();
-            while (PhotonNetwork.InRoom)
-                yield return null;
-            Debug.Log("Disconnected from room!!!!!!");
+            if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.LeaveRoom();
+                while (PhotonNetwork.InRoom)
+                    yield return null;
+                Debug.Log("Disconnected from room!!!!!!");
+            }
 
-            players.Remove(myPlayer);
+            if (players.Contains(myPlayer))
+            {
+                players.Remove(myPlayer);
+            }
+                
+
+            /*if (PhotonNetwork.IsConnectedAndReady)
+            {
+                PhotonNetwork.Disconnect();
+                while (PhotonNetwork.IsConnectedAndReady)
+                    yield return null;
+                Debug.Log("Disconnected from server!!!!!!");
+            }*/
             
-            PhotonNetwork.Disconnect();
-            while(PhotonNetwork.IsConnectedAndReady)
-                yield return null;
-            Debug.Log("Disconnected from server!!!!!!");
 
             yield return new WaitForSeconds(1);
-            LeaveServer();
+            LeaveRoom();
         }
 
 
@@ -311,6 +331,9 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void GameOver()
         {
+            //if(myPlayer != null) { PhotonNetwork.Destroy(myPlayer); }
+
+            Time.timeScale = 1.0f;
             ActivateCamera();
             AdsInitializer.timesPlayed++;
             isGameOver = true;

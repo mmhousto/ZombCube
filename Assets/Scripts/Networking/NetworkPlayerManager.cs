@@ -348,10 +348,14 @@ namespace Com.GCTC.ZombCube
             }
 
             //NetworkGameManager.Instance.ActivateCamera();
+
             NetworkGameManager.Instance.CallGameOver();
             isGameOver = true;
             isPaused = false;
             Cursor.lockState = CursorLockMode.None;
+
+            if (this.gameObject != null && photonView.IsMine)
+                PhotonNetwork.Destroy(this.gameObject);
         }
 
         // Input for Pausing -------------------------------------------------------

@@ -51,8 +51,7 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-                if (ai != null && ai.isStopped == false)
-                    ai.isStopped = true;
+                DestroyEnemyCall();
             }
         }
 
@@ -87,7 +86,7 @@ namespace Com.GCTC.ZombCube
                 if (Player.Instance != null)
                     Player.Instance.cubesEliminated++;
 
-                if(photonView.IsMine) PhotonNetwork.Destroy(gameObject);
+                if(photonView.IsMine) DestroyEnemyCall();
             }
         }
 

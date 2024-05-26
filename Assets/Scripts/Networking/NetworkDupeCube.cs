@@ -48,8 +48,7 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-                if (ai != null && ai.isStopped == false)
-                    ai.isStopped = true;
+                DestroyEnemyCall();
             }
         }
 
