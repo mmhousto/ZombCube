@@ -960,7 +960,10 @@ namespace Com.GCTC.ZombCube
             {
                 // Compare error code to CommonErrorCodes
                 // Notify the player with the proper error message
-                Debug.LogException(exception);
+
+                SetPlayer(userID);
+
+                Login();
             }
         }
 
