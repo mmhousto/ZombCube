@@ -961,6 +961,9 @@ namespace Com.GCTC.ZombCube
                 // Compare error code to CommonErrorCodes
                 // Notify the player with the proper error message
 
+                userID = "OfflineMode";
+                userName = "Guest_" + userID;
+
                 SetPlayer(userID);
 
                 Login();
