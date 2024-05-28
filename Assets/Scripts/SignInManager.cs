@@ -36,8 +36,8 @@ namespace Com.GCTC.ZombCube
             }
 
 #if UNITY_ANDROID
-            googleSignIn.SetActive(true);
-            playButton.SetActive(false);
+            //googleSignIn.SetActive(true);
+            playButton.SetActive(true);
 #else
             googleSignIn.SetActive(false);
 #endif
