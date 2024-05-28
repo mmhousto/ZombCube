@@ -13,7 +13,7 @@ namespace Com.GCTC.ZombCube
 
     public class SignInManager : MonoBehaviour
     {
-        public GameObject exitButton, googleSignIn, appleSignIn;
+        public GameObject exitButton, googleSignIn, appleSignIn, playButton;
 
         private void Start()
         {
@@ -25,9 +25,10 @@ namespace Com.GCTC.ZombCube
                 exitButton.SetActive(false);
 #endif
 
-           /* if (AppleAuthManager.IsCurrentPlatformSupported)
+            if (AppleAuthManager.IsCurrentPlatformSupported)
             {
                 appleSignIn.SetActive(true);
+                playButton.SetActive(false);
             }
             else
             {
@@ -36,9 +37,10 @@ namespace Com.GCTC.ZombCube
 
 #if UNITY_ANDROID
             googleSignIn.SetActive(true);
+            playButton.SetActive(false);
 #else
             googleSignIn.SetActive(false);
-#endif*/
+#endif
 
         }
 
