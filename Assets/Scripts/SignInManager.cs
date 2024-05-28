@@ -25,12 +25,15 @@ namespace Com.GCTC.ZombCube
                 exitButton.SetActive(false);
 #endif
 
-#if (UNITY_STANDALONE_OSX || UNITY_IOS)
+            if (AppleAuthManager.IsCurrentPlatformSupported)
+            {
                 appleSignIn.SetActive(true);
                 playButton.SetActive(false);
-#else
+            }
+            else
+            {
                 appleSignIn.SetActive(false);
-#endif
+            }
 
 #if UNITY_ANDROID
             googleSignIn.SetActive(true);
