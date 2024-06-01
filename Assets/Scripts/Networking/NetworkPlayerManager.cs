@@ -65,6 +65,8 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            swapManager = GetComponent<NetworkSwapManager>();
+
             if (photonView.IsMine)
             {
                 isAlive = true;
@@ -74,7 +76,7 @@ namespace Com.GCTC.ZombCube
 
                 player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
                 playerInput = GetComponent<PlayerInput>();
-                swapManager = GetComponent<NetworkSwapManager>();
+                
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
                 aB = GetComponent<NetworkAB>();
                 shotblaster = GetComponent<NetworkShotblaster>();
@@ -132,9 +134,9 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Armor"))
+            if (other.CompareTag("Armor") && other.transform.root.TryGetComponent(out NetworkEnemy enemy))
             {
-                other.transform.root.GetComponent<NetworkEnemy>().photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
+                enemy.photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
                 DamagePlayerCall(20);
             }
         }
@@ -166,6 +168,8 @@ namespace Com.GCTC.ZombCube
                 SpendPoints(500);
 
                 if (healthPoints >= 100) { healthPoints = 100; }
+
+                contextPrompt.SetActive(false);
             }
 
             WeaponPickup wp;
@@ -192,6 +196,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(2);
                     fullyAutoSMB.GetAmmo(90);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("AB") && wp.isUsable)
@@ -215,6 +221,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(3);
                     aB.GetAmmo(210);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("Shotblaster") && wp.isUsable)
@@ -238,6 +246,8 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(4);
                     shotblaster.GetAmmo(35);
                 }
+
+                contextPrompt.SetActive(false);
             }
 
             if (other.CompareTag("Sniper") && wp.isUsable)
@@ -261,9 +271,20 @@ namespace Com.GCTC.ZombCube
                     swapManager.GetWeapon(5);
                     sniper.GetAmmo(20);
                 }
+
+                contextPrompt.SetActive(false);
             }
         }
 
+        private new void OnEnable()
+        {
+            NetworkGameManager.endGame += CallSaveDataEndGame;
+        }
+
+        private new void OnDisable()
+        {
+            NetworkGameManager.endGame -= CallSaveDataEndGame;
+        }
 
         #endregion
 
@@ -291,7 +312,64 @@ namespace Com.GCTC.ZombCube
             SaveSystem.SavePlayer(player);
         }
 
+        public void CallSaveDataEndGame()
+        {
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(SaveDataEndGame), RpcTarget.AllBuffered);
+        }
+
+        [PunRPC]
+        public void SaveDataEndGame()
+        {
+            UpdateTotalPoints();
+            UpdateHighestWave();
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                    UpdateLeaderboards();
+                    onScreenControls.SetActive(false);
+#endif
+
+            try
+            {
+                SavePlayerData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save local data");
+            }
+
+            try
+            {
+                CloudSaveLogin.Instance.SaveCloudData();
+            }
+            catch
+            {
+                Debug.Log("Failed to save cloud data");
+            }
+
+            //NetworkGameManager.Instance.ActivateCamera();
+
+            NetworkGameManager.Instance.CallGameOver();
+            isGameOver = true;
+            isPaused = false;
+            Cursor.lockState = CursorLockMode.None;
+
+            if (this.gameObject != null && photonView.IsMine)
+                PhotonNetwork.Destroy(this.gameObject);
+        }
+
         // Input for Pausing -------------------------------------------------------
+
+        public void PauseForContinue()
+        {
+            isInputDisabled = true;
+
+            Cursor.lockState = CursorLockMode.None;
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(false);
+#endif
+        }
 
         public void PauseInput()
         {
@@ -510,13 +588,20 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateTotalPoints()
         {
-            player.points += currentPoints;
+            if (player == null)
+                player = Player.Instance;
+
+            if(player != null)
+                player.points += currentPoints;
         }
 
         private void UpdateHighestWave()
         {
+            if (player == null)
+                player = Player.Instance;
+
             int endingRound = NetworkGameManager.Instance.CurrentRound;
-            if (player.highestWaveParty < endingRound)
+            if (player != null && player.highestWaveParty < endingRound)
             {
                 player.highestWaveParty = endingRound;
             }
@@ -543,6 +628,11 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void CallDamageRPC(float damageTaken)
+        {
+            photonView.RPC(nameof(Damage), RpcTarget.AllBuffered, damageTaken);
+        }
+
         [PunRPC]
         public void Damage(float damageTaken)
         {
@@ -564,9 +654,11 @@ namespace Com.GCTC.ZombCube
             {
                 if(blaster[i].tag == "Blaster")
                     blaster[i].material = blasterMaterial[blasterIndex];
+
             }
 
-            swapManager.DisableWeapons();
+            if(swapManager != null)
+                swapManager.CallDisableWeapons();
         }
 
 #endregion

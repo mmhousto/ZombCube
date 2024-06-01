@@ -7,6 +7,8 @@ using Photon.Realtime;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using ExitGames.Client.Photon;
+using UnityEngine.SceneManagement;
 
 namespace Com.GCTC.ZombCube
 {
@@ -17,18 +19,24 @@ namespace Com.GCTC.ZombCube
 
         public static NetworkGameManager Instance { get { return _instance; } }
 
+        public delegate void EndGame();
+        public static event EndGame endGame;
+
+        public const byte EndGameEventCode = 2;
+
         public Camera eliminatedCam;
 
         public int CurrentRound { get; set; }
         public GameObject[] grenades;
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, restart, pauseMenu, settingsButton, settingsMenu;
+        public GameObject gameOverScreen, restart, pauseMenu, settingsButton, settingsMenu, continueScreen, continueButton, endButton, waitingText;
 
         public int playersEliminated = 0;
 
         public int playersSpawned = 0;
 
         public bool isGameOver = false;
+        private bool isContinue = false;
 
         GameObject myPlayer;
         public static List<GameObject> players = new List<GameObject>();
@@ -54,6 +62,8 @@ namespace Com.GCTC.ZombCube
                 grenades[2].transform.GetChild(0).gameObject.SetActive(false);
                 grenades[3].transform.GetChild(0).gameObject.SetActive(false);
             }
+
+            PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate = 0;
         }
 
         // Start is called before the first frame update
@@ -99,6 +109,17 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        private new void OnEnable()
+        {
+            NetworkBossCube.bossDead += CallPauseForContinue;
+            Debug.Log("BossDead Assigned");
+        }
+
+        private new void OnDisable()
+        {
+            NetworkBossCube.bossDead -= CallPauseForContinue;
+        }
+
 
         #endregion
 
@@ -115,16 +136,28 @@ namespace Com.GCTC.ZombCube
         {
             pauseMenu.SetActive(false);
             settingsMenu.SetActive(false);
-            if(myPlayer == null)
+            isContinue = false;
+            continueScreen.SetActive(false);
+            if (myPlayer == null)
                 myPlayer = FindPlayer.GetPlayer();
             myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
+
+            Time.timeScale = 1.0f;
         }
 
         public void StartGame()
         {
-            NetworkSpawner.Instance.Spawn();
-            NetworkSpawner.Instance.hasStarted = true;
-            CustomAnalytics.SendGameStart();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                NetworkSpawner.Instance.CallSpawn();
+            }
+
+            if (NetworkSpawner.Instance.hasStarted == false)
+            {
+                CustomAnalytics.SendGameStart();
+                NetworkSpawner.Instance.hasStarted = true;
+            }
+            
             
         }
 
@@ -148,6 +181,15 @@ namespace Com.GCTC.ZombCube
         {
             Time.timeScale = 1;
             SceneLoader.ToMainMenu();
+            Debug.Log("left server");
+        }
+
+        private void LeaveRoom()
+        {
+            Time.timeScale = 1;
+            //SceneLoader.ToLobby();
+            PhotonNetwork.LoadLevel(3);
+            Debug.Log("left room");
         }
 
         public bool IsGameOver()
@@ -183,13 +225,32 @@ namespace Com.GCTC.ZombCube
 
         public void CallEliminatePlayer()
         {
-            this.photonView.RPC(nameof(RPC_EliminatePlayer), RpcTarget.All);
+            this.photonView.RPC(nameof(RPC_EliminatePlayer), RpcTarget.AllBuffered);
         }
 
         public void NextWaveCall()
         {
-            photonView.RPC(nameof(NextWave), RpcTarget.All);
+            photonView.RPC(nameof(NextWave), RpcTarget.AllBuffered);
         }
+
+        public void CallEndGame()
+        {
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(EndTheGame), RpcTarget.AllBuffered);
+        }
+
+        public void CallPauseForContinue()
+        {
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(PauseForContinue), RpcTarget.All);
+        }
+
+        public void CallResumeAfterGame()
+        {
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(ResumeAfterGame), RpcTarget.AllBuffered);
+        }
+
         // END RPC Remote Calls -----------------------------------------------------------------
 
 
@@ -200,10 +261,33 @@ namespace Com.GCTC.ZombCube
 
         IEnumerator DisconnectAndLoad()
         {
-            PhotonNetwork.LeaveRoom();
-            while (PhotonNetwork.InRoom)
-                yield return null;
-            Debug.Log("Disconnected from room!!!!!!");
+            pauseMenu.SetActive(false);
+
+            if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.LeaveRoom();
+                while (PhotonNetwork.InRoom)
+                    yield return null;
+                Debug.Log("Disconnected from room!!!!!!");
+            }
+
+            if (players.Contains(myPlayer))
+            {
+                players.Remove(myPlayer);
+            }
+                
+
+            /*if (PhotonNetwork.IsConnectedAndReady)
+            {
+                PhotonNetwork.Disconnect();
+                while (PhotonNetwork.IsConnectedAndReady)
+                    yield return null;
+                Debug.Log("Disconnected from server!!!!!!");
+            }*/
+            
+
+            yield return new WaitForSeconds(1);
+            LeaveRoom();
         }
 
 
@@ -211,17 +295,6 @@ namespace Com.GCTC.ZombCube
 
 
         #region PunCallbacks
-
-        public override void OnConnectedToMaster()
-        {
-            PhotonNetwork.Disconnect();
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            players.Remove(myPlayer);
-            LeaveServer();
-        }
 
         #endregion
 
@@ -241,8 +314,26 @@ namespace Com.GCTC.ZombCube
         }
 
         [PunRPC]
+        public void ResumeAfterGame()
+        {
+            Debug.Log("ResumeAfterGame RPC Called");
+            pauseMenu.SetActive(false);
+            settingsMenu.SetActive(false);
+            isContinue = false;
+            continueScreen.SetActive(false);
+            if (myPlayer == null)
+                myPlayer = FindPlayer.GetPlayer();
+            myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
+
+            Time.timeScale = 1.0f;
+        }
+
+        [PunRPC]
         public void GameOver()
         {
+            //if(myPlayer != null) { PhotonNetwork.Destroy(myPlayer); }
+
+            Time.timeScale = 1.0f;
             ActivateCamera();
             AdsInitializer.timesPlayed++;
             isGameOver = true;
@@ -251,6 +342,8 @@ namespace Com.GCTC.ZombCube
             gameOverScreen.SetActive(isGameOver);
             pauseMenu.SetActive(false);
             settingsMenu.SetActive(false);
+            continueScreen.SetActive(false);
+            isContinue = false;
             CustomAnalytics.SendGameOver();
         }
 
@@ -268,6 +361,7 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void Restart()
         {
+            Time.timeScale = 1.0f;
             CurrentRound = 1;
             playersSpawned = 0;
             playersEliminated = 0;
@@ -281,7 +375,39 @@ namespace Com.GCTC.ZombCube
             playersEliminated++;
         }
 
-#endregion
+        [PunRPC]
+        public void PauseForContinue()
+        {
+            isContinue = true;
+
+            if (myPlayer == null)
+                myPlayer = FindPlayer.GetPlayer();
+            myPlayer.GetComponent<NetworkPlayerManager>().PauseForContinue();
+
+            Time.timeScale = 0;
+            continueScreen.SetActive(true);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(endButton);
+            }
+            else
+            {
+                endButton.SetActive(false);
+                continueButton.SetActive(false);
+                waitingText.SetActive(true);
+            }
+            
+        }
+
+        [PunRPC]
+        public void EndTheGame()
+        {
+            endGame();
+        }
+
+        #endregion
 
     }
 }

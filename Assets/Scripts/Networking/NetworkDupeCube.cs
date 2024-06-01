@@ -48,8 +48,7 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-                if (ai != null && ai.isStopped == false)
-                    ai.isStopped = true;
+                DestroyEnemyCall();
             }
         }
 
@@ -64,6 +63,12 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public void CallDupe()
+        {
+            photonView.RPC(nameof(Dupe), RpcTarget.MasterClient);
+        }
+
+        [PunRPC]
         public void Dupe()
         {
             PhotonNetwork.InstantiateRoomObject("NetworkDupedCube",
@@ -72,6 +77,7 @@ namespace Com.GCTC.ZombCube
             PhotonNetwork.InstantiateRoomObject("NetworkDupedCube",
                     transform.position - offset,
                     transform.rotation);
+            DestroyEnemyCall();
         }
     }
 }

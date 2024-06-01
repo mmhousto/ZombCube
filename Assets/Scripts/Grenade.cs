@@ -115,8 +115,6 @@ namespace Com.GCTC.ZombCube
                             Player.Instance.cubesEliminated++;
 
                         CheckForCubeDestroyerAchievements();
-
-                        SpawnPowerup(collider.transform.position);
                     }
                     if (collider.gameObject.tag == "Player")
                     {
@@ -131,20 +129,28 @@ namespace Com.GCTC.ZombCube
                 {
                     if(collider.gameObject.tag == "Enemy")
                     {
-                        PhotonNetwork.Destroy(collider.gameObject);
+                        if (collider.TryGetComponent(out NetworkDupeCube dupeNCube))
+                        {
+                            dupeNCube.Dupe();
+                        }
+
+                        if(collider.TryGetComponent(out NetworkEnemy enemy))
+                        {
+                            enemy.DestroyEnemyCall();
+                        }
+                        
                         NetworkPlayerManager.AddPoints(pointsToAdd);
                         if (Player.Instance != null)
                             Player.Instance.cubesEliminated++;
 
                         CheckForCubeDestroyerAchievements();
-
-                        SpawnPowerup(collider.transform.position);
                     }
 
                     if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
                     {
-                        collider.transform.root.GetComponent<NetworkPlayerManager>().Damage(15);
+                        collider.transform.root.GetComponent<NetworkPlayerManager>().CallDamageRPC(15);
                     }
+
                 }
             }
 
@@ -160,7 +166,7 @@ namespace Com.GCTC.ZombCube
                 }
                 else if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
                 {
-                    collider.transform.root.GetComponent<NetworkPlayerManager>().Damage(35);
+                    collider.transform.root.GetComponent<NetworkPlayerManager>().CallDamageRPC(35);
                 }
             }
 
@@ -176,7 +182,7 @@ namespace Com.GCTC.ZombCube
                 }
                 else if (collider.gameObject.tag == "Player" && this.photonView.IsMine)
                 {
-                    collider.transform.root.GetComponent<NetworkPlayerManager>().Damage(50);
+                    collider.transform.root.GetComponent<NetworkPlayerManager>().CallDamageRPC(50);
                 }
             }
         }

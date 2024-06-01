@@ -50,7 +50,8 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void LeaveLobby()
         {
-            PhotonNetwork.LeaveLobby();
+            if(PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
+                PhotonNetwork.LeaveLobby();
             PhotonNetwork.Disconnect();
             SceneLoader.ToMainMenu();
         }

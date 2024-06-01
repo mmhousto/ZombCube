@@ -22,6 +22,7 @@ using System.Threading;
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
 using GooglePlayGames;
+using WebSocketSharp;
 #endif
 #if !DISABLESTEAMWORKS
 using Steamworks;
@@ -436,6 +437,11 @@ namespace Com.GCTC.ZombCube
                 AuthenticationService.Instance.SignOut();
             }
 
+#if UNITY_ANDROID
+            if(PlayGamesPlatform.Instance.IsAuthenticated())
+                PlayGamesPlatform.Instance.SignOut();
+#endif
+
             ResetPlayer();
         }
 
@@ -806,15 +812,17 @@ namespace Com.GCTC.ZombCube
 
         void InitializePlayGamesLogin()
         {
-            /*var config = new PlayGamesClientConfiguration.Builder()
-                // Requests an ID token be generated.  
-                // This OAuth token can be used to
-                // identify the player to other services such as Firebase.
+            // Requests an ID token be generated.  
+            // This OAuth token can be used to
+            // identify the player to other services such as Firebase.
+            var config = new PlayGamesClientConfiguration.Builder()
                 .RequestIdToken()
                 .Build();
 
-            PlayGamesPlatform.InitializeInstance(config);*/
+            PlayGamesPlatform.InitializeInstance(config);
+            PlayGamesPlatform.DebugLogEnabled = true;
             PlayGamesPlatform.Activate();
+            LoginGooglePlayGames();
         }
 
         public void LoginGooglePlayGames()
@@ -824,6 +832,8 @@ namespace Com.GCTC.ZombCube
             try
             {
                 PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
+                //PlayGamesPlatform.Instance.ManuallyAuthenticate(OnGooglePlayGamesLogin);
+                //Social.localUser.Authenticate(OnGooglePlayGamesLogin);
             }
             catch (Exception e)
             {
@@ -839,12 +849,7 @@ namespace Com.GCTC.ZombCube
                 // Call Unity Authentication SDK to sign in or link with Google.
                 var idToken = "";
 
-                PlayGamesPlatform.Instance.RequestServerSideAccess(true, code =>
-                {
-                    Debug.Log("Authorization code: " + code);
-                    idToken = code;
-                    // This token serves as an example to be used for SignInWithGooglePlayGames
-                });
+                idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
 
                 userID = Social.localUser.id;
                 userName = Social.localUser.userName;
@@ -854,13 +859,41 @@ namespace Com.GCTC.ZombCube
             }
             else if (status == SignInStatus.InternalError)
             {
-                PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
+                Debug.Log("Unsuccessful login");
+                isSigningIn = false;
             }
             else
             {
                 Debug.Log("Unsuccessful login");
+                isSigningIn = false;
             }
-            isSigningIn = false;
+        }
+
+        async void OnGooglePlayGamesLogin(bool status)
+        {
+            if (status == true)
+            {
+                // Call Unity Authentication SDK to sign in or link with Google.
+                var idToken = "";
+
+                idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+
+                userID = Social.localUser.id;
+                userName = Social.localUser.userName;
+
+                await SignInWithGoogleAsync(idToken);
+
+            }
+            else if (status == false)
+            {
+                Debug.Log("Unsuccessful login");
+                isSigningIn = false;
+            }
+            else
+            {
+                Debug.Log("Unsuccessful login");
+                isSigningIn = false;
+            }
         }
 
         async Task SignInWithGoogleAsync(string idToken)
@@ -957,7 +990,13 @@ namespace Com.GCTC.ZombCube
             {
                 // Compare error code to CommonErrorCodes
                 // Notify the player with the proper error message
-                Debug.LogException(exception);
+
+                userID = "OfflineMode";
+                userName = "Guest_" + userID;
+
+                SetPlayer(userID);
+
+                Login();
             }
         }
 
@@ -1186,6 +1225,7 @@ namespace Com.GCTC.ZombCube
             player.userID = id;
             player.userName = name;
             player.playerName = "PlayerName";
+            player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;
@@ -1224,6 +1264,12 @@ namespace Com.GCTC.ZombCube
             }
 
             player.playerName = data.playerName;
+
+            if (data.rewardOverTime == null || data.rewardOverTime == "")
+                player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
+            else
+                player.SetRewardOvertime(data.rewardOverTime);
+
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
@@ -1293,6 +1339,12 @@ namespace Com.GCTC.ZombCube
             }
             
             player.playerName = data.playerName;
+
+            if (data.rewardOverTime == null || data.rewardOverTime == "")
+                player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
+            else
+                player.SetRewardOvertime(data.rewardOverTime);
+
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
@@ -1345,6 +1397,7 @@ namespace Com.GCTC.ZombCube
             player.userID = "";
             player.userName = "";
             player.playerName = "";
+            player.SetRewardOvertime(DateTime.Now.AddHours(-2).ToString());
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;

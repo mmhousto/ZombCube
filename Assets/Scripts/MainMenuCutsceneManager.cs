@@ -30,9 +30,13 @@ namespace Com.GCTC.ZombCube
             int i = 0;
             foreach (GameObject obj in objects)
             {
-                obj.transform.position = objectSpawnPoints[i];
-                obj.transform.rotation = objectSpawnRotations[i];
-                obj.SetActive(true);
+                if(obj != null)
+                {
+                    obj.transform.position = objectSpawnPoints[i];
+                    obj.transform.rotation = objectSpawnRotations[i];
+                    obj.SetActive(true);
+                }
+                
                 i++;
             }
         }

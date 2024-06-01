@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using System.Security.Cryptography;
+using UnityEngine.Events;
 
 namespace Com.GCTC.ZombCube
 {
@@ -15,11 +16,14 @@ namespace Com.GCTC.ZombCube
 
         public static GameManager Instance { get { return _instance; } }
         public static int mode;
+        public delegate void EndGame();
+        public static event EndGame endGame;
+
         public GameObject playerPrefab;
         public int CurrentRound { get; set; }
         public GameObject[] grenades;
         public TextMeshProUGUI waveTxt;
-        public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls, weaponSelect;
+        public GameObject gameOverScreen, pauseScreen, resume, restart, settingsScreen, onScreenControls, weaponSelect, continueScreen, endButton;
         public Camera eliminatedCam;
         private PlayerInput playerInput;
         private PlayerInputManager playerInputManager;
@@ -28,6 +32,7 @@ namespace Com.GCTC.ZombCube
         [SerializeField] private bool overrideCursor = false;
 
         private bool isPaused = false;
+        private bool isContinue = false;
         public int numOfPlayers;
 
         public bool isGameOver = false;
@@ -113,6 +118,16 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        private void OnEnable()
+        {
+            BossCube.bossDead += PauseForContinue;
+        }
+
+        private void OnDisable()
+        {
+            BossCube.bossDead -= PauseForContinue;
+        }
+
         public GameObject GetPlayer()
         {
             return player;
@@ -143,7 +158,7 @@ namespace Com.GCTC.ZombCube
 
         public void SetCursorState()
         {
-            if (isPaused == true && isGameOver == false)
+            if (isPaused == true && isGameOver == false || isContinue == true)
                 Cursor.lockState = CursorLockMode.None;
             else if (overrideCursor)
                 Cursor.lockState = CursorLockMode.None;
@@ -177,6 +192,7 @@ namespace Com.GCTC.ZombCube
             gameOverScreen.SetActive(true);
             pauseScreen.SetActive(false);
             settingsScreen.SetActive(false);
+            continueScreen.SetActive(false);
             CustomAnalytics.SendGameOver();
         }
 
@@ -204,6 +220,10 @@ namespace Com.GCTC.ZombCube
                 playerInput.actions.Enable();
 
             isPaused = false;
+            isContinue = false;
+            continueScreen.SetActive(false);
+
+            Time.timeScale = 1;
         }
 
         public void GoHome()
@@ -237,8 +257,36 @@ namespace Com.GCTC.ZombCube
             PauseInput();
         }
 
+        public void PauseForContinue()
+        {
+            isContinue = true;
+
+            if (mode == 1)
+            {
+                couchCoopManager.EnableDisableInput(false);
+            }
+            else
+                playerInput.actions.Disable();
+
+#if (UNITY_IOS || UNITY_ANDROID)
+                onScreenControls.SetActive(false);
+#endif
+
+            Time.timeScale = 0;
+            continueScreen.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(endButton);
+        }
+
+        public void EndTheGame()
+        {
+            endGame();
+        }
+
         private void CheckForPause()
         {
+            if (isContinue == true) return;
+
             if (isPaused == true && isGameOver == false)
             {
                 if (mode == 1)

@@ -52,7 +52,7 @@ namespace Com.GCTC.ZombCube
 
             CheckHitShield(collision);
 
-            CheckHitShielded(collision);
+            //CheckHitShielded(collision);
             
         }
 
@@ -73,6 +73,7 @@ namespace Com.GCTC.ZombCube
         }
 
         protected void CheckForCubeDestroyerAchievements()
+
         {
             if (Social.localUser.authenticated && Player.Instance != null)
             {
@@ -95,19 +96,58 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckHitEnemy(Collision collision)
         {
+
             if (collision.transform.name.Contains("Duped") && SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
             {
                 audioSource.Play();
                 Destroy(collision.gameObject);
             }
-            else if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
-            {
-                collision.gameObject.GetComponent<DupeCube>().Dupe();
-            }
-            
-            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
+            else if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.transform.name.Contains("Shielded"))
             {
                 audioSource.Play();
+                collision.gameObject.SetActive(false);
+                return;
+            }
+            else if (collision.transform.name.Contains("Shielded") && collision.transform.TryGetComponent(out ShieldedCube shielded))
+            {
+
+                if (shielded != null && shielded.shield == null)
+                {
+                    HitEnemy(collision);
+
+                    SpawnPowerup(collision.transform.position);
+                }
+
+                return;
+            }
+            else if (collision.transform.name.Contains("Shielded") && collision.transform.TryGetComponent(out NetworkShieldedCube networkShielded))
+            {
+                if (networkShielded != null && networkShielded.shield.activeInHierarchy == false)
+                {
+                    networkShielded.DestroyEnemyCall();
+
+                    SpawnPowerup(collision.transform.position);
+
+                    CheckForCubeDestroyerAchievements();
+
+                    enemiesHit++;
+
+                    if (enemiesHit >= 5 && Social.localUser.authenticated)
+                    {
+                        LeaderboardManager.UnlockRicochetKing();
+                    }
+                }
+                return;
+            }
+            else if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.tag == "Enemy")
+            {
+                audioSource.Play();
+
+                if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
+                {
+                    collision.gameObject.GetComponent<DupeCube>().Dupe();
+                }
+
                 collision.gameObject.SetActive(false);
             }
             else if (collision.gameObject.tag == "Enemy")
@@ -115,6 +155,14 @@ namespace Com.GCTC.ZombCube
                 HitEnemy(collision);
 
                 SpawnPowerup(collision.transform.position);
+            }
+            else if (collision.gameObject.tag == "BossCube" && collision.gameObject.TryGetComponent(out BossCube bC))
+            {
+                bC.TakeDamage();
+            }
+            else if (collision.gameObject.tag == "BossCube" && collision.gameObject.TryGetComponent(out NetworkBossCube nbC))
+            {
+                nbC.TakeDamage();
             }
         }
 
@@ -135,9 +183,9 @@ namespace Com.GCTC.ZombCube
                 ovAudioSource.clip = clips[couchCoopManager.GetPlayerIndex(collision.transform.parent.gameObject)];
                 ovAudioSource.Play();
             }
-            else if (collision.gameObject.tag == "Player" && this.photonView.IsMine)
+            else if (collision.gameObject.tag == "Player" && this.photonView != null && this.photonView.IsMine)
             {
-                ovAudioSource.clip = clips[NetworkGameManager.players.IndexOf(collision.gameObject)];
+                ovAudioSource.clip = clips[Random.Range(0, clips.Length)];
                 ovAudioSource.Play();
             }
         }
@@ -161,32 +209,44 @@ namespace Com.GCTC.ZombCube
                 audioSource.Play();
                 collision.gameObject.SetActive(false);
                 return;
-            }else if (collision.gameObject.CompareTag("Shield"))
+            }else if (collision.gameObject.CompareTag("Shield") && this.photonView == null)
             {
                 HitEnemy(collision);
+            }
+            else if(photonView != null && collision.gameObject.CompareTag("Shield"))
+            {
+                collision.transform.GetComponent<NetworkArmor>().CallDestroyEnemy();
             }
         }
 
         protected void CheckHitShielded(Collision collision)
         {
-            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.gameObject.CompareTag("Shielded"))
+            if (SceneLoader.GetCurrentScene().name == "MainMenu" && collision.transform.name.Contains("Shielded"))
             {
                 audioSource.Play();
                 collision.gameObject.SetActive(false);
                 return;
             }
-            else if (SceneLoader.GetCurrentScene().name == "GameScene" && collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<ShieldedCube>().shield == null)
+            else if (collision.transform.name.Contains("Shielded") && collision.transform.TryGetComponent(out ShieldedCube shielded))
             {
-                HitEnemy(collision);
 
-                SpawnPowerup(collision.transform.position);
-            }
-            else if (SceneLoader.GetCurrentScene().name != "MainMenu" && this.photonView.IsMine && collision.gameObject.CompareTag("Shielded") && collision.gameObject.GetComponent<NetworkShieldedCube>() && collision.gameObject.GetComponent<NetworkShieldedCube>().shield == null)
-            {
+                if (shielded != null && shielded.shield == null)
+                {
                     HitEnemy(collision);
 
                     SpawnPowerup(collision.transform.position);
-                
+                }
+
+
+            }
+            else if (collision.transform.CompareTag("Shielded") && collision.transform.TryGetComponent(out NetworkShieldedCube networkShielded))
+            {
+                if (networkShielded != null && networkShielded.shield == null)
+                {
+                    HitEnemy(collision);
+
+                    SpawnPowerup(collision.transform.position);
+                }
             }
         }
 
@@ -194,12 +254,14 @@ namespace Com.GCTC.ZombCube
         {
             audioSource.Play();
             
-            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
             {
+
                 if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
                 {
                     collision.gameObject.GetComponent<DupeCube>().Dupe();
                 }
+
                 Destroy(collision.gameObject);
                 PlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)
@@ -210,9 +272,13 @@ namespace Com.GCTC.ZombCube
                 NetworkPlayerManager.AddPoints(pointsToAdd);
                 if (Player.Instance != null)
                     Player.Instance.cubesEliminated++;
-                if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
+                if (collision.transform.TryGetComponent<NetworkDupeCube>(out NetworkDupeCube dupeCube))
                 {
-                    collision.gameObject.GetComponent<NetworkDupeCube>().Dupe();
+                    dupeCube.CallDupe();
+                }
+                else if (collision.transform.TryGetComponent<NetworkEnemy>(out NetworkEnemy enemy))
+                {
+                    enemy.DestroyEnemyCall();
                 }
             }
 
@@ -224,6 +290,17 @@ namespace Com.GCTC.ZombCube
             {
                 LeaderboardManager.UnlockRicochetKing();
             }
+        }
+
+        public void DestroyEnemyCall(GameObject enemy)
+        {
+            photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient, enemy);
+        }
+
+        [PunRPC]
+        public void DestroyEnemy(GameObject enemy)
+        {
+            PhotonNetwork.Destroy(enemy);
         }
 
     }

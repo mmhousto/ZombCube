@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Analytics;
 using TMPro;
+using UnityEngine;
 
 namespace Com.GCTC.ZombCube
 {
@@ -23,7 +21,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
-            cubesToSpawn = (GameObject.Find("CoopManager") != null) ? GameObject.Find("CoopManager").GetComponent<CouchCoopManager>().joinedPlayerIDs.Count*5 : 5;
+            cubesToSpawn = (GameObject.Find("CoopManager") != null) ? GameObject.Find("CoopManager").GetComponent<CouchCoopManager>().joinedPlayerIDs.Count * 5 : 5;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             timeTilNextWave = 5;
             countDownLabel.gameObject.SetActive(true);
@@ -44,7 +42,7 @@ namespace Com.GCTC.ZombCube
 
                 timeTilNextWave = 5;
                 countDownLabel.gameObject.SetActive(true);
-                
+
                 StartCoroutine(CountDownRound());
 
                 if (currentRound > 5)
@@ -83,19 +81,19 @@ namespace Com.GCTC.ZombCube
                 GameObject zombCubeClone = Instantiate(enemies[0],
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
-                if(currentRound > 5)
+                if (currentRound > 5)
                 {
                     float randChance = Random.value;
-                    if(randChance >= 1 - armorChance)
+                    if (randChance >= 1 - armorChance)
                     {
                         Instantiate(armor, zombCubeClone.transform);
                     }
                 }
             }
 
-            if(currentRound > 2)
+            if (currentRound > 2)
             {
-                for(int i = 0; i < cubesToSpawn/10; i++)
+                for (int i = 0; i < cubesToSpawn / 10; i++)
                 {
                     int j = Random.Range(0, spawnPoints.Length);
                     GameObject fastCubeClone = Instantiate(enemies[1],
@@ -151,8 +149,15 @@ namespace Com.GCTC.ZombCube
                 }
             }
 
-        }
+            if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
+            {
+                int j = Random.Range(0, spawnPoints.Length);
+                GameObject cubeClone = Instantiate(enemies[4],
+                spawnPoints[j].transform.position,
+                spawnPoints[j].transform.rotation);
+            }
 
+        }
 
     }
 

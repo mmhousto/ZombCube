@@ -13,11 +13,12 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
     private string _gameId;
 
     public InterstitialAd interstitialAd;
+    public RewardAd rewardAd;
 
     void Awake()
     {
-        if(timesPlayed % 3 != 0)
-            InitializeAds();
+        /*if(timesPlayed % 3 != 0)*/
+        InitializeAds();
     }
 
     public void InitializeAds()
@@ -30,8 +31,8 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
 
     public void OnInitializationComplete()
     {
-        Debug.Log("Unity Ads initialization complete.");
-        interstitialAd.LoadAd();
+        //interstitialAd.LoadAd();
+        rewardAd.LoadAd();
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)

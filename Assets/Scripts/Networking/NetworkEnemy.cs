@@ -17,6 +17,9 @@ namespace Com.GCTC.ZombCube
         protected bool hasHit = false;
 
         public bool isGameOver = false;
+        public bool armorEnabled = false;
+
+        public GameObject armor;
 
         // Start is called before the first frame update
         void Start()
@@ -47,7 +50,7 @@ namespace Com.GCTC.ZombCube
             if (isGameOver == false)
             {
                 target = GetClosestPlayer(players);
-                if (target == null) { return; }
+                if (target == null || ai.enabled == false) { return; }
                 else
                 {
                     ai.SetDestination(target.position);
@@ -56,20 +59,30 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-                if(ai != null && ai.isStopped == false)
-                    ai.isStopped = true;
+                DestroyEnemyCall();
             }
 
         }
 
-        private void OnCollisionEnter(Collision collision)
+        public void EnableDisableArmor()
+        {
+            photonView.RPC(nameof(EnableArmor), RpcTarget.AllBuffered);
+        }
+
+        [PunRPC]
+        public void EnableArmor()
+        {
+            armor.SetActive(true);
+        }
+
+        /*private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Projectile"))
             {
-                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
+                //photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
 
             }
-        }
+        }*/
 
         private void OnTriggerEnter(Collider other)
         {
@@ -109,7 +122,11 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void DestroyEnemy()
         {
-            PhotonNetwork.Destroy(this.gameObject);
+            if(this.gameObject != null)
+            {
+                PhotonNetwork.Destroy(this.gameObject);
+            }
+            
         }
     }
 
