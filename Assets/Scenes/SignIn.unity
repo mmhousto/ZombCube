@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.033491153, g: 0.042815253, b: 0.059408948, a: 1}
+  m_IndirectSpecularColor: {r: 0.034121726, g: 0.043724388, b: 0.060696624, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11447,7 +11447,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1134320861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11455,7 +11455,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134320860}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
   m_Name: 
@@ -15894,6 +15894,63 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1522244496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1522244499}
+  - component: {fileID: 1522244498}
+  - component: {fileID: 1522244497}
+  m_Layer: 0
+  m_Name: SteamStats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1522244497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522244496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d552bf0565aebc4f87ac7b8c9ee0263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1522244498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522244496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108053204bd1d3a4ca1c4fd16a78166d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1522244499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522244496}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50.958973, y: 55.235218, z: -43.718575}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1576798188
 Mesh:
   m_ObjectHideFlags: 0
@@ -17651,8 +17708,12 @@ PrefabInstance:
       objectReference: {fileID: 954628588}
     - target: {fileID: 1764829390, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
       propertyPath: isSteam
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1764829390, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
+      propertyPath: steamStats
+      value: 
+      objectReference: {fileID: 1522244496}
     - target: {fileID: 2253541340158729721, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -21892,3 +21953,4 @@ SceneRoots:
   - {fileID: 3295536629257701519}
   - {fileID: 715137445}
   - {fileID: 1112679096}
+  - {fileID: 1522244499}

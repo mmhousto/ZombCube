@@ -51,7 +51,10 @@ namespace Com.GCTC.ZombCube
 #elif UNITY_IOS
             SignInApple();
 #else
-            SignInAnon();
+            if(CloudSaveLogin.Instance.isSteam)
+                SignInSteam();
+            else
+                SignInAnon();
 #endif
         }
 
@@ -70,6 +73,11 @@ namespace Com.GCTC.ZombCube
 #if UNITY_ANDROID
             CloudSaveLogin.Instance.LoginGooglePlayGames();
 #endif
+        }
+
+        public void SignInSteam()
+        {
+
         }
 
         public void SelectObject(GameObject uiElement)

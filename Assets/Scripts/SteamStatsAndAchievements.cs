@@ -22,42 +22,31 @@ namespace Com.GCTC.ZombCube
 
 		private enum Achievement : int
 		{
-			CgkIqK61pYkHEAIQBQ,
-			CgkIqK61pYkHEAIQBg,
-			CgkIqK61pYkHEAIQBw,
-			CgkIqK61pYkHEAIQCA,
-			CgkIqK61pYkHEAIQCQ,
-			CgkIqK61pYkHEAIQCg,
-			CgkIqK61pYkHEAIQCw,
-			CgkIqK61pYkHEAIQFA,
-			CgkIqK61pYkHEAIQDA,
-			CgkIqK61pYkHEAIQDQ,
-			CgkIqK61pYkHEAIQDg,
-			CgkIqK61pYkHEAIQDw,
-			CgkIqK61pYkHEAIQEA,
-			CgkIqK61pYkHEAIQEQ,
-			CgkIqK61pYkHEAIQEg,
-			CgkIqK61pYkHEAIQEw
+            stayin_alive_solo,
+            stayin_alive_party,
+            cube_destroyer_i,
+            cube_destroyer_ii,
+            cube_destroyer_iii,
+            ricochet_king,
+            trigger_happy_i,
+            trigger_happy_ii,
+            trigger_happy_iii,
+            n_gamer_1
 		};
 
 		private Achievement_t[] m_Achievements = new Achievement_t[] {
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQBQ, "Red Delicious \"Coffee Grinds in a Leather Glove\"", "Shoot the apple, on any level."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQBg, "Golden Delicious \"The West Virginia Has-Been\"", "Shoot the apple, on 10 different levels."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQBw, "Granny Smith \"The Original Sour Apple\"", "Shoot the apple, on 25 different levels."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQCA, "Honey Crisp \"The Worldwide Favorite\"", "Shoot the apple, on all 50 levels."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQCQ, "Perfect!", "Three Star a Level."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQCg, "Perfection!", "Three Star 25 Levels."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQCw, "Perfectionist!", "Three Star Every Level."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQFA, "Bullseye!", "Hit a Bullseye on a Target."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQDA, "Precise!", "Hit a Bullseye on Every Target, on a Level."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQDQ, "Precision!", "Hit a Bullseye on Every Target, on 25 Levels."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQDg, "Precisionist!", "Hit a Bullseye on Every Target, on 50 Levels."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQDw, "That's a Start", "Beat the first Precision level."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQEA, "Keep It Up", "Beat 10 Precision levels."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQEQ, "Now You Are Getting Somewhere", "Beat 25 Precision levels."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQEg, "Robin Hood", "Beat Every Precision level."),
-		new Achievement_t(Achievement.CgkIqK61pYkHEAIQEw, "What is this for?", "Obtain a Jewel.")
-	};
+		new Achievement_t(Achievement.stayin_alive_solo, "Stayin' Alive Alone", "Reach level 50 on the starting level in Solo mode."),
+		new Achievement_t(Achievement.stayin_alive_party, "Stayin' Alive Together", "Reach level 50 on the starting level in Party mode."),
+		new Achievement_t(Achievement.cube_destroyer_i, "Cube Destroyer I", "Eliminate 10,000 ZombCube's."),
+		new Achievement_t(Achievement.cube_destroyer_ii, "Cube Destroyer II", "Eliminate 100,000 ZombCube's."),
+		new Achievement_t(Achievement.cube_destroyer_iii, "Cube Destroyer III", "Eliminate 1,000,000 ZombCube's."),
+		new Achievement_t(Achievement.ricochet_king, "Ricochet King", "Eliminate 5 ZombCube's with a single projectile."),
+		new Achievement_t(Achievement.trigger_happy_i, "Trigger Happy I", "Launch 100,000 Projectiles."),
+		new Achievement_t(Achievement.trigger_happy_ii, "Trigger Happy II", "Launch 1,000,000 Projectiles."),
+		new Achievement_t(Achievement.trigger_happy_iii, "Trigger Happy III", "Launch 10,000,000 Projectiles."),
+		new Achievement_t(Achievement.n_gamer_1, "NGamer1", "Change your player name to NGamer1.")
+
+    };
 
 		// Our GameID
 		private CGameID m_GameID;
@@ -172,111 +161,55 @@ namespace Com.GCTC.ZombCube
 
 				switch (achievement.m_eAchievementID)
 				{
-					/*// APPLES
-					case Achievement.CgkIqK61pYkHEAIQBQ:
-						if (m_nApplesShot != 0)
+					// APPLES
+					case Achievement.stayin_alive_solo:
+						if (m_nHighestWave >= 50)
 						{
 							UnlockAchievement(achievement);
 						}
 						break;
-					case Achievement.CgkIqK61pYkHEAIQBg:
-						if (m_nApplesShot >= 10)
+					case Achievement.stayin_alive_party:
+						if (m_nHighestPartyWave >= 50)
 						{
 							UnlockAchievement(achievement);
 						}
 						break;
-					case Achievement.CgkIqK61pYkHEAIQBw:
-						if (m_nApplesShot >= 25)
+					case Achievement.cube_destroyer_i:
+						if (m_nCubesEliminated >= 10000)
 						{
 							UnlockAchievement(achievement);
 						}
 						break;
-					case Achievement.CgkIqK61pYkHEAIQCA:
-						if (m_nApplesShot >= 50)
+					case Achievement.cube_destroyer_ii:
+						if (m_nCubesEliminated >= 100000)
 						{
 							UnlockAchievement(achievement);
 						}
 						break;
-
-					// THREE STARS
-					case Achievement.CgkIqK61pYkHEAIQCQ:
-						if (m_nThreeStars != 0)
+					case Achievement.cube_destroyer_iii:
+						if (m_nCubesEliminated >= 1000000)
 						{
 							UnlockAchievement(achievement);
 						}
 						break;
-					case Achievement.CgkIqK61pYkHEAIQCg:
-						if (m_nThreeStars >= 25)
+					case Achievement.trigger_happy_i:
+						if (m_nTotalProjectiles >= 100000)
 						{
 							UnlockAchievement(achievement);
 						}
 						break;
-					case Achievement.CgkIqK61pYkHEAIQCw:
-						if (m_nThreeStars >= 50)
+					case Achievement.trigger_happy_ii:
+						if (m_nTotalProjectiles >= 1000000)
 						{
 							UnlockAchievement(achievement);
 						}
 						break;
-
-					// BULLSEYES/PERFECTS
-					case Achievement.CgkIqK61pYkHEAIQFA:
-						if (m_nBullseyes != 0)
+					case Achievement.trigger_happy_iii:
+						if (m_nTotalProjectiles >= 1000000)
 						{
 							UnlockAchievement(achievement);
 						}
 						break;
-					case Achievement.CgkIqK61pYkHEAIQDA:
-						if (m_nPerfects != 0)
-						{
-							UnlockAchievement(achievement);
-						}
-						break;
-					case Achievement.CgkIqK61pYkHEAIQDQ:
-						if (m_nPerfects >= 25)
-						{
-							UnlockAchievement(achievement);
-						}
-						break;
-					case Achievement.CgkIqK61pYkHEAIQDg:
-						if (m_nPerfects >= 50)
-						{
-							UnlockAchievement(achievement);
-						}
-						break;
-
-					// PRECISION LEVELS BEAT
-					case Achievement.CgkIqK61pYkHEAIQDw:
-						if (m_nLevelsBeat != 0)
-						{
-							UnlockAchievement(achievement);
-						}
-						break;
-					case Achievement.CgkIqK61pYkHEAIQEA:
-						if (m_nLevelsBeat >= 10)
-						{
-							UnlockAchievement(achievement);
-						}
-						break;
-					case Achievement.CgkIqK61pYkHEAIQEQ:
-						if (m_nLevelsBeat >= 25)
-						{
-							UnlockAchievement(achievement);
-						}
-						break;
-					case Achievement.CgkIqK61pYkHEAIQEg:
-						if (m_nLevelsBeat >= 50)
-						{
-							UnlockAchievement(achievement);
-						}
-						break;
-
-					// JEWELS
-					case Achievement.CgkIqK61pYkHEAIQEw:
-						if (m_nJewels != 0)
-						{
-							UnlockAchievement(achievement);
-						}
-						break;*/
 				}
 			}
 
@@ -286,19 +219,13 @@ namespace Com.GCTC.ZombCube
 				// already set any achievements in UnlockAchievement
 
 				// set stats
-				/*SteamUserStats.SetStat("stat_points", m_nUserPoints);
-				SteamUserStats.SetStat("stat_level", m_nUserLevel);
-				SteamUserStats.SetStat("stat_xp", m_nUserXP);
-				SteamUserStats.SetStat("stat_jewels", m_nJewels);
-				SteamUserStats.SetStat("stat_arrows_fired", m_nArrowsFired);
-				SteamUserStats.SetStat("stat_targets_hit", m_nTargetsHit);
+				SteamUserStats.SetStat("stat_points", m_nUserTotalPoints);
+				SteamUserStats.SetStat("stat_coins", m_nUserCoins);
+				SteamUserStats.SetStat("stat_highest_wave", m_nHighestWave);
+				SteamUserStats.SetStat("stat_highest_party_wave", m_nHighestPartyWave);
+				SteamUserStats.SetStat("stat_cubes_eliminated", m_nCubesEliminated);
+				SteamUserStats.SetStat("stat_projectiles_fired", m_nTotalProjectiles);
 				SteamUserStats.SetStat("stat_accuracy", m_flAccuracy);
-				SteamUserStats.SetStat("stat_bullseyes", m_nBullseyes);
-				SteamUserStats.SetStat("stat_stars", m_nStars);
-				SteamUserStats.SetStat("stat_three_stars", m_nThreeStars);
-				SteamUserStats.SetStat("stat_perfects", m_nPerfects);
-				SteamUserStats.SetStat("stat_apples", m_nApplesShot);
-				SteamUserStats.SetStat("stat_precision_levels_beat", m_nLevelsBeat);*/
 				
 				
 				/*// Update average feet / second stat
@@ -340,11 +267,47 @@ namespace Com.GCTC.ZombCube
 			m_bStoreStats = true;
 		}
 
-		//-----------------------------------------------------------------------------
-		// Purpose: We have stats data from Steam. It is authoritative, so update
-		//			our data with those results now.
-		//-----------------------------------------------------------------------------
-		private void OnUserStatsReceived(UserStatsReceived_t pCallback)
+		public void UnlockRicochetKing()
+		{
+			foreach (Achievement_t achievement in m_Achievements)
+			{
+				if (achievement.m_bAchieved)
+					continue;
+
+				switch (achievement.m_eAchievementID)
+				{
+					// APPLES
+					case Achievement.ricochet_king:
+						UnlockAchievement(achievement);
+						break;
+				}
+			}
+
+		}
+
+        public void UnlockNGamer1()
+        {
+            foreach (Achievement_t achievement in m_Achievements)
+            {
+                if (achievement.m_bAchieved)
+                    continue;
+
+                switch (achievement.m_eAchievementID)
+                {
+                    // APPLES
+                    case Achievement.n_gamer_1:
+                        UnlockAchievement(achievement);
+                        break;
+                }
+            }
+
+        }
+
+        //-----------------------------------------------------------------------------
+        // Purpose: We have stats data from Steam. It is authoritative, so update
+        //			our data with those results now.
+        //-----------------------------------------------------------------------------
+        private void OnUserStatsReceived(UserStatsReceived_t pCallback)
 		{
 			if (!SteamManager.Initialized)
 				return;
@@ -374,20 +337,14 @@ namespace Com.GCTC.ZombCube
 					}
 
 					// load stats
-					/*SteamUserStats.GetStat("stat_points", out m_nUserPoints);
-					SteamUserStats.GetStat("stat_level", out m_nUserLevel);
-					SteamUserStats.GetStat("stat_xp", out m_nUserXP);
-					SteamUserStats.GetStat("stat_jewels", out m_nJewels);
-					SteamUserStats.GetStat("stat_arrows_fired", out m_nArrowsFired);
-					SteamUserStats.GetStat("stat_targets_hit", out m_nTargetsHit);
-					SteamUserStats.GetStat("stat_accuracy", out m_flAccuracy);
-					SteamUserStats.GetStat("stat_bullseyes", out m_nBullseyes);
-					SteamUserStats.GetStat("stat_stars", out m_nStars);
-					SteamUserStats.GetStat("stat_three_stars", out m_nThreeStars);
-					SteamUserStats.GetStat("stat_perfects", out m_nPerfects);
-					SteamUserStats.GetStat("stat_apples", out m_nApplesShot);
-					SteamUserStats.GetStat("stat_precision_levels_beat", out m_nLevelsBeat);*/
-				}
+                    SteamUserStats.GetStat("stat_points", out m_nUserTotalPoints);
+                    SteamUserStats.GetStat("stat_coins", out m_nUserCoins);
+                    SteamUserStats.GetStat("stat_highest_wave", out m_nHighestWave);
+                    SteamUserStats.GetStat("stat_highest_party_wave", out m_nHighestPartyWave);
+                    SteamUserStats.GetStat("stat_cubes_eliminated", out m_nCubesEliminated);
+                    SteamUserStats.GetStat("stat_projectiles_fired", out m_nTotalProjectiles);
+                    SteamUserStats.GetStat("stat_accuracy", out m_flAccuracy);
+                }
 				else
 				{
 					Debug.Log("RequestStats - failed, " + pCallback.m_eResult);

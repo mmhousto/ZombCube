@@ -25,17 +25,11 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public enum LeaderboardName
     {
-        AllTimeMostPoints,
-        AllTimeMostArrowsFired,
-        AllTimeMostTargetsHit,
-        AllTimeMostBullseyesHit,
-        AllTimeMostJewelsCollected,
-        AllTimeBestAccuracy,
-        AllTimeBestLevel1Time,
-        AllTimeBestLevel2Time,
-        AllTimeBestLevel3Time,
-        AllTimeBestLevel4Time,
-        AllTimeBestTotalTime
+        BestAccuracy,
+        CubesDestroyed,
+        HighestPartyWave,
+        HighestSoloWave,
+        MostPoints
     }
 
     public struct LeaderboardData
@@ -47,28 +41,16 @@ public class SteamLeaderboardManager : MonoBehaviour
     List<LeaderboardData> LeaderboardDataset;
 
     private List<string> leaderboardNames = new List<string>{
-        "All Time Most Points",
-        "All Time Most Arrows Fired",
-        "All Time Most Targets Hit",
-        "All Time Most Bullseyes Hit",
-        "All Time Most Jewels Collected",
-        "All Time Best Accuracy",
-        "All Time Best Level 1 Time",
-        "All Time Best Level 2 Time",
-        "All Time Best Level 3 Time",
-        "All Time Best Level 4 Time",
-        "All Time Best Total Time",
+        "Best Accuracy",
+        "Cubes Destroyed",
+        "Highest Party Wave",
+        "Highest Solo Wave",
+        "Most Points"
 
     };
     List<SteamLeaderboard_t> steamLeaderboards = new List<SteamLeaderboard_t>();
     private List<bool> steamLeaderboardsInit = new List<bool>
     {
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
         false,
         false,
         false,
@@ -117,36 +99,6 @@ public class SteamLeaderboardManager : MonoBehaviour
 
             SteamAPICall_t hSteamAPICall5 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
             m_findResult.Set(hSteamAPICall5, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall6 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall6, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall7 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall7, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall8 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall8, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall9 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall9, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall10 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall10, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall11 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall11, OnLeaderboardFindResult);
             leaderboardToBeInit++;
             SteamAPI.RunCallbacks();
         }

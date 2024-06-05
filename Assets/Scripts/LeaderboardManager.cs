@@ -25,6 +25,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.totalPointsEarned, SteamLeaderboardManager.LeaderboardName.MostPoints);
+            }
 
         }
 
@@ -44,6 +48,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.highestWave, SteamLeaderboardManager.LeaderboardName.HighestSoloWave);
+            }
         }
 
         public static void UpdatePartyHighestWaveLeaderboard()
@@ -61,6 +69,10 @@ namespace Com.GCTC.ZombCube
                 {
                     // handle success or failure
                 });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.highestWaveParty, SteamLeaderboardManager.LeaderboardName.HighestPartyWave);
             }
         }
 
@@ -80,6 +92,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.cubesEliminated, SteamLeaderboardManager.LeaderboardName.CubesDestroyed);
+            }
         }
 
         public static void UpdateAccuracyLeaderboard()
@@ -97,6 +113,10 @@ namespace Com.GCTC.ZombCube
                 {
                     // handle success or failure
                 });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.cubesEliminated * 100 / Player.Instance.totalProjectilesFired, SteamLeaderboardManager.LeaderboardName.BestAccuracy);
             }
         }
 
@@ -206,6 +226,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamStatsAndAchievements.Instance.UnlockRicochetKing();
+            }
         }
 
         public static void UnlockTriggerHappyI()
@@ -277,6 +301,10 @@ namespace Com.GCTC.ZombCube
                 {
                     // handle success or failure
                 });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamStatsAndAchievements.Instance.UnlockNGamer1();
             }
         }
 

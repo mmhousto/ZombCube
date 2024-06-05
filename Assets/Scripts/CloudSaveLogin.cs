@@ -64,9 +64,9 @@ namespace Com.GCTC.ZombCube
 #if !DISABLESTEAMWORKS
         public GameObject steamStats;
 
-        Callback<GetAuthSessionTicketResponse_t> m_AuthTicketResponseCallback;
-        HAuthTicket m_AuthTicket;
+        Callback<GetTicketForWebApiResponse_t> m_AuthTicketForWebApiResponseCallback;
         string m_SessionTicket;
+        string identity = "unityauthenticationservice";
 #endif
 
 
@@ -316,35 +316,24 @@ namespace Com.GCTC.ZombCube
             // Create the callback to receive events when the session ticket
             // is ready to use in the web API.
             // See GetAuthSessionTicket document for details.
-            m_AuthTicketResponseCallback = Callback<GetAuthSessionTicketResponse_t>.Create(OnAuthCallback);
+            m_AuthTicketForWebApiResponseCallback = Callback<GetTicketForWebApiResponse_t>.Create(OnAuthCallback);
 
-            var buffer = new byte[1024];
+            SteamUser.GetAuthTicketForWebApi(identity);
+#endif
+        }
+
+#if !DISABLESTEAMWORKS
+        void OnAuthCallback(GetTicketForWebApiResponse_t callback)
+        {
+            m_SessionTicket = BitConverter.ToString(callback.m_rgubTicket).Replace("-", string.Empty);
+            m_AuthTicketForWebApiResponseCallback.Dispose();
+            m_AuthTicketForWebApiResponseCallback = null;
 
             CSteamID cSteamID = SteamUser.GetSteamID();
 
             userID = cSteamID.m_SteamID.ToString();
             userName = SteamFriends.GetPersonaName();
-
-            // Create a SteamNetworkingIdentity object
-            SteamNetworkingIdentity identity = new SteamNetworkingIdentity();
-
-            // Set the Steam ID in the identity object
-            identity.SetSteamID(cSteamID);
-
-            m_AuthTicket = SteamUser.GetAuthSessionTicket(buffer, buffer.Length, out var ticketSize, ref identity);
-
-            //Array.Resize(ref buffer, (int)ticketSize);
-
-            // The ticket is not ready yet, wait for OnAuthCallback.
-            m_SessionTicket = BitConverter.ToString(buffer).Replace("-", string.Empty);
-#endif
-        }
-
-#if !DISABLESTEAMWORKS
-        void OnAuthCallback(GetAuthSessionTicketResponse_t callback)
-        {
-            // Call Unity Authentication SDK to sign in or link with Steam.
-            //Debug.Log("Steam Login success. Session Ticket: " + m_SessionTicket);
+            // Call Unity Authentication SDK to sign in or link with Steam, displayed in the following examples, using the same identity string and the m_SessionTicket.
             CallSignInSteam(m_SessionTicket);
         }
 
@@ -932,7 +921,7 @@ namespace Com.GCTC.ZombCube
         {
             try
             {
-                await AuthenticationService.Instance.SignInWithSteamAsync(ticket);
+                await AuthenticationService.Instance.SignInWithSteamAsync(ticket, identity);
 
                 SetPlayer(userID, userName);
 
