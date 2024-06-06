@@ -150,7 +150,7 @@ namespace Com.GCTC.ZombCube
             CurrentRound += 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-            if (CurrentRound == 50 && Social.localUser.authenticated)
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockStayinAlive();
             }
