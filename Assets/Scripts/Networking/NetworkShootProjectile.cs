@@ -26,6 +26,7 @@ namespace Com.GCTC.ZombCube
         public GameObject projectile;
         public ParticleSystem muzzle;
         protected InputAction fireAction;
+        protected BulletPool pool;
 
         private void Start()
         {
@@ -34,6 +35,7 @@ namespace Com.GCTC.ZombCube
                 playerManager = GetComponent<NetworkPlayerManager>();
                 audioSource = GetComponent<AudioSource>();
                 launchVector = new Vector3(0, 0, launchVelocity);
+                pool = BulletPool.instance;
             }
         }
 
@@ -96,8 +98,14 @@ namespace Com.GCTC.ZombCube
                 audioSource.Play();
                 anim.SetTrigger("IsFiring");
                 muzzle.Play();
-                GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
-                clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
+
+                var clone = pool.bulletPool.Get(); //Instantiate(projectile, firePosition.position, firePosition.rotation);
+                Rigidbody cloneRb = clone.GetComponent<Rigidbody>();
+                cloneRb.velocity = Vector3.zero;
+                clone.transform.localPosition = Vector3.zero;
+                clone.transform.position = firePosition.position;
+                clone.transform.rotation = firePosition.rotation;
+                cloneRb.AddForce(clone.transform.forward * launchVelocity);
 
                 if (Player.Instance != null)
                 {

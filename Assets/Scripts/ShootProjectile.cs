@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon.StructWrapping;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace Com.GCTC.ZombCube
         public float launchVelocity = 5000f;
         public float audioPitch = 1f;
         protected Vector3 launchVector;
+        protected BulletPool pool;
 
 
         #endregion
@@ -39,6 +41,7 @@ namespace Com.GCTC.ZombCube
         // Start is called before the first frame update
         void Start()
         {
+            pool = BulletPool.instance;
             if (audioSource == null) audioSource = GetComponent<AudioSource>();
             // Assignes launchVector
             launchVector = new Vector3(0, 0, launchVelocity);
@@ -106,7 +109,7 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckForTriggerHappyAchievements()
         {
-            if (Social.localUser.authenticated)
+            if (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {
                 if (Player.Instance.totalProjectilesFired >= 100_000)
                 {
@@ -133,8 +136,14 @@ namespace Com.GCTC.ZombCube
             audioSource.Play();
             anim.SetTrigger("IsFiring");
             muzzle.Play();
-            GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
-            clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
+
+            var clone = pool.bulletPool.Get(); //Instantiate(projectile, firePosition.position, firePosition.rotation);
+            clone.transform.position = firePosition.position;
+            Rigidbody cloneRb = clone.GetComponent<Rigidbody>();
+            cloneRb.velocity = Vector3.zero;
+            clone.transform.position = firePosition.position;
+            clone.transform.rotation = firePosition.rotation;
+            cloneRb.AddForce(clone.transform.forward * launchVelocity);
 
             if (Player.Instance != null && SceneLoader.GetCurrentScene().name != "MainMenu")
             {

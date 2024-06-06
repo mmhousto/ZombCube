@@ -16,11 +16,14 @@ namespace Com.GCTC.ZombCube
         protected AudioSource ovAudioSource;
         public AudioClip[] clips;
         protected CouchCoopManager couchCoopManager;
+        protected BulletPool pool;
+        private Rigidbody rb;
 
         private void Start()
         {
-            enemiesHit = 0;
-            Invoke(nameof(DestroyProjectile), 3f);
+            rb = GetComponent<Rigidbody>();
+            pool = BulletPool.instance;
+            
             audioSource = GetComponent<AudioSource>();
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
 
@@ -30,16 +33,15 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        protected void DestroyProjectile()
+        private void OnEnable()
         {
-            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
-            {
-                Destroy(gameObject);
-            }
-            else if (this.photonView.IsMine)
-            {
-                PhotonNetwork.Destroy(this.gameObject);
-            }
+            enemiesHit = 0;
+            Invoke(nameof(DestroyProjectile), 3f);
+        }
+
+        protected virtual void DestroyProjectile()
+        {
+            pool.bulletPool.Release(this);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -75,7 +77,7 @@ namespace Com.GCTC.ZombCube
         protected void CheckForCubeDestroyerAchievements()
 
         {
-            if (Social.localUser.authenticated && Player.Instance != null)
+            if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && Player.Instance != null)
             {
                 if (Player.Instance.cubesEliminated >= 10_000)
                 {
@@ -132,7 +134,7 @@ namespace Com.GCTC.ZombCube
 
                     enemiesHit++;
 
-                    if (enemiesHit >= 5 && Social.localUser.authenticated)
+                    if (enemiesHit >= 5 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
                     {
                         LeaderboardManager.UnlockRicochetKing();
                     }
@@ -286,7 +288,7 @@ namespace Com.GCTC.ZombCube
 
             enemiesHit++;
 
-            if (enemiesHit >= 5 && Social.localUser.authenticated)
+            if (enemiesHit >= 5 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockRicochetKing();
             }

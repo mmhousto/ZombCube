@@ -17,6 +17,7 @@ namespace Com.GCTC.ZombCube
         void Start()
         {
             if (audioSource == null) audioSource = GetComponent<AudioSource>();
+            pool = BulletPool.instance;
             //isFiring = true;
             fireRate = 0.2f;
             launchVector = new Vector3(0, 0, launchVelocity);
@@ -52,7 +53,9 @@ namespace Com.GCTC.ZombCube
                 muzzle.Play();
                 currentAmmoInClip--;
 
-                GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
+                var clone = pool.bulletPool.Get(); //Instantiate(projectile, firePosition.position, firePosition.rotation);
+                clone.transform.position = firePosition.position;
+                clone.transform.rotation = firePosition.rotation;
                 clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);
 
                 if (Player.Instance != null)

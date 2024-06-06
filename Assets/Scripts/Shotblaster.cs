@@ -13,7 +13,7 @@ namespace Com.GCTC.ZombCube
         void Start()
         {
             if (audioSource == null) audioSource = GetComponent<AudioSource>();
-
+            pool = BulletPool.instance;
             reload = GetComponentInChildren<ShotblasterReload>();
             reloading = false;
             //isFiring = true;
@@ -52,7 +52,7 @@ namespace Com.GCTC.ZombCube
                 muzzle.Play();
                 currentAmmoInClip--;
 
-                GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
+                var clone = pool.bulletBlastPool.Get();//Instantiate(projectile, firePosition.position, firePosition.rotation);
                 foreach (Projectile p in clone.GetComponentsInChildren<Projectile>())
                 {
                     if (p.name.Contains("Blast")) continue;

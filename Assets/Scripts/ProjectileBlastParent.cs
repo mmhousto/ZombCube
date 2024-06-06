@@ -1,17 +1,16 @@
-using ExitGames.Client.Photon;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Com.GCTC.ZombCube
 {
-    public class ProjectileBlast : Projectile
+    public class ProjectileBlastParent : ProjectileBlast
     {
-        Transform bulletParent;
         // Start is called before the first frame update
         void Start()
         {
-            bulletParent = transform.parent;
+            pool = BulletPool.instance;
+
             audioSource = GetComponent<AudioSource>();
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
 
@@ -30,7 +29,7 @@ namespace Com.GCTC.ZombCube
         // Update is called once per frame
         void Update()
         {
-        
+
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -50,12 +49,7 @@ namespace Com.GCTC.ZombCube
 
         protected override void DestroyProjectile()
         {
-            transform.SetParent(bulletParent);
-            gameObject.SetActive(false);
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
-            transform.localPosition = Vector3.zero;
-            transform.rotation = Quaternion.identity;
-            
+            pool.bulletBlastPool.Release(this);
         }
     }
 }

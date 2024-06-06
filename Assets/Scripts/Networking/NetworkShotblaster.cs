@@ -17,6 +17,7 @@ namespace Com.GCTC.ZombCube
             {
                 reload = GetComponentInChildren<ShotblasterReload>();
                 playerManager = GetComponent<NetworkPlayerManager>();
+                pool = BulletPool.instance;
                 audioSource = GetComponent<AudioSource>();
                 launchVelocity = 5000f;
                 launchVector = new Vector3(0, 0, launchVelocity);
@@ -91,7 +92,7 @@ namespace Com.GCTC.ZombCube
                 muzzle.Play();
                 currentAmmoInClip--;
 
-                GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
+                var clone = pool.bulletBlastPool.Get();//PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
 
                 foreach (Projectile p in clone.GetComponentsInChildren<Projectile>())
                 {

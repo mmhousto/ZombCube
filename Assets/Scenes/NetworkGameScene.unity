@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.034817416, g: 0.044723444, b: 0.062098347, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8158,6 +8157,97 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1001 &919937601
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 510659406801995766, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_Name
+      value: BulletPool
+      objectReference: {fileID: 0}
+    - target: {fileID: 5898791456724844777, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: bulletBlastPrefab
+      value: 
+      objectReference: {fileID: 952193579012165193, guid: 7fbe44a3091e129488add9e444a3e255, type: 3}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7474777976357025642, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 510659406801995766, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 919937603}
+  m_SourcePrefab: {fileID: 100100000, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+--- !u!1 &919937602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 510659406801995766, guid: bc5f048a4a83b2643833cc2af34e12b2, type: 3}
+  m_PrefabInstance: {fileID: 919937601}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &919937603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919937602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 1
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 7
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &956391995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16668,12 +16758,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!20 &2056078436
 Camera:
   m_ObjectHideFlags: 0
@@ -16684,7 +16774,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -19791,6 +19881,7 @@ SceneRoots:
   - {fileID: 1928338206}
   - {fileID: 121477657}
   - {fileID: 827577094}
+  - {fileID: 919937601}
   - {fileID: 1576100413}
   - {fileID: 956391995}
   - {fileID: 491008835}
