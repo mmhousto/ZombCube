@@ -15,7 +15,7 @@ C:/Users/Morga/Documents/GitHub/ZombCube
 -logFile
 Logs/AssetImportWorker2.log
 -srvPort
-63638
+50008
 Successfully changed project path to: C:/Users/Morga/Documents/GitHub/ZombCube
 C:/Users/Morga/Documents/GitHub/ZombCube
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,11 +49,11 @@ C:/Users/Morga/Documents/GitHub/ZombCube
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [37900] Host "[IP] 192.168.0.147 [Port] 0 [Flags] 2 [Guid] 3256697756 [EditorId] 3256697756 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [32932] Host "[IP] 192.168.0.147 [Port] 0 [Flags] 2 [Guid] 877002955 [EditorId] 877002955 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [37900] Host "[IP] 192.168.0.147 [Port] 0 [Flags] 2 [Guid] 3256697756 [EditorId] 3256697756 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [32932] Host "[IP] 192.168.0.147 [Port] 0 [Flags] 2 [Guid] 877002955 [EditorId] 877002955 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
-Refreshing native plugins compatible for Editor in 17.16 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 19.75 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.7f1 (b16b3b16c7a0)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/Resources/UnitySubsystems
@@ -69,7 +69,7 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56736
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56060
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
@@ -77,20 +77,20 @@ Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/E
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.7f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
-Registered in 0.006958 seconds.
-- Loaded All Assemblies, in  0.205 seconds
+Registered in 0.008149 seconds.
+- Loaded All Assemblies, in  0.218 seconds
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 Native extension for iOS target not found
 Native extension for Android target not found
-Android Extension - Scanning For ADB Devices 2214 ms
+Android Extension - Scanning For ADB Devices 698 ms
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  2.411 seconds
-Domain Reload Profiling: 2615ms
-	BeginReloadAssembly (59ms)
+- Finished resetting the current domain, in  0.894 seconds
+Domain Reload Profiling: 1111ms
+	BeginReloadAssembly (67ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
@@ -98,26 +98,26 @@ Domain Reload Profiling: 2615ms
 		CreateAndSetChildDomain (0ms)
 	RebuildCommonClasses (18ms)
 	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (35ms)
-	LoadAllAssembliesAndSetupDomain (84ms)
-		LoadAssemblies (59ms)
+	initialDomainReloadingComplete (39ms)
+	LoadAllAssembliesAndSetupDomain (86ms)
+		LoadAssemblies (66ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (82ms)
-			TypeCache.Refresh (82ms)
-				TypeCache.ScanAssembly (74ms)
+		AnalyzeDomain (84ms)
+			TypeCache.Refresh (83ms)
+				TypeCache.ScanAssembly (75ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (2412ms)
+	FinalizeReload (894ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (2379ms)
+		SetupLoadedEditorAssemblies (862ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (2297ms)
+			InitializePlatformSupportModulesInManaged (782ms)
 			SetLoadedEditorAssemblies (2ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (1ms)
-			ProcessInitializeOnLoadAttributes (53ms)
-			ProcessInitializeOnLoadMethodAttributes (26ms)
+			ProcessInitializeOnLoadAttributes (52ms)
+			ProcessInitializeOnLoadMethodAttributes (25ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -126,142 +126,92 @@ Domain Reload Profiling: 2615ms
 Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
 Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  0.454 seconds
-Refreshing native plugins compatible for Editor in 10.34 ms, found 4 plugins.
+- Loaded All Assemblies, in  0.530 seconds
+Refreshing native plugins compatible for Editor in 12.75 ms, found 4 plugins.
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for iOS target not found
 Native extension for Android target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.488 seconds
-Domain Reload Profiling: 939ms
-	BeginReloadAssembly (84ms)
+- Finished resetting the current domain, in  0.508 seconds
+Domain Reload Profiling: 1031ms
+	BeginReloadAssembly (91ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (3ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (12ms)
+		CreateAndSetChildDomain (13ms)
 	RebuildCommonClasses (20ms)
 	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (35ms)
-	LoadAllAssembliesAndSetupDomain (306ms)
-		LoadAssemblies (233ms)
+	initialDomainReloadingComplete (51ms)
+	LoadAllAssembliesAndSetupDomain (353ms)
+		LoadAssemblies (274ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (122ms)
-			TypeCache.Refresh (93ms)
-				TypeCache.ScanAssembly (79ms)
-			ScanForSourceGeneratedMonoScriptInfo (22ms)
-			ResolveRequiredComponents (7ms)
-	FinalizeReload (489ms)
+		AnalyzeDomain (135ms)
+			TypeCache.Refresh (99ms)
+				TypeCache.ScanAssembly (87ms)
+			ScanForSourceGeneratedMonoScriptInfo (28ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (508ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (372ms)
+		SetupLoadedEditorAssemblies (388ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (20ms)
+			InitializePlatformSupportModulesInManaged (23ms)
 			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (63ms)
-			ProcessInitializeOnLoadAttributes (166ms)
-			ProcessInitializeOnLoadMethodAttributes (116ms)
+			BeforeProcessingInitializeOnLoad (68ms)
+			ProcessInitializeOnLoadAttributes (173ms)
+			ProcessInitializeOnLoadMethodAttributes (117ms)
 			AfterProcessingInitializeOnLoad (4ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (4ms)
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
-Refreshing native plugins compatible for Editor in 10.90 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 11.41 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 7168 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 177 unused Assets / (179.3 KB). Loaded Objects now: 7565.
-Memory consumption went from 274.0 MB to 273.8 MB.
-Total: 4.814500 ms (FindLiveObjects: 0.298900 ms CreateObjectMapping: 0.122700 ms MarkObjects: 4.117600 ms  DeleteObjects: 0.274300 ms)
+Unloading 177 unused Assets / (463.6 KB). Loaded Objects now: 7565.
+Memory consumption went from 275.6 MB to 275.1 MB.
+Total: 4.955900 ms (FindLiveObjects: 0.331000 ms CreateObjectMapping: 0.146000 ms MarkObjects: 4.215300 ms  DeleteObjects: 0.262800 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
   custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 753292.487560 seconds.
-  path: Assets/Screenshots/ZombCubeXbox.png
-  artifactKey: Guid(17842385c62db2e448868ac513a53fd2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/ZombCubeXbox.png using Guid(17842385c62db2e448868ac513a53fd2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f96f48bbf4b7cf3169160c232f3bb6e9') in 0.010468 seconds
+  Time since last request: 83467.131356 seconds.
+  path: Assets/Sci-Fi Texture Pack 1/Materials/Texture_1.mat
+  artifactKey: Guid(b3032fb7ef5e4c946a04badb3e3a410b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sci-Fi Texture Pack 1/Materials/Texture_1.mat using Guid(b3032fb7ef5e4c946a04badb3e3a410b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '641c301624c86aeda2164a7349afe29b') in 0.004228 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 1
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000019 seconds.
-  path: Assets/Screenshots/Logo/ZombCubeLogo-44.jpg
-  artifactKey: Guid(81b647e937982c54d96224cdd1086d80) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/Logo/ZombCubeLogo-44.jpg using Guid(81b647e937982c54d96224cdd1086d80) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '785a5d88b6810fca7c1e8ac148c5baad') in 0.001190 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000010 seconds.
-  path: Assets/Screenshots/ZombCubeIPhone.png
-  artifactKey: Guid(5f31ddd993ca3485591e19357c5b690f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/ZombCubeIPhone.png using Guid(5f31ddd993ca3485591e19357c5b690f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e8f8e4b66d2f825dc23c5851d1073992') in 0.009303 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000011 seconds.
-  path: Assets/Screenshots/store Icon-620.png
-  artifactKey: Guid(3f8231610aa461d4abc61ce10aba6ff5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/store Icon-620.png using Guid(3f8231610aa461d4abc61ce10aba6ff5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5e07252bf9e4b330cba9f2039b9ef842') in 0.001896 seconds
+  Time since last request: 0.000017 seconds.
+  path: Assets/Sci-Fi Texture Pack 1/Materials/Texture_3 2.mat
+  artifactKey: Guid(eee5bea002f1ba34087609168889d3d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sci-Fi Texture Pack 1/Materials/Texture_3 2.mat using Guid(eee5bea002f1ba34087609168889d3d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fbe9ccab54f8f43bf817c6229a54d23f') in 0.000855 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 1
 ========================================================================
 Received Import Request.
   Time since last request: 0.000010 seconds.
-  path: Assets/Screenshots/store Icon-96.png
-  artifactKey: Guid(d3f9098a6cb825b4bb69ff83d53c714b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/store Icon-96.png using Guid(d3f9098a6cb825b4bb69ff83d53c714b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f42c32b4ff7cf5cfccf8c715edfe8f7e') in 0.000965 seconds
+  path: Assets/Sci-Fi Texture Pack 1/Materials/Texture_3 4.mat
+  artifactKey: Guid(dd95b525d12527441a8fb6d0696186c8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sci-Fi Texture Pack 1/Materials/Texture_3 4.mat using Guid(dd95b525d12527441a8fb6d0696186c8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2646faef9bfe51da34c6640e6f907db5') in 0.000703 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000010 seconds.
-  path: Assets/Screenshots/Logo/ZombCubeLogo-24.jpg
-  artifactKey: Guid(c4d97c307704c574c8d76817dd8fc9d4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/Logo/ZombCubeLogo-24.jpg using Guid(c4d97c307704c574c8d76817dd8fc9d4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '45ad5fda41203e84ee8aaa80301754fa') in 0.000944 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000008 seconds.
-  path: Assets/Screenshots/store Icon.png
-  artifactKey: Guid(6262d057c14ad864fad7c788e64e4fb4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/store Icon.png using Guid(6262d057c14ad864fad7c788e64e4fb4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fdb9d03494af7c4f251bb743864353c2') in 0.000821 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000010 seconds.
-  path: Assets/Screenshots/zombCube1920.png
-  artifactKey: Guid(7599bf22ad0222e47a218599c6c70676) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/zombCube1920.png using Guid(7599bf22ad0222e47a218599c6c70676) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a793d68a9c95c0980a80d01b088f0eea') in 0.002317 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 1
-========================================================================
-Received Import Request.
-  Time since last request: 0.000009 seconds.
-  path: Assets/Screenshots/Twitter Banner PNG.png
-  artifactKey: Guid(ce7f71d660fa4684d9f139cd7a8d12fe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/Twitter Banner PNG.png using Guid(ce7f71d660fa4684d9f139cd7a8d12fe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8c33980339fa1d1921aa938d5fc1f6fa') in 0.007793 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
 Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
 TcpMessagingSession - receive error
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file
