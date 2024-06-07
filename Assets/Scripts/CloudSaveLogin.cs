@@ -281,7 +281,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public async void SignInApple()
         {
-            if (isSigningIn || AuthenticationService.Instance.IsSignedIn) return;
+            if (isSigningIn || AuthenticationService.Instance.IsSignedIn || AppleAuthManager.IsCurrentPlatformSupported == false) return;
             isSigningIn = true;
 
             currentSSO = ssoOption.Apple;
