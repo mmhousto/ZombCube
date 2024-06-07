@@ -51,6 +51,12 @@ namespace Com.GCTC.ZombCube
         {
             if (other.CompareTag("Player"))
             {
+                if(SceneLoader.GetCurrentScene().name == "MainMenu")
+                {
+                    gameObject.SetActive(false);
+                    return;
+                }
+
                 Destroy(gameObject);
                 if (other.name == "Capsule")
                     other.transform.parent.GetComponent<PlayerManager>().Damage(20);

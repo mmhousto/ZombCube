@@ -118,6 +118,14 @@ namespace Com.GCTC.ZombCube
         {
             int currentRound = NetworkGameManager.Instance.CurrentRound;
 
+            if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
+            {
+                int j = Random.Range(0, spawnPoints.Length);
+                GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
+                spawnPoints[j].transform.position,
+                spawnPoints[j].transform.rotation);
+            }
+
             if (currentRound > 2)
             {
                 for (int i = 0; i < cubesToSpawn / 10; i++)
@@ -231,14 +239,6 @@ namespace Com.GCTC.ZombCube
                         zombCubeClone.GetComponent<NetworkEnemy>().EnableDisableArmor();
                     }
                 }
-            }
-
-            if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
-            {
-                int j = Random.Range(0, spawnPoints.Length);
-                GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
-                spawnPoints[j].transform.position,
-                spawnPoints[j].transform.rotation);
             }
 
             yield return null;

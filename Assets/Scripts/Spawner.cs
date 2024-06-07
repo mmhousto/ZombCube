@@ -78,7 +78,13 @@ namespace Com.GCTC.ZombCube
         {
             int currentRound = GameManager.Instance.CurrentRound;
 
-            
+            if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
+            {
+                int j = Random.Range(0, spawnPoints.Length);
+                GameObject cubeClone = Instantiate(enemies[4],
+                spawnPoints[j].transform.position,
+                spawnPoints[j].transform.rotation);
+            }
 
             if (currentRound > 2)
             {
@@ -87,7 +93,7 @@ namespace Com.GCTC.ZombCube
                     while (true)
                     {
                         enemiesInGame = GameObject.FindGameObjectsWithTag("Enemy").Length;
-                        if (enemiesInGame < 125)
+                        if (enemiesInGame < 500)
                         {
                             break;
                         }
@@ -117,7 +123,7 @@ namespace Com.GCTC.ZombCube
                     while (true)
                     {
                         enemiesInGame = GameObject.FindGameObjectsWithTag("Enemy").Length;
-                        if (enemiesInGame < 125)
+                        if (enemiesInGame < 500)
                         {
                             break;
                         }
@@ -146,7 +152,7 @@ namespace Com.GCTC.ZombCube
                     while (true)
                     {
                         enemiesInGame = GameObject.FindGameObjectsWithTag("Enemy").Length;
-                        if (enemiesInGame < 125)
+                        if (enemiesInGame < 500)
                         {
                             break;
                         }
@@ -173,7 +179,7 @@ namespace Com.GCTC.ZombCube
                 while (true)
                 {
                     enemiesInGame = GameObject.FindGameObjectsWithTag("Enemy").Length;
-                    if (enemiesInGame < 125)
+                    if (enemiesInGame < 500)
                     {
                         break;
                     }
@@ -194,13 +200,7 @@ namespace Com.GCTC.ZombCube
                 }
             }
 
-            if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
-            {
-                int j = Random.Range(0, spawnPoints.Length);
-                GameObject cubeClone = Instantiate(enemies[4],
-                spawnPoints[j].transform.position,
-                spawnPoints[j].transform.rotation);
-            }
+            
 
             yield return null;
 
