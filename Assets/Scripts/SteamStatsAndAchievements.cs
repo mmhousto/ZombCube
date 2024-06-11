@@ -5,6 +5,8 @@
 using UnityEngine;
 using System.Collections;
 using System.ComponentModel;
+using Unity.Services.Core;
+
 #if !DISABLESTEAMWORKS
 using Steamworks;
 #endif
@@ -96,9 +98,9 @@ namespace Com.GCTC.ZombCube
 			}
         }
 
-        void OnEnable()
+        void Start()
 		{
-			if (!SteamManager.Initialized || !AuthenticationService.Instance.IsSignedIn || CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam)
+            if (!SteamManager.Initialized || (AuthenticationService.Instance != null && !AuthenticationService.Instance.IsSignedIn) || (CloudSaveLogin.Instance != null && CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam))
 				return;
 
 			player = Player.Instance;
@@ -118,6 +120,21 @@ namespace Com.GCTC.ZombCube
 		{
 			if (!SteamManager.Initialized || !AuthenticationService.Instance.IsSignedIn || CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam)
 				return;
+
+			if(m_GameID == null)
+			{
+                player = Player.Instance;
+                // Cache the GameID for use in the Callbacks
+                m_GameID = new CGameID(SteamUtils.GetAppID());
+
+                m_UserStatsReceived = Callback<UserStatsReceived_t>.Create(OnUserStatsReceived);
+                m_UserStatsStored = Callback<UserStatsStored_t>.Create(OnUserStatsStored);
+                m_UserAchievementStored = Callback<UserAchievementStored_t>.Create(OnAchievementStored);
+
+                // These need to be reset to get the stats upon an Assembly reload in the Editor.
+                m_bRequestedStats = false;
+                m_bStatsValid = false;
+            }
 
 			if(player == null)
 				player = Player.Instance;
