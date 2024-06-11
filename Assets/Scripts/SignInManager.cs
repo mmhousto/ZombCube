@@ -25,15 +25,12 @@ namespace Com.GCTC.ZombCube
                 exitButton.SetActive(false);
 #endif
 
-            if (AppleAuthManager.IsCurrentPlatformSupported)
-            {
+#if UNITY_IOS
                 appleSignIn.SetActive(true);
                 playButton.SetActive(false);
-            }
-            else
-            {
+#else
                 appleSignIn.SetActive(false);
-            }
+#endif
 
 #if UNITY_ANDROID
             //googleSignIn.SetActive(true);
@@ -51,7 +48,10 @@ namespace Com.GCTC.ZombCube
 #elif UNITY_IOS
             SignInApple();
 #else
-            SignInAnon();
+            if(CloudSaveLogin.Instance.isSteam)
+                SignInSteam();
+            else
+                SignInAnon();
 #endif
         }
 
@@ -70,6 +70,11 @@ namespace Com.GCTC.ZombCube
 #if UNITY_ANDROID
             CloudSaveLogin.Instance.LoginGooglePlayGames();
 #endif
+        }
+
+        public void SignInSteam()
+        {
+
         }
 
         public void SelectObject(GameObject uiElement)

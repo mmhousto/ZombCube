@@ -52,13 +52,13 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = player.playerName;
 
-            if (player.playerName == "NGamer1" && Social.localUser.authenticated && reportedNGamer == false)
+            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
             }
 
-            if (Social.localUser.authenticated && player != null)
+            if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && player != null)
             {
                 if (player.cubesEliminated >= 10000)
                 {
@@ -171,7 +171,7 @@ namespace Com.GCTC.ZombCube
 
         private void CheckNGamer1()
         {
-            if (player.playerName == "NGamer1" && Social.localUser.authenticated && reportedNGamer == false)
+            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
