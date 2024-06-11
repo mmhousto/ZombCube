@@ -1,9 +1,16 @@
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLESTEAMWORKS
+#endif
+
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+
+#if !DISABLESTEAMWORKS
+using Steamworks;
+#endif
 
 namespace Com.GCTC.ZombCube
 {
@@ -43,10 +50,25 @@ namespace Com.GCTC.ZombCube
         protected bool isInteracting;
         [SerializeField]
         protected bool startedHold;
+        protected bool isControllerConnected = false;
+        protected bool isSteamOverlayActive = false;
+
+#if !DISABLESTEAMWORKS
+        protected Callback<GameOverlayActivated_t> overlayIsOn;
+#endif
 
         // Start is called before the first frame update
         void Start()
         {
+#if !DISABLESTEAMWORKS
+            overlayIsOn = Callback<GameOverlayActivated_t>.Create(PauseGameIfSteamOverlayOn);
+#endif
+            // Check if a controller is initially connected
+            if (Gamepad.current != null)
+            {
+                isControllerConnected = true;
+            }
+
             player = Player.Instance;
             isGameOver = false;
 
@@ -57,29 +79,29 @@ namespace Com.GCTC.ZombCube
             sniperBlaster = GetComponent<SniperBlaster>();
             grenade = GetComponent<LaunchGrenade>();
 
-            if(healthBar == null && GameObject.FindWithTag("Health") != null)
+            if (healthBar == null && GameObject.FindWithTag("Health") != null)
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
 
             healthPoints = 100f;
             currentPoints = 0;
             holdTime = 0;
 
-            if(healthBar != null)
+            if (healthBar != null)
                 healthBar.value = healthPoints;
 
-            if(scoreText == null && GameObject.FindWithTag("Score") != null)
+            if (scoreText == null && GameObject.FindWithTag("Score") != null)
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
 
-            if(scoreText != null)
+            if (scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
 
             if (waveText == null && GameObject.FindWithTag("Wave") != null)
                 waveText = GameObject.FindWithTag("Wave").GetComponent<TextMeshProUGUI>();
 
-            if(waveText != null)
+            if (waveText != null)
                 waveText.text = "Wave: 1";
 
-            if(ammoText == null && GameObject.FindWithTag("Ammo") != null)
+            if (ammoText == null && GameObject.FindWithTag("Ammo") != null)
             {
                 ammoText = GameObject.FindWithTag("Ammo").GetComponent<TextMeshProUGUI>();
             }
@@ -96,7 +118,7 @@ namespace Com.GCTC.ZombCube
             if (contextPrompt == null && GameObject.FindWithTag("ContextPrompt") != null)
                 contextPrompt = GameObject.FindWithTag("ContextPrompt");
 
-            if(contextPrompt != null)
+            if (contextPrompt != null)
             {
                 contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
                 contextPrompt.SetActive(false);
@@ -108,9 +130,9 @@ namespace Com.GCTC.ZombCube
 
             MeshRenderer[] blasters = GetComponentsInChildren<MeshRenderer>();
 
-            for(int i = 0; i < blasters.Length; i++)
+            for (int i = 0; i < blasters.Length; i++)
             {
-                if(blasters[i].tag == "Blaster")
+                if (blasters[i].tag == "Blaster")
                     blasters[i].material = blasterMaterial[(player != null) ? player.currentBlaster : 0];
             }
 
@@ -125,7 +147,9 @@ namespace Com.GCTC.ZombCube
         // Update is called once per frame
         void Update()
         {
-            if(healthBar != null)
+            CheckControllerConnection();
+
+            if (healthBar != null)
                 healthBar.value = healthPoints;
 
             if (scoreText != null)
@@ -139,10 +163,10 @@ namespace Com.GCTC.ZombCube
                 ammoText.text = $"{shotblaster.currentAmmoInClip}/{shotblaster.reserveAmmo}";
             else if (ammoText != null && sniperBlaster.enabled == true)
                 ammoText.text = $"{sniperBlaster.currentAmmoInClip}/{sniperBlaster.reserveAmmo}";
-            else if(ammoText != null)
+            else if (ammoText != null)
                 ammoText.text = "";
 
-            if(grenades != null && grenades.Length > 0)
+            if (grenades != null && grenades.Length > 0)
             {
                 for (int i = 0; i < grenades.Length; i++)
                 {
@@ -174,6 +198,32 @@ namespace Com.GCTC.ZombCube
         {
             GameManager.endGame -= SaveDataEndGame;
         }
+
+        private void CheckControllerConnection()
+        {
+            // Check if a controller was connected and gets disconnected
+            if (isControllerConnected && Gamepad.all.Count <= 0 && !GameManager.Instance.isPaused && !GameManager.Instance.isGameOver)
+            {
+                // Controller was just unplugged
+                isControllerConnected = false;
+                Pause();
+            }
+            else if (!isControllerConnected && Gamepad.all.Count > 0)
+            {
+                // Controller was just plugged in
+                isControllerConnected = true;
+            }
+        }
+
+#if !DISABLESTEAMWORKS
+        void PauseGameIfSteamOverlayOn(GameOverlayActivated_t callback)
+        {
+            if (!GameManager.Instance.isPaused && !GameManager.Instance.isGameOver)
+            {
+                Pause();
+            }
+        }
+#endif
 
         public void SaveDataEndGame()
         {
@@ -227,20 +277,20 @@ namespace Com.GCTC.ZombCube
             HealthPack hp;
             other.TryGetComponent<HealthPack>(out hp);
 
-            if(other.CompareTag("HealthPack") && hp.isUsable)
+            if (other.CompareTag("HealthPack") && hp.isUsable)
             {
                 contextPrompt.SetActive(true);
                 contextPromptText.text = hp.contextPrompt;
             }
 
-            if(other.CompareTag("HealthPack") && hp.isUsable && isInteractHeld && healthPoints <= 99 && currentPoints >= 500)
+            if (other.CompareTag("HealthPack") && hp.isUsable && isInteractHeld && healthPoints <= 99 && currentPoints >= 500)
             {
                 hp.StartResetHealthPack();
 
                 Damage(-20);
                 SpendPoints(500);
 
-                if(healthPoints >= 100) { healthPoints = 100; }
+                if (healthPoints >= 100) { healthPoints = 100; }
 
                 contextPrompt.SetActive(false);
             }
@@ -357,7 +407,7 @@ namespace Com.GCTC.ZombCube
         public static void AddPoints(int pointsToAdd)
         {
             currentPoints += pointsToAdd;
-            if(Player.Instance != null)
+            if (Player.Instance != null)
                 Player.Instance.totalPointsEarned += pointsToAdd;
         }
 
@@ -457,12 +507,21 @@ namespace Com.GCTC.ZombCube
 
         public void OnGamePause(InputAction.CallbackContext context)
         {
-            GameManager.Instance.PauseInput();
+            Pause();
         }
 
         public void OnGamePause(InputValue context)
         {
-            GameManager.Instance.PauseInput();
+            Pause();
+        }
+
+        private void Pause()
+        {
+            if (!GameManager.Instance.isGameOver)
+            {
+                GameManager.Instance.PauseInput();
+            }
+
         }
 
     }
