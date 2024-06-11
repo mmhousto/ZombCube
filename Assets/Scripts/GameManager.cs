@@ -31,7 +31,7 @@ namespace Com.GCTC.ZombCube
         private GameObject player;
         [SerializeField] private bool overrideCursor = false;
 
-        private bool isPaused = false;
+        public bool isPaused = false;
         private bool isContinue = false;
         public int numOfPlayers;
 

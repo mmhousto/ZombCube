@@ -15,6 +15,7 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
     private bool buttonEnabled;
     private bool adLoaded = false;
     public TextMeshProUGUI buttonText;
+    public TextMeshProUGUI labelText;
 
     void Awake()
     {
@@ -26,18 +27,33 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
 #endif
 
         // Disable the button until the ad is ready to show:
+        buttonEnabled = false;
         _showAdButton.interactable = false;
 
         overTime = Convert.ToDateTime(Player.Instance.RewardOvertime);
+
+#if (!UNITY_IOS && !UNITY_ANDROID)
+        labelText.text = "Free 1,000 Points";
+        _showAdButton.onClick.AddListener(GetPoints);
+#endif
     }
 
     private void Update()
     {
+#if (UNITY_IOS && UNITY_ANDROID)
         if (overTime <= DateTime.Now && adLoaded && buttonEnabled == false)
         {
             buttonEnabled = true;
             _showAdButton.interactable = buttonEnabled;
-        }else if (overTime > DateTime.Now && buttonEnabled == true)
+        }
+#else
+        if (overTime <= DateTime.Now && buttonEnabled == false)
+        {
+            buttonEnabled = true;
+            _showAdButton.interactable = buttonEnabled;
+        }
+#endif
+        else if (overTime > DateTime.Now && buttonEnabled == true)
         {
             buttonEnabled = false;
             _showAdButton.interactable = false;
@@ -48,10 +64,17 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
 
     private void HandleButtonText()
     {
+#if (UNITY_IOS && UNITY_ANDROID)
         if (buttonEnabled == true && buttonText.text != "Watch Ad")
         {
             buttonText.text = "Watch Ad";
         }
+#else
+        if (buttonEnabled == true && buttonText.text != "Free Points")
+        {
+            buttonText.text = "Free Points";
+        }
+#endif
         else if (buttonEnabled == false)
         {
             buttonText.text = $"{(overTime - DateTime.Now).ToString("hh\\:mm\\:ss")}";
@@ -85,6 +108,58 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
                 buttonEnabled = false;
                 _showAdButton.interactable = buttonEnabled;
             }
+        }
+    }
+
+    private void GetPoints()
+    {
+        // Disable the button:
+        buttonEnabled = false;
+        _showAdButton.interactable = false;
+
+        pressedTime = DateTime.Now;
+        overTime = pressedTime.AddHours(24);
+
+        switch (CloudSaveLogin.Instance.currentSSO)
+        {
+            case CloudSaveLogin.ssoOption.Anonymous:
+                PlayerPrefs.SetString("RewardOverTime", overTime.ToString());
+                break;
+            case CloudSaveLogin.ssoOption.Facebook:
+                PlayerPrefs.SetString("RewardOverTimeFB", overTime.ToString());
+                break;
+            case CloudSaveLogin.ssoOption.Google:
+                PlayerPrefs.SetString("RewardOverTimeG", overTime.ToString());
+                break;
+            case CloudSaveLogin.ssoOption.Apple:
+                PlayerPrefs.SetString("RewardOverTimeA", overTime.ToString());
+                break;
+            default:
+                PlayerPrefs.SetString("RewardOverTime", overTime.ToString());
+                break;
+        }
+
+        Player player = Player.Instance;
+
+        player.SetRewardOvertime(overTime.ToString());
+        player.GainPoints();
+
+        try
+        {
+            SaveSystem.SavePlayer(player);
+        }
+        catch
+        {
+            Debug.Log("Failed to save local data.");
+        }
+
+        try
+        {
+            CloudSaveLogin.Instance.SaveCloudData();
+        }
+        catch
+        {
+            Debug.Log("Failed to save cloud data.");
         }
     }
 

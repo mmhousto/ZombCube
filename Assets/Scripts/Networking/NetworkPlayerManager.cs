@@ -1,3 +1,7 @@
+#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLESTEAMWORKS
+#endif
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +10,10 @@ using UnityEngine.UI;
 using Photon.Pun;
 using StarterAssets;
 using UnityEngine.InputSystem;
+
+#if !DISABLESTEAMWORKS
+using Steamworks;
+#endif
 
 namespace Com.GCTC.ZombCube
 {
@@ -57,6 +65,12 @@ namespace Com.GCTC.ZombCube
         protected bool startedHold;
 
         private bool isAlive = true, isPaused = false;
+        private bool isControllerConnected = false;
+        private bool isSteamOverlayActive = false;
+
+#if !DISABLESTEAMWORKS
+        protected Callback<GameOverlayActivated_t> overlayIsOn;
+#endif
 
 
         #region MonoBehaviour Methods
@@ -69,6 +83,16 @@ namespace Com.GCTC.ZombCube
 
             if (photonView.IsMine)
             {
+#if !DISABLESTEAMWORKS
+                overlayIsOn = Callback<GameOverlayActivated_t>.Create(PauseGameIfSteamOverlayOn);
+#endif
+
+                // Check if a controller is initially connected
+                if (Gamepad.current != null)
+                {
+                    isControllerConnected = true;
+                }
+
                 isAlive = true;
                 isPaused = false;
                 isInputDisabled = false;
@@ -128,6 +152,7 @@ namespace Com.GCTC.ZombCube
         // Update is called once per frame
         void Update()
         {
+            CheckControllerConnection();
             CheckIfAlive();
             UpdateStats();
         }
@@ -412,8 +437,7 @@ namespace Com.GCTC.ZombCube
 
         public void OnGamePause(InputValue value)
         {
-            PauseInput();
-
+            Pause();
         }
 
         public void OnInteract(InputAction.CallbackContext context)
@@ -488,6 +512,34 @@ namespace Com.GCTC.ZombCube
 
         #region Private Methods
 
+        private void CheckControllerConnection()
+        {
+            if (this.photonView.IsMine)
+            {
+                // Check if a controller was connected and gets disconnected
+                if (isControllerConnected && Gamepad.all.Count <= 0 && !isPaused && !NetworkGameManager.Instance.isGameOver)
+                {
+                    // Controller was just unplugged
+                    isControllerConnected = false;
+                    Pause();
+                }
+                else if (!isControllerConnected && Gamepad.all.Count > 0)
+                {
+                    // Controller was just plugged in
+                    isControllerConnected = true;
+                }
+            }
+        }
+
+#if !DISABLESTEAMWORKS
+        void PauseGameIfSteamOverlayOn(GameOverlayActivated_t callback)
+        {
+            if (!isPaused && !NetworkGameManager.Instance.isGameOver && this.photonView.IsMine)
+            {
+                Pause();
+            }
+        }
+#endif
 
         private void CheckIfAlive()
         {
@@ -607,11 +659,20 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        private void Pause()
+        {
+            if (!NetworkGameManager.Instance.isGameOver)
+            {
+                PauseInput();
+            }
 
-#endregion
+        }
 
 
-#region Pun Methods
+        #endregion
+
+
+        #region Pun Methods
 
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
