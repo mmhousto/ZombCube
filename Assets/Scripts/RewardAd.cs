@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
@@ -16,6 +17,7 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
     private bool adLoaded = false;
     public TextMeshProUGUI buttonText;
     public TextMeshProUGUI labelText;
+    public GameObject buttonToSelect;
 
     void Awake()
     {
@@ -116,6 +118,8 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
         // Disable the button:
         buttonEnabled = false;
         _showAdButton.interactable = false;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(buttonToSelect);
 
         pressedTime = DateTime.Now;
         overTime = pressedTime.AddHours(24);
