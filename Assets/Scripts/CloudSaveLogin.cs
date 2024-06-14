@@ -974,7 +974,12 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             {
                 // Compare error code to AuthenticationErrorCodes
                 // Notify the player with the proper error message
-                Debug.LogException(ex);
+                userID = "OfflineMode";
+                userName = "Guest_" + userID;
+
+                SetPlayer(userID);
+
+                Login();
             }
             catch (RequestFailedException exception)
             {

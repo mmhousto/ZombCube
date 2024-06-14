@@ -15,7 +15,7 @@ C:/Users/Morga/Documents/GitHub/ZombCube
 -logFile
 Logs/AssetImportWorker1.log
 -srvPort
-63256
+5295
 Successfully changed project path to: C:/Users/Morga/Documents/GitHub/ZombCube
 C:/Users/Morga/Documents/GitHub/ZombCube
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,12 +49,12 @@ C:/Users/Morga/Documents/GitHub/ZombCube
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [34112] Host "[IP] 192.168.0.147 [Port] 0 [Flags] 2 [Guid] 297479010 [EditorId] 297479010 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [40240] Host "[IP] 192.168.0.147 [Port] 0 [Flags] 2 [Guid] 361609470 [EditorId] 361609470 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [34112] Host "[IP] 192.168.0.147 [Port] 0 [Flags] 2 [Guid] 297479010 [EditorId] 297479010 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [40240] Host "[IP] 192.168.0.147 [Port] 0 [Flags] 2 [Guid] 361609470 [EditorId] 361609470 [Version] 1048832 [Id] WindowsEditor(7,MMPC6) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
 [PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
-Refreshing native plugins compatible for Editor in 268.37 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 235.68 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.32f1 (c8300dc0a3fa)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.32f1/Editor/Data/Resources/UnitySubsystems
@@ -70,7 +70,7 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.32f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.32f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.32f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56828
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56440
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.32f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
@@ -78,44 +78,44 @@ Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.32f1/
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.32f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.32f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.32f1/Editor/Data/PlaybackEngines/PS5Player/UnityEditor.PS5.Extensions.dll
-Registered in 0.218449 seconds.
-- Loaded All Assemblies, in  0.443 seconds
+Registered in 0.233433 seconds.
+- Loaded All Assemblies, in  0.512 seconds
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
-Android Extension - Scanning For ADB Devices 193 ms
+Android Extension - Scanning For ADB Devices 194 ms
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.439 seconds
-Domain Reload Profiling: 881ms
-	BeginReloadAssembly (69ms)
+- Finished resetting the current domain, in  0.443 seconds
+Domain Reload Profiling: 954ms
+	BeginReloadAssembly (65ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (0ms)
-	RebuildCommonClasses (20ms)
+	RebuildCommonClasses (19ms)
 	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (249ms)
-	LoadAllAssembliesAndSetupDomain (97ms)
-		LoadAssemblies (70ms)
+	initialDomainReloadingComplete (263ms)
+	LoadAllAssembliesAndSetupDomain (156ms)
+		LoadAssemblies (65ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (93ms)
-			TypeCache.Refresh (92ms)
-				TypeCache.ScanAssembly (83ms)
+		AnalyzeDomain (154ms)
+			TypeCache.Refresh (153ms)
+				TypeCache.ScanAssembly (145ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (439ms)
+	FinalizeReload (443ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (406ms)
+		SetupLoadedEditorAssemblies (409ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (309ms)
+			InitializePlatformSupportModulesInManaged (312ms)
 			SetLoadedEditorAssemblies (2ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (1ms)
-			ProcessInitializeOnLoadAttributes (65ms)
-			ProcessInitializeOnLoadMethodAttributes (29ms)
+			ProcessInitializeOnLoadAttributes (63ms)
+			ProcessInitializeOnLoadMethodAttributes (30ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -124,8 +124,739 @@ Domain Reload Profiling: 881ms
 Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
 Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.632 seconds
-Refreshing native plugins compatible for Editor in 24.47 ms, found 4 plugins.
+- Loaded All Assemblies, in  0.576 seconds
+Refreshing native plugins compatible for Editor in 30.22 ms, found 4 plugins.
+Native extension for UWP target not found
+Native extension for WindowsStandalone target not found
+Native extension for Android target not found
+Native extension for WebGL target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.507 seconds
+Domain Reload Profiling: 1079ms
+	BeginReloadAssembly (95ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (3ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (14ms)
+	RebuildCommonClasses (19ms)
+	RebuildNativeTypeToScriptingClass (6ms)
+	initialDomainReloadingComplete (36ms)
+	LoadAllAssembliesAndSetupDomain (416ms)
+		LoadAssemblies (357ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (117ms)
+			TypeCache.Refresh (88ms)
+				TypeCache.ScanAssembly (75ms)
+			ScanForSourceGeneratedMonoScriptInfo (21ms)
+			ResolveRequiredComponents (8ms)
+	FinalizeReload (508ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (380ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (17ms)
+			SetLoadedEditorAssemblies (4ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (77ms)
+			ProcessInitializeOnLoadAttributes (167ms)
+			ProcessInitializeOnLoadMethodAttributes (110ms)
+			AfterProcessingInitializeOnLoad (4ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (4ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Refreshing native plugins compatible for Editor in 16.23 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 7153 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 144 unused Assets / (153.4 KB). Loaded Objects now: 7584.
+Memory consumption went from 278.1 MB to 277.9 MB.
+Total: 5.533400 ms (FindLiveObjects: 0.406800 ms CreateObjectMapping: 0.122600 ms MarkObjects: 4.713000 ms  DeleteObjects: 0.290200 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:scripting/monoscript/fileName/isteamapps.cs: 69e98e6e216f67c3a4f06237018db56d -> 
+  custom:scripting/monoscript/fileName/isteamvideo.cs: 6a3594bef1edb2933e1b1483dd0a3a14 -> 
+  custom:scripting/monoscript/fileName/isteamgameserver.cs: 59acb6cde7f03f04cbae331f59266455 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramRelayAuthTicket.cs: b0a5241737a41c274d780ef0a99f6d0d -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/isteamremoteplay.cs: 367bd16e361810ebbd563a9065808928 -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingsockets.cs: 49f75e2169ca92cc6d47617cdcec5130 -> 
+  custom:scripting/monoscript/fileName/UGCQueryHandle_t.cs: abaf623f69886257622d90d804f6d7db -> 
+  custom:scripting/monoscript/fileName/isteamugc.cs: 153e57151790c0d37a9e24b9962f6d0b -> 
+  custom:scripting/monoscript/fileName/AppId_t.cs: 9c9e289bf9e00495821984e371e50b37 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:scripting/monoscript/fileName/isteamutils.cs: d11f975162a0c5543a23075bca533382 -> 
+  custom:scripting/monoscript/fileName/SteamIPAddress_t.cs: 6773ba2c895f52c44680c0d029289618 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMessage_t.cs: f6904b86f32d6b679b7d60b746cf5ec6 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/SteamStructs.cs: 540b2f769c0f8c34a1a862ba4b8816b6 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverugc.cs: 59564e16cc331940acbd69b9ccd4f117 -> 
+  custom:scripting/monoscript/fileName/HSteamUser.cs: 313ad4f85cb1afb296145ad9604e33fe -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIdentity.cs: b1d552a0dc2ed932d8626460081a9b87 -> 
+  custom:scripting/monoscript/fileName/UGCFileWriteStreamHandle_t.cs: 62b305a44eaf56753c25cd3cc216463f -> 
+  custom:scripting/monoscript/fileName/HTTPRequestHandle.cs: c5e8850fdb145b17b8b51bc9f57ef872 -> 
+  custom:scripting/monoscript/fileName/isteamhttp.cs: 71c061f90227fac20ac75e7effeae943 -> 
+  custom:scripting/monoscript/fileName/SteamItemInstanceID_t.cs: eda34b1eec90a58eb805163e49310e2b -> 
+  custom:scripting/monoscript/fileName/HHTMLBrowser.cs: e74aa5332a77f2753833dd745de36c95 -> 
+  custom:scripting/monoscript/fileName/isteamfriends.cs: 0d0927fa73346ad623bf73b1ec5d409d -> 
+  custom:scripting/monoscript/fileName/isteamremotestorage.cs: ea28a11b829f382cbde59252667810a3 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMicroseconds.cs: 565d8510c5e38047bf87d6974d22603c -> 
+  custom:scripting/monoscript/fileName/CGameID.cs: 8874438bf7273b697c83f30ef2702c62 -> 
+  custom:scripting/monoscript/fileName/HSteamPipe.cs: e4cae05057f1d067f81da012f3f70857 -> 
+  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworking.cs: aad63c6b6a2223feb2a34183faafd46d -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingmessages.cs: 79ca8b00a5d0dcb9a8f27db436b54240 -> 
+  custom:scripting/monoscript/fileName/SteamCallbacks.cs: bb26c80ece0755bfeb6cf93bb3aac1e1 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingutils.cs: fb36225d225c44a63b49b97eaf5ba4a6 -> 
+  custom:scripting/monoscript/fileName/PublishedFileId_t.cs: 1c9a2412dd8ee61383d6cd359c8b537f -> 
+  custom:scripting/monoscript/fileName/PublishedFileUpdateHandle_t.cs: 75a5d2eeb944082b2b5393690ba02b68 -> 
+  custom:scripting/monoscript/fileName/NativeMethods.cs: 613a03ab34d2235738ed2a58074cefa0 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryResult_t.cs: 90738ccd6a53476d4acbdc6b4a096a4c -> 
+  custom:scripting/monoscript/fileName/isteaminventory.cs: 95a3a736b5dedec57613be45e92f1c0f -> 
+  custom:scripting/monoscript/fileName/RemotePlaySessionID_t.cs: 71e3c8d49084795cd2348e9da8e22a9e -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingSignalingRecvContext.cs: 73affa6266f0b494a051183ba3778aa4 -> 
+  custom:scripting/monoscript/fileName/FriendsGroupID_t.cs: 1672d6605b83e44c766ba04099fcbb53 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverclient.cs: 7015af2e75695382c80d03d2439659c3 -> 
+  custom:scripting/monoscript/fileName/HServerListRequest.cs: 6274ecb742b48a57670027d629d63756 -> 
+  custom:scripting/monoscript/fileName/Packsize.cs: bc068f039806756166bb3621e1ffa150 -> 
+  custom:scripting/monoscript/fileName/SteamConstants.cs: b66a157e224d49697e3bdd29299c7942 -> 
+  custom:scripting/monoscript/fileName/isteamclient.cs: 7bef07df0abf4a595526956e4acb7dbc -> 
+  custom:scripting/monoscript/fileName/HSteamNetConnection.cs: d114de69de44268e598098e854850ceb -> 
+  custom:scripting/monoscript/fileName/UGCUpdateHandle_t.cs: 2a52a6d47455618d81f29ed90aaf4050 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverutils.cs: 9507ccdbb5b1fe7b759e7200f79d832e -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingutils.cs: cb1038e8c961d0feaabc34183d4e7e50 -> 
+  custom:scripting/monoscript/fileName/HServerQuery.cs: 0627dddd6443faf0df7327ce3443283a -> 
+  custom:scripting/monoscript/fileName/SteamAPICall_t.cs: 56dbcc63a63bac3143e2cf3ee24aeacc -> 
+  custom:scripting/monoscript/fileName/HSteamNetPollGroup.cs: e834cda5d044bc7a403f4ef349381b8c -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingConfigValue_t.cs: 8d30c892055bd390314c4e800d54e880 -> 
+  custom:scripting/monoscript/fileName/HTTPCookieContainerHandle.cs: aa2368a7a4927e5c8aafeb778886e657 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIPAddr.cs: 35e53fc32362967306076dd0a5e76959 -> 
+  custom:scripting/monoscript/fileName/Version.cs: 1bd84371241b42836e791249e52b08b2 -> 16bc4e8157b59200485568afe68b2522
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/monoscript/fileName/InputDigitalActionHandle_t.cs: c1b8960dd207d9153f28f6e58b3e8136 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverstats.cs: bca9bcf74601053761405aa55c60b2ba -> 
+  custom:scripting/monoscript/fileName/InputAnalogActionHandle_t.cs: 4285eee0a2181882e75904807f74924d -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:scripting/monoscript/fileName/RTime32.cs: dd3d2d8f052d7e42fe511815c2268590 -> 
+  custom:scripting/monoscript/fileName/isteammatchmaking.cs: 971901edfb7b997353535538fdac16d4 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:scripting/monoscript/fileName/SNetListenSocket_t.cs: 4476048e396d2180b78af60e64e6e922 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramHostedAddress.cs: e8bf7084462f1e252749031081557e8f -> 
+  custom:scripting/monoscript/fileName/isteamnetworking.cs: ccd8001dc4c5f1669b43958bcbfdbe90 -> 
+  custom:scripting/monoscript/fileName/isteammusicremote.cs: d3065c7d1c1dae1d2b75d64033798723 -> 
+  custom:scripting/monoscript/fileName/isteamscreenshots.cs: d0f1a3d06ca6856c051f13ec75ccee43 -> 
+  custom:scripting/monoscript/fileName/CallbackIdentity.cs: 269d74bc6207055fcc92fb13ead0ec85 -> 
+  custom:scripting/monoscript/fileName/isteamapplist.cs: 7851fe55f0b53372b7114ed9f519f06b -> 
+  custom:scripting/monoscript/fileName/gameserveritem_t.cs: fc136f9d4558a4cc9cf27fc00b392d79 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingPOPID.cs: 4c7ce4c1ba1a00501636d52f420de693 -> 
+  custom:scripting/monoscript/fileName/HAuthTicket.cs: 69f3c82bd6ac83b656f285a07b3a5eea -> 
+  custom:scripting/monoscript/fileName/DepotId_t.cs: 011c364b75958567f04ca29a8c78debf -> 
+  custom:scripting/monoscript/fileName/isteamgameserverhttp.cs: 56d9215cfef5d9e31dae154b95703340 -> 
+  custom:scripting/monoscript/fileName/SNetSocket_t.cs: b65a59cf1d17ea66195576ef6cffad49 -> 
+  custom:scripting/monoscript/fileName/InputActionSetHandle_t.cs: ae6b6160d18b058a24a8acc22eb7ca3c -> 
+  custom:scripting/monoscript/fileName/InteropHelp.cs: e1fa6f80bf70c82981f962360c073ac4 -> 
+  custom:scripting/monoscript/fileName/isteamhtmlsurface.cs: 56408b5f583f4d5441ae4f45bdf687f4 -> 
+  custom:scripting/monoscript/fileName/PartyBeaconID_t.cs: 25cc25207e65c441b9b753673df7a003 -> 
+  custom:scripting/monoscript/fileName/CSteamID.cs: d46596e5fcab2f9fea1e6f994dec47e3 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboardEntries_t.cs: 75476e2e7ced1ab1840b00421955ee35 -> 
+  custom:scripting/monoscript/fileName/CallbackDispatcher.cs: 2312359a4610a8712b484e64faa108b0 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryUpdateHandle_t.cs: c0705d41b3ec4b185ed671e511dd6983 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/ISteamMatchmakingResponses.cs: 99466bb0cfe36f29d9d071cca54ce95a -> 
+  custom:scripting/monoscript/fileName/UGCHandle_t.cs: 7d882e1dd65c9048f2282280fe121c0f -> 
+  custom:scripting/monoscript/fileName/isteaminput.cs: 20fb67c4ca2baaaf51e1aa58606aef80 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingsockets.cs: 117a0574aa2af735129a159c64691145 -> 
+  custom:scripting/monoscript/fileName/servernetadr_t.cs: c17b4251ecf8e3dc88e354791ea747aa -> 
+  custom:scripting/monoscript/fileName/SteamItemDef_t.cs: 6512badc74618be9bd9e49a3297805c3 -> 
+  custom:scripting/monoscript/fileName/SteamInputActionEvent_t.cs: fffb027b119d9ba479285fe1e675d8b4 -> 
+  custom:scripting/monoscript/fileName/isteamuserstats.cs: 3815254b4bfbed86804363c661d230cc -> 
+  custom:scripting/monoscript/fileName/RedistCopy.cs: 3fc9b7362d59167ca08414c2a0b3f031 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverinventory.cs: 0812f224c9d1393fb37b4fd6be54e68a -> 
+  custom:scripting/monoscript/fileName/InputHandle_t.cs: c6d55272f27e6eec9bfc311b075e4f84 -> 
+  custom:scripting/monoscript/fileName/ScreenshotHandle.cs: 1a2a293437d5304381bfbff0ce7bfe20 -> 
+  custom:scripting/monoscript/fileName/isteammusic.cs: cdf0fd4a883621b067e7be3ff8d1d83a -> 
+  custom:scripting/monoscript/fileName/AccountID_t.cs: c06e1e24e16a6db677060dbd8c8a3a3a -> 
+  custom:scripting/monoscript/fileName/isteamparentalsettings.cs: 410658dc5fdd19fd35d67196fdb7ca7b -> 
+  custom:scripting/monoscript/fileName/HSteamListenSocket.cs: 9cf1092cfccc5fe9007fd2e498d0b32a -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/isteamuser.cs: 80fbbbc1a5df0056c2acbd29237f33ec -> 
+  custom:scripting/monoscript/fileName/Steam.cs: f242cbf26853557ed33e4d47c62da96a -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingConnectionSignaling.cs: 0ff139138783fdf2fcbbb0b2720d2955 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboard_t.cs: e4ae060263614695bfac1142edbe0fd9 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingErrMsg.cs: be960a48a27e037443388fb833011273 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 91780.452247 seconds.
+  path: Assets/Screenshots/Logo/ZombCubeLogo.jpg
+  artifactKey: Guid(a05f26914b3defc429199c9f1e17f127) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Screenshots/Logo/ZombCubeLogo.jpg using Guid(a05f26914b3defc429199c9f1e17f127) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
+ -> (artifact id: '1e89d5ef19cb6747b80fc03b4397ad41') in 0.045624 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/Screenshots/gctclogo_rgb_stacked.png
+  artifactKey: Guid(fe00e5191a127bf44ab5106f35c8aebf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Screenshots/gctclogo_rgb_stacked.png using Guid(fe00e5191a127bf44ab5106f35c8aebf) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
+ -> (artifact id: '4c698ec11112efd8bf171104798f36cc') in 0.035193 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 13.97 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (53.7 KB). Loaded Objects now: 7591.
+Memory consumption went from 132.3 MB to 132.2 MB.
+Total: 4.509700 ms (FindLiveObjects: 0.289500 ms CreateObjectMapping: 0.112700 ms MarkObjects: 4.028400 ms  DeleteObjects: 0.078200 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:scripting/monoscript/fileName/isteamapps.cs: 69e98e6e216f67c3a4f06237018db56d -> 
+  custom:scripting/monoscript/fileName/isteamvideo.cs: 6a3594bef1edb2933e1b1483dd0a3a14 -> 
+  custom:scripting/monoscript/fileName/isteamgameserver.cs: 59acb6cde7f03f04cbae331f59266455 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramRelayAuthTicket.cs: b0a5241737a41c274d780ef0a99f6d0d -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/isteamremoteplay.cs: 367bd16e361810ebbd563a9065808928 -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingsockets.cs: 49f75e2169ca92cc6d47617cdcec5130 -> 
+  custom:scripting/monoscript/fileName/UGCQueryHandle_t.cs: abaf623f69886257622d90d804f6d7db -> 
+  custom:scripting/monoscript/fileName/isteamugc.cs: 153e57151790c0d37a9e24b9962f6d0b -> 
+  custom:scripting/monoscript/fileName/AppId_t.cs: 9c9e289bf9e00495821984e371e50b37 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:scripting/monoscript/fileName/isteamutils.cs: d11f975162a0c5543a23075bca533382 -> 
+  custom:scripting/monoscript/fileName/SteamIPAddress_t.cs: 6773ba2c895f52c44680c0d029289618 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMessage_t.cs: f6904b86f32d6b679b7d60b746cf5ec6 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/SteamStructs.cs: 540b2f769c0f8c34a1a862ba4b8816b6 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverugc.cs: 59564e16cc331940acbd69b9ccd4f117 -> 
+  custom:scripting/monoscript/fileName/HSteamUser.cs: 313ad4f85cb1afb296145ad9604e33fe -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIdentity.cs: b1d552a0dc2ed932d8626460081a9b87 -> 
+  custom:scripting/monoscript/fileName/UGCFileWriteStreamHandle_t.cs: 62b305a44eaf56753c25cd3cc216463f -> 
+  custom:scripting/monoscript/fileName/HTTPRequestHandle.cs: c5e8850fdb145b17b8b51bc9f57ef872 -> 
+  custom:scripting/monoscript/fileName/isteamhttp.cs: 71c061f90227fac20ac75e7effeae943 -> 
+  custom:scripting/monoscript/fileName/SteamItemInstanceID_t.cs: eda34b1eec90a58eb805163e49310e2b -> 
+  custom:scripting/monoscript/fileName/HHTMLBrowser.cs: e74aa5332a77f2753833dd745de36c95 -> 
+  custom:scripting/monoscript/fileName/isteamfriends.cs: 0d0927fa73346ad623bf73b1ec5d409d -> 
+  custom:scripting/monoscript/fileName/isteamremotestorage.cs: ea28a11b829f382cbde59252667810a3 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMicroseconds.cs: 565d8510c5e38047bf87d6974d22603c -> 
+  custom:scripting/monoscript/fileName/CGameID.cs: 8874438bf7273b697c83f30ef2702c62 -> 
+  custom:scripting/monoscript/fileName/HSteamPipe.cs: e4cae05057f1d067f81da012f3f70857 -> 
+  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworking.cs: aad63c6b6a2223feb2a34183faafd46d -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingmessages.cs: 79ca8b00a5d0dcb9a8f27db436b54240 -> 
+  custom:scripting/monoscript/fileName/SteamCallbacks.cs: bb26c80ece0755bfeb6cf93bb3aac1e1 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingutils.cs: fb36225d225c44a63b49b97eaf5ba4a6 -> 
+  custom:scripting/monoscript/fileName/PublishedFileId_t.cs: 1c9a2412dd8ee61383d6cd359c8b537f -> 
+  custom:scripting/monoscript/fileName/PublishedFileUpdateHandle_t.cs: 75a5d2eeb944082b2b5393690ba02b68 -> 
+  custom:scripting/monoscript/fileName/NativeMethods.cs: 613a03ab34d2235738ed2a58074cefa0 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryResult_t.cs: 90738ccd6a53476d4acbdc6b4a096a4c -> 
+  custom:scripting/monoscript/fileName/isteaminventory.cs: 95a3a736b5dedec57613be45e92f1c0f -> 
+  custom:scripting/monoscript/fileName/RemotePlaySessionID_t.cs: 71e3c8d49084795cd2348e9da8e22a9e -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingSignalingRecvContext.cs: 73affa6266f0b494a051183ba3778aa4 -> 
+  custom:scripting/monoscript/fileName/FriendsGroupID_t.cs: 1672d6605b83e44c766ba04099fcbb53 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverclient.cs: 7015af2e75695382c80d03d2439659c3 -> 
+  custom:scripting/monoscript/fileName/HServerListRequest.cs: 6274ecb742b48a57670027d629d63756 -> 
+  custom:scripting/monoscript/fileName/Packsize.cs: bc068f039806756166bb3621e1ffa150 -> 
+  custom:scripting/monoscript/fileName/SteamConstants.cs: b66a157e224d49697e3bdd29299c7942 -> 
+  custom:scripting/monoscript/fileName/isteamclient.cs: 7bef07df0abf4a595526956e4acb7dbc -> 
+  custom:scripting/monoscript/fileName/HSteamNetConnection.cs: d114de69de44268e598098e854850ceb -> 
+  custom:scripting/monoscript/fileName/UGCUpdateHandle_t.cs: 2a52a6d47455618d81f29ed90aaf4050 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverutils.cs: 9507ccdbb5b1fe7b759e7200f79d832e -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingutils.cs: cb1038e8c961d0feaabc34183d4e7e50 -> 
+  custom:scripting/monoscript/fileName/HServerQuery.cs: 0627dddd6443faf0df7327ce3443283a -> 
+  custom:scripting/monoscript/fileName/SteamAPICall_t.cs: 56dbcc63a63bac3143e2cf3ee24aeacc -> 
+  custom:scripting/monoscript/fileName/HSteamNetPollGroup.cs: e834cda5d044bc7a403f4ef349381b8c -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingConfigValue_t.cs: 8d30c892055bd390314c4e800d54e880 -> 
+  custom:scripting/monoscript/fileName/HTTPCookieContainerHandle.cs: aa2368a7a4927e5c8aafeb778886e657 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIPAddr.cs: 35e53fc32362967306076dd0a5e76959 -> 
+  custom:scripting/monoscript/fileName/Version.cs: 1bd84371241b42836e791249e52b08b2 -> 16bc4e8157b59200485568afe68b2522
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/monoscript/fileName/InputDigitalActionHandle_t.cs: c1b8960dd207d9153f28f6e58b3e8136 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverstats.cs: bca9bcf74601053761405aa55c60b2ba -> 
+  custom:scripting/monoscript/fileName/InputAnalogActionHandle_t.cs: 4285eee0a2181882e75904807f74924d -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:scripting/monoscript/fileName/RTime32.cs: dd3d2d8f052d7e42fe511815c2268590 -> 
+  custom:scripting/monoscript/fileName/isteammatchmaking.cs: 971901edfb7b997353535538fdac16d4 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:scripting/monoscript/fileName/SNetListenSocket_t.cs: 4476048e396d2180b78af60e64e6e922 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramHostedAddress.cs: e8bf7084462f1e252749031081557e8f -> 
+  custom:scripting/monoscript/fileName/isteamnetworking.cs: ccd8001dc4c5f1669b43958bcbfdbe90 -> 
+  custom:scripting/monoscript/fileName/isteammusicremote.cs: d3065c7d1c1dae1d2b75d64033798723 -> 
+  custom:scripting/monoscript/fileName/isteamscreenshots.cs: d0f1a3d06ca6856c051f13ec75ccee43 -> 
+  custom:scripting/monoscript/fileName/CallbackIdentity.cs: 269d74bc6207055fcc92fb13ead0ec85 -> 
+  custom:scripting/monoscript/fileName/isteamapplist.cs: 7851fe55f0b53372b7114ed9f519f06b -> 
+  custom:scripting/monoscript/fileName/gameserveritem_t.cs: fc136f9d4558a4cc9cf27fc00b392d79 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingPOPID.cs: 4c7ce4c1ba1a00501636d52f420de693 -> 
+  custom:scripting/monoscript/fileName/HAuthTicket.cs: 69f3c82bd6ac83b656f285a07b3a5eea -> 
+  custom:scripting/monoscript/fileName/DepotId_t.cs: 011c364b75958567f04ca29a8c78debf -> 
+  custom:scripting/monoscript/fileName/isteamgameserverhttp.cs: 56d9215cfef5d9e31dae154b95703340 -> 
+  custom:scripting/monoscript/fileName/SNetSocket_t.cs: b65a59cf1d17ea66195576ef6cffad49 -> 
+  custom:scripting/monoscript/fileName/InputActionSetHandle_t.cs: ae6b6160d18b058a24a8acc22eb7ca3c -> 
+  custom:scripting/monoscript/fileName/InteropHelp.cs: e1fa6f80bf70c82981f962360c073ac4 -> 
+  custom:scripting/monoscript/fileName/isteamhtmlsurface.cs: 56408b5f583f4d5441ae4f45bdf687f4 -> 
+  custom:scripting/monoscript/fileName/PartyBeaconID_t.cs: 25cc25207e65c441b9b753673df7a003 -> 
+  custom:scripting/monoscript/fileName/CSteamID.cs: d46596e5fcab2f9fea1e6f994dec47e3 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboardEntries_t.cs: 75476e2e7ced1ab1840b00421955ee35 -> 
+  custom:scripting/monoscript/fileName/CallbackDispatcher.cs: 2312359a4610a8712b484e64faa108b0 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryUpdateHandle_t.cs: c0705d41b3ec4b185ed671e511dd6983 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/ISteamMatchmakingResponses.cs: 99466bb0cfe36f29d9d071cca54ce95a -> 
+  custom:scripting/monoscript/fileName/UGCHandle_t.cs: 7d882e1dd65c9048f2282280fe121c0f -> 
+  custom:scripting/monoscript/fileName/isteaminput.cs: 20fb67c4ca2baaaf51e1aa58606aef80 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingsockets.cs: 117a0574aa2af735129a159c64691145 -> 
+  custom:scripting/monoscript/fileName/servernetadr_t.cs: c17b4251ecf8e3dc88e354791ea747aa -> 
+  custom:scripting/monoscript/fileName/SteamItemDef_t.cs: 6512badc74618be9bd9e49a3297805c3 -> 
+  custom:scripting/monoscript/fileName/SteamInputActionEvent_t.cs: fffb027b119d9ba479285fe1e675d8b4 -> 
+  custom:scripting/monoscript/fileName/isteamuserstats.cs: 3815254b4bfbed86804363c661d230cc -> 
+  custom:scripting/monoscript/fileName/RedistCopy.cs: 3fc9b7362d59167ca08414c2a0b3f031 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverinventory.cs: 0812f224c9d1393fb37b4fd6be54e68a -> 
+  custom:scripting/monoscript/fileName/InputHandle_t.cs: c6d55272f27e6eec9bfc311b075e4f84 -> 
+  custom:scripting/monoscript/fileName/ScreenshotHandle.cs: 1a2a293437d5304381bfbff0ce7bfe20 -> 
+  custom:scripting/monoscript/fileName/isteammusic.cs: cdf0fd4a883621b067e7be3ff8d1d83a -> 
+  custom:scripting/monoscript/fileName/AccountID_t.cs: c06e1e24e16a6db677060dbd8c8a3a3a -> 
+  custom:scripting/monoscript/fileName/isteamparentalsettings.cs: 410658dc5fdd19fd35d67196fdb7ca7b -> 
+  custom:scripting/monoscript/fileName/HSteamListenSocket.cs: 9cf1092cfccc5fe9007fd2e498d0b32a -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/isteamuser.cs: 80fbbbc1a5df0056c2acbd29237f33ec -> 
+  custom:scripting/monoscript/fileName/Steam.cs: f242cbf26853557ed33e4d47c62da96a -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingConnectionSignaling.cs: 0ff139138783fdf2fcbbb0b2720d2955 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboard_t.cs: e4ae060263614695bfac1142edbe0fd9 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingErrMsg.cs: be960a48a27e037443388fb833011273 -> 
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 15.32 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (334.2 KB). Loaded Objects now: 7591.
+Memory consumption went from 131.1 MB to 130.7 MB.
+Total: 5.875700 ms (FindLiveObjects: 0.327300 ms CreateObjectMapping: 0.118000 ms MarkObjects: 5.327900 ms  DeleteObjects: 0.101300 ms)
+
+Prepare: number of updated asset objects reloaded= 127
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:scripting/monoscript/fileName/isteamapps.cs: 69e98e6e216f67c3a4f06237018db56d -> 
+  custom:scripting/monoscript/fileName/isteamvideo.cs: 6a3594bef1edb2933e1b1483dd0a3a14 -> 
+  custom:scripting/monoscript/fileName/isteamgameserver.cs: 59acb6cde7f03f04cbae331f59266455 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramRelayAuthTicket.cs: b0a5241737a41c274d780ef0a99f6d0d -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/isteamremoteplay.cs: 367bd16e361810ebbd563a9065808928 -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingsockets.cs: 49f75e2169ca92cc6d47617cdcec5130 -> 
+  custom:scripting/monoscript/fileName/UGCQueryHandle_t.cs: abaf623f69886257622d90d804f6d7db -> 
+  custom:scripting/monoscript/fileName/isteamugc.cs: 153e57151790c0d37a9e24b9962f6d0b -> 
+  custom:scripting/monoscript/fileName/AppId_t.cs: 9c9e289bf9e00495821984e371e50b37 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:scripting/monoscript/fileName/isteamutils.cs: d11f975162a0c5543a23075bca533382 -> 
+  custom:scripting/monoscript/fileName/SteamIPAddress_t.cs: 6773ba2c895f52c44680c0d029289618 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMessage_t.cs: f6904b86f32d6b679b7d60b746cf5ec6 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/SteamStructs.cs: 540b2f769c0f8c34a1a862ba4b8816b6 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverugc.cs: 59564e16cc331940acbd69b9ccd4f117 -> 
+  custom:scripting/monoscript/fileName/HSteamUser.cs: 313ad4f85cb1afb296145ad9604e33fe -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIdentity.cs: b1d552a0dc2ed932d8626460081a9b87 -> 
+  custom:scripting/monoscript/fileName/UGCFileWriteStreamHandle_t.cs: 62b305a44eaf56753c25cd3cc216463f -> 
+  custom:scripting/monoscript/fileName/HTTPRequestHandle.cs: c5e8850fdb145b17b8b51bc9f57ef872 -> 
+  custom:scripting/monoscript/fileName/isteamhttp.cs: 71c061f90227fac20ac75e7effeae943 -> 
+  custom:scripting/monoscript/fileName/SteamItemInstanceID_t.cs: eda34b1eec90a58eb805163e49310e2b -> 
+  custom:scripting/monoscript/fileName/HHTMLBrowser.cs: e74aa5332a77f2753833dd745de36c95 -> 
+  custom:scripting/monoscript/fileName/isteamfriends.cs: 0d0927fa73346ad623bf73b1ec5d409d -> 
+  custom:scripting/monoscript/fileName/isteamremotestorage.cs: ea28a11b829f382cbde59252667810a3 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMicroseconds.cs: 565d8510c5e38047bf87d6974d22603c -> 
+  custom:scripting/monoscript/fileName/CGameID.cs: 8874438bf7273b697c83f30ef2702c62 -> 
+  custom:scripting/monoscript/fileName/HSteamPipe.cs: e4cae05057f1d067f81da012f3f70857 -> 
+  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworking.cs: aad63c6b6a2223feb2a34183faafd46d -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingmessages.cs: 79ca8b00a5d0dcb9a8f27db436b54240 -> 
+  custom:scripting/monoscript/fileName/SteamCallbacks.cs: bb26c80ece0755bfeb6cf93bb3aac1e1 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingutils.cs: fb36225d225c44a63b49b97eaf5ba4a6 -> 
+  custom:scripting/monoscript/fileName/PublishedFileId_t.cs: 1c9a2412dd8ee61383d6cd359c8b537f -> 
+  custom:scripting/monoscript/fileName/PublishedFileUpdateHandle_t.cs: 75a5d2eeb944082b2b5393690ba02b68 -> 
+  custom:scripting/monoscript/fileName/NativeMethods.cs: 613a03ab34d2235738ed2a58074cefa0 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryResult_t.cs: 90738ccd6a53476d4acbdc6b4a096a4c -> 
+  custom:scripting/monoscript/fileName/isteaminventory.cs: 95a3a736b5dedec57613be45e92f1c0f -> 
+  custom:scripting/monoscript/fileName/RemotePlaySessionID_t.cs: 71e3c8d49084795cd2348e9da8e22a9e -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingSignalingRecvContext.cs: 73affa6266f0b494a051183ba3778aa4 -> 
+  custom:scripting/monoscript/fileName/FriendsGroupID_t.cs: 1672d6605b83e44c766ba04099fcbb53 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverclient.cs: 7015af2e75695382c80d03d2439659c3 -> 
+  custom:scripting/monoscript/fileName/HServerListRequest.cs: 6274ecb742b48a57670027d629d63756 -> 
+  custom:scripting/monoscript/fileName/Packsize.cs: bc068f039806756166bb3621e1ffa150 -> 
+  custom:scripting/monoscript/fileName/SteamConstants.cs: b66a157e224d49697e3bdd29299c7942 -> 
+  custom:scripting/monoscript/fileName/isteamclient.cs: 7bef07df0abf4a595526956e4acb7dbc -> 
+  custom:scripting/monoscript/fileName/HSteamNetConnection.cs: d114de69de44268e598098e854850ceb -> 
+  custom:scripting/monoscript/fileName/UGCUpdateHandle_t.cs: 2a52a6d47455618d81f29ed90aaf4050 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverutils.cs: 9507ccdbb5b1fe7b759e7200f79d832e -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingutils.cs: cb1038e8c961d0feaabc34183d4e7e50 -> 
+  custom:scripting/monoscript/fileName/HServerQuery.cs: 0627dddd6443faf0df7327ce3443283a -> 
+  custom:scripting/monoscript/fileName/SteamAPICall_t.cs: 56dbcc63a63bac3143e2cf3ee24aeacc -> 
+  custom:scripting/monoscript/fileName/HSteamNetPollGroup.cs: e834cda5d044bc7a403f4ef349381b8c -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingConfigValue_t.cs: 8d30c892055bd390314c4e800d54e880 -> 
+  custom:scripting/monoscript/fileName/HTTPCookieContainerHandle.cs: aa2368a7a4927e5c8aafeb778886e657 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIPAddr.cs: 35e53fc32362967306076dd0a5e76959 -> 
+  custom:scripting/monoscript/fileName/Version.cs: 1bd84371241b42836e791249e52b08b2 -> 16bc4e8157b59200485568afe68b2522
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/monoscript/fileName/InputDigitalActionHandle_t.cs: c1b8960dd207d9153f28f6e58b3e8136 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverstats.cs: bca9bcf74601053761405aa55c60b2ba -> 
+  custom:scripting/monoscript/fileName/InputAnalogActionHandle_t.cs: 4285eee0a2181882e75904807f74924d -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:scripting/monoscript/fileName/RTime32.cs: dd3d2d8f052d7e42fe511815c2268590 -> 
+  custom:scripting/monoscript/fileName/isteammatchmaking.cs: 971901edfb7b997353535538fdac16d4 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:scripting/monoscript/fileName/SNetListenSocket_t.cs: 4476048e396d2180b78af60e64e6e922 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramHostedAddress.cs: e8bf7084462f1e252749031081557e8f -> 
+  custom:scripting/monoscript/fileName/isteamnetworking.cs: ccd8001dc4c5f1669b43958bcbfdbe90 -> 
+  custom:scripting/monoscript/fileName/isteammusicremote.cs: d3065c7d1c1dae1d2b75d64033798723 -> 
+  custom:scripting/monoscript/fileName/isteamscreenshots.cs: d0f1a3d06ca6856c051f13ec75ccee43 -> 
+  custom:scripting/monoscript/fileName/CallbackIdentity.cs: 269d74bc6207055fcc92fb13ead0ec85 -> 
+  custom:scripting/monoscript/fileName/isteamapplist.cs: 7851fe55f0b53372b7114ed9f519f06b -> 
+  custom:scripting/monoscript/fileName/gameserveritem_t.cs: fc136f9d4558a4cc9cf27fc00b392d79 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingPOPID.cs: 4c7ce4c1ba1a00501636d52f420de693 -> 
+  custom:scripting/monoscript/fileName/HAuthTicket.cs: 69f3c82bd6ac83b656f285a07b3a5eea -> 
+  custom:scripting/monoscript/fileName/DepotId_t.cs: 011c364b75958567f04ca29a8c78debf -> 
+  custom:scripting/monoscript/fileName/isteamgameserverhttp.cs: 56d9215cfef5d9e31dae154b95703340 -> 
+  custom:scripting/monoscript/fileName/SNetSocket_t.cs: b65a59cf1d17ea66195576ef6cffad49 -> 
+  custom:scripting/monoscript/fileName/InputActionSetHandle_t.cs: ae6b6160d18b058a24a8acc22eb7ca3c -> 
+  custom:scripting/monoscript/fileName/InteropHelp.cs: e1fa6f80bf70c82981f962360c073ac4 -> 
+  custom:scripting/monoscript/fileName/isteamhtmlsurface.cs: 56408b5f583f4d5441ae4f45bdf687f4 -> 
+  custom:scripting/monoscript/fileName/PartyBeaconID_t.cs: 25cc25207e65c441b9b753673df7a003 -> 
+  custom:scripting/monoscript/fileName/CSteamID.cs: d46596e5fcab2f9fea1e6f994dec47e3 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboardEntries_t.cs: 75476e2e7ced1ab1840b00421955ee35 -> 
+  custom:scripting/monoscript/fileName/CallbackDispatcher.cs: 2312359a4610a8712b484e64faa108b0 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryUpdateHandle_t.cs: c0705d41b3ec4b185ed671e511dd6983 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/ISteamMatchmakingResponses.cs: 99466bb0cfe36f29d9d071cca54ce95a -> 
+  custom:scripting/monoscript/fileName/UGCHandle_t.cs: 7d882e1dd65c9048f2282280fe121c0f -> 
+  custom:scripting/monoscript/fileName/isteaminput.cs: 20fb67c4ca2baaaf51e1aa58606aef80 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingsockets.cs: 117a0574aa2af735129a159c64691145 -> 
+  custom:scripting/monoscript/fileName/servernetadr_t.cs: c17b4251ecf8e3dc88e354791ea747aa -> 
+  custom:scripting/monoscript/fileName/SteamItemDef_t.cs: 6512badc74618be9bd9e49a3297805c3 -> 
+  custom:scripting/monoscript/fileName/SteamInputActionEvent_t.cs: fffb027b119d9ba479285fe1e675d8b4 -> 
+  custom:scripting/monoscript/fileName/isteamuserstats.cs: 3815254b4bfbed86804363c661d230cc -> 
+  custom:scripting/monoscript/fileName/RedistCopy.cs: 3fc9b7362d59167ca08414c2a0b3f031 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverinventory.cs: 0812f224c9d1393fb37b4fd6be54e68a -> 
+  custom:scripting/monoscript/fileName/InputHandle_t.cs: c6d55272f27e6eec9bfc311b075e4f84 -> 
+  custom:scripting/monoscript/fileName/ScreenshotHandle.cs: 1a2a293437d5304381bfbff0ce7bfe20 -> 
+  custom:scripting/monoscript/fileName/isteammusic.cs: cdf0fd4a883621b067e7be3ff8d1d83a -> 
+  custom:scripting/monoscript/fileName/AccountID_t.cs: c06e1e24e16a6db677060dbd8c8a3a3a -> 
+  custom:scripting/monoscript/fileName/isteamparentalsettings.cs: 410658dc5fdd19fd35d67196fdb7ca7b -> 
+  custom:scripting/monoscript/fileName/HSteamListenSocket.cs: 9cf1092cfccc5fe9007fd2e498d0b32a -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/isteamuser.cs: 80fbbbc1a5df0056c2acbd29237f33ec -> 
+  custom:scripting/monoscript/fileName/Steam.cs: f242cbf26853557ed33e4d47c62da96a -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingConnectionSignaling.cs: 0ff139138783fdf2fcbbb0b2720d2955 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboard_t.cs: e4ae060263614695bfac1142edbe0fd9 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingErrMsg.cs: be960a48a27e037443388fb833011273 -> 
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 9.04 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (334.0 KB). Loaded Objects now: 7591.
+Memory consumption went from 130.8 MB to 130.5 MB.
+Total: 5.022100 ms (FindLiveObjects: 0.273300 ms CreateObjectMapping: 0.107600 ms MarkObjects: 4.548400 ms  DeleteObjects: 0.092100 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:scripting/monoscript/fileName/isteamapps.cs: 69e98e6e216f67c3a4f06237018db56d -> 
+  custom:scripting/monoscript/fileName/isteamvideo.cs: 6a3594bef1edb2933e1b1483dd0a3a14 -> 
+  custom:scripting/monoscript/fileName/isteamgameserver.cs: 59acb6cde7f03f04cbae331f59266455 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramRelayAuthTicket.cs: b0a5241737a41c274d780ef0a99f6d0d -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/isteamremoteplay.cs: 367bd16e361810ebbd563a9065808928 -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingsockets.cs: 49f75e2169ca92cc6d47617cdcec5130 -> 
+  custom:scripting/monoscript/fileName/UGCQueryHandle_t.cs: abaf623f69886257622d90d804f6d7db -> 
+  custom:scripting/monoscript/fileName/isteamugc.cs: 153e57151790c0d37a9e24b9962f6d0b -> 
+  custom:scripting/monoscript/fileName/AppId_t.cs: 9c9e289bf9e00495821984e371e50b37 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:scripting/monoscript/fileName/isteamutils.cs: d11f975162a0c5543a23075bca533382 -> 
+  custom:scripting/monoscript/fileName/SteamIPAddress_t.cs: 6773ba2c895f52c44680c0d029289618 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMessage_t.cs: f6904b86f32d6b679b7d60b746cf5ec6 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/SteamStructs.cs: 540b2f769c0f8c34a1a862ba4b8816b6 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverugc.cs: 59564e16cc331940acbd69b9ccd4f117 -> 
+  custom:scripting/monoscript/fileName/HSteamUser.cs: 313ad4f85cb1afb296145ad9604e33fe -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIdentity.cs: b1d552a0dc2ed932d8626460081a9b87 -> 
+  custom:scripting/monoscript/fileName/UGCFileWriteStreamHandle_t.cs: 62b305a44eaf56753c25cd3cc216463f -> 
+  custom:scripting/monoscript/fileName/HTTPRequestHandle.cs: c5e8850fdb145b17b8b51bc9f57ef872 -> 
+  custom:scripting/monoscript/fileName/isteamhttp.cs: 71c061f90227fac20ac75e7effeae943 -> 
+  custom:scripting/monoscript/fileName/SteamItemInstanceID_t.cs: eda34b1eec90a58eb805163e49310e2b -> 
+  custom:scripting/monoscript/fileName/HHTMLBrowser.cs: e74aa5332a77f2753833dd745de36c95 -> 
+  custom:scripting/monoscript/fileName/isteamfriends.cs: 0d0927fa73346ad623bf73b1ec5d409d -> 
+  custom:scripting/monoscript/fileName/isteamremotestorage.cs: ea28a11b829f382cbde59252667810a3 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMicroseconds.cs: 565d8510c5e38047bf87d6974d22603c -> 
+  custom:scripting/monoscript/fileName/CGameID.cs: 8874438bf7273b697c83f30ef2702c62 -> 
+  custom:scripting/monoscript/fileName/HSteamPipe.cs: e4cae05057f1d067f81da012f3f70857 -> 
+  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworking.cs: aad63c6b6a2223feb2a34183faafd46d -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingmessages.cs: 79ca8b00a5d0dcb9a8f27db436b54240 -> 
+  custom:scripting/monoscript/fileName/SteamCallbacks.cs: bb26c80ece0755bfeb6cf93bb3aac1e1 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingutils.cs: fb36225d225c44a63b49b97eaf5ba4a6 -> 
+  custom:scripting/monoscript/fileName/PublishedFileId_t.cs: 1c9a2412dd8ee61383d6cd359c8b537f -> 
+  custom:scripting/monoscript/fileName/PublishedFileUpdateHandle_t.cs: 75a5d2eeb944082b2b5393690ba02b68 -> 
+  custom:scripting/monoscript/fileName/NativeMethods.cs: 613a03ab34d2235738ed2a58074cefa0 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryResult_t.cs: 90738ccd6a53476d4acbdc6b4a096a4c -> 
+  custom:scripting/monoscript/fileName/isteaminventory.cs: 95a3a736b5dedec57613be45e92f1c0f -> 
+  custom:scripting/monoscript/fileName/RemotePlaySessionID_t.cs: 71e3c8d49084795cd2348e9da8e22a9e -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingSignalingRecvContext.cs: 73affa6266f0b494a051183ba3778aa4 -> 
+  custom:scripting/monoscript/fileName/FriendsGroupID_t.cs: 1672d6605b83e44c766ba04099fcbb53 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverclient.cs: 7015af2e75695382c80d03d2439659c3 -> 
+  custom:scripting/monoscript/fileName/HServerListRequest.cs: 6274ecb742b48a57670027d629d63756 -> 
+  custom:scripting/monoscript/fileName/Packsize.cs: bc068f039806756166bb3621e1ffa150 -> 
+  custom:scripting/monoscript/fileName/SteamConstants.cs: b66a157e224d49697e3bdd29299c7942 -> 
+  custom:scripting/monoscript/fileName/isteamclient.cs: 7bef07df0abf4a595526956e4acb7dbc -> 
+  custom:scripting/monoscript/fileName/HSteamNetConnection.cs: d114de69de44268e598098e854850ceb -> 
+  custom:scripting/monoscript/fileName/UGCUpdateHandle_t.cs: 2a52a6d47455618d81f29ed90aaf4050 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverutils.cs: 9507ccdbb5b1fe7b759e7200f79d832e -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingutils.cs: cb1038e8c961d0feaabc34183d4e7e50 -> 
+  custom:scripting/monoscript/fileName/HServerQuery.cs: 0627dddd6443faf0df7327ce3443283a -> 
+  custom:scripting/monoscript/fileName/SteamAPICall_t.cs: 56dbcc63a63bac3143e2cf3ee24aeacc -> 
+  custom:scripting/monoscript/fileName/HSteamNetPollGroup.cs: e834cda5d044bc7a403f4ef349381b8c -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingConfigValue_t.cs: 8d30c892055bd390314c4e800d54e880 -> 
+  custom:scripting/monoscript/fileName/HTTPCookieContainerHandle.cs: aa2368a7a4927e5c8aafeb778886e657 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIPAddr.cs: 35e53fc32362967306076dd0a5e76959 -> 
+  custom:scripting/monoscript/fileName/Version.cs: 1bd84371241b42836e791249e52b08b2 -> 16bc4e8157b59200485568afe68b2522
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/monoscript/fileName/InputDigitalActionHandle_t.cs: c1b8960dd207d9153f28f6e58b3e8136 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverstats.cs: bca9bcf74601053761405aa55c60b2ba -> 
+  custom:scripting/monoscript/fileName/InputAnalogActionHandle_t.cs: 4285eee0a2181882e75904807f74924d -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:scripting/monoscript/fileName/RTime32.cs: dd3d2d8f052d7e42fe511815c2268590 -> 
+  custom:scripting/monoscript/fileName/isteammatchmaking.cs: 971901edfb7b997353535538fdac16d4 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:scripting/monoscript/fileName/SNetListenSocket_t.cs: 4476048e396d2180b78af60e64e6e922 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramHostedAddress.cs: e8bf7084462f1e252749031081557e8f -> 
+  custom:scripting/monoscript/fileName/isteamnetworking.cs: ccd8001dc4c5f1669b43958bcbfdbe90 -> 
+  custom:scripting/monoscript/fileName/isteammusicremote.cs: d3065c7d1c1dae1d2b75d64033798723 -> 
+  custom:scripting/monoscript/fileName/isteamscreenshots.cs: d0f1a3d06ca6856c051f13ec75ccee43 -> 
+  custom:scripting/monoscript/fileName/CallbackIdentity.cs: 269d74bc6207055fcc92fb13ead0ec85 -> 
+  custom:scripting/monoscript/fileName/isteamapplist.cs: 7851fe55f0b53372b7114ed9f519f06b -> 
+  custom:scripting/monoscript/fileName/gameserveritem_t.cs: fc136f9d4558a4cc9cf27fc00b392d79 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingPOPID.cs: 4c7ce4c1ba1a00501636d52f420de693 -> 
+  custom:scripting/monoscript/fileName/HAuthTicket.cs: 69f3c82bd6ac83b656f285a07b3a5eea -> 
+  custom:scripting/monoscript/fileName/DepotId_t.cs: 011c364b75958567f04ca29a8c78debf -> 
+  custom:scripting/monoscript/fileName/isteamgameserverhttp.cs: 56d9215cfef5d9e31dae154b95703340 -> 
+  custom:scripting/monoscript/fileName/SNetSocket_t.cs: b65a59cf1d17ea66195576ef6cffad49 -> 
+  custom:scripting/monoscript/fileName/InputActionSetHandle_t.cs: ae6b6160d18b058a24a8acc22eb7ca3c -> 
+  custom:scripting/monoscript/fileName/InteropHelp.cs: e1fa6f80bf70c82981f962360c073ac4 -> 
+  custom:scripting/monoscript/fileName/isteamhtmlsurface.cs: 56408b5f583f4d5441ae4f45bdf687f4 -> 
+  custom:scripting/monoscript/fileName/PartyBeaconID_t.cs: 25cc25207e65c441b9b753673df7a003 -> 
+  custom:scripting/monoscript/fileName/CSteamID.cs: d46596e5fcab2f9fea1e6f994dec47e3 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboardEntries_t.cs: 75476e2e7ced1ab1840b00421955ee35 -> 
+  custom:scripting/monoscript/fileName/CallbackDispatcher.cs: 2312359a4610a8712b484e64faa108b0 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryUpdateHandle_t.cs: c0705d41b3ec4b185ed671e511dd6983 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/ISteamMatchmakingResponses.cs: 99466bb0cfe36f29d9d071cca54ce95a -> 
+  custom:scripting/monoscript/fileName/UGCHandle_t.cs: 7d882e1dd65c9048f2282280fe121c0f -> 
+  custom:scripting/monoscript/fileName/isteaminput.cs: 20fb67c4ca2baaaf51e1aa58606aef80 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingsockets.cs: 117a0574aa2af735129a159c64691145 -> 
+  custom:scripting/monoscript/fileName/servernetadr_t.cs: c17b4251ecf8e3dc88e354791ea747aa -> 
+  custom:scripting/monoscript/fileName/SteamItemDef_t.cs: 6512badc74618be9bd9e49a3297805c3 -> 
+  custom:scripting/monoscript/fileName/SteamInputActionEvent_t.cs: fffb027b119d9ba479285fe1e675d8b4 -> 
+  custom:scripting/monoscript/fileName/isteamuserstats.cs: 3815254b4bfbed86804363c661d230cc -> 
+  custom:scripting/monoscript/fileName/RedistCopy.cs: 3fc9b7362d59167ca08414c2a0b3f031 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverinventory.cs: 0812f224c9d1393fb37b4fd6be54e68a -> 
+  custom:scripting/monoscript/fileName/InputHandle_t.cs: c6d55272f27e6eec9bfc311b075e4f84 -> 
+  custom:scripting/monoscript/fileName/ScreenshotHandle.cs: 1a2a293437d5304381bfbff0ce7bfe20 -> 
+  custom:scripting/monoscript/fileName/isteammusic.cs: cdf0fd4a883621b067e7be3ff8d1d83a -> 
+  custom:scripting/monoscript/fileName/AccountID_t.cs: c06e1e24e16a6db677060dbd8c8a3a3a -> 
+  custom:scripting/monoscript/fileName/isteamparentalsettings.cs: 410658dc5fdd19fd35d67196fdb7ca7b -> 
+  custom:scripting/monoscript/fileName/HSteamListenSocket.cs: 9cf1092cfccc5fe9007fd2e498d0b32a -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/isteamuser.cs: 80fbbbc1a5df0056c2acbd29237f33ec -> 
+  custom:scripting/monoscript/fileName/Steam.cs: f242cbf26853557ed33e4d47c62da96a -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingConnectionSignaling.cs: 0ff139138783fdf2fcbbb0b2720d2955 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboard_t.cs: e4ae060263614695bfac1142edbe0fd9 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingErrMsg.cs: be960a48a27e037443388fb833011273 -> 
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.712 seconds
+Refreshing native plugins compatible for Editor in 8.59 ms, found 4 plugins.
+Native extension for UWP target not found
+Native extension for WindowsStandalone target not found
+Native extension for Android target not found
+Native extension for WebGL target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  8.034 seconds
+Domain Reload Profiling: 8742ms
+	BeginReloadAssembly (132ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (3ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (38ms)
+	RebuildCommonClasses (19ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (43ms)
+	LoadAllAssembliesAndSetupDomain (504ms)
+		LoadAssemblies (461ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (103ms)
+			TypeCache.Refresh (74ms)
+				TypeCache.ScanAssembly (58ms)
+			ScanForSourceGeneratedMonoScriptInfo (22ms)
+			ResolveRequiredComponents (7ms)
+	FinalizeReload (8035ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (330ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (16ms)
+			SetLoadedEditorAssemblies (3ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (64ms)
+			ProcessInitializeOnLoadAttributes (137ms)
+			ProcessInitializeOnLoadMethodAttributes (105ms)
+			AfterProcessingInitializeOnLoad (4ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (9ms)
+Refreshing native plugins compatible for Editor in 7.44 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 6956 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 104 unused Assets / (413.1 KB). Loaded Objects now: 7595.
+Memory consumption went from 239.0 MB to 238.6 MB.
+Total: 4.310500 ms (FindLiveObjects: 0.283800 ms CreateObjectMapping: 0.122500 ms MarkObjects: 3.760000 ms  DeleteObjects: 0.143400 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:scripting/monoscript/fileName/isteamapps.cs: 69e98e6e216f67c3a4f06237018db56d -> 
+  custom:scripting/monoscript/fileName/isteamvideo.cs: 6a3594bef1edb2933e1b1483dd0a3a14 -> 
+  custom:scripting/monoscript/fileName/isteamgameserver.cs: 59acb6cde7f03f04cbae331f59266455 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramRelayAuthTicket.cs: b0a5241737a41c274d780ef0a99f6d0d -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/isteamremoteplay.cs: 367bd16e361810ebbd563a9065808928 -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingsockets.cs: 49f75e2169ca92cc6d47617cdcec5130 -> 
+  custom:scripting/monoscript/fileName/UGCQueryHandle_t.cs: abaf623f69886257622d90d804f6d7db -> 
+  custom:scripting/monoscript/fileName/isteamugc.cs: 153e57151790c0d37a9e24b9962f6d0b -> 
+  custom:scripting/monoscript/fileName/AppId_t.cs: 9c9e289bf9e00495821984e371e50b37 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:scripting/monoscript/fileName/isteamutils.cs: d11f975162a0c5543a23075bca533382 -> 
+  custom:scripting/monoscript/fileName/SteamIPAddress_t.cs: 6773ba2c895f52c44680c0d029289618 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMessage_t.cs: f6904b86f32d6b679b7d60b746cf5ec6 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/SteamStructs.cs: 540b2f769c0f8c34a1a862ba4b8816b6 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverugc.cs: 59564e16cc331940acbd69b9ccd4f117 -> 
+  custom:scripting/monoscript/fileName/HSteamUser.cs: 313ad4f85cb1afb296145ad9604e33fe -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIdentity.cs: b1d552a0dc2ed932d8626460081a9b87 -> 
+  custom:scripting/monoscript/fileName/UGCFileWriteStreamHandle_t.cs: 62b305a44eaf56753c25cd3cc216463f -> 
+  custom:scripting/monoscript/fileName/HTTPRequestHandle.cs: c5e8850fdb145b17b8b51bc9f57ef872 -> 
+  custom:scripting/monoscript/fileName/isteamhttp.cs: 71c061f90227fac20ac75e7effeae943 -> 
+  custom:scripting/monoscript/fileName/SteamItemInstanceID_t.cs: eda34b1eec90a58eb805163e49310e2b -> 
+  custom:scripting/monoscript/fileName/HHTMLBrowser.cs: e74aa5332a77f2753833dd745de36c95 -> 
+  custom:scripting/monoscript/fileName/isteamfriends.cs: 0d0927fa73346ad623bf73b1ec5d409d -> 
+  custom:scripting/monoscript/fileName/isteamremotestorage.cs: ea28a11b829f382cbde59252667810a3 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMicroseconds.cs: 565d8510c5e38047bf87d6974d22603c -> 
+  custom:scripting/monoscript/fileName/CGameID.cs: 8874438bf7273b697c83f30ef2702c62 -> 
+  custom:scripting/monoscript/fileName/HSteamPipe.cs: e4cae05057f1d067f81da012f3f70857 -> 
+  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworking.cs: aad63c6b6a2223feb2a34183faafd46d -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingmessages.cs: 79ca8b00a5d0dcb9a8f27db436b54240 -> 
+  custom:scripting/monoscript/fileName/SteamCallbacks.cs: bb26c80ece0755bfeb6cf93bb3aac1e1 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingutils.cs: fb36225d225c44a63b49b97eaf5ba4a6 -> 
+  custom:scripting/monoscript/fileName/PublishedFileId_t.cs: 1c9a2412dd8ee61383d6cd359c8b537f -> 
+  custom:scripting/monoscript/fileName/PublishedFileUpdateHandle_t.cs: 75a5d2eeb944082b2b5393690ba02b68 -> 
+  custom:scripting/monoscript/fileName/NativeMethods.cs: 613a03ab34d2235738ed2a58074cefa0 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryResult_t.cs: 90738ccd6a53476d4acbdc6b4a096a4c -> 
+  custom:scripting/monoscript/fileName/isteaminventory.cs: 95a3a736b5dedec57613be45e92f1c0f -> 
+  custom:scripting/monoscript/fileName/RemotePlaySessionID_t.cs: 71e3c8d49084795cd2348e9da8e22a9e -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingSignalingRecvContext.cs: 73affa6266f0b494a051183ba3778aa4 -> 
+  custom:scripting/monoscript/fileName/FriendsGroupID_t.cs: 1672d6605b83e44c766ba04099fcbb53 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverclient.cs: 7015af2e75695382c80d03d2439659c3 -> 
+  custom:scripting/monoscript/fileName/HServerListRequest.cs: 6274ecb742b48a57670027d629d63756 -> 
+  custom:scripting/monoscript/fileName/Packsize.cs: bc068f039806756166bb3621e1ffa150 -> 
+  custom:scripting/monoscript/fileName/SteamConstants.cs: b66a157e224d49697e3bdd29299c7942 -> 
+  custom:scripting/monoscript/fileName/isteamclient.cs: 7bef07df0abf4a595526956e4acb7dbc -> 
+  custom:scripting/monoscript/fileName/HSteamNetConnection.cs: d114de69de44268e598098e854850ceb -> 
+  custom:scripting/monoscript/fileName/UGCUpdateHandle_t.cs: 2a52a6d47455618d81f29ed90aaf4050 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverutils.cs: 9507ccdbb5b1fe7b759e7200f79d832e -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingutils.cs: cb1038e8c961d0feaabc34183d4e7e50 -> 
+  custom:scripting/monoscript/fileName/HServerQuery.cs: 0627dddd6443faf0df7327ce3443283a -> 
+  custom:scripting/monoscript/fileName/SteamAPICall_t.cs: 56dbcc63a63bac3143e2cf3ee24aeacc -> 
+  custom:scripting/monoscript/fileName/HSteamNetPollGroup.cs: e834cda5d044bc7a403f4ef349381b8c -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingConfigValue_t.cs: 8d30c892055bd390314c4e800d54e880 -> 
+  custom:scripting/monoscript/fileName/HTTPCookieContainerHandle.cs: aa2368a7a4927e5c8aafeb778886e657 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIPAddr.cs: 35e53fc32362967306076dd0a5e76959 -> 
+  custom:scripting/monoscript/fileName/Version.cs: 1bd84371241b42836e791249e52b08b2 -> 16bc4e8157b59200485568afe68b2522
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/monoscript/fileName/InputDigitalActionHandle_t.cs: c1b8960dd207d9153f28f6e58b3e8136 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverstats.cs: bca9bcf74601053761405aa55c60b2ba -> 
+  custom:scripting/monoscript/fileName/InputAnalogActionHandle_t.cs: 4285eee0a2181882e75904807f74924d -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:scripting/monoscript/fileName/RTime32.cs: dd3d2d8f052d7e42fe511815c2268590 -> 
+  custom:scripting/monoscript/fileName/isteammatchmaking.cs: 971901edfb7b997353535538fdac16d4 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:scripting/monoscript/fileName/SNetListenSocket_t.cs: 4476048e396d2180b78af60e64e6e922 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramHostedAddress.cs: e8bf7084462f1e252749031081557e8f -> 
+  custom:scripting/monoscript/fileName/isteamnetworking.cs: ccd8001dc4c5f1669b43958bcbfdbe90 -> 
+  custom:scripting/monoscript/fileName/isteammusicremote.cs: d3065c7d1c1dae1d2b75d64033798723 -> 
+  custom:scripting/monoscript/fileName/isteamscreenshots.cs: d0f1a3d06ca6856c051f13ec75ccee43 -> 
+  custom:scripting/monoscript/fileName/CallbackIdentity.cs: 269d74bc6207055fcc92fb13ead0ec85 -> 
+  custom:scripting/monoscript/fileName/isteamapplist.cs: 7851fe55f0b53372b7114ed9f519f06b -> 
+  custom:scripting/monoscript/fileName/gameserveritem_t.cs: fc136f9d4558a4cc9cf27fc00b392d79 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingPOPID.cs: 4c7ce4c1ba1a00501636d52f420de693 -> 
+  custom:scripting/monoscript/fileName/HAuthTicket.cs: 69f3c82bd6ac83b656f285a07b3a5eea -> 
+  custom:scripting/monoscript/fileName/DepotId_t.cs: 011c364b75958567f04ca29a8c78debf -> 
+  custom:scripting/monoscript/fileName/isteamgameserverhttp.cs: 56d9215cfef5d9e31dae154b95703340 -> 
+  custom:scripting/monoscript/fileName/SNetSocket_t.cs: b65a59cf1d17ea66195576ef6cffad49 -> 
+  custom:scripting/monoscript/fileName/InputActionSetHandle_t.cs: ae6b6160d18b058a24a8acc22eb7ca3c -> 
+  custom:scripting/monoscript/fileName/InteropHelp.cs: e1fa6f80bf70c82981f962360c073ac4 -> 
+  custom:scripting/monoscript/fileName/isteamhtmlsurface.cs: 56408b5f583f4d5441ae4f45bdf687f4 -> 
+  custom:scripting/monoscript/fileName/PartyBeaconID_t.cs: 25cc25207e65c441b9b753673df7a003 -> 
+  custom:scripting/monoscript/fileName/CSteamID.cs: d46596e5fcab2f9fea1e6f994dec47e3 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboardEntries_t.cs: 75476e2e7ced1ab1840b00421955ee35 -> 
+  custom:scripting/monoscript/fileName/CallbackDispatcher.cs: 2312359a4610a8712b484e64faa108b0 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryUpdateHandle_t.cs: c0705d41b3ec4b185ed671e511dd6983 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/ISteamMatchmakingResponses.cs: 99466bb0cfe36f29d9d071cca54ce95a -> 
+  custom:scripting/monoscript/fileName/UGCHandle_t.cs: 7d882e1dd65c9048f2282280fe121c0f -> 
+  custom:scripting/monoscript/fileName/isteaminput.cs: 20fb67c4ca2baaaf51e1aa58606aef80 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingsockets.cs: 117a0574aa2af735129a159c64691145 -> 
+  custom:scripting/monoscript/fileName/servernetadr_t.cs: c17b4251ecf8e3dc88e354791ea747aa -> 
+  custom:scripting/monoscript/fileName/SteamItemDef_t.cs: 6512badc74618be9bd9e49a3297805c3 -> 
+  custom:scripting/monoscript/fileName/SteamInputActionEvent_t.cs: fffb027b119d9ba479285fe1e675d8b4 -> 
+  custom:scripting/monoscript/fileName/isteamuserstats.cs: 3815254b4bfbed86804363c661d230cc -> 
+  custom:scripting/monoscript/fileName/RedistCopy.cs: 3fc9b7362d59167ca08414c2a0b3f031 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverinventory.cs: 0812f224c9d1393fb37b4fd6be54e68a -> 
+  custom:scripting/monoscript/fileName/InputHandle_t.cs: c6d55272f27e6eec9bfc311b075e4f84 -> 
+  custom:scripting/monoscript/fileName/ScreenshotHandle.cs: 1a2a293437d5304381bfbff0ce7bfe20 -> 
+  custom:scripting/monoscript/fileName/isteammusic.cs: cdf0fd4a883621b067e7be3ff8d1d83a -> 
+  custom:scripting/monoscript/fileName/AccountID_t.cs: c06e1e24e16a6db677060dbd8c8a3a3a -> 
+  custom:scripting/monoscript/fileName/isteamparentalsettings.cs: 410658dc5fdd19fd35d67196fdb7ca7b -> 
+  custom:scripting/monoscript/fileName/HSteamListenSocket.cs: 9cf1092cfccc5fe9007fd2e498d0b32a -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/isteamuser.cs: 80fbbbc1a5df0056c2acbd29237f33ec -> 
+  custom:scripting/monoscript/fileName/Steam.cs: f242cbf26853557ed33e4d47c62da96a -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingConnectionSignaling.cs: 0ff139138783fdf2fcbbb0b2720d2955 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboard_t.cs: e4ae060263614695bfac1142edbe0fd9 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingErrMsg.cs: be960a48a27e037443388fb833011273 -> 
+========================================================================
+Received Prepare
+Begin MonoManager ReloadAssembly
+Duplicate assembly 'websocket-sharp.dll' with different versions detected, using 'Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e' and ignoring 'Packages/com.unity.services.wire/Plugins/websocket-sharp.dll, AssemblyName=websocket-sharp, Version=1.0.2.18559, Culture=neutral, PublicKeyToken=5660b08a1845a91e'.Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  0.387 seconds
+Refreshing native plugins compatible for Editor in 8.55 ms, found 4 plugins.
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for Android target not found
@@ -154,93 +885,295 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
 (Filename: /Users/chkuang/Workspace/git/unity-jar-resolver/source/VersionHandlerImpl/src/ProjectSettings.cs Line: 842)
 
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.547 seconds
-Domain Reload Profiling: 2177ms
-	BeginReloadAssembly (132ms)
+- Finished resetting the current domain, in  1.466 seconds
+Domain Reload Profiling: 1849ms
+	BeginReloadAssembly (102ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (3ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (15ms)
-	RebuildCommonClasses (19ms)
-	RebuildNativeTypeToScriptingClass (6ms)
-	initialDomainReloadingComplete (44ms)
-	LoadAllAssembliesAndSetupDomain (1429ms)
-		LoadAssemblies (1378ms)
+		CreateAndSetChildDomain (24ms)
+	RebuildCommonClasses (22ms)
+	RebuildNativeTypeToScriptingClass (7ms)
+	initialDomainReloadingComplete (32ms)
+	LoadAllAssembliesAndSetupDomain (220ms)
+		LoadAssemblies (252ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (144ms)
-			TypeCache.Refresh (110ms)
-				TypeCache.ScanAssembly (95ms)
-			ScanForSourceGeneratedMonoScriptInfo (25ms)
-			ResolveRequiredComponents (8ms)
-	FinalizeReload (548ms)
+		AnalyzeDomain (15ms)
+			TypeCache.Refresh (4ms)
+				TypeCache.ScanAssembly (0ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
+			ResolveRequiredComponents (11ms)
+	FinalizeReload (1466ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (418ms)
+		SetupLoadedEditorAssemblies (401ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (17ms)
+			InitializePlatformSupportModulesInManaged (20ms)
 			SetLoadedEditorAssemblies (4ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (77ms)
-			ProcessInitializeOnLoadAttributes (184ms)
-			ProcessInitializeOnLoadMethodAttributes (132ms)
-			AfterProcessingInitializeOnLoad (5ms)
+			ProcessInitializeOnLoadAttributes (172ms)
+			ProcessInitializeOnLoadMethodAttributes (124ms)
+			AfterProcessingInitializeOnLoad (3ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (5ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 24.91 ms, found 4 plugins.
+		AwakeInstancesAfterBackupRestoration (9ms)
+Refreshing native plugins compatible for Editor in 9.75 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 7154 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 144 unused Assets / (414.9 KB). Loaded Objects now: 7585.
-Memory consumption went from 280.3 MB to 279.9 MB.
-Total: 6.128000 ms (FindLiveObjects: 0.435900 ms CreateObjectMapping: 0.201300 ms MarkObjects: 5.100400 ms  DeleteObjects: 0.389600 ms)
-
-AssetImportParameters requested are different than current active one (requested -> active):
-  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
-  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
-  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
-  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
-  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-========================================================================
-Received Import Request.
-  Time since last request: 36971.762016 seconds.
-  path: Assets/Screenshots/Twitter Banner PNG.png
-  artifactKey: Guid(ce7f71d660fa4684d9f139cd7a8d12fe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Screenshots/Twitter Banner PNG.png using Guid(ce7f71d660fa4684d9f139cd7a8d12fe) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
-[PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
- -> (artifact id: '8f8e2bb9966bd99aed758d90b2bbfac7') in 0.074658 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 3
-========================================================================
-Received Prepare
-Refreshing native plugins compatible for Editor in 27.74 ms, found 4 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 3 unused Assets / (337.6 KB). Loaded Objects now: 7591.
-Memory consumption went from 134.3 MB to 134.0 MB.
-Total: 5.191600 ms (FindLiveObjects: 0.309800 ms CreateObjectMapping: 0.116700 ms MarkObjects: 4.666800 ms  DeleteObjects: 0.097400 ms)
+Unloading 6956 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 104 unused Assets / (413.2 KB). Loaded Objects now: 7600.
+Memory consumption went from 239.0 MB to 238.6 MB.
+Total: 4.629200 ms (FindLiveObjects: 0.376400 ms CreateObjectMapping: 0.136600 ms MarkObjects: 3.958800 ms  DeleteObjects: 0.156800 ms)
 
 Prepare: number of updated asset objects reloaded= 0
 AssetImportParameters requested are different than current active one (requested -> active):
+  custom:scripting/monoscript/fileName/isteamapps.cs: 69e98e6e216f67c3a4f06237018db56d -> 
+  custom:scripting/monoscript/fileName/isteamvideo.cs: 6a3594bef1edb2933e1b1483dd0a3a14 -> 
+  custom:scripting/monoscript/fileName/isteamgameserver.cs: 59acb6cde7f03f04cbae331f59266455 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramRelayAuthTicket.cs: b0a5241737a41c274d780ef0a99f6d0d -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/isteamremoteplay.cs: 367bd16e361810ebbd563a9065808928 -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingsockets.cs: 49f75e2169ca92cc6d47617cdcec5130 -> 
+  custom:scripting/monoscript/fileName/UGCQueryHandle_t.cs: abaf623f69886257622d90d804f6d7db -> 
+  custom:scripting/monoscript/fileName/isteamugc.cs: 153e57151790c0d37a9e24b9962f6d0b -> 
+  custom:scripting/monoscript/fileName/AppId_t.cs: 9c9e289bf9e00495821984e371e50b37 -> 
   custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:scripting/monoscript/fileName/isteamutils.cs: d11f975162a0c5543a23075bca533382 -> 
+  custom:scripting/monoscript/fileName/SteamIPAddress_t.cs: 6773ba2c895f52c44680c0d029289618 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMessage_t.cs: f6904b86f32d6b679b7d60b746cf5ec6 -> 
   custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/SteamStructs.cs: 540b2f769c0f8c34a1a862ba4b8816b6 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverugc.cs: 59564e16cc331940acbd69b9ccd4f117 -> 
+  custom:scripting/monoscript/fileName/HSteamUser.cs: 313ad4f85cb1afb296145ad9604e33fe -> 
   custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIdentity.cs: b1d552a0dc2ed932d8626460081a9b87 -> 
+  custom:scripting/monoscript/fileName/UGCFileWriteStreamHandle_t.cs: 62b305a44eaf56753c25cd3cc216463f -> 
+  custom:scripting/monoscript/fileName/HTTPRequestHandle.cs: c5e8850fdb145b17b8b51bc9f57ef872 -> 
+  custom:scripting/monoscript/fileName/isteamhttp.cs: 71c061f90227fac20ac75e7effeae943 -> 
+  custom:scripting/monoscript/fileName/SteamItemInstanceID_t.cs: eda34b1eec90a58eb805163e49310e2b -> 
+  custom:scripting/monoscript/fileName/HHTMLBrowser.cs: e74aa5332a77f2753833dd745de36c95 -> 
+  custom:scripting/monoscript/fileName/isteamfriends.cs: 0d0927fa73346ad623bf73b1ec5d409d -> 
+  custom:scripting/monoscript/fileName/isteamremotestorage.cs: ea28a11b829f382cbde59252667810a3 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMicroseconds.cs: 565d8510c5e38047bf87d6974d22603c -> 
+  custom:scripting/monoscript/fileName/CGameID.cs: 8874438bf7273b697c83f30ef2702c62 -> 
+  custom:scripting/monoscript/fileName/HSteamPipe.cs: e4cae05057f1d067f81da012f3f70857 -> 
   custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworking.cs: aad63c6b6a2223feb2a34183faafd46d -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingmessages.cs: 79ca8b00a5d0dcb9a8f27db436b54240 -> 
+  custom:scripting/monoscript/fileName/SteamCallbacks.cs: bb26c80ece0755bfeb6cf93bb3aac1e1 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingutils.cs: fb36225d225c44a63b49b97eaf5ba4a6 -> 
+  custom:scripting/monoscript/fileName/PublishedFileId_t.cs: 1c9a2412dd8ee61383d6cd359c8b537f -> 
+  custom:scripting/monoscript/fileName/PublishedFileUpdateHandle_t.cs: 75a5d2eeb944082b2b5393690ba02b68 -> 
+  custom:scripting/monoscript/fileName/NativeMethods.cs: 613a03ab34d2235738ed2a58074cefa0 -> 
   custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryResult_t.cs: 90738ccd6a53476d4acbdc6b4a096a4c -> 
+  custom:scripting/monoscript/fileName/isteaminventory.cs: 95a3a736b5dedec57613be45e92f1c0f -> 
+  custom:scripting/monoscript/fileName/RemotePlaySessionID_t.cs: 71e3c8d49084795cd2348e9da8e22a9e -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingSignalingRecvContext.cs: 73affa6266f0b494a051183ba3778aa4 -> 
+  custom:scripting/monoscript/fileName/FriendsGroupID_t.cs: 1672d6605b83e44c766ba04099fcbb53 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverclient.cs: 7015af2e75695382c80d03d2439659c3 -> 
+  custom:scripting/monoscript/fileName/HServerListRequest.cs: 6274ecb742b48a57670027d629d63756 -> 
+  custom:scripting/monoscript/fileName/Packsize.cs: bc068f039806756166bb3621e1ffa150 -> 
+  custom:scripting/monoscript/fileName/SteamConstants.cs: b66a157e224d49697e3bdd29299c7942 -> 
+  custom:scripting/monoscript/fileName/isteamclient.cs: 7bef07df0abf4a595526956e4acb7dbc -> 
+  custom:scripting/monoscript/fileName/HSteamNetConnection.cs: d114de69de44268e598098e854850ceb -> 
+  custom:scripting/monoscript/fileName/UGCUpdateHandle_t.cs: 2a52a6d47455618d81f29ed90aaf4050 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverutils.cs: 9507ccdbb5b1fe7b759e7200f79d832e -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingutils.cs: cb1038e8c961d0feaabc34183d4e7e50 -> 
+  custom:scripting/monoscript/fileName/HServerQuery.cs: 0627dddd6443faf0df7327ce3443283a -> 
+  custom:scripting/monoscript/fileName/SteamAPICall_t.cs: 56dbcc63a63bac3143e2cf3ee24aeacc -> 
+  custom:scripting/monoscript/fileName/HSteamNetPollGroup.cs: e834cda5d044bc7a403f4ef349381b8c -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingConfigValue_t.cs: 8d30c892055bd390314c4e800d54e880 -> 
+  custom:scripting/monoscript/fileName/HTTPCookieContainerHandle.cs: aa2368a7a4927e5c8aafeb778886e657 -> 
   custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIPAddr.cs: 35e53fc32362967306076dd0a5e76959 -> 
+  custom:scripting/monoscript/fileName/Version.cs: 1bd84371241b42836e791249e52b08b2 -> 16bc4e8157b59200485568afe68b2522
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/monoscript/fileName/InputDigitalActionHandle_t.cs: c1b8960dd207d9153f28f6e58b3e8136 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverstats.cs: bca9bcf74601053761405aa55c60b2ba -> 
+  custom:scripting/monoscript/fileName/InputAnalogActionHandle_t.cs: 4285eee0a2181882e75904807f74924d -> 
   custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:scripting/monoscript/fileName/RTime32.cs: dd3d2d8f052d7e42fe511815c2268590 -> 
+  custom:scripting/monoscript/fileName/isteammatchmaking.cs: 971901edfb7b997353535538fdac16d4 -> 
   custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:scripting/monoscript/fileName/SNetListenSocket_t.cs: 4476048e396d2180b78af60e64e6e922 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramHostedAddress.cs: e8bf7084462f1e252749031081557e8f -> 
+  custom:scripting/monoscript/fileName/isteamnetworking.cs: ccd8001dc4c5f1669b43958bcbfdbe90 -> 
+  custom:scripting/monoscript/fileName/isteammusicremote.cs: d3065c7d1c1dae1d2b75d64033798723 -> 
+  custom:scripting/monoscript/fileName/isteamscreenshots.cs: d0f1a3d06ca6856c051f13ec75ccee43 -> 
+  custom:scripting/monoscript/fileName/CallbackIdentity.cs: 269d74bc6207055fcc92fb13ead0ec85 -> 
+  custom:scripting/monoscript/fileName/isteamapplist.cs: 7851fe55f0b53372b7114ed9f519f06b -> 
+  custom:scripting/monoscript/fileName/gameserveritem_t.cs: fc136f9d4558a4cc9cf27fc00b392d79 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingPOPID.cs: 4c7ce4c1ba1a00501636d52f420de693 -> 
+  custom:scripting/monoscript/fileName/HAuthTicket.cs: 69f3c82bd6ac83b656f285a07b3a5eea -> 
+  custom:scripting/monoscript/fileName/DepotId_t.cs: 011c364b75958567f04ca29a8c78debf -> 
+  custom:scripting/monoscript/fileName/isteamgameserverhttp.cs: 56d9215cfef5d9e31dae154b95703340 -> 
+  custom:scripting/monoscript/fileName/SNetSocket_t.cs: b65a59cf1d17ea66195576ef6cffad49 -> 
+  custom:scripting/monoscript/fileName/InputActionSetHandle_t.cs: ae6b6160d18b058a24a8acc22eb7ca3c -> 
+  custom:scripting/monoscript/fileName/InteropHelp.cs: e1fa6f80bf70c82981f962360c073ac4 -> 
+  custom:scripting/monoscript/fileName/isteamhtmlsurface.cs: 56408b5f583f4d5441ae4f45bdf687f4 -> 
+  custom:scripting/monoscript/fileName/PartyBeaconID_t.cs: 25cc25207e65c441b9b753673df7a003 -> 
+  custom:scripting/monoscript/fileName/CSteamID.cs: d46596e5fcab2f9fea1e6f994dec47e3 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboardEntries_t.cs: 75476e2e7ced1ab1840b00421955ee35 -> 
+  custom:scripting/monoscript/fileName/CallbackDispatcher.cs: 2312359a4610a8712b484e64faa108b0 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryUpdateHandle_t.cs: c0705d41b3ec4b185ed671e511dd6983 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/ISteamMatchmakingResponses.cs: 99466bb0cfe36f29d9d071cca54ce95a -> 
+  custom:scripting/monoscript/fileName/UGCHandle_t.cs: 7d882e1dd65c9048f2282280fe121c0f -> 
+  custom:scripting/monoscript/fileName/isteaminput.cs: 20fb67c4ca2baaaf51e1aa58606aef80 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingsockets.cs: 117a0574aa2af735129a159c64691145 -> 
+  custom:scripting/monoscript/fileName/servernetadr_t.cs: c17b4251ecf8e3dc88e354791ea747aa -> 
+  custom:scripting/monoscript/fileName/SteamItemDef_t.cs: 6512badc74618be9bd9e49a3297805c3 -> 
+  custom:scripting/monoscript/fileName/SteamInputActionEvent_t.cs: fffb027b119d9ba479285fe1e675d8b4 -> 
+  custom:scripting/monoscript/fileName/isteamuserstats.cs: 3815254b4bfbed86804363c661d230cc -> 
+  custom:scripting/monoscript/fileName/RedistCopy.cs: 3fc9b7362d59167ca08414c2a0b3f031 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverinventory.cs: 0812f224c9d1393fb37b4fd6be54e68a -> 
+  custom:scripting/monoscript/fileName/InputHandle_t.cs: c6d55272f27e6eec9bfc311b075e4f84 -> 
+  custom:scripting/monoscript/fileName/ScreenshotHandle.cs: 1a2a293437d5304381bfbff0ce7bfe20 -> 
+  custom:scripting/monoscript/fileName/isteammusic.cs: cdf0fd4a883621b067e7be3ff8d1d83a -> 
+  custom:scripting/monoscript/fileName/AccountID_t.cs: c06e1e24e16a6db677060dbd8c8a3a3a -> 
+  custom:scripting/monoscript/fileName/isteamparentalsettings.cs: 410658dc5fdd19fd35d67196fdb7ca7b -> 
+  custom:scripting/monoscript/fileName/HSteamListenSocket.cs: 9cf1092cfccc5fe9007fd2e498d0b32a -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/isteamuser.cs: 80fbbbc1a5df0056c2acbd29237f33ec -> 
+  custom:scripting/monoscript/fileName/Steam.cs: f242cbf26853557ed33e4d47c62da96a -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingConnectionSignaling.cs: 0ff139138783fdf2fcbbb0b2720d2955 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboard_t.cs: e4ae060263614695bfac1142edbe0fd9 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingErrMsg.cs: be960a48a27e037443388fb833011273 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 2106.263684 seconds.
+  path: Assets/Screenshots/Logo/ZombCubeLogo-1240-600.jpg
+  artifactKey: Guid(0ba5efeee3e79314e9a84d485b956ee1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Screenshots/Logo/ZombCubeLogo-1240-600.jpg using Guid(0ba5efeee3e79314e9a84d485b956ee1) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
+[PhysX] Initialized MultithreadedTaskDispatcher with 24 workers.
+ -> (artifact id: '0d18f5f37ed3107233445caccbfee234') in 0.047346 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 145.70 ms, found 4 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (342.3 KB). Loaded Objects now: 7601.
+Memory consumption went from 130.6 MB to 130.2 MB.
+Total: 66.083200 ms (FindLiveObjects: 0.336500 ms CreateObjectMapping: 0.138100 ms MarkObjects: 65.481000 ms  DeleteObjects: 0.126000 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:scripting/monoscript/fileName/isteamapps.cs: 69e98e6e216f67c3a4f06237018db56d -> 
+  custom:scripting/monoscript/fileName/isteamvideo.cs: 6a3594bef1edb2933e1b1483dd0a3a14 -> 
+  custom:scripting/monoscript/fileName/isteamgameserver.cs: 59acb6cde7f03f04cbae331f59266455 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramRelayAuthTicket.cs: b0a5241737a41c274d780ef0a99f6d0d -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:scripting/monoscript/fileName/isteamremoteplay.cs: 367bd16e361810ebbd563a9065808928 -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingsockets.cs: 49f75e2169ca92cc6d47617cdcec5130 -> 
+  custom:scripting/monoscript/fileName/UGCQueryHandle_t.cs: abaf623f69886257622d90d804f6d7db -> 
+  custom:scripting/monoscript/fileName/isteamugc.cs: 153e57151790c0d37a9e24b9962f6d0b -> 
+  custom:scripting/monoscript/fileName/AppId_t.cs: 9c9e289bf9e00495821984e371e50b37 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:scripting/monoscript/fileName/isteamutils.cs: d11f975162a0c5543a23075bca533382 -> 
+  custom:scripting/monoscript/fileName/SteamIPAddress_t.cs: 6773ba2c895f52c44680c0d029289618 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMessage_t.cs: f6904b86f32d6b679b7d60b746cf5ec6 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:scripting/monoscript/fileName/SteamStructs.cs: 540b2f769c0f8c34a1a862ba4b8816b6 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverugc.cs: 59564e16cc331940acbd69b9ccd4f117 -> 
+  custom:scripting/monoscript/fileName/HSteamUser.cs: 313ad4f85cb1afb296145ad9604e33fe -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIdentity.cs: b1d552a0dc2ed932d8626460081a9b87 -> 
+  custom:scripting/monoscript/fileName/UGCFileWriteStreamHandle_t.cs: 62b305a44eaf56753c25cd3cc216463f -> 
+  custom:scripting/monoscript/fileName/HTTPRequestHandle.cs: c5e8850fdb145b17b8b51bc9f57ef872 -> 
+  custom:scripting/monoscript/fileName/isteamhttp.cs: 71c061f90227fac20ac75e7effeae943 -> 
+  custom:scripting/monoscript/fileName/SteamItemInstanceID_t.cs: eda34b1eec90a58eb805163e49310e2b -> 
+  custom:scripting/monoscript/fileName/HHTMLBrowser.cs: e74aa5332a77f2753833dd745de36c95 -> 
+  custom:scripting/monoscript/fileName/isteamfriends.cs: 0d0927fa73346ad623bf73b1ec5d409d -> 
+  custom:scripting/monoscript/fileName/isteamremotestorage.cs: ea28a11b829f382cbde59252667810a3 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingMicroseconds.cs: 565d8510c5e38047bf87d6974d22603c -> 
+  custom:scripting/monoscript/fileName/CGameID.cs: 8874438bf7273b697c83f30ef2702c62 -> 
+  custom:scripting/monoscript/fileName/HSteamPipe.cs: e4cae05057f1d067f81da012f3f70857 -> 
+  custom:CustomObjectIndexerAttribute: 72b91833f83ae208fae7752999fa3104 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworking.cs: aad63c6b6a2223feb2a34183faafd46d -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingmessages.cs: 79ca8b00a5d0dcb9a8f27db436b54240 -> 
+  custom:scripting/monoscript/fileName/SteamCallbacks.cs: bb26c80ece0755bfeb6cf93bb3aac1e1 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingutils.cs: fb36225d225c44a63b49b97eaf5ba4a6 -> 
+  custom:scripting/monoscript/fileName/PublishedFileId_t.cs: 1c9a2412dd8ee61383d6cd359c8b537f -> 
+  custom:scripting/monoscript/fileName/PublishedFileUpdateHandle_t.cs: 75a5d2eeb944082b2b5393690ba02b68 -> 
+  custom:scripting/monoscript/fileName/NativeMethods.cs: 613a03ab34d2235738ed2a58074cefa0 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryResult_t.cs: 90738ccd6a53476d4acbdc6b4a096a4c -> 
+  custom:scripting/monoscript/fileName/isteaminventory.cs: 95a3a736b5dedec57613be45e92f1c0f -> 
+  custom:scripting/monoscript/fileName/RemotePlaySessionID_t.cs: 71e3c8d49084795cd2348e9da8e22a9e -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingSignalingRecvContext.cs: 73affa6266f0b494a051183ba3778aa4 -> 
+  custom:scripting/monoscript/fileName/FriendsGroupID_t.cs: 1672d6605b83e44c766ba04099fcbb53 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverclient.cs: 7015af2e75695382c80d03d2439659c3 -> 
+  custom:scripting/monoscript/fileName/HServerListRequest.cs: 6274ecb742b48a57670027d629d63756 -> 
+  custom:scripting/monoscript/fileName/Packsize.cs: bc068f039806756166bb3621e1ffa150 -> 
+  custom:scripting/monoscript/fileName/SteamConstants.cs: b66a157e224d49697e3bdd29299c7942 -> 
+  custom:scripting/monoscript/fileName/isteamclient.cs: 7bef07df0abf4a595526956e4acb7dbc -> 
+  custom:scripting/monoscript/fileName/HSteamNetConnection.cs: d114de69de44268e598098e854850ceb -> 
+  custom:scripting/monoscript/fileName/UGCUpdateHandle_t.cs: 2a52a6d47455618d81f29ed90aaf4050 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverutils.cs: 9507ccdbb5b1fe7b759e7200f79d832e -> 
+  custom:scripting/monoscript/fileName/isteamnetworkingutils.cs: cb1038e8c961d0feaabc34183d4e7e50 -> 
+  custom:scripting/monoscript/fileName/HServerQuery.cs: 0627dddd6443faf0df7327ce3443283a -> 
+  custom:scripting/monoscript/fileName/SteamAPICall_t.cs: 56dbcc63a63bac3143e2cf3ee24aeacc -> 
+  custom:scripting/monoscript/fileName/HSteamNetPollGroup.cs: e834cda5d044bc7a403f4ef349381b8c -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingConfigValue_t.cs: 8d30c892055bd390314c4e800d54e880 -> 
+  custom:scripting/monoscript/fileName/HTTPCookieContainerHandle.cs: aa2368a7a4927e5c8aafeb778886e657 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingIPAddr.cs: 35e53fc32362967306076dd0a5e76959 -> 
+  custom:scripting/monoscript/fileName/Version.cs: 1bd84371241b42836e791249e52b08b2 -> 16bc4e8157b59200485568afe68b2522
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:scripting/monoscript/fileName/InputDigitalActionHandle_t.cs: c1b8960dd207d9153f28f6e58b3e8136 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverstats.cs: bca9bcf74601053761405aa55c60b2ba -> 
+  custom:scripting/monoscript/fileName/InputAnalogActionHandle_t.cs: 4285eee0a2181882e75904807f74924d -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:scripting/monoscript/fileName/RTime32.cs: dd3d2d8f052d7e42fe511815c2268590 -> 
+  custom:scripting/monoscript/fileName/isteammatchmaking.cs: 971901edfb7b997353535538fdac16d4 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:scripting/monoscript/fileName/SNetListenSocket_t.cs: 4476048e396d2180b78af60e64e6e922 -> 
+  custom:scripting/monoscript/fileName/SteamDatagramHostedAddress.cs: e8bf7084462f1e252749031081557e8f -> 
+  custom:scripting/monoscript/fileName/isteamnetworking.cs: ccd8001dc4c5f1669b43958bcbfdbe90 -> 
+  custom:scripting/monoscript/fileName/isteammusicremote.cs: d3065c7d1c1dae1d2b75d64033798723 -> 
+  custom:scripting/monoscript/fileName/isteamscreenshots.cs: d0f1a3d06ca6856c051f13ec75ccee43 -> 
+  custom:scripting/monoscript/fileName/CallbackIdentity.cs: 269d74bc6207055fcc92fb13ead0ec85 -> 
+  custom:scripting/monoscript/fileName/isteamapplist.cs: 7851fe55f0b53372b7114ed9f519f06b -> 
+  custom:scripting/monoscript/fileName/gameserveritem_t.cs: fc136f9d4558a4cc9cf27fc00b392d79 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingPOPID.cs: 4c7ce4c1ba1a00501636d52f420de693 -> 
+  custom:scripting/monoscript/fileName/HAuthTicket.cs: 69f3c82bd6ac83b656f285a07b3a5eea -> 
+  custom:scripting/monoscript/fileName/DepotId_t.cs: 011c364b75958567f04ca29a8c78debf -> 
+  custom:scripting/monoscript/fileName/isteamgameserverhttp.cs: 56d9215cfef5d9e31dae154b95703340 -> 
+  custom:scripting/monoscript/fileName/SNetSocket_t.cs: b65a59cf1d17ea66195576ef6cffad49 -> 
+  custom:scripting/monoscript/fileName/InputActionSetHandle_t.cs: ae6b6160d18b058a24a8acc22eb7ca3c -> 
+  custom:scripting/monoscript/fileName/InteropHelp.cs: e1fa6f80bf70c82981f962360c073ac4 -> 
+  custom:scripting/monoscript/fileName/isteamhtmlsurface.cs: 56408b5f583f4d5441ae4f45bdf687f4 -> 
+  custom:scripting/monoscript/fileName/PartyBeaconID_t.cs: 25cc25207e65c441b9b753673df7a003 -> 
+  custom:scripting/monoscript/fileName/CSteamID.cs: d46596e5fcab2f9fea1e6f994dec47e3 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboardEntries_t.cs: 75476e2e7ced1ab1840b00421955ee35 -> 
+  custom:scripting/monoscript/fileName/CallbackDispatcher.cs: 2312359a4610a8712b484e64faa108b0 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:scripting/monoscript/fileName/SteamInventoryUpdateHandle_t.cs: c0705d41b3ec4b185ed671e511dd6983 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/ISteamMatchmakingResponses.cs: 99466bb0cfe36f29d9d071cca54ce95a -> 
+  custom:scripting/monoscript/fileName/UGCHandle_t.cs: 7d882e1dd65c9048f2282280fe121c0f -> 
+  custom:scripting/monoscript/fileName/isteaminput.cs: 20fb67c4ca2baaaf51e1aa58606aef80 -> 
+  custom:scripting/monoscript/fileName/isteamgameservernetworkingsockets.cs: 117a0574aa2af735129a159c64691145 -> 
+  custom:scripting/monoscript/fileName/servernetadr_t.cs: c17b4251ecf8e3dc88e354791ea747aa -> 
+  custom:scripting/monoscript/fileName/SteamItemDef_t.cs: 6512badc74618be9bd9e49a3297805c3 -> 
+  custom:scripting/monoscript/fileName/SteamInputActionEvent_t.cs: fffb027b119d9ba479285fe1e675d8b4 -> 
+  custom:scripting/monoscript/fileName/isteamuserstats.cs: 3815254b4bfbed86804363c661d230cc -> 
+  custom:scripting/monoscript/fileName/RedistCopy.cs: 3fc9b7362d59167ca08414c2a0b3f031 -> 
+  custom:scripting/monoscript/fileName/isteamgameserverinventory.cs: 0812f224c9d1393fb37b4fd6be54e68a -> 
+  custom:scripting/monoscript/fileName/InputHandle_t.cs: c6d55272f27e6eec9bfc311b075e4f84 -> 
+  custom:scripting/monoscript/fileName/ScreenshotHandle.cs: 1a2a293437d5304381bfbff0ce7bfe20 -> 
+  custom:scripting/monoscript/fileName/isteammusic.cs: cdf0fd4a883621b067e7be3ff8d1d83a -> 
+  custom:scripting/monoscript/fileName/AccountID_t.cs: c06e1e24e16a6db677060dbd8c8a3a3a -> 
+  custom:scripting/monoscript/fileName/isteamparentalsettings.cs: 410658dc5fdd19fd35d67196fdb7ca7b -> 
+  custom:scripting/monoscript/fileName/HSteamListenSocket.cs: 9cf1092cfccc5fe9007fd2e498d0b32a -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:scripting/monoscript/fileName/isteamuser.cs: 80fbbbc1a5df0056c2acbd29237f33ec -> 
+  custom:scripting/monoscript/fileName/Steam.cs: f242cbf26853557ed33e4d47c62da96a -> 
+  custom:scripting/monoscript/fileName/ISteamNetworkingConnectionSignaling.cs: 0ff139138783fdf2fcbbb0b2720d2955 -> 
+  custom:scripting/monoscript/fileName/SteamLeaderboard_t.cs: e4ae060263614695bfac1142edbe0fd9 -> 
+  custom:scripting/monoscript/fileName/SteamNetworkingErrMsg.cs: be960a48a27e037443388fb833011273 -> 

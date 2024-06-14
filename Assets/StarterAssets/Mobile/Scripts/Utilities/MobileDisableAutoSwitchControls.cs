@@ -7,10 +7,12 @@ This is fixed in Input System 1.1.
 For the time-being; this script will disable a PlayerInput's auto switch control schemes; when project is built to mobile.
 */
 
+using Com.GCTC.ZombCube;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MobileDisableAutoSwitchControls : MonoBehaviour
+public class MobileDisableAutoSwitchControls : MonoBehaviourPun
 {
 
 #if (UNITY_IOS || UNITY_ANDROID)
@@ -84,12 +86,24 @@ public class MobileDisableAutoSwitchControls : MonoBehaviour
                 this.gameObject.SetActive(true);
         }
         
+        
+
     }
 
 #else
+
     private void Start()
     {
-        Destroy(this.gameObject);
+        if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+        {
+            if (photonView.IsMine)
+            {
+                gameObject.SetActive(false);
+                //Destroy(this.gameObject);
+            }
+        }
+        else
+            Destroy(this.gameObject);
     }
 
     public void SetSwipeOrStickLook()

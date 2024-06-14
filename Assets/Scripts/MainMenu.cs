@@ -13,7 +13,7 @@ namespace Com.GCTC.ZombCube
 
         public TMP_InputField nameTextField;
 
-        public GameObject exitButton;
+        public GameObject exitButton, playButton;
 
         private void Start()
         {
@@ -28,8 +28,13 @@ namespace Com.GCTC.ZombCube
 
         public void SelectObject(GameObject uiElement)
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(uiElement);
+            if (EventSystem.current.alreadySelecting == true) { }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(uiElement);
+            }
+            
         }
 
         public void ChangeHorizontalSens(float sensitivty)
@@ -63,6 +68,7 @@ namespace Com.GCTC.ZombCube
 #if UNITY_XBOX
         keyboard.active = false;
 #endif
+            SelectObject(playButton);
         }
     }
 }
