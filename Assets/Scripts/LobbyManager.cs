@@ -35,6 +35,7 @@ namespace Com.GCTC.ZombCube
         keyboard.active = true;
 
 #endif
+            SelectObject(playButton);
         }
 
         public void CloseKeyboard()
