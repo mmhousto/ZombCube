@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.InputSystem;
 
 namespace Com.GCTC.ZombCube
 {
@@ -13,12 +14,35 @@ namespace Com.GCTC.ZombCube
 
         public TMP_InputField nameTextField;
 
+        public PlayerInput playerInput;
+
         public GameObject playButton;
+
+        private InputAction back;
+
+        private void Update()
+        {
+            if (playButton.activeInHierarchy && !back.enabled)
+                back.Enable();
+            else if (!playButton.activeInHierarchy && back.enabled)
+                back.Disable();
+        }
+
+        private void OnEnable()
+        {
+            if (back == null) back = playerInput.currentActionMap.FindAction("DeSelect");
+
+            back.performed += _ => Back();
+        }
+
+        private void OnDisable()
+        {
+            back.performed -= _ => Back();
+        }
 
         public void SelectObject(GameObject uiElement)
         {
-            if (EventSystem.current.alreadySelecting == true) { }
-            else
+            if (EventSystem.current.alreadySelecting == false)
             {
                 EventSystem.current.SetSelectedGameObject(null);
                 EventSystem.current.SetSelectedGameObject(uiElement);
@@ -35,7 +59,6 @@ namespace Com.GCTC.ZombCube
         keyboard.active = true;
 
 #endif
-            SelectObject(playButton);
         }
 
         public void CloseKeyboard()
@@ -43,7 +66,14 @@ namespace Com.GCTC.ZombCube
 #if UNITY_XBOX
         keyboard.active = false;
 #endif
-            SelectObject(playButton);
+            if (playButton != null)
+                SelectObject(playButton);
+        }
+
+        public void Back()
+        {
+            if (playButton != null)
+                SelectObject(playButton);
         }
     }
 }

@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.034817416, g: 0.044723444, b: 0.062098347, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4839,6 +4838,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -86.0215
       objectReference: {fileID: 0}
+    - target: {fileID: 7100201292740475429, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 491008838}
+    - target: {fileID: 7100201292740475429, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeVerticalSens
+      objectReference: {fileID: 0}
+    - target: {fileID: 7100201292740475429, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Com.GCTC.ZombCube.PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7936407472346904743, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -4898,10 +4909,14 @@ PrefabInstance:
     - target: {fileID: 7936407473467170710, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 491008836}
+      objectReference: {fileID: 491008838}
     - target: {fileID: 7936407473467170710, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ChangeHorizontalSens
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936407473467170710, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Com.GCTC.ZombCube.PauseMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7936407473467170711, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4918,6 +4933,18 @@ PrefabInstance:
     - target: {fileID: 7936407473467170711, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -67.63286
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387634007926321932, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 491008838}
+    - target: {fileID: 8387634007926321932, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeHorizontalSens
+      objectReference: {fileID: 0}
+    - target: {fileID: 8387634007926321932, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Com.GCTC.ZombCube.PauseMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8704876753845073120, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4994,10 +5021,14 @@ PrefabInstance:
     - target: {fileID: 8704876754193061567, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 491008836}
+      objectReference: {fileID: 491008838}
     - target: {fileID: 8704876754193061567, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ChangeVerticalSens
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704876754193061567, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Com.GCTC.ZombCube.PauseMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8731533596096166845, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_Pivot.x
@@ -5997,8 +6028,8 @@ GameObject:
   - component: {fileID: 491008834}
   - component: {fileID: 491008833}
   - component: {fileID: 491008832}
-  - component: {fileID: 491008836}
   - component: {fileID: 491008837}
+  - component: {fileID: 491008838}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -6089,20 +6120,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &491008836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 491008831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a49577090c929704abeec4492a3779e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameTextField: {fileID: 0}
-  exitButton: {fileID: 0}
 --- !u!114 &491008837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6113,6 +6130,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be78d58dd93c95041988a1ae6d946350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &491008838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491008831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c203167f174fcb84c80d80e525874e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!43 &509733128
@@ -17505,12 +17534,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!20 &2056078436
 Camera:
   m_ObjectHideFlags: 0
@@ -17521,7 +17550,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

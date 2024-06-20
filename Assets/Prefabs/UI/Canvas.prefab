@@ -558,8 +558,8 @@ GameObject:
   - component: {fileID: 3064184412431356727}
   - component: {fileID: 2843435357103694205}
   - component: {fileID: 8842171346570927287}
-  - component: {fileID: 7190478896382151480}
   - component: {fileID: 2474156585534271815}
+  - component: {fileID: 43127718437865748}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
@@ -650,20 +650,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &7190478896382151480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615683878081341148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a49577090c929704abeec4492a3779e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameTextField: {fileID: 0}
-  exitButton: {fileID: 0}
 --- !u!114 &2474156585534271815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,6 +660,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be78d58dd93c95041988a1ae6d946350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &43127718437865748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615683878081341148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c203167f174fcb84c80d80e525874e17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1963791649956287055
@@ -2919,10 +2917,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1116397271352447298}
     - target: {fileID: 192342337900629543, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 7190478896382151480}
-    - target: {fileID: 192342337900629543, guid: d719f00f0ef20be4bb005050c50b98dc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -4407,7 +4401,11 @@ PrefabInstance:
     - target: {fileID: 7100201292740475429, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7190478896382151480}
+      objectReference: {fileID: 43127718437865748}
+    - target: {fileID: 7100201292740475429, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Com.GCTC.ZombCube.PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7100201292795385978, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4515,7 +4513,11 @@ PrefabInstance:
     - target: {fileID: 7936407473467170710, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7190478896382151480}
+      objectReference: {fileID: 43127718437865748}
+    - target: {fileID: 7936407473467170710, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Com.GCTC.ZombCube.PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7936407473467170711, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -4575,7 +4577,11 @@ PrefabInstance:
     - target: {fileID: 8387634007926321932, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7190478896382151480}
+      objectReference: {fileID: 43127718437865748}
+    - target: {fileID: 8387634007926321932, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Com.GCTC.ZombCube.PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8387634007926321933, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4671,7 +4677,11 @@ PrefabInstance:
     - target: {fileID: 8704876754193061567, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7190478896382151480}
+      objectReference: {fileID: 43127718437865748}
+    - target: {fileID: 8704876754193061567, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Com.GCTC.ZombCube.PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8731533596086650501, guid: 598ff96b4179b9c41b0d7ec88665ecc5, type: 3}
       propertyPath: m_fontAsset
       value: 
