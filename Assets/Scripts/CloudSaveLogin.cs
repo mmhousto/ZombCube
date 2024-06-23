@@ -34,7 +34,7 @@ namespace Com.GCTC.ZombCube
     public class CloudSaveLogin : MonoBehaviour
     {
 
-#region Fields/Variables
+        #region Fields/Variables
 
         private static CloudSaveLogin instance;
 
@@ -91,6 +91,19 @@ namespace Com.GCTC.ZombCube
 
             AdsInitializer.timesPlayed = 0;
 
+            if(Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                currentSSO = ssoOption.Anonymous;
+
+                userID = "OfflineMode";
+                userName = "Guest_" + userID;
+
+                SetPlayer(userID);
+
+                Login();
+                return;
+            }
+
             if (UnityServices.State == ServicesInitializationState.Initialized)
             {
 
@@ -111,6 +124,8 @@ namespace Com.GCTC.ZombCube
                 // Already initialized, signal an app activation App Event
                 FB.ActivateApp();
             }*/
+
+
 #if UNITY_WSA
 
 #elif UNITY_ANDROID
@@ -127,6 +142,8 @@ namespace Com.GCTC.ZombCube
 
         private void Start()
         {
+            StartCoroutine(checkInternetConnection((isConnected) => OfflineLogin(isConnected)));
+
             // If the current platform is supported initialize apple authentication.
             if (AppleAuthManager.IsCurrentPlatformSupported)
             {
@@ -179,10 +196,23 @@ namespace Com.GCTC.ZombCube
         }
 
 
-#endregion
+        #endregion
 
+        IEnumerator checkInternetConnection(Action<bool> action)
+        {
+            WWW www = new WWW("http://google.com");
+            yield return www;
+            if (www.error != null)
+            {
+                action(false);
+            }
+            else
+            {
+                action(true);
+            }
+        }
 
-#region Public Sign In/Out Methods
+        #region Public Sign In/Out Methods
 
 
         public async void DeleteAccount()
@@ -200,7 +230,7 @@ namespace Com.GCTC.ZombCube
                 {
                     // Sign in with Apple Credentials were revoked.
                     // Discard credentials/user id and go to login screen.
-                    
+
                     PlayerPrefs.SetString("AppleUserIdKey", "");
                     PlayerPrefs.SetString("AppleUserNameKey", "");
                     PlayerPrefs.SetString("AppleTokenIdKey", "");
@@ -217,10 +247,12 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public async void SignInAnonymously()
         {
+            StartCoroutine(checkInternetConnection((isConnected) => OfflineLogin(isConnected)));
             if (isSigningIn) return;
             isSigningIn = true;
 
             currentSSO = ssoOption.Anonymous;
+
             AuthenticationService.Instance.SwitchProfile("default");
 
             // Cloud Save needs to be initialized along with the other Unity Services that
@@ -303,7 +335,8 @@ namespace Com.GCTC.ZombCube
         public void SignInWithSteam()
         {
 #if !DISABLESTEAMWORKS
-            if (isSigningIn || AuthenticationService.Instance.IsSignedIn) return;
+            StartCoroutine(checkInternetConnection((isConnected) => OfflineLogin(isConnected)));
+            if (isSigningIn || AuthenticationService.Instance.IsSignedIn ||  SteamManager.Initialized == false) return;
             isSigningIn = true;
 
             currentSSO = ssoOption.Steam;
@@ -389,6 +422,21 @@ namespace Com.GCTC.ZombCube
 
 
 #region Private Login/Logout Methods
+
+        private void OfflineLogin(bool isConnected)
+        {
+            if (!isConnected)
+            {
+                currentSSO = ssoOption.Anonymous;
+
+                userID = "OfflineMode";
+                userName = "Guest_" + userID;
+
+                SetPlayer(userID);
+
+                Login();
+            }
+        }
 
         /// <summary>
         /// Loads the Main Menu Scene.
@@ -936,12 +984,14 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 // Compare error code to AuthenticationErrorCodes
                 // Notify the player with the proper error message
                 //Debug.Log(ex);
+                OfflineLogin(false);
             }
             catch (RequestFailedException ex)
             {
                 // Compare error code to CommonErrorCodes
                 // Notify the player with the proper error message
                 //Debug.Log(ex);
+                OfflineLogin(false);
             }
             isSigningIn = false;
         }
@@ -974,19 +1024,14 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             {
                 // Compare error code to AuthenticationErrorCodes
                 // Notify the player with the proper error message
-                Debug.LogException(ex);
+                OfflineLogin(false);
             }
             catch (RequestFailedException exception)
             {
                 // Compare error code to CommonErrorCodes
                 // Notify the player with the proper error message
 
-                userID = "OfflineMode";
-                userName = "Guest_" + userID;
-
-                SetPlayer(userID);
-
-                Login();
+                OfflineLogin(false);
             }
         }
 

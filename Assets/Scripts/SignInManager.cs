@@ -48,7 +48,7 @@ namespace Com.GCTC.ZombCube
 #elif UNITY_IOS
             SignInApple();
 #else
-            if(CloudSaveLogin.Instance.isSteam)
+            if(CloudSaveLogin.Instance.isSteam && Application.internetReachability != NetworkReachability.NotReachable)
                 SignInSteam();
             else
                 SignInAnon();
@@ -74,7 +74,7 @@ namespace Com.GCTC.ZombCube
 
         public void SignInSteam()
         {
-
+            CloudSaveLogin.Instance.SignInWithSteam();
         }
 
         public void SelectObject(GameObject uiElement)
