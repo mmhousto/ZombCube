@@ -549,9 +549,10 @@ namespace Com.GCTC.ZombCube
                 {
                     UpdateTotalPoints();
                     UpdateHighestWave();
+                    UpdateLeaderboards();
 
 #if (UNITY_IOS || UNITY_ANDROID)
-                    UpdateLeaderboards();
+                    
                     onScreenControls.SetActive(false);
 #endif
 
@@ -609,13 +610,14 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateLeaderboards()
         {
+            if (Social.localUser.authenticated || SteamManager.Initialized)
+            {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
                 LeaderboardManager.UpdatePartyHighestWaveLeaderboard();
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
+            }
         }
-
-
 
         private void UpdateStats()
         {
