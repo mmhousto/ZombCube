@@ -49,6 +49,7 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     };
     List<SteamLeaderboard_t> steamLeaderboards = new List<SteamLeaderboard_t>();
+    [SerializeField]
     private List<bool> steamLeaderboardsInit = new List<bool>
     {
         false,
@@ -103,6 +104,18 @@ public class SteamLeaderboardManager : MonoBehaviour
             SteamAPI.RunCallbacks();
         }
 
+
+        
+    }
+
+    private void Start()
+    {
+        Invoke(nameof(UpdateLeaderboards), 2);
+    }
+
+    private void UpdateLeaderboards()
+    {
+        LeaderboardManager.UpdateSteamLeaderboards();
     }
 
     public void UpdateScore(int score, LeaderboardName leaderboardName)
@@ -117,7 +130,7 @@ public class SteamLeaderboardManager : MonoBehaviour
         else
         {
             //Change upload method to 
-            SteamAPICall_t hSteamAPICall = SteamUserStats.UploadLeaderboardScore(steamLeaderboards[(int)leaderboardName], ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, score, null, 0);
+            SteamAPICall_t hSteamAPICall = SteamUserStats.UploadLeaderboardScore(steamLeaderboards[(int)leaderboardName], ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodForceUpdate, score, null, 0);
             m_uploadResult.Set(hSteamAPICall, OnLeaderboardUploadResult);
             SteamAPI.RunCallbacks();
         }
