@@ -128,7 +128,7 @@ namespace Com.GCTC.ZombCube
             }
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {
-                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.cubesEliminated * 100 / Player.Instance.totalProjectilesFired, SteamLeaderboardManager.LeaderboardName.BestAccuracy);
+                SteamLeaderboardManager.Instance.UpdateScore((Player.Instance.totalProjectilesFired != 0) ? Player.Instance.cubesEliminated * 100 / Player.Instance.totalProjectilesFired : 0, SteamLeaderboardManager.LeaderboardName.BestAccuracy);
             }
         }
 
