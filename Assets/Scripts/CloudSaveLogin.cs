@@ -852,14 +852,14 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             // Requests an ID token be generated.  
             // This OAuth token can be used to
             // identify the player to other services such as Firebase.
-            var config = new PlayGamesClientConfiguration.Builder()
+            /*var config = new PlayGamesClientConfiguration.Builder()
                 .RequestIdToken()
                 .Build();
 
             PlayGamesPlatform.InitializeInstance(config);
             PlayGamesPlatform.DebugLogEnabled = true;
-            PlayGamesPlatform.Activate();
-            LoginGooglePlayGames();
+            PlayGamesPlatform.Activate();*/
+            //LoginGooglePlayGames();
         }
 
         public void LoginGooglePlayGames()
@@ -868,9 +868,9 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             AuthenticationService.Instance.SwitchProfile("google");
             try
             {
-                PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
+                //PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
                 //PlayGamesPlatform.Instance.ManuallyAuthenticate(OnGooglePlayGamesLogin);
-                //Social.localUser.Authenticate(OnGooglePlayGamesLogin);
+                Social.localUser.Authenticate(OnGooglePlayGamesLogin);
             }
             catch (Exception e)
             {
@@ -913,7 +913,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 // Call Unity Authentication SDK to sign in or link with Google.
                 var idToken = "";
 
-                idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+                idToken = Social.localUser.id;
 
                 userID = Social.localUser.id;
                 userName = Social.localUser.userName;

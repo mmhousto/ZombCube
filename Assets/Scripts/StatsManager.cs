@@ -58,7 +58,7 @@ namespace Com.GCTC.ZombCube
 
         public void SetButtons()
         {
-#if (UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_TVOS || UNITY_ANDROID)
+#if (UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_TVOS)
             if (Social.localUser.authenticated)
             {
                 gameCenterButton.SetActive(false);
