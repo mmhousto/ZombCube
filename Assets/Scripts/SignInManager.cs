@@ -35,16 +35,15 @@ namespace Com.GCTC.ZombCube
 #if UNITY_ANDROID
             //googleSignIn.SetActive(true);
             playButton.SetActive(true);
-#else
-            googleSignIn.SetActive(false);
+            SignInAnon();
 #endif
-
+            googleSignIn.SetActive(false);
         }
 
         public void SignInAuto()
         {
 #if UNITY_ANDROID
-            SignInGoogle();
+            SignInAnon();
 #elif UNITY_IOS
             SignInApple();
 #else

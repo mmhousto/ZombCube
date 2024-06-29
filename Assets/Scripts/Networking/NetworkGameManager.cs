@@ -111,12 +111,13 @@ namespace Com.GCTC.ZombCube
 
         private new void OnEnable()
         {
+            base.OnEnable();
             NetworkBossCube.bossDead += CallPauseForContinue;
-            Debug.Log("BossDead Assigned");
         }
 
         private new void OnDisable()
         {
+            base.OnDisable();
             NetworkBossCube.bossDead -= CallPauseForContinue;
         }
 

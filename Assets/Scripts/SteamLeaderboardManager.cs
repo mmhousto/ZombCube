@@ -49,6 +49,7 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     };
     List<SteamLeaderboard_t> steamLeaderboards = new List<SteamLeaderboard_t>();
+    [SerializeField]
     private List<bool> steamLeaderboardsInit = new List<bool>
     {
         false,
@@ -73,15 +74,15 @@ public class SteamLeaderboardManager : MonoBehaviour
             //DontDestroyOnLoad(Instance.gameObject);
         }
 
-        int leaderboardToBeInit = 0;
+        leaderboardToBeInit = 0;
 
         if (SteamManager.Initialized && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
         {
             SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
             m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
             SteamAPI.RunCallbacks();
 
+            /*
             SteamAPICall_t hSteamAPICall2 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
             m_findResult.Set(hSteamAPICall2, OnLeaderboardFindResult);
             leaderboardToBeInit++;
@@ -100,9 +101,21 @@ public class SteamLeaderboardManager : MonoBehaviour
             SteamAPICall_t hSteamAPICall5 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
             m_findResult.Set(hSteamAPICall5, OnLeaderboardFindResult);
             leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
+            SteamAPI.RunCallbacks();*/
         }
 
+
+        
+    }
+
+    private void Start()
+    {
+        Invoke(nameof(UpdateLeaderboards), 6);
+    }
+
+    private void UpdateLeaderboards()
+    {
+        LeaderboardManager.UpdateSteamLeaderboards();
     }
 
     public void UpdateScore(int score, LeaderboardName leaderboardName)
@@ -117,7 +130,7 @@ public class SteamLeaderboardManager : MonoBehaviour
         else
         {
             //Change upload method to 
-            SteamAPICall_t hSteamAPICall = SteamUserStats.UploadLeaderboardScore(steamLeaderboards[(int)leaderboardName], ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, score, null, 0);
+            SteamAPICall_t hSteamAPICall = SteamUserStats.UploadLeaderboardScore(steamLeaderboards[(int)leaderboardName], ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodForceUpdate, score, null, 0);
             m_uploadResult.Set(hSteamAPICall, OnLeaderboardUploadResult);
             SteamAPI.RunCallbacks();
         }
@@ -127,19 +140,25 @@ public class SteamLeaderboardManager : MonoBehaviour
     {
         Debug.Log($"Steam Leaderboard Find: Did it fail? {failure}, Found: {pCallback.m_bLeaderboardFound}, leaderboardID: {pCallback.m_hSteamLeaderboard.m_SteamLeaderboard}");
         //leaderboardToBeInit++;
+        if(leaderboardsInit == 5) return;
         steamLeaderboards.Add(pCallback.m_hSteamLeaderboard);
         steamLeaderboardsInit[leaderboardsInit] = true;
         leaderboardsInit++;
+        leaderboardToBeInit++;
 
-        //InitializeNextLeaderboard();
+        if(leaderboardsInit <= 4)
+            StartCoroutine(InitializeNextLeaderboard());
     }
 
-    private void InitializeNextLeaderboard()
+    private IEnumerator InitializeNextLeaderboard()
     {
+        yield return new WaitForSeconds(1f);
+
         if (leaderboardToBeInit < leaderboardNames.Count)
         {
             SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
             m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
+            SteamAPI.RunCallbacks();
         }
     }
 

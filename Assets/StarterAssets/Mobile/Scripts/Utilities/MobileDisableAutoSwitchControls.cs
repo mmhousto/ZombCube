@@ -96,11 +96,8 @@ public class MobileDisableAutoSwitchControls : MonoBehaviourPun
     {
         if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
         {
-            if (photonView.IsMine)
-            {
-                gameObject.SetActive(false);
-                //Destroy(this.gameObject);
-            }
+            gameObject.SetActive(false);
+            //Destroy(this.gameObject);
         }
         else
             Destroy(this.gameObject);

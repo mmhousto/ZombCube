@@ -7,7 +7,7 @@ using Photon.Pun;
 namespace Com.GCTC.ZombCube
 {
 
-    public class NetworkEnemy : MonoBehaviourPun
+    public class NetworkEnemy : MonoBehaviourPunCallbacks
     {
         protected GameObject[] players;
 
@@ -127,6 +127,14 @@ namespace Com.GCTC.ZombCube
                 PhotonNetwork.Destroy(this.gameObject);
             }
             
+        }
+
+        public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                ai.enabled = true;
+            }
         }
     }
 
