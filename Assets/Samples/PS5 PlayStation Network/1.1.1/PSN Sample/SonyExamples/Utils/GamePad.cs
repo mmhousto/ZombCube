@@ -207,14 +207,12 @@ public class GamePad : MonoBehaviour
                 ToggleGamePad(true);
 
             //All of the below functions assume Gamepad.current to not be null in the new Input System
-            #if ENABLE_INPUT_SYSTEM
             if (UnityEngine.InputSystem.Gamepad.current == null)
             {
                 Debug.LogError("Failed to find a gamepad with the New Input System. " +
                     "Have you installed the PS5 Input System extension and have a gamepad connected?");
                 return;
             }
-            #endif
 
             // Handle each part individually
             Thumbsticks();
@@ -223,12 +221,8 @@ public class GamePad : MonoBehaviour
             TriggerShoulderButtons();
 
             // Options button is on its own, so we'll do it here
-#if ENABLE_INPUT_SYSTEM
             var pad = UnityEngine.InputSystem.Gamepad.current;
             currentFrame.options = pad.selectButton.wasPressedThisFrame;
-#else
-            currentFrame.options = Input.GetKey(optionsBtnKeyCode);
-#endif
 
             if (activeGamePad == null || AnyInput == true)
             {
@@ -261,73 +255,41 @@ public class GamePad : MonoBehaviour
 
     void Thumbsticks()
     {
-#if ENABLE_INPUT_SYSTEM
         var pad = UnityEngine.InputSystem.Gamepad.current;
 
         currentFrame.L3 = pad.leftStickButton.isPressed;
         currentFrame.R3 = pad.rightStickButton.isPressed;
         currentFrame.thumbstick_left = pad.leftStick.ReadValue();
         currentFrame.thumbstick_right = pad.rightStick.ReadValue();
-#else
-        currentFrame.thumbstick_left = new Vector2(Input.GetAxis(leftStickHorizontalAxis), Input.GetAxis(leftStickVerticalAxis));
-        currentFrame.thumbstick_right = new Vector2(Input.GetAxis(rightStickHorizontalAxis), Input.GetAxis(rightStickVerticalAxis));
-
-        currentFrame.L3 = Input.GetKey(L3BtnKeyCode);
-        currentFrame.R3 = Input.GetKey(R3BtnKeyCode);
-#endif
     }
 
     // Make the Cross, Circle, Triangle and Square buttons light up when pressed
     void InputButtons()
     {
-#if ENABLE_INPUT_SYSTEM
         var pad = UnityEngine.InputSystem.Gamepad.current;
         currentFrame.cross = pad.crossButton.isPressed;
         currentFrame.circle = pad.circleButton.isPressed;
         currentFrame.square = pad.squareButton.isPressed;
         currentFrame.triangle = pad.triangleButton.isPressed;
-#else
-        currentFrame.cross = Input.GetKey(CrossBtnKeyCode);
-        currentFrame.circle = Input.GetKey(CircleBtnKeyCode);
-        currentFrame.square = Input.GetKey(SquareBtnKeyCode);
-        currentFrame.triangle = Input.GetKey(TriangleBtnKeyCode);
-#endif
     }
 
     // Make the DPad directions light up when pressed
     void DPadButtons()
     {
-#if ENABLE_INPUT_SYSTEM
         var pad = UnityEngine.InputSystem.Gamepad.current;
         currentFrame.dpad_right= pad.dpad.right.isPressed;
         currentFrame.dpad_left= pad.dpad.left.isPressed;
         currentFrame.dpad_up= pad.dpad.up.isPressed;
         currentFrame.dpad_down= pad.dpad.down.isPressed;
-#else
-        currentFrame.dpad_right = Input.GetAxis(DPadRightAxis) > 0;
-        currentFrame.dpad_left = Input.GetAxis(DPadLeftAxis) < 0;
-        currentFrame.dpad_up = Input.GetAxis(DPadUpAxis) > 0;
-        currentFrame.dpad_down = Input.GetAxis(DPadDownAxis) < 0;
-#endif
     }
 
     void TriggerShoulderButtons()
     {
-#if ENABLE_INPUT_SYSTEM
         var pad = UnityEngine.InputSystem.Gamepad.current;
         currentFrame.L2 = pad.leftTrigger.isPressed;
         currentFrame.R2 = pad.rightTrigger.isPressed;
         currentFrame.L1 = pad.leftShoulder.isPressed;
         currentFrame.R1 = pad.rightShoulder.isPressed;
-#else
-        // Make the triggers light up based on how "pulled" they are
-        currentFrame.L2 = Input.GetAxis(L2Axis) != 0;
-        currentFrame.R2 = Input.GetAxis(R2Axis) != 0;
-
-        // Make the shoulders light up when pressed
-        currentFrame.L1 = Input.GetKey(L1BtnKeyCode);
-        currentFrame.R1 = Input.GetKey(R1BtnKeyCode);
-#endif
     }
 
 }

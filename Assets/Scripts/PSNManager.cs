@@ -1,0 +1,165 @@
+using UnityEngine;
+using System;
+using Unity.PSN.PS5.WebApi;
+using System.Collections.Generic;
+using PSNSample;
+
+#if UNITY_PS5 || UNITY_PS4
+using Unity.PSN.PS5;
+using Unity.PSN.PS5.Initialization;
+using Unity.PSN.PS5.Users;
+using Unity.PSN.PS5.Aysnc;
+#endif
+
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Layouts;
+using System.Runtime.InteropServices;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.DualShock;
+
+// IMPORTANT: State layout must match with GamepadInputStatePS5 in native.
+[StructLayout(LayoutKind.Explicit, Size = 4)]
+internal struct GamepadStatePS5Lite : IInputStateTypeInfo
+{
+    public FourCC format => new FourCC('P', '4', 'G', 'P');
+
+    [InputControl(name = "buttonNorth", bit = 12)]
+    [InputControl(name = "buttonEast", bit = 13)]
+    [InputControl(name = "buttonSouth", bit = 14)]
+    [InputControl(name = "buttonWest", bit = 15)]
+    [InputControl(name = "dpad", layout = "Dpad", sizeInBits = 4, bit = 4)]
+    [InputControl(name = "dpad/up", bit = 4)]
+    [InputControl(name = "dpad/right", bit = 5)]
+    [InputControl(name = "dpad/down", bit = 6)]
+    [InputControl(name = "dpad/left", bit = 7)]
+    [FieldOffset(0)] public uint buttons;
+
+    [InputControl(layout = "Stick")][FieldOffset(4)] public Vector2 leftStick;
+    [InputControl(layout = "Stick")][FieldOffset(12)] public Vector2 rightStick;
+    [InputControl][FieldOffset(20)] public float leftTrigger;
+    [InputControl][FieldOffset(24)] public float rightTrigger;
+}
+
+[InputControlLayout(stateType = typeof(GamepadStatePS5Lite), displayName = "PS5 DualSense (on PS5)")]
+//[Scripting.Preserve]
+class DualSenseGamepadLite : DualShockGamepad { }
+
+namespace Com.GCTC.ZombCube
+{
+    public class PSNManager : MonoBehaviour
+    {
+#if UNITY_PS5
+        SonyNpTrophies m_Trophies;
+        SonyNpUDS m_UDS;
+        SonyEntitlements m_Entitlements;
+#endif
+        SonyLeaderboards m_Leaderboards;
+
+        SonyTitleCloudStorage m_TCS;
+
+        SonyGameIntentNotifications m_GameIntent;
+
+        SonyOnlineSafety m_OnlineSafety;
+
+        SonyAuth m_SonyAuth;
+
+        SonySessions m_Sessions;
+
+        SonyWebApiEvents m_WebEvents;
+
+        SonySessionSignalling m_SessionSignalling;
+
+        SonyBandwidth m_Bandwidth;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            InputSystem.RegisterLayout<DualSenseGamepadLite>("PS5DualSenseGamepad",
+            matches: new UnityEngine.InputSystem.Layouts.InputDeviceMatcher()
+                .WithInterface("PS5")
+                .WithDeviceClass("PS5DualShockGamepad"));
+
+#if UNITY_PS5
+            m_Trophies = new SonyNpTrophies();
+            m_UDS = new SonyNpUDS();
+            m_Entitlements = new SonyEntitlements();
+#endif
+            m_Leaderboards = new SonyLeaderboards();
+
+            m_TCS = new SonyTitleCloudStorage();
+
+            m_GameIntent = new SonyGameIntentNotifications();
+
+            m_OnlineSafety = new SonyOnlineSafety();
+
+            m_SonyAuth = new SonyAuth();
+
+            m_Sessions = new SonySessions();
+
+            m_WebEvents = new SonyWebApiEvents();
+
+            m_SessionSignalling = new SonySessionSignalling();
+
+            m_Bandwidth = new SonyBandwidth();
+
+            Initialize();
+
+            m_Sessions.SetupSessionNotifications();
+        }
+
+        public InitResult initResult;
+
+        void Initialize()
+        {
+            try
+            {
+                initResult = Main.Initialize();
+
+                //RequestCallback.OnRequestCompletion += OnCompleteion;
+
+                if (initResult.Initialized == true)
+                {
+                    //OnScreenLog.Add("PSN Initialized ");
+
+                }
+                else
+                {
+                    //OnScreenLog.Add("PSN not initialized ");
+
+                }
+            }
+            catch (PSNException e)
+            {
+                //OnScreenLog.AddError("Exception During Initialization : " + e.ExtendedMessage);
+            }
+#if UNITY_EDITOR
+            catch (DllNotFoundException e)
+            {
+                //OnScreenLog.AddError("Missing DLL Expection : " + e.Message);
+                //OnScreenLog.AddError("The sample APP will not run in the editor.");
+            }
+#endif
+
+            GamePad[] gamePads = GetComponents<GamePad>();
+
+            //User.Initialize(gamePads);
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            try
+            {
+                Main.Update();
+            }
+            catch (Exception e)
+            {
+                //OnScreenLog.AddError("Main.Update Exception : " + e.Message);
+                //OnScreenLog.AddError(e.StackTrace);
+            }
+
+        }
+
+    }
+}

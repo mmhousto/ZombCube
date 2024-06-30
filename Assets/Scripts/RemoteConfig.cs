@@ -26,8 +26,8 @@ public class RemoteConfig : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cubesToSpawn = RemoteSettings.GetInt("CubesToSpawn", 5);
-        RemoteSettings.Completed += RemoteSettingsUpdated;
+        //cubesToSpawn = RemoteSettings.GetInt("CubesToSpawn", 5);
+        //RemoteSettings.Completed += RemoteSettingsUpdated;
     }
 
     // Update is called once per frame
@@ -38,10 +38,10 @@ public class RemoteConfig : MonoBehaviour
 
     private void RemoteSettingsUpdated(bool wasUpdatedFromServer, bool settingsChanged, int serverResponse)
     {
-        int newCubesToSpawn = RemoteSettings.GetInt("CubesToSpawn", 5);
+        //int newCubesToSpawn = RemoteSettings.GetInt("CubesToSpawn", 5);
         if (settingsChanged)
         {
-            cubesToSpawn = newCubesToSpawn;
+            //cubesToSpawn = newCubesToSpawn;
             Debug.Log("Updated spawning of enemies to increment by " + cubesToSpawn);
         }
         else
