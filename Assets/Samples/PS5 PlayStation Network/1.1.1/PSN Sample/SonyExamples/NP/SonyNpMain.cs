@@ -366,7 +366,7 @@ namespace PSNSample
 
                 if (m_MenuMain.AddItem("Auth", isRegistered == true))
                 {
-                    m_MenuStack.PushMenu(m_SonyAuth.GetMenu());
+                    //m_MenuStack.PushMenu(m_SonyAuth.GetMenu());
                 }
 
                 if (m_MenuMain.AddItem("Bandwidth", isRegistered == true))

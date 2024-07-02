@@ -18,6 +18,7 @@ using AppleAuth.Interfaces;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+using System.Security.Principal;
 
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
@@ -56,7 +57,7 @@ namespace Com.GCTC.ZombCube
         public bool devModeActivated = false;
         public bool gameCenterSignedIn = false;
         public bool loggedIn = false;
-        private bool isSigningIn = false;
+        public bool isSigningIn = false;
 
         // User Info.
         public string userName, userID;
@@ -93,6 +94,8 @@ namespace Com.GCTC.ZombCube
 
             if(Application.internetReachability == NetworkReachability.NotReachable)
             {
+                isSigningIn = true;
+
                 currentSSO = ssoOption.Anonymous;
 
                 userID = "OfflineMode";
@@ -131,6 +134,9 @@ namespace Com.GCTC.ZombCube
 #elif UNITY_ANDROID
             // Initializes Google Play Games Login
             InitializePlayGamesLogin();
+#elif UNITY_PS5 || UNITY_PS4
+            isSigningIn = true;
+            GetComponent<PSNManager>().Initialize();
 #else
             if (isSteam && SteamManager.Initialized)
             {
@@ -288,6 +294,37 @@ namespace Com.GCTC.ZombCube
 
             devModeActivated = true;
             await SignInAnonymouslyAsync();
+        }
+
+        public async void SignInPS(string userID, string tokenID, string authCode)
+        {
+            currentSSO = ssoOption.Anonymous;
+
+            AuthenticationService.Instance.SwitchProfile("default");
+
+            // Cloud Save needs to be initialized along with the other Unity Services that
+            // it depends on (namely, Authentication), and then the user must sign in.
+            if (UnityServices.State == ServicesInitializationState.Initialized)
+            {
+                Debug.Log("Services are already Initialized");
+            }
+            else
+                await UnityServices.InitializeAsync();
+
+
+            if (AuthenticationService.Instance.IsSignedIn)
+            {
+                this.userID = AuthenticationService.Instance.PlayerId;
+                userName = userID;
+                SetPlayer(userID);
+
+                Login();
+            }
+            else
+                await SignInAnonymouslyAsync(userID);
+
+            
+
         }
 
         /*
@@ -698,152 +735,152 @@ namespace Com.GCTC.ZombCube
         #endregion
 
 
-#region Facebook Auth
-/*
-/// <summary>
-/// Initializes Facebook SDK
-/// </summary>
-private void InitCallback()
-{
-    if (FB.IsInitialized)
-    {
-        // Signal an app activation App Event
-        FB.ActivateApp();
-        // Continue with Facebook SDK
-        // ...
-    }
-    else
-    {
-        Debug.Log("Failed to Initialize the Facebook SDK");
-    }
-}
+        #region Facebook Auth
+        /*
+        /// <summary>
+        /// Initializes Facebook SDK
+        /// </summary>
+        private void InitCallback()
+        {
+            if (FB.IsInitialized)
+            {
+                // Signal an app activation App Event
+                FB.ActivateApp();
+                // Continue with Facebook SDK
+                // ...
+            }
+            else
+            {
+                Debug.Log("Failed to Initialize the Facebook SDK");
+            }
+        }
 
-private void OnHideUnity(bool isGameShown)
-{
-    if (!isGameShown)
-    {
-        // Pause the game - we will need to hide
-        Time.timeScale = 0;
-    }
-    else
-    {
-        // Resume the game - we're getting focus again
-        Time.timeScale = 1;
-    }
-}
+        private void OnHideUnity(bool isGameShown)
+        {
+            if (!isGameShown)
+            {
+                // Pause the game - we will need to hide
+                Time.timeScale = 0;
+            }
+            else
+            {
+                // Resume the game - we're getting focus again
+                Time.timeScale = 1;
+            }
+        }
 
-/// <summary>
-/// Callback to get player info on login.
-/// </summary>
-/// <param name="result"></param>
-private async void AuthCallback(ILoginResult result)
-{
-    if (FB.IsLoggedIn)
-    {
-        // AccessToken class will have session details
-        var aToken = AccessToken.CurrentAccessToken;
-        // Print current access token's User ID
-        Debug.Log(aToken.UserId);
-        userID = aToken.UserId;
+        /// <summary>
+        /// Callback to get player info on login.
+        /// </summary>
+        /// <param name="result"></param>
+        private async void AuthCallback(ILoginResult result)
+        {
+            if (FB.IsLoggedIn)
+            {
+                // AccessToken class will have session details
+                var aToken = AccessToken.CurrentAccessToken;
+                // Print current access token's User ID
+                Debug.Log(aToken.UserId);
+                userID = aToken.UserId;
 
-        FB.API("me?fields=id,name", HttpMethod.GET, AssignInfo);
-
-
-
-        await SignInWithFacebookAsync(aToken.TokenString);
-
-    }
-    else
-    {
-        Debug.Log("User cancelled login");
-    }
-}
-
-/// <summary>
-/// Assigns player info on login.
-/// </summary>
-/// <param name="result"></param>
-void AssignInfo(IGraphResult result)
-{
-    if (result.Error != null)
-    {
-        Debug.Log("Error: " + result.Error);
-    }
-    else if (!FB.IsLoggedIn)
-        Debug.Log("Login Canceled By Player");
-    else
-    {
-        userID = result.ResultDictionary["id"].ToString();
-        userName = result.ResultDictionary["name"].ToString();
-    }
-}
-
-/// <summary>
-/// Signs the player into Unity Services and sets player data.
-/// </summary>
-/// <param name="accessToken"></param>
-/// <returns></returns>
-async Task SignInWithFacebookAsync(string accessToken)
-{
-    try
-    {
-        await AuthenticationService.Instance.SignInWithFacebookAsync(accessToken);
-        Debug.Log("Sign-In With Facebook is successful.");
-
-        SetPlayer(AuthenticationService.Instance.PlayerId, userName);
-
-        Login();
-    }
-    catch (AuthenticationException ex)
-    {
-        // Compare error code to AuthenticationErrorCodes
-        // Notify the player with the proper error message
-        Debug.LogException(ex);
-    }
-    catch (RequestFailedException ex)
-    {
-        // Compare error code to CommonErrorCodes
-        // Notify the player with the proper error message
-        Debug.LogException(ex);
-    }
-}
-
-/// <summary>
-/// Logs the player in, if they were logged in before.
-/// </summary>
-/// <param name="result"></param>
-private async void LoginStatusCallback(ILoginStatusResult result)
-{
-    if (!string.IsNullOrEmpty(result.Error))
-    {
-        Debug.Log("Error: " + result.Error);
-
-        var perms = new List<string>() { "public_profile" };
-        FB.LogInWithReadPermissions(perms, AuthCallback);
-    }
-    else if (result.Failed)
-    {
-        Debug.Log("Failure: Access Token could not be retrieved");
-
-        var perms = new List<string>() { "public_profile" };
-        FB.LogInWithReadPermissions(perms, AuthCallback);
-    }
-    else
-    {
-        // Successfully logged user in
-        // A popup notification will appear that says "Logged in as <User Name>"
-        Debug.Log("Success: " + result.AccessToken.UserId);
-
-        await SignInWithFacebookAsync(result.AccessToken.TokenString);
-
-    }
-}
-
-*/
-#endregion
+                FB.API("me?fields=id,name", HttpMethod.GET, AssignInfo);
 
 
-#region Google Play Auth
+
+                await SignInWithFacebookAsync(aToken.TokenString);
+
+            }
+            else
+            {
+                Debug.Log("User cancelled login");
+            }
+        }
+
+        /// <summary>
+        /// Assigns player info on login.
+        /// </summary>
+        /// <param name="result"></param>
+        void AssignInfo(IGraphResult result)
+        {
+            if (result.Error != null)
+            {
+                Debug.Log("Error: " + result.Error);
+            }
+            else if (!FB.IsLoggedIn)
+                Debug.Log("Login Canceled By Player");
+            else
+            {
+                userID = result.ResultDictionary["id"].ToString();
+                userName = result.ResultDictionary["name"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// Signs the player into Unity Services and sets player data.
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <returns></returns>
+        async Task SignInWithFacebookAsync(string accessToken)
+        {
+            try
+            {
+                await AuthenticationService.Instance.SignInWithFacebookAsync(accessToken);
+                Debug.Log("Sign-In With Facebook is successful.");
+
+                SetPlayer(AuthenticationService.Instance.PlayerId, userName);
+
+                Login();
+            }
+            catch (AuthenticationException ex)
+            {
+                // Compare error code to AuthenticationErrorCodes
+                // Notify the player with the proper error message
+                Debug.LogException(ex);
+            }
+            catch (RequestFailedException ex)
+            {
+                // Compare error code to CommonErrorCodes
+                // Notify the player with the proper error message
+                Debug.LogException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Logs the player in, if they were logged in before.
+        /// </summary>
+        /// <param name="result"></param>
+        private async void LoginStatusCallback(ILoginStatusResult result)
+        {
+            if (!string.IsNullOrEmpty(result.Error))
+            {
+                Debug.Log("Error: " + result.Error);
+
+                var perms = new List<string>() { "public_profile" };
+                FB.LogInWithReadPermissions(perms, AuthCallback);
+            }
+            else if (result.Failed)
+            {
+                Debug.Log("Failure: Access Token could not be retrieved");
+
+                var perms = new List<string>() { "public_profile" };
+                FB.LogInWithReadPermissions(perms, AuthCallback);
+            }
+            else
+            {
+                // Successfully logged user in
+                // A popup notification will appear that says "Logged in as <User Name>"
+                Debug.Log("Success: " + result.AccessToken.UserId);
+
+                await SignInWithFacebookAsync(result.AccessToken.TokenString);
+
+            }
+        }
+
+        */
+        #endregion
+
+
+        #region Google Play Auth
 
 #if UNITY_ANDROID
 
@@ -960,10 +997,10 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         
 #endif
 
-#endregion
+        #endregion
 
 
-#region Steam Auth
+        #region Steam Auth
 
 #if !DISABLESTEAMWORKS
         async Task SignInWithSteamAsync(string ticket)
@@ -997,7 +1034,40 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         }
 #endif
 
-#endregion
+        #endregion
+
+
+        #region Custom ID Auth
+
+        async Task SignInWithCustomIDAsync(string authCode, string idToken)
+        {
+            try
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+                SetPlayer(userID, userName);
+
+                Login();
+
+            }
+            catch (AuthenticationException ex)
+            {
+                // Compare error code to AuthenticationErrorCodes
+                // Notify the player with the proper error message
+                //Debug.Log(ex);
+                OfflineLogin(false);
+            }
+            catch (RequestFailedException ex)
+            {
+                // Compare error code to CommonErrorCodes
+                // Notify the player with the proper error message
+                //Debug.Log(ex);
+                OfflineLogin(false);
+            }
+            isSigningIn = false;
+        }
+
+        #endregion
 
 
         #region Private Methods
@@ -1014,6 +1084,39 @@ private async void LoginStatusCallback(ILoginStatusResult result)
 
                 userID = AuthenticationService.Instance.PlayerId;
                 userName = "Guest_" + userID;
+
+                SetPlayer(userID);
+
+                Login();
+
+            }
+            catch (AuthenticationException ex)
+            {
+                // Compare error code to AuthenticationErrorCodes
+                // Notify the player with the proper error message
+                OfflineLogin(false);
+            }
+            catch (RequestFailedException exception)
+            {
+                // Compare error code to CommonErrorCodes
+                // Notify the player with the proper error message
+
+                OfflineLogin(false);
+            }
+        }
+
+        /// <summary>
+        /// Signs in an anonymous player.
+        /// </summary>
+        /// <returns></returns>
+        async Task SignInAnonymouslyAsync(string userID)
+        {
+            try
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+                this.userID = AuthenticationService.Instance.PlayerId;
+                userName = userID;
 
                 SetPlayer(userID);
 

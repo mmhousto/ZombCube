@@ -14,6 +14,7 @@ namespace Com.GCTC.ZombCube
     public class SignInManager : MonoBehaviour
     {
         public GameObject exitButton, googleSignIn, appleSignIn, playButton;
+        public GameObject signingIn, buttonsPanel;
 
         private void Start()
         {
@@ -38,6 +39,20 @@ namespace Com.GCTC.ZombCube
             SignInAnon();
 #endif
             googleSignIn.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if(CloudSaveLogin.Instance.isSigningIn && !signingIn.activeInHierarchy)
+            {
+                signingIn.SetActive(true);
+                buttonsPanel.SetActive(false);
+            }
+            else if (!CloudSaveLogin.Instance.isSigningIn && !buttonsPanel.activeInHierarchy)
+            {
+                signingIn.SetActive(false);
+                buttonsPanel.SetActive(true);
+            }
         }
 
         public void SignInAuto()

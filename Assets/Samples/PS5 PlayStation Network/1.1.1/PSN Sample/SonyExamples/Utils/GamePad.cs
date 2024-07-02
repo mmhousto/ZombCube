@@ -13,7 +13,8 @@ using System.Collections;
 #endif
 
 
-public class GamePad : MonoBehaviour
+public class GamePad
+    : MonoBehaviour
 {
     public static GamePad activeGamePad = null;
 

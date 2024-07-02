@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.DualShock;
+using System.Collections;
 
 // IMPORTANT: State layout must match with GamepadInputStatePS5 in native.
 [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -80,6 +81,7 @@ namespace Com.GCTC.ZombCube
                 .WithInterface("PS5")
                 .WithDeviceClass("PS5DualShockGamepad"));
 
+            /*
 #if UNITY_PS5
             m_Trophies = new SonyNpTrophies();
             m_UDS = new SonyNpUDS();
@@ -91,26 +93,26 @@ namespace Com.GCTC.ZombCube
 
             m_GameIntent = new SonyGameIntentNotifications();
 
-            m_OnlineSafety = new SonyOnlineSafety();
+            m_OnlineSafety = new SonyOnlineSafety();*/
 
-            m_SonyAuth = new SonyAuth();
+            //m_SonyAuth = new SonyAuth();
 
-            m_Sessions = new SonySessions();
+            /*m_Sessions = new SonySessions();
 
             m_WebEvents = new SonyWebApiEvents();
 
             m_SessionSignalling = new SonySessionSignalling();
 
-            m_Bandwidth = new SonyBandwidth();
+            m_Bandwidth = new SonyBandwidth();*/
 
-            Initialize();
+            //Initialize();
 
-            m_Sessions.SetupSessionNotifications();
+            //m_Sessions.SetupSessionNotifications();
         }
 
         public InitResult initResult;
 
-        void Initialize()
+        public void Initialize()
         {
             try
             {
@@ -120,8 +122,10 @@ namespace Com.GCTC.ZombCube
 
                 if (initResult.Initialized == true)
                 {
+                    StartCoroutine(AuthPlayer());
                     //OnScreenLog.Add("PSN Initialized ");
-
+                    //m_SonyAuth = new SonyAuth();
+                    //CloudSaveLogin.Instance.SignInPS(m_SonyAuth.userID, m_SonyAuth.iDToken, m_SonyAuth.authCode);
                 }
                 else
                 {
@@ -141,7 +145,7 @@ namespace Com.GCTC.ZombCube
             }
 #endif
 
-            GamePad[] gamePads = GetComponents<GamePad>();
+            //GamePad[] gamePads = GetComponents<GamePad>();
 
             //User.Initialize(gamePads);
         }
@@ -159,6 +163,63 @@ namespace Com.GCTC.ZombCube
                 //OnScreenLog.AddError(e.StackTrace);
             }
 
+        }
+
+        public static bool CheckRequestOK<R>(R request) where R : Request
+        {
+            if (request == null)
+            {
+                UnityEngine.Debug.LogError("Request is null");
+                return false;
+            }
+
+            if (request.Result.apiResult == APIResultTypes.Success)
+            {
+                return true;
+            }
+
+            PSNManager.OutputApiResult(request.Result);
+
+            return false;
+        }
+
+        public static bool CheckAysncRequestOK<R>(AsyncRequest<R> asyncRequest) where R : Request
+        {
+            if (asyncRequest == null)
+            {
+                UnityEngine.Debug.LogError("AsyncRequest is null");
+                return false;
+            }
+
+            return CheckRequestOK<R>(asyncRequest.Request);
+        }
+
+        public static void OutputApiResult(APIResult result)
+        {
+            if (result.apiResult == APIResultTypes.Success)
+            {
+                return;
+            }
+
+            string output = result.ErrorMessage();
+
+            //OnScreenLog.AddError($"\n{(sceCode)(long)(UInt32)result.sceErrorCode}\n");
+
+            if (result.apiResult == APIResultTypes.Error)
+            {
+                //OnScreenLog.AddError(output);
+            }
+            else
+            {
+                //OnScreenLog.AddWarning(output);
+            }
+        }
+
+        IEnumerator AuthPlayer()
+        {
+            yield return new WaitForSeconds(10f);
+
+            PSAuth.Initialize();
         }
 
     }

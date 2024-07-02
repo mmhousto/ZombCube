@@ -11,6 +11,9 @@ namespace PSNSample
 #if UNITY_PS5 || UNITY_PS4
     public class SonyAuth
     {
+        public string userID, iDToken, authCode;
+        public bool initialized;
+
         public SonyAuth()
         {
             Initialize();
@@ -20,7 +23,8 @@ namespace PSNSample
         {
             GetAuthCode();
             GetIDToken();
-
+            initialized = true;
+            //CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
         }
 
         private void GetAuthCode()
@@ -40,11 +44,12 @@ namespace PSNSample
             {
                 if (SonyNpMain.CheckAysncRequestOK(antecedent))
                 {
-                    OnScreenLog.Add("GetAuthorizationCodeRequest:");
+                    /*OnScreenLog.Add("GetAuthorizationCodeRequest:");
                     OnScreenLog.Add("  ClientId = " + antecedent.Request.ClientId);
                     OnScreenLog.Add("  Scope = " + antecedent.Request.Scope);
                     OnScreenLog.Add("  AuthCode = " + antecedent.Request.AuthCode);
-                    OnScreenLog.Add("  IssuerId = " + antecedent.Request.IssuerId);
+                    OnScreenLog.Add("  IssuerId = " + antecedent.Request.IssuerId);*/
+                    authCode = antecedent.Request.AuthCode;
                 }
             });
 
@@ -71,11 +76,14 @@ namespace PSNSample
             {
                 if (SonyNpMain.CheckAysncRequestOK(antecedent))
                 {
-                    OnScreenLog.Add("GetIdTokenRequest:");
+                    /*OnScreenLog.Add("GetIdTokenRequest:");
                     OnScreenLog.Add("  ClientId = " + antecedent.Request.ClientId);
                     OnScreenLog.Add("  ClientSecret = " + antecedent.Request.ClientSecret);
                     OnScreenLog.Add("  Scope = " + antecedent.Request.Scope);
-                    OnScreenLog.Add("  IdToken = " + antecedent.Request.IdToken);
+                    OnScreenLog.Add("  IdToken = " + antecedent.Request.IdToken);*/
+                    iDToken = antecedent.Request.IdToken;
+                    userID = antecedent.Request.UserId.ToString();
+                    
                 }
             });
 
