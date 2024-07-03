@@ -1,10 +1,4 @@
-using AppleAuth;
-using AppleAuth.Native;
-using AppleAuth.Enums;
-using AppleAuth.Extensions;
-using AppleAuth.Interfaces;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,6 +9,8 @@ namespace Com.GCTC.ZombCube
     {
         public GameObject exitButton, googleSignIn, appleSignIn, playButton;
         public GameObject signingIn, buttonsPanel;
+        public TextMeshProUGUI signingInLabel;
+        private int dots = 3;
 
         private void Start()
         {
@@ -30,7 +26,7 @@ namespace Com.GCTC.ZombCube
                 appleSignIn.SetActive(true);
                 playButton.SetActive(false);
 #else
-                appleSignIn.SetActive(false);
+            appleSignIn.SetActive(false);
 #endif
 
 #if UNITY_ANDROID
@@ -39,11 +35,13 @@ namespace Com.GCTC.ZombCube
             SignInAnon();
 #endif
             googleSignIn.SetActive(false);
+
+            InvokeRepeating(nameof(Dots), 0, 1);
         }
 
         private void Update()
         {
-            if(CloudSaveLogin.Instance.isSigningIn && !signingIn.activeInHierarchy)
+            if (CloudSaveLogin.Instance.isSigningIn && !signingIn.activeInHierarchy)
             {
                 signingIn.SetActive(true);
                 buttonsPanel.SetActive(false);
@@ -61,8 +59,10 @@ namespace Com.GCTC.ZombCube
             SignInAnon();
 #elif UNITY_IOS
             SignInApple();
+#elif UNITY_PS5 || UNITY_PS4
+            CloudSaveLogin.Instance.PSAuthInit();
 #else
-            if(CloudSaveLogin.Instance.isSteam && Application.internetReachability != NetworkReachability.NotReachable)
+            if (CloudSaveLogin.Instance.isSteam && Application.internetReachability != NetworkReachability.NotReachable)
                 SignInSteam();
             else
                 SignInAnon();
@@ -100,6 +100,32 @@ namespace Com.GCTC.ZombCube
         public void ExitApplication()
         {
             Application.Quit();
+        }
+
+        private void Dots()
+        {
+            dots++;
+            if (dots > 3) dots = 1;
+
+            switch (dots)
+            {
+                case 0:
+                    signingInLabel.text = "Signing In";
+                    break;
+                case 1:
+                    signingInLabel.text = "Signing In.";
+                    break;
+                case 2:
+                    signingInLabel.text = "Signing In..";
+                    break;
+                case 3:
+                    signingInLabel.text = "Signing In...";
+                    break;
+                default:
+                    signingInLabel.text = "Signing In...";
+                    break;
+            }
+            
         }
     }
 

@@ -243,6 +243,10 @@ namespace Com.GCTC.ZombCube
                 });
             }
 
+#if UNITY_PS5 || UNITY_PS4
+            GetComponent<PSAuth>().ResetInit();
+#endif
+
             LogoutScreenActivate();
         }
 
@@ -296,7 +300,12 @@ namespace Com.GCTC.ZombCube
             await SignInAnonymouslyAsync();
         }
 
-        public async void SignInPS(string userID, string tokenID, string authCode)
+        public void PSAuthInit()
+        {
+            GetComponent<PSAuth>().Initialize();
+        }
+
+        public async void SignInPS(string psnUserID, string tokenID, string authCode)
         {
             currentSSO = ssoOption.Anonymous;
 
@@ -314,14 +323,12 @@ namespace Com.GCTC.ZombCube
 
             if (AuthenticationService.Instance.IsSignedIn)
             {
-                this.userID = AuthenticationService.Instance.PlayerId;
-                userName = userID;
-                SetPlayer(userID);
+                SetPlayer(AuthenticationService.Instance.PlayerId, psnUserID);
 
                 Login();
             }
             else
-                await SignInAnonymouslyAsync(userID);
+                await SignInAnonymouslyAsync(psnUserID);
 
             
 
@@ -514,6 +521,10 @@ namespace Com.GCTC.ZombCube
 #if UNITY_ANDROID
             if(PlayGamesPlatform.Instance.IsAuthenticated())
                 PlayGamesPlatform.Instance.SignOut();
+#endif
+
+#if UNITY_PS5 || UNITY_PS4
+            GetComponent<PSAuth>().ResetInit();
 #endif
 
             ResetPlayer();
@@ -1106,7 +1117,7 @@ namespace Com.GCTC.ZombCube
         }
 
         /// <summary>
-        /// Signs in an anonymous player.
+        /// Signs in an anonymous player for PSN.
         /// </summary>
         /// <returns></returns>
         async Task SignInAnonymouslyAsync(string userID)
@@ -1115,26 +1126,29 @@ namespace Com.GCTC.ZombCube
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
-                this.userID = AuthenticationService.Instance.PlayerId;
-                userName = userID;
-
-                SetPlayer(userID);
+                SetPlayer(AuthenticationService.Instance.PlayerId, userID);
 
                 Login();
+
+                Debug.Log("Signed In Anon PS");
 
             }
             catch (AuthenticationException ex)
             {
+                AuthenticationService.Instance.ClearSessionToken();
                 // Compare error code to AuthenticationErrorCodes
                 // Notify the player with the proper error message
-                OfflineLogin(false);
+                Debug.Log(ex);
+
+                isSigningIn = false;
             }
             catch (RequestFailedException exception)
             {
                 // Compare error code to CommonErrorCodes
                 // Notify the player with the proper error message
+                Debug.Log(exception);
 
-                OfflineLogin(false);
+                isSigningIn = false;
             }
         }
 

@@ -1,3 +1,13 @@
+#if !UNITY_PS5 && !UNITY_PS4
+using UnityEngine;
+
+namespace Com.GCTC.ZombCube
+{
+    public class PSUser : MonoBehaviour
+    { }
+}
+#endif
+
 using Unity.PSN.PS5.Aysnc;
 using Unity.PSN.PS5.Sessions;
 using Unity.PSN.PS5.Users;
@@ -11,10 +21,10 @@ using PlatformInput = UnityEngine.PS5.PS5Input;
 
 namespace Com.GCTC.ZombCube
 {
-    class User
+    class PSUser
     {
 #if UNITY_PS5 || UNITY_PS4
-        static User()
+        static PSUser()
         {
             PlatformInput.OnUserServiceEvent += OnUserServiceEvent;
         }
@@ -48,7 +58,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UserLoggedIn(int userid)
         {
-            User user = FindUser((int)userid);
+            PSUser user = FindUser((int)userid);
 
             if (user != null)
             {
@@ -76,7 +86,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UserLoggedOut(int userid)
         {
-            User user = FindUser((int)userid);
+            PSUser user = FindUser((int)userid);
 
             if (user != null)
             {
@@ -92,7 +102,7 @@ namespace Com.GCTC.ZombCube
                     {
                         if (antecedent != null && antecedent.Request != null)
                         {
-                            User registeredUser = User.FindUser(antecedent.Request.UserId);
+                            PSUser registeredUser = PSUser.FindUser(antecedent.Request.UserId);
 
                             if (registeredUser != null)
                             {
@@ -125,7 +135,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        public static User GetActiveUser
+        public static PSUser GetActiveUser
         {
             get
             {
@@ -139,7 +149,7 @@ namespace Com.GCTC.ZombCube
         {
             get
             {
-                User user = GetActiveUser;
+                PSUser user = GetActiveUser;
 
                 if (user != null)
                 {
@@ -151,9 +161,9 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        public static User[] users = new User[4];
+        public static PSUser[] users = new PSUser[4];
 
-        public static User FindUser(int userId)
+        public static PSUser FindUser(int userId)
         {
             for (int i = 0; i < users.Length; i++)
             {
@@ -175,7 +185,7 @@ namespace Com.GCTC.ZombCube
             {
                 int playerId = gamePads[i].playerId;
 
-                users[playerId] = new User();
+                users[playerId] = new PSUser();
                 users[playerId].gamePad = gamePads[i];
             }
         }

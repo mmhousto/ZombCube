@@ -1,3 +1,13 @@
+#if !UNITY_PS5 && !UNITY_PS4
+using UnityEngine;
+
+namespace Com.GCTC.ZombCube
+{
+    public class PSNManager : MonoBehaviour
+    { }
+}
+#endif
+
 using UnityEngine;
 using System;
 using Unity.PSN.PS5.WebApi;
@@ -50,6 +60,8 @@ namespace Com.GCTC.ZombCube
 {
     public class PSNManager : MonoBehaviour
     {
+        PSAuth psAuth;
+
 #if UNITY_PS5
         SonyNpTrophies m_Trophies;
         SonyNpUDS m_UDS;
@@ -73,6 +85,11 @@ namespace Com.GCTC.ZombCube
 
         SonyBandwidth m_Bandwidth;
 
+        private void Awake()
+        {
+            psAuth = GetComponent<PSAuth>();
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -80,6 +97,8 @@ namespace Com.GCTC.ZombCube
             matches: new UnityEngine.InputSystem.Layouts.InputDeviceMatcher()
                 .WithInterface("PS5")
                 .WithDeviceClass("PS5DualShockGamepad"));
+
+            psAuth = GetComponent<PSAuth>();
 
             /*
 #if UNITY_PS5
@@ -219,7 +238,12 @@ namespace Com.GCTC.ZombCube
         {
             yield return new WaitForSeconds(10f);
 
-            PSAuth.Initialize();
+            PSAuthInit();
+        }
+
+        private void PSAuthInit()
+        {
+            psAuth.Initialize();
         }
 
     }

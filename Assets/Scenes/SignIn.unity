@@ -3136,6 +3136,7 @@ MonoBehaviour:
   playButton: {fileID: 567460140}
   signingIn: {fileID: 1798611486}
   buttonsPanel: {fileID: 1449862981}
+  signingInLabel: {fileID: 1798611488}
 --- !u!4 &329006584
 Transform:
   m_ObjectHideFlags: 0
@@ -18341,6 +18342,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2253541340158729735, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
       insertIndex: 1
+      addedObject: {fileID: 1764829403}
+    - targetCorrespondingSourceObject: {fileID: 2253541340158729735, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
+      insertIndex: 2
       addedObject: {fileID: 1764829394}
     - targetCorrespondingSourceObject: {fileID: 2253541340158729735, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
       insertIndex: -1
@@ -18424,6 +18428,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 0
+--- !u!114 &1764829403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764829389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af2aa9495617a7f4f84fad0def82d01c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userID: 
+  iDToken: 
+  authCode: 
+  initialized: 0
 --- !u!43 &1772487687
 Mesh:
   m_ObjectHideFlags: 0
@@ -18807,10 +18827,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.7
-  m_fontSizeBase: 36
+  m_fontSize: 44
+  m_fontSizeBase: 44
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
