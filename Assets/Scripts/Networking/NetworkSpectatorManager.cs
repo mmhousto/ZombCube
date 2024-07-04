@@ -35,6 +35,13 @@ namespace Com.GCTC.ZombCube
                 showNextPlayerText.SetActive(false);
             }
 
+            if(NetworkGameManager.Instance.IsGameOver() == true && playerCams[0].enabled == false)
+            {
+                currentCam = 0;
+                prevCam = playerCams[0];
+                playerCams[0].enabled = true;
+            }
+
             if (NetworkGameManager.Instance.IsGameOver() == false && isAlive == false && showNextPlayerText.activeInHierarchy == false)
             {
                 showNextPlayerText.SetActive(true);
@@ -79,6 +86,15 @@ namespace Com.GCTC.ZombCube
             }
 
 
+        }
+
+        public static void EnableElimCam()
+        {
+            showNextPlayerText.SetActive(true);
+            currentCam = 0;
+            prevCam = playerCams[0];
+            playerCams[0].gameObject.SetActive(true);
+            playerCams[0].enabled = true;
         }
 
         public static void ShowNextPlayerCam()

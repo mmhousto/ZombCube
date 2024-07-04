@@ -144,7 +144,8 @@ namespace Com.GCTC.ZombCube
             continueScreen.SetActive(false);
             if (myPlayer == null)
                 myPlayer = FindPlayer.GetPlayer();
-            myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
+            if(myPlayer != null)
+                myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
 
             Time.timeScale = 1.0f;
         }

@@ -620,7 +620,7 @@ namespace Com.GCTC.ZombCube
                         NetworkSpectatorManager.ActivateSpectatorCamera(mouseLook.GetCamera());
                     }*/
 
-                    NetworkGameManager.Instance.ActivateCamera();
+                    NetworkSpectatorManager.EnableElimCam();
 
                     if (this.gameObject != null)
                         PhotonNetwork.Destroy(this.gameObject);
