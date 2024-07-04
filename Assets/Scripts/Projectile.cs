@@ -252,7 +252,8 @@ namespace Com.GCTC.ZombCube
 
         private void HitEnemy(Collision collision)
         {
-            audioSource.Play();
+            if(audioSource != null)
+                audioSource.Play();
             
             if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
             {

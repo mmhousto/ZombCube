@@ -175,7 +175,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Armor") && other.transform.root.TryGetComponent(out NetworkEnemy enemy))
+            if (other.CompareTag("Armor") && other.transform.root.TryGetComponent(out NetworkEnemy enemy) && photonView.IsMine)
             {
                 enemy.photonView.RPC("DestroyEnemy", RpcTarget.MasterClient);
                 DamagePlayerCall(20);
@@ -193,138 +193,142 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerStay(Collider other)
         {
-            NetworkHealthPack hp;
-            other.TryGetComponent<NetworkHealthPack>(out hp);
-
-            if (other.CompareTag("HealthPack") && hp.isUsable && photonView.IsMine)
+            if (photonView.IsMine)
             {
-                contextPromptText.gameObject.SetActive(true);
-                contextPromptImage.SetActive(true);
-                contextPromptText.text = hp.contextPrompt;
-            }
 
-            if (other.CompareTag("HealthPack") && hp.isUsable && isInteractHeld && healthPoints <= 99 && currentPoints >= 500 && photonView.IsMine)
-            {
-                hp.StartResetHealthPack();
+                NetworkHealthPack hp;
+                other.TryGetComponent<NetworkHealthPack>(out hp);
 
-                Damage(-20);
-                SpendPoints(500);
-
-                if (healthPoints >= 100) { healthPoints = 100; }
-
-                contextPromptText.gameObject.SetActive(false);
-                contextPromptImage.SetActive(false);
-            }
-
-            WeaponPickup wp;
-            other.TryGetComponent<WeaponPickup>(out wp);
-
-            if (other.CompareTag("SMB") && wp.isUsable)
-            {
-                contextPromptText.gameObject.SetActive(true);
-                contextPromptImage.SetActive(true);
-                contextPromptText.text = wp.contextPrompt;
-            }
-
-            if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
-            {
-                wp.StartResetWeapon();
-
-                SpendPoints(1500);
-
-                if (swapManager.HasWeapon(2))
+                if (other.CompareTag("HealthPack") && hp.isUsable)
                 {
-                    fullyAutoSMB.GetAmmo(90);
-                }
-                else
-                {
-                    swapManager.GetWeapon(2);
-                    fullyAutoSMB.GetAmmo(90);
+                    contextPromptText.gameObject.SetActive(true);
+                    contextPromptImage.SetActive(true);
+                    contextPromptText.text = hp.contextPrompt;
                 }
 
-                contextPromptText.gameObject.SetActive(false);
-                contextPromptImage.SetActive(false);
-            }
-
-            if (other.CompareTag("AB") && wp.isUsable)
-            {
-                contextPromptText.gameObject.SetActive(true);
-                contextPromptImage.SetActive(true);
-                contextPromptText.text = wp.contextPrompt;
-            }
-
-            if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
-            {
-                wp.StartResetWeapon();
-
-                SpendPoints(1500);
-
-                if (swapManager.HasWeapon(3))
+                if (other.CompareTag("HealthPack") && hp.isUsable && isInteractHeld && healthPoints <= 99 && currentPoints >= 500)
                 {
-                    aB.GetAmmo(210);
-                }
-                else
-                {
-                    swapManager.GetWeapon(3);
-                    aB.GetAmmo(210);
+                    hp.StartResetHealthPack();
+
+                    Damage(-20);
+                    SpendPoints(500);
+
+                    if (healthPoints >= 100) { healthPoints = 100; }
+
+                    contextPromptText.gameObject.SetActive(false);
+                    contextPromptImage.SetActive(false);
                 }
 
-                contextPromptText.gameObject.SetActive(false);
-                contextPromptImage.SetActive(false);
-            }
+                WeaponPickup wp;
+                other.TryGetComponent<WeaponPickup>(out wp);
 
-            if (other.CompareTag("Shotblaster") && wp.isUsable)
-            {
-                contextPromptText.gameObject.SetActive(true);
-                contextPromptImage.SetActive(true);
-                contextPromptText.text = wp.contextPrompt;
-            }
-
-            if (other.CompareTag("Shotblaster") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
-            {
-                wp.StartResetWeapon();
-
-                SpendPoints(1500);
-
-                if (swapManager.HasWeapon(4))
+                if (other.CompareTag("SMB") && wp.isUsable)
                 {
-                    shotblaster.GetAmmo(35);
-                }
-                else
-                {
-                    swapManager.GetWeapon(4);
-                    shotblaster.GetAmmo(35);
+                    contextPromptText.gameObject.SetActive(true);
+                    contextPromptImage.SetActive(true);
+                    contextPromptText.text = wp.contextPrompt;
                 }
 
-                contextPromptText.gameObject.SetActive(false);
-                contextPromptImage.SetActive(false);
-            }
-
-            if (other.CompareTag("Sniper") && wp.isUsable)
-            {
-                contextPromptText.gameObject.SetActive(true);
-                contextPromptImage.SetActive(true);
-                contextPromptText.text = wp.contextPrompt;
-            }
-
-            if (other.CompareTag("Sniper") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
-            {
-                wp.StartResetWeapon();
-
-                SpendPoints(1500);
-
-                if (swapManager.HasWeapon(5))
+                if (other.CompareTag("SMB") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
                 {
-                    sniper.GetAmmo(20);
-                }
-                else
-                {
-                    swapManager.GetWeapon(5);
-                    sniper.GetAmmo(20);
+                    wp.StartResetWeapon();
+
+                    SpendPoints(1500);
+
+                    if (swapManager.HasWeapon(2))
+                    {
+                        fullyAutoSMB.GetAmmo(90);
+                    }
+                    else
+                    {
+                        swapManager.GetWeapon(2);
+                        fullyAutoSMB.GetAmmo(90);
+                    }
+
+                    contextPromptText.gameObject.SetActive(false);
+                    contextPromptImage.SetActive(false);
                 }
 
-                contextPromptText.gameObject.SetActive(false);
-                contextPromptImage.SetActive(false);
+                if (other.CompareTag("AB") && wp.isUsable)
+                {
+                    contextPromptText.gameObject.SetActive(true);
+                    contextPromptImage.SetActive(true);
+                    contextPromptText.text = wp.contextPrompt;
+                }
+
+                if (other.CompareTag("AB") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
+                {
+                    wp.StartResetWeapon();
+
+                    SpendPoints(1500);
+
+                    if (swapManager.HasWeapon(3))
+                    {
+                        aB.GetAmmo(210);
+                    }
+                    else
+                    {
+                        swapManager.GetWeapon(3);
+                        aB.GetAmmo(210);
+                    }
+
+                    contextPromptText.gameObject.SetActive(false);
+                    contextPromptImage.SetActive(false);
+                }
+
+                if (other.CompareTag("Shotblaster") && wp.isUsable)
+                {
+                    contextPromptText.gameObject.SetActive(true);
+                    contextPromptImage.SetActive(true);
+                    contextPromptText.text = wp.contextPrompt;
+                }
+
+                if (other.CompareTag("Shotblaster") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
+                {
+                    wp.StartResetWeapon();
+
+                    SpendPoints(1500);
+
+                    if (swapManager.HasWeapon(4))
+                    {
+                        shotblaster.GetAmmo(35);
+                    }
+                    else
+                    {
+                        swapManager.GetWeapon(4);
+                        shotblaster.GetAmmo(35);
+                    }
+
+                    contextPromptText.gameObject.SetActive(false);
+                    contextPromptImage.SetActive(false);
+                }
+
+                if (other.CompareTag("Sniper") && wp.isUsable)
+                {
+                    contextPromptText.gameObject.SetActive(true);
+                    contextPromptImage.SetActive(true);
+                    contextPromptText.text = wp.contextPrompt;
+                }
+
+                if (other.CompareTag("Sniper") && wp.isUsable && isInteractHeld && currentPoints >= 1500)
+                {
+                    wp.StartResetWeapon();
+
+                    SpendPoints(1500);
+
+                    if (swapManager.HasWeapon(5))
+                    {
+                        sniper.GetAmmo(20);
+                    }
+                    else
+                    {
+                        swapManager.GetWeapon(5);
+                        sniper.GetAmmo(20);
+                    }
+
+                    contextPromptText.gameObject.SetActive(false);
+                    contextPromptImage.SetActive(false);
+                }
             }
         }
 
