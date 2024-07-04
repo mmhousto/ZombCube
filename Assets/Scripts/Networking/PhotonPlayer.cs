@@ -68,11 +68,61 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        private void OnEnable()
+        {
+            NetworkGameManager.nextWave += Respawn;
+        }
+
+        private void OnDisable()
+        {
+            NetworkGameManager.nextWave -= Respawn;
+        }
+
         public void OnNextPlayer(InputValue value)
         {
             if (value.isPressed && NetworkGameManager.Instance.IsGameOver() == false)
             {
                 NetworkSpectatorManager.ShowNextPlayerCam();
+            }
+        }
+
+        public void Respawn()
+        {
+            numOfPlayers = NetworkGameManager.Instance.playersSpawned;
+            playerInput.enabled = false;
+
+            if (PV.IsMine && numOfPlayers < 4 && numOfPlayers != 0 && NetworkSpectatorManager.isAlive == false)
+            {
+                NetworkSpectatorManager.isAlive = true;
+                switch (numOfPlayers)
+                {
+                    case 0:
+                        myPlayer = PhotonNetwork.Instantiate("NetworkPlayer",
+                            GameSetup.GS.spawnLocations[0].position,
+                            GameSetup.GS.spawnLocations[0].rotation, 0) as GameObject;
+                        NetworkGameManager.Instance.CallPlayerSpawned(myPlayer);
+                        break;
+                    case 1:
+                        myPlayer = PhotonNetwork.Instantiate("NetworkPlayer",
+                            GameSetup.GS.spawnLocations[1].position,
+                            GameSetup.GS.spawnLocations[1].rotation, 0) as GameObject;
+                        NetworkGameManager.Instance.CallPlayerSpawned(myPlayer);
+                        break;
+                    case 2:
+                        myPlayer = PhotonNetwork.Instantiate("NetworkPlayer",
+                            GameSetup.GS.spawnLocations[2].position,
+                            GameSetup.GS.spawnLocations[2].rotation, 0) as GameObject;
+                        NetworkGameManager.Instance.CallPlayerSpawned(myPlayer);
+                        break;
+                    case 3:
+                        myPlayer = PhotonNetwork.Instantiate("NetworkPlayer",
+                            GameSetup.GS.spawnLocations[3].position,
+                            GameSetup.GS.spawnLocations[3].rotation, 0) as GameObject;
+                        NetworkGameManager.Instance.CallPlayerSpawned(myPlayer);
+                        break;
+                }
+
+                NetworkGameManager.Instance.DeactivateCamera();
             }
         }
 

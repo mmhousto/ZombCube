@@ -39,6 +39,7 @@ namespace Com.GCTC.ZombCube
         public PlayerInput playerInput;
         private GameObject contextPrompt;
         private TextMeshProUGUI contextPromptText;
+        private GameObject contextPromptImage;
 
         public static int currentPoints = 0;
 
@@ -142,16 +143,31 @@ namespace Com.GCTC.ZombCube
                 if (ammoText != null)
                     ammoText.text = "";
 
-                contextPrompt = GameObject.Find("ContextPrompt");
-                contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
-                contextPrompt.SetActive(false);
+                if (GameObject.Find("ContextPrompt") != null)
+                {
+                    contextPrompt = GameObject.Find("ContextPrompt");
+                    //contextPromptText = contextPrompt.GetComponentInChildren<TextMeshProUGUI>();
+                    contextPromptText = contextPrompt.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                    contextPromptText.gameObject.SetActive(false);
+                    contextPromptImage = contextPrompt.transform.GetChild(0).GetComponent<Image>().gameObject;
+                    contextPromptImage.SetActive(false);
+                }
+
             }
-            
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (this.photonView.IsMine && GameObject.FindWithTag("ContextPrompt") && contextPrompt == null)
+            {
+                contextPrompt = GameObject.FindWithTag("ContextPrompt");
+                contextPromptText = contextPrompt.GetComponentInChildren<TextMeshProUGUI>();
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage = contextPrompt.GetComponentInChildren<Image>().gameObject;
+                contextPromptImage.SetActive(false);
+            }
+
             CheckControllerConnection();
             CheckIfAlive();
             UpdateStats();
@@ -170,7 +186,8 @@ namespace Com.GCTC.ZombCube
         {
             if ((other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster") || other.CompareTag("Sniper")) && photonView.IsMine)
             {
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
         }
 
@@ -181,7 +198,8 @@ namespace Com.GCTC.ZombCube
 
             if (other.CompareTag("HealthPack") && hp.isUsable && photonView.IsMine)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = hp.contextPrompt;
             }
 
@@ -194,7 +212,8 @@ namespace Com.GCTC.ZombCube
 
                 if (healthPoints >= 100) { healthPoints = 100; }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
 
             WeaponPickup wp;
@@ -202,7 +221,8 @@ namespace Com.GCTC.ZombCube
 
             if (other.CompareTag("SMB") && wp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = wp.contextPrompt;
             }
 
@@ -222,12 +242,14 @@ namespace Com.GCTC.ZombCube
                     fullyAutoSMB.GetAmmo(90);
                 }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
 
             if (other.CompareTag("AB") && wp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = wp.contextPrompt;
             }
 
@@ -247,12 +269,14 @@ namespace Com.GCTC.ZombCube
                     aB.GetAmmo(210);
                 }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
 
             if (other.CompareTag("Shotblaster") && wp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = wp.contextPrompt;
             }
 
@@ -272,12 +296,14 @@ namespace Com.GCTC.ZombCube
                     shotblaster.GetAmmo(35);
                 }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
 
             if (other.CompareTag("Sniper") && wp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = wp.contextPrompt;
             }
 
@@ -297,7 +323,8 @@ namespace Com.GCTC.ZombCube
                     sniper.GetAmmo(20);
                 }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
         }
 
@@ -467,13 +494,13 @@ namespace Com.GCTC.ZombCube
 
         protected IEnumerator ChargeHoldTime()
         {
-            while (isInteracting && holdTime < 0.5f)
+            while (isInteracting && holdTime < 0.25f)
             {
                 holdTime += Time.deltaTime; // Increase launch power over time
                 yield return null;
             }
 
-            if (holdTime < 0.5)
+            if (holdTime < 0.25f)
             {
                 isInteractHeld = false;
                 Debug.Log("Not Holding!");
