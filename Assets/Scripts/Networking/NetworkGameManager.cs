@@ -134,6 +134,11 @@ namespace Com.GCTC.ZombCube
         {
             pauseMenu.SetActive(true);
             SelectObject(settingsButton);
+
+            if (myPlayer == null)
+                myPlayer = FindPlayer.GetPlayer();
+            if (myPlayer != null)
+                myPlayer.GetComponent<NetworkPlayerManager>().DisableMobileButtons();
         }
 
         public void ResumeGame()

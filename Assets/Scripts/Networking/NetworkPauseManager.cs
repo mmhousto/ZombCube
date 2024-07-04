@@ -7,6 +7,12 @@ namespace Com.GCTC.ZombCube
 {
     public class NetworkPauseManager : MonoBehaviour
     {
+        public void PauseInput()
+        {
+            Cursor.lockState = CursorLockMode.None;
+
+            NetworkGameManager.Instance.PauseGame();
+        }
 
         public void OnGamePause(InputValue value)
         {

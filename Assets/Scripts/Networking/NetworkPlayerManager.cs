@@ -33,6 +33,7 @@ namespace Com.GCTC.ZombCube
         public NetworkLaunchGrenade grenade;
         private Player player;
         private GameObject onScreenControls;
+        private Image[] onScreenControlButtons;
         private GameObject currentPlayer;
         private UICanvasControllerInput uiInput;
         private MobileDisableAutoSwitchControls mobileControls;
@@ -116,6 +117,13 @@ namespace Com.GCTC.ZombCube
 #if (UNITY_IOS || UNITY_ANDROID)
                 currentPlayer = FindPlayer.GetPlayer();
                 onScreenControls = GameObject.FindGameObjectWithTag("ScreenControls");
+                onScreenControlButtons = onScreenControls.GetComponentsInChildren<Image>(true);
+
+                foreach (Image button in onScreenControlButtons)
+                {
+                    button.gameObject.SetActive(true);
+                }
+
                 uiInput = onScreenControls.GetComponent<UICanvasControllerInput>();
                 mobileControls = onScreenControls.GetComponent<MobileDisableAutoSwitchControls>();
 
@@ -382,7 +390,11 @@ namespace Com.GCTC.ZombCube
 
 #if (UNITY_IOS || UNITY_ANDROID)
                     UpdateLeaderboards();
-                    onScreenControls.SetActive(false);
+            foreach(Image button in onScreenControlButtons)
+            {
+                button.gameObject.SetActive(false);
+            }
+                    
 #endif
 
             try
@@ -423,7 +435,20 @@ namespace Com.GCTC.ZombCube
             Cursor.lockState = CursorLockMode.None;
 
 #if (UNITY_IOS || UNITY_ANDROID)
-                onScreenControls.SetActive(false);
+            foreach (Image button in onScreenControlButtons)
+            {
+                button.gameObject.SetActive(false);
+            }
+#endif
+        }
+
+        public void DisableMobileButtons()
+        {
+#if (UNITY_IOS || UNITY_ANDROID)
+            foreach (Image button in onScreenControlButtons)
+                {
+                    button.gameObject.SetActive(false);
+                }
 #endif
         }
 
@@ -440,7 +465,10 @@ namespace Com.GCTC.ZombCube
                 NetworkGameManager.Instance.PauseGame();
 
 #if (UNITY_IOS || UNITY_ANDROID)
-                onScreenControls.SetActive(false);
+                foreach (Image button in onScreenControlButtons)
+                {
+                    button.gameObject.SetActive(false);
+                }
 #endif
             }
             else if (isPaused == false && isGameOver == false)
@@ -452,7 +480,10 @@ namespace Com.GCTC.ZombCube
                 NetworkGameManager.Instance.ResumeGame();
 
 #if (UNITY_IOS || UNITY_ANDROID)
-                onScreenControls.SetActive(true);
+                foreach (Image button in onScreenControlButtons)
+                {
+                    button.gameObject.SetActive(true);
+                }
 #endif
             }
             else if (isGameOver == true)
@@ -461,7 +492,10 @@ namespace Com.GCTC.ZombCube
                 Cursor.lockState = CursorLockMode.None;
 
 #if (UNITY_IOS || UNITY_ANDROID)
-                onScreenControls.SetActive(false);
+                foreach (Image button in onScreenControlButtons)
+                {
+                    button.gameObject.SetActive(false);
+                }
 #endif
             }
         }
@@ -531,7 +565,10 @@ namespace Com.GCTC.ZombCube
             Cursor.lockState = CursorLockMode.Locked;
 
 #if (UNITY_IOS || UNITY_ANDROID)
-            onScreenControls.SetActive(true);
+            foreach (Image button in onScreenControlButtons)
+            {
+                button.gameObject.SetActive(true);
+            }
 #endif
         }
 
@@ -583,8 +620,11 @@ namespace Com.GCTC.ZombCube
                     UpdateLeaderboards();
 
 #if (UNITY_IOS || UNITY_ANDROID)
-                    
-                    onScreenControls.SetActive(false);
+
+                    foreach (Image button in onScreenControlButtons)
+                    {
+                        button.gameObject.SetActive(false);
+                    }
 #endif
 
                     try
@@ -658,13 +698,13 @@ namespace Com.GCTC.ZombCube
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-                if (ammoText != null && fullyAutoSMB.enabled == true)
+                if (ammoText != null && fullyAutoSMB != null && fullyAutoSMB.enabled == true)
                     ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
-                else if (ammoText != null && aB.enabled == true)
+                else if (ammoText != null && aB != null && aB.enabled == true)
                     ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";
-                else if (ammoText != null && shotblaster.enabled == true)
+                else if (ammoText != null && shotblaster != null && shotblaster.enabled == true)
                     ammoText.text = $"{shotblaster.currentAmmoInClip}/{shotblaster.reserveAmmo}";
-                else if (ammoText != null && sniper.enabled == true)
+                else if (ammoText != null && sniper != null && sniper.enabled == true)
                     ammoText.text = $"{sniper.currentAmmoInClip}/{sniper.reserveAmmo}";
                 else if (ammoText != null)
                     ammoText.text = "";
