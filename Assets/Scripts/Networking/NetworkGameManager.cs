@@ -17,6 +17,9 @@ namespace Com.GCTC.ZombCube
         public delegate void EndGame();
         public static event EndGame endGame;
 
+        public delegate void NextWaveEvent();
+        public static event NextWaveEvent nextWave;
+
         public const byte EndGameEventCode = 2;
 
         public Camera eliminatedCam;
@@ -126,6 +129,11 @@ namespace Com.GCTC.ZombCube
         {
             pauseMenu.SetActive(true);
             SelectObject(settingsButton);
+
+            if (myPlayer == null)
+                myPlayer = FindPlayer.GetPlayer();
+            if (myPlayer != null)
+                myPlayer.GetComponent<NetworkPlayerManager>().DisableMobileButtons();
         }
 
         public void ResumeGame()
@@ -136,7 +144,8 @@ namespace Com.GCTC.ZombCube
             continueScreen.SetActive(false);
             if (myPlayer == null)
                 myPlayer = FindPlayer.GetPlayer();
-            myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
+            if(myPlayer != null)
+                myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
 
             Time.timeScale = 1.0f;
         }
@@ -352,12 +361,16 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void NextWave()
         {
+            playersSpawned = playersSpawned - playersEliminated;
+            playersEliminated = 0;
             CurrentRound += 1;
 
             if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockStayinAliveTogether();
             }
+
+            nextWave();
         }
 
         [PunRPC]

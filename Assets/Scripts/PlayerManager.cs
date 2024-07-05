@@ -37,6 +37,7 @@ namespace Com.GCTC.ZombCube
         public GameObject[] grenades;
         public GameObject contextPrompt;
         private TextMeshProUGUI contextPromptText;
+        private GameObject contextPromptImage;
         public Slider healthBar;
         public Camera minimapCam;
 
@@ -120,8 +121,10 @@ namespace Com.GCTC.ZombCube
 
             if (contextPrompt != null)
             {
-                contextPromptText = contextPrompt.GetComponent<TextMeshProUGUI>();
-                contextPrompt.SetActive(false);
+                contextPromptText = contextPrompt.GetComponentInChildren<TextMeshProUGUI>();
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage = contextPrompt.GetComponentInChildren<Image>().gameObject;
+                contextPromptImage.SetActive(false);
             }
             GetComponentInChildren<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
 
@@ -268,7 +271,8 @@ namespace Com.GCTC.ZombCube
         {
             if (other.CompareTag("HealthPack") || other.CompareTag("SMB") || other.CompareTag("AB") || other.CompareTag("Shotblaster") || other.CompareTag("Sniper"))
             {
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
         }
 
@@ -279,7 +283,8 @@ namespace Com.GCTC.ZombCube
 
             if (other.CompareTag("HealthPack") && hp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = hp.contextPrompt;
             }
 
@@ -292,7 +297,8 @@ namespace Com.GCTC.ZombCube
 
                 if (healthPoints >= 100) { healthPoints = 100; }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
 
             WeaponPickup wp;
@@ -300,7 +306,8 @@ namespace Com.GCTC.ZombCube
 
             if (other.CompareTag("SMB") && wp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = wp.contextPrompt;
             }
 
@@ -320,12 +327,14 @@ namespace Com.GCTC.ZombCube
                     fullyAutoSMB.GetAmmo(90);
                 }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
 
             if (other.CompareTag("AB") && wp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = wp.contextPrompt;
             }
 
@@ -345,12 +354,14 @@ namespace Com.GCTC.ZombCube
                     aB.GetAmmo(210);
                 }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
 
             if (other.CompareTag("Shotblaster") && wp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = wp.contextPrompt;
             }
 
@@ -370,12 +381,14 @@ namespace Com.GCTC.ZombCube
                     shotblaster.GetAmmo(35);
                 }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
 
             if (other.CompareTag("Sniper") && wp.isUsable)
             {
-                contextPrompt.SetActive(true);
+                contextPromptText.gameObject.SetActive(true);
+                contextPromptImage.SetActive(true);
                 contextPromptText.text = wp.contextPrompt;
             }
 
@@ -395,7 +408,8 @@ namespace Com.GCTC.ZombCube
                     sniperBlaster.GetAmmo(20);
                 }
 
-                contextPrompt.SetActive(false);
+                contextPromptText.gameObject.SetActive(false);
+                contextPromptImage.SetActive(false);
             }
         }
 
@@ -480,13 +494,13 @@ namespace Com.GCTC.ZombCube
 
         protected IEnumerator ChargeHoldTime()
         {
-            while (isInteracting && holdTime < 0.5f)
+            while (isInteracting && holdTime < 0.25f)
             {
                 holdTime += Time.deltaTime; // Increase launch power over time
                 yield return null;
             }
 
-            if (holdTime < 0.5)
+            if (holdTime < 0.25f)
             {
                 isInteractHeld = false;
                 Debug.Log("Not Holding!");

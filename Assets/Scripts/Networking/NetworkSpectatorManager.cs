@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,17 +30,24 @@ namespace Com.GCTC.ZombCube
 
         private void Update()
         {
-            if(NetworkGameManager.Instance.IsGameOver() == true && showNextPlayerText.activeInHierarchy)
+            if ((NetworkGameManager.Instance.IsGameOver() == true || isAlive) && showNextPlayerText.activeInHierarchy)
             {
                 showNextPlayerText.SetActive(false);
             }
 
-            if(NetworkGameManager.Instance.IsGameOver() == false && isAlive == false && showNextPlayerText.activeInHierarchy == false)
+            if(NetworkGameManager.Instance.IsGameOver() == true && playerCams[0].enabled == false)
+            {
+                currentCam = 0;
+                prevCam = playerCams[0];
+                playerCams[0].enabled = true;
+            }
+
+            if (NetworkGameManager.Instance.IsGameOver() == false && isAlive == false && showNextPlayerText.activeInHierarchy == false)
             {
                 showNextPlayerText.SetActive(true);
             }
 
-            if(Camera.main == null && isAlive == false)
+            if (Camera.main == null && isAlive == false)
             {
                 /*if (playerCams[0] != null)
                 {
@@ -52,6 +58,12 @@ namespace Com.GCTC.ZombCube
                 prevCam = playerCams[0];
                 eliminatedCamera.SetActive(true);
 
+            }
+
+            if (isAlive == true && playerCams[currentCam] != null && playerCams[currentCam].isActiveAndEnabled)
+            {
+                Destroy(playerCams[currentCam].GetComponent<AudioListener>());
+                playerCams[currentCam].enabled = false;
             }
         }
 
@@ -64,23 +76,32 @@ namespace Com.GCTC.ZombCube
         public static void ActivateSpectatorCamera(Camera playerCam)
         {
             isAlive = false;
-            for(int i = 0; i < playerCams.Count; i++)
+            for (int i = 0; i < playerCams.Count; i++)
             {
                 if (playerCam == playerCams[i])
                 {
                     playerCams.RemoveAt(i);
                 }
-                
+
             }
 
-            
+
+        }
+
+        public static void EnableElimCam()
+        {
+            showNextPlayerText.SetActive(true);
+            currentCam = 0;
+            prevCam = playerCams[0];
+            playerCams[0].gameObject.SetActive(true);
+            playerCams[0].enabled = true;
         }
 
         public static void ShowNextPlayerCam()
         {
             Debug.Log("Current Cam: " + currentCam);
             int i = 0;
-            foreach(Camera cam in playerCams)
+            foreach (Camera cam in playerCams)
             {
                 Debug.Log(cam + " " + i);
                 i++;
@@ -104,7 +125,7 @@ namespace Com.GCTC.ZombCube
                 playerCams[currentCam].gameObject.AddComponent<AudioListener>();
                 playerCams[currentCam].enabled = true;
             }
-                
+
             else
                 ShowNextPlayerCam();
 
