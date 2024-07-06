@@ -94,7 +94,7 @@ public class PSSaveData : MonoBehaviour
     {
         Main.OnAsyncEvent += Main_OnAsyncEvent;
 
-        InitializeSaveData();
+        //InitializeSaveData();
 
         PSGamePad[] gamePads = GetComponents<PSGamePad>();
 
@@ -266,14 +266,12 @@ public class PSSaveData : MonoBehaviour
         saveDataParams.UserParam = (uint)OnScreenLog.FrameCount;
 
         // Actual custom file operation to perform on the savedata, once it is mounted.
-        ExampleWriteFilesRequest fileRequest = new ExampleWriteFilesRequest();
-        fileRequest.myTestData = "This is some text test data which will be written to an auto-save file. " + OnScreenLog.FrameCount;
-        fileRequest.myOtherTestData = "This is some more text which is written to another auto-save file. " + OnScreenLog.FrameCount;
+        PSWriteFilesRequest fileRequest = new PSWriteFilesRequest();
         fileRequest.IgnoreCallback = false; // In this example get a async callback once the file operations are complete
 
-        ExampleWriteFilesResponse fileResponse = new ExampleWriteFilesResponse();
+        PSWriteFilesResponse fileResponse = new PSWriteFilesResponse();
 
-        SonySaveDataMain.StartSaveDataCoroutine(SaveData.AutoSaveProcess.StartAutoSaveProcess(userId, newItem, newDirName, newSaveDataBlocks, saveDataParams, fileRequest, fileResponse, backup, HandleAutoSaveError));
+        StartSaveDataCoroutine(SaveData.AutoSaveProcess.StartAutoSaveProcess(userId, newItem, newDirName, newSaveDataBlocks, saveDataParams, fileRequest, fileResponse, backup, HandleAutoSaveError));
     }
 
     public void StartAutoSaveLoad()
@@ -284,11 +282,12 @@ public class PSSaveData : MonoBehaviour
         DirName dirName = new DirName();
         dirName.Data = "Autosave";
 
-        ExampleReadFilesRequest fileRequest = new ExampleReadFilesRequest();
+        PSReadFilesRequest fileRequest = new PSReadFilesRequest();
         fileRequest.IgnoreCallback = false; // In this example get a async callback once the file operations are complete
-        ExampleReadFilesResponse fileResponse = new ExampleReadFilesResponse();
+        PSReadFilesResponse fileResponse = new PSReadFilesResponse();
 
-        SonySaveDataMain.StartSaveDataCoroutine(SaveData.AutoSaveProcess.StartAutoSaveLoadProcess(userId, dirName, fileRequest, fileResponse, HandleAutoSaveError));
+        StartSaveDataCoroutine(SaveData.AutoSaveProcess.StartAutoSaveLoadProcess(userId, dirName, fileRequest, fileResponse, HandleAutoSaveError));
+        CloudSaveLogin.Instance.Login();
     }
 
     void HandleAutoSaveError(uint errorCode)
@@ -308,7 +307,7 @@ public class PSSaveData : MonoBehaviour
 
     public InitResult initResult;
 
-    void InitializeSaveData()
+    public void InitializeSaveData()
     {
         try
         {

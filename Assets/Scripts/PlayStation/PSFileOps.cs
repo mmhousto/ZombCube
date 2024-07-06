@@ -123,13 +123,14 @@ namespace Com.GCTC.ZombCube
                 FileStream stream = new FileStream(path, FileMode.Open);
 
                 Com.GCTC.ZombCube.SaveData data = formatter.Deserialize(stream) as Com.GCTC.ZombCube.SaveData;
+                CloudSaveLogin.Instance.LoadPlayerData(data);
                 stream.Close();
-
             }
             else
             {
                 //Debug.Log("Save file not found in " + path);
                 Com.GCTC.ZombCube.SaveData data = new Com.GCTC.ZombCube.SaveData();
+                CloudSaveLogin.Instance.LoadPlayerData(data);
             }
 
             /*

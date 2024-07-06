@@ -305,32 +305,16 @@ namespace Com.GCTC.ZombCube
             GetComponent<PSAuth>().Initialize();
         }
 
-        public async void SignInPS(string psnUserID, string tokenID, string authCode)
+        public void SignInPS(string psnUserID, string tokenID, string authCode)
         {
             currentSSO = ssoOption.Anonymous;
 
-            AuthenticationService.Instance.SwitchProfile("default");
+            GetComponent<PSSaveData>().InitializeSaveData();
 
-            // Cloud Save needs to be initialized along with the other Unity Services that
-            // it depends on (namely, Authentication), and then the user must sign in.
-            if (UnityServices.State == ServicesInitializationState.Initialized)
-            {
-                Debug.Log("Services are already Initialized");
-            }
-            else
-                await UnityServices.InitializeAsync();
+            //SetPlayer(psnUserID, psnUserID);
 
 
-            if (AuthenticationService.Instance.IsSignedIn)
-            {
-                SetPlayer(AuthenticationService.Instance.PlayerId, psnUserID);
-
-                Login();
-            }
-            else
-                await SignInAnonymouslyAsync(psnUserID);
-
-            
+            //Login();
 
         }
 
@@ -485,7 +469,7 @@ namespace Com.GCTC.ZombCube
         /// <summary>
         /// Loads the Main Menu Scene.
         /// </summary>
-        private void Login()
+        public void Login()
         {
             loggedIn = true;
             isSigningIn = false;
