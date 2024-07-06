@@ -11,63 +11,24 @@ using Unity.SaveData.PS5.Dialog;
 using Unity.SaveData.PS5.Initialization;
 
 // Save/Load process
-
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-
-using UnityEngine.InputSystem.Layouts;
-using System.Runtime.InteropServices;
-
-using UnityEngine.InputSystem.Utilities;
-using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.InputSystem.DualShock;
-#endif
+using Com.GCTC.ZombCube;
 
 #if UNITY_PS5
 
 using Unity.SaveData.PS5;
 
-#if ENABLE_INPUT_SYSTEM
-// IMPORTANT: State layout must match with GamepadInputStatePS5 in native.
-[StructLayout(LayoutKind.Explicit, Size = 4)]
-internal struct GamepadStatePS5Lite : IInputStateTypeInfo
-{
-    public FourCC format  => new FourCC('P', '4', 'G', 'P');
-
-    [InputControl(name = "buttonNorth", bit = 12)]
-    [InputControl(name = "buttonEast", bit = 13)]
-    [InputControl(name = "buttonSouth", bit = 14)]
-    [InputControl(name = "buttonWest", bit = 15)]
-    [InputControl(name = "dpad", layout = "Dpad", sizeInBits = 4, bit = 4)]
-    [InputControl(name = "dpad/up", bit = 4)]
-    [InputControl(name = "dpad/right", bit = 5)]
-    [InputControl(name = "dpad/down", bit = 6)]
-    [InputControl(name = "dpad/left", bit = 7)]
-    [FieldOffset(0)] public uint buttons;
-
-    [InputControl(layout = "Stick")] [FieldOffset(4)] public Vector2 leftStick;
-    [InputControl(layout = "Stick")] [FieldOffset(12)] public Vector2 rightStick;
-    [InputControl] [FieldOffset(20)] public float leftTrigger;
-    [InputControl] [FieldOffset(24)] public float rightTrigger;
-}
-
-[InputControlLayout(stateType = typeof(GamepadStatePS5Lite), displayName = "PS5 DualSense (on PS5)")]
-//[Scripting.Preserve]
-class DualSenseGamepadLite : DualShockGamepad {}
-#endif
-
-public class SonySaveDataMain : MonoBehaviour
+public class PSSaveData : MonoBehaviour
 {
     SonySaveDataMount m_Mount;
     SonySaveDataUnmount m_Unmount;
     SonySaveDataDelete m_Delete;
     SonySaveDataSearch m_Search;
     SonySaveDataBackup m_Backup;
-    SonySaveDataFileOps m_FileOps;
+    PSSaveDataFileOps m_FileOps;
 
     public Material iconMaterial;
 
-    static SonySaveDataMain singleton;
+    static PSSaveData singleton;
 
     static public UInt64 TestBlockSize = Mounting.MountRequest.BLOCKS_MIN + ((1024 * 1024 * 45) / Mounting.MountRequest.BLOCK_SIZE);
 
@@ -85,7 +46,7 @@ public class SonySaveDataMain : MonoBehaviour
         // Therefore it is very important for this sample app to make sure these mount points are closed.
         // un normal circumstances this won't happen in a real app as mounting for read/write and then unmounting should be handled in a timely manor and unmounting shouldn't require any interaction
         // with the user.
-        if(flagindex == UnityEngine.PS5.Utility.SystemServiceFlag.SystemUiOverlaid)
+        if (flagindex == UnityEngine.PS5.Utility.SystemServiceFlag.SystemUiOverlaid)
         {
             List<Mounting.MountPoint> mountPoints = Mounting.ActiveMountPoints;
 
@@ -93,7 +54,7 @@ public class SonySaveDataMain : MonoBehaviour
             {
                 var mp = mountPoints[i];
 
-                if (mp.IsMounted == true && (mp.MountMode & Mounting.MountModeFlags.ReadWrite) != 0 )
+                if (mp.IsMounted == true && (mp.MountMode & Mounting.MountModeFlags.ReadWrite) != 0)
                 {
                     //OnScreenLog.AddWarning("Automatically Unmounting " + mp.DirName.Data);
                     m_Unmount.Unmount(mp);
@@ -103,21 +64,14 @@ public class SonySaveDataMain : MonoBehaviour
     }
 
     void Start()
-	{
+    {
         singleton = this;
-
-#if ENABLE_INPUT_SYSTEM
-        InputSystem.RegisterLayout<DualSenseGamepadLite>("PS5DualSenseGamepad",
-            matches: new UnityEngine.InputSystem.Layouts.InputDeviceMatcher()
-                .WithInterface("PS5")
-                .WithDeviceClass("PS5DualShockGamepad"));
-#endif
 
         // Initialize the NP Toolkit.
         //OnScreenLog.Add("Initializing SaveData");
 
 #if UNITY_PS5
-		//OnScreenLog.Add(System.String.Format("Initial UserId:0x{0:X}  Primary UserId:0x{1:X}", UnityEngine.PS5.Utility.initialUserId, UnityEngine.PS5.Utility.primaryUserId));
+        //OnScreenLog.Add(System.String.Format("Initial UserId:0x{0:X}  Primary UserId:0x{1:X}", UnityEngine.PS5.Utility.initialUserId, UnityEngine.PS5.Utility.primaryUserId));
 #endif
 
         m_Mount = new SonySaveDataMount();
@@ -125,11 +79,11 @@ public class SonySaveDataMain : MonoBehaviour
         m_Delete = new SonySaveDataDelete();
         m_Search = new SonySaveDataSearch();
         m_Backup = new SonySaveDataBackup();
-        m_FileOps = new SonySaveDataFileOps();
+        m_FileOps = new PSSaveDataFileOps();
 
         m_Mount.iconMaterial = iconMaterial;
 
-        m_Mount.screenShotHelper = GetComponent<SaveIconWithScreenShot>();
+        //m_Mount.screenShotHelper = GetComponent<SaveIconWithScreenShot>();
 
         UnityEngine.PS5.Utility.onSystemServiceFlagEvent += OnSystemServiceFlagEvent;
 
@@ -142,9 +96,9 @@ public class SonySaveDataMain : MonoBehaviour
 
         InitializeSaveData();
 
-        GamePad[] gamePads = GetComponents<GamePad>();
+        PSGamePad[] gamePads = GetComponents<PSGamePad>();
 
-        User.Initialize(gamePads);
+        PSUser.Initialize(gamePads);
 
         //OutputInstructions();
     }
@@ -253,39 +207,39 @@ public class SonySaveDataMain : MonoBehaviour
 
     void MenuMain()
     {
-            
 
-            /*if (m_MenuMain.AddItem("Mount", initResult.Initialized == true))
-            {
-                m_MenuStack.PushMenu(m_Mount.GetMenu());
-            }
 
-            if (m_MenuMain.AddItem("Unmount", isValid == true))
-            {
-                m_MenuStack.PushMenu(m_Unmount.GetMenu());
-            }
+        /*if (m_MenuMain.AddItem("Mount", initResult.Initialized == true))
+        {
+            m_MenuStack.PushMenu(m_Mount.GetMenu());
+        }
 
-            if (m_MenuMain.AddItem("Example File Operations", isValid == true))
-            {
-                m_MenuStack.PushMenu(m_FileOps.GetMenu());
-            }
+        if (m_MenuMain.AddItem("Unmount", isValid == true))
+        {
+            m_MenuStack.PushMenu(m_Unmount.GetMenu());
+        }
 
-            if (m_MenuMain.AddItem("Delete", isValid == true))
-            {
-                m_MenuStack.PushMenu(m_Delete.GetMenu());
-            }
+        if (m_MenuMain.AddItem("Example File Operations", isValid == true))
+        {
+            m_MenuStack.PushMenu(m_FileOps.GetMenu());
+        }
 
-            if (m_MenuMain.AddItem("Backup", isValid == true))
-            {
-                m_MenuStack.PushMenu(m_Backup.GetMenu());
-            }*/
+        if (m_MenuMain.AddItem("Delete", isValid == true))
+        {
+            m_MenuStack.PushMenu(m_Delete.GetMenu());
+        }
 
-	}
+        if (m_MenuMain.AddItem("Backup", isValid == true))
+        {
+            m_MenuStack.PushMenu(m_Backup.GetMenu());
+        }*/
+
+    }
 
     public void StartAutoSave()
     {
         // Get the user id for the saves
-        int userId = User.GetActiveUserId;
+        int userId = PSUser.GetActiveUserId;
 
         // Create the new item for the saves dialog list
         Dialogs.NewItem newItem = new Dialogs.NewItem();
@@ -325,7 +279,7 @@ public class SonySaveDataMain : MonoBehaviour
     public void StartAutoSaveLoad()
     {
         // Get the user id for the saves
-        int userId = User.GetActiveUserId;
+        int userId = PSUser.GetActiveUserId;
 
         DirName dirName = new DirName();
         dirName.Data = "Autosave";
@@ -339,7 +293,7 @@ public class SonySaveDataMain : MonoBehaviour
 
     void HandleAutoSaveError(uint errorCode)
     {
-        if ( errorCode == (uint)ReturnCodes.DATA_ERROR_NO_SPACE_FS )
+        if (errorCode == (uint)ReturnCodes.DATA_ERROR_NO_SPACE_FS)
         {
             //OnScreenLog.AddError("There is no space available for the auto-save");
         }
@@ -369,6 +323,7 @@ public class SonySaveDataMain : MonoBehaviour
                 //OnScreenLog.Add("SaveData Initialized ");
                 //OnScreenLog.Add("Plugin SDK Version : " + initResult.SceSDKVersion.ToString());
                 //OnScreenLog.Add("Plugin DLL Version : " + initResult.DllVersion.ToString());
+                StartAutoSaveLoad();
             }
             else
             {
@@ -406,7 +361,7 @@ public class SonySaveDataMain : MonoBehaviour
 
     public static Mounting.MountPoint GetMountPoint()
     {
-        if (GamePad.activeGamePad == null)
+        if (PSGamePad.activeGamePad == null)
         {
             return null;
         }
@@ -418,7 +373,7 @@ public class SonySaveDataMain : MonoBehaviour
         }
 
         // Find the first active mount point that matches the current user and the current directory name.
-        int userId = User.GetActiveUserId;
+        int userId = PSUser.GetActiveUserId;
         string dirName = SaveDataDirNames.GetCurrentDirName();
 
         for (int i = 0; i < mountPoints.Count; i++)
@@ -438,4 +393,5 @@ public class SonySaveDataMain : MonoBehaviour
 
 
 }
+
 #endif
