@@ -36,34 +36,48 @@ public class PSAuth : MonoBehaviour
 
     }
 
+    public void SignIn()
+    {
+        CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
+    }
+
     private void GetAuthCode()
     {
-        Authentication.GetAuthorizationCodeRequest request = new Authentication.GetAuthorizationCodeRequest()
+        try
         {
-            UserId = PSGamePad.activeGamePad.loggedInUser.userId,
+
+
+            Authentication.GetAuthorizationCodeRequest request = new Authentication.GetAuthorizationCodeRequest()
+            {
+                UserId = PSGamePad.activeGamePad.loggedInUser.userId,
 #if UNITY_PS5
-            ClientId = "686986a6-3b34-4a42-89d1-b4ba193bc80f",
+                ClientId = "686986a6-3b34-4a42-89d1-b4ba193bc80f",
 #elif UNITY_PS4
                     ClientId = "c5806b90-16f4-4086-9b43-665b69654b05",
 #endif
-            Scope = "psn:s2s"
-        };
+                Scope = "psn:s2s"
+            };
 
-        var requestOp = new AsyncRequest<Authentication.GetAuthorizationCodeRequest>(request).ContinueWith((antecedent) =>
-        {
-            if (PSNManager.CheckAysncRequestOK(antecedent))
+            var requestOp = new AsyncRequest<Authentication.GetAuthorizationCodeRequest>(request).ContinueWith((antecedent) =>
             {
-                /*OnScreenLog.Add("GetAuthorizationCodeRequest:");
-                OnScreenLog.Add("  ClientId = " + antecedent.Request.ClientId);
-                OnScreenLog.Add("  Scope = " + antecedent.Request.Scope);
-                OnScreenLog.Add("  AuthCode = " + antecedent.Request.AuthCode);
-                OnScreenLog.Add("  IssuerId = " + antecedent.Request.IssuerId);*/
-                authCode = antecedent.Request.AuthCode;
-                GetIDToken();
-            }
-        });
+                if (PSNManager.CheckAysncRequestOK(antecedent))
+                {
+                    /*OnScreenLog.Add("GetAuthorizationCodeRequest:");
+                    OnScreenLog.Add("  ClientId = " + antecedent.Request.ClientId);
+                    OnScreenLog.Add("  Scope = " + antecedent.Request.Scope);
+                    OnScreenLog.Add("  AuthCode = " + antecedent.Request.AuthCode);
+                    OnScreenLog.Add("  IssuerId = " + antecedent.Request.IssuerId);*/
+                    authCode = antecedent.Request.AuthCode;
+                    GetIDToken();
+                }
+            });
 
-        Authentication.Schedule(requestOp);
+            Authentication.Schedule(requestOp);
+        }
+        catch
+        {
+            GetAuthCode();
+        }
 
         
     }

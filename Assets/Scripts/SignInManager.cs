@@ -60,7 +60,7 @@ namespace Com.GCTC.ZombCube
 #elif UNITY_IOS
             SignInApple();
 #elif UNITY_PS5 || UNITY_PS4
-            CloudSaveLogin.Instance.PSAuthInit();
+            CloudSaveLogin.Instance.PSSignIn();
 #else
             if (CloudSaveLogin.Instance.isSteam && Application.internetReachability != NetworkReachability.NotReachable)
                 SignInSteam();

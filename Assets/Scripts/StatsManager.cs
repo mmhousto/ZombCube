@@ -18,7 +18,7 @@ namespace Com.GCTC.ZombCube
         public TextMeshProUGUI userIdLabel, userNameLabel, playerNameLabel, cubesDestroyedLabel,
             currentBlasterLabel, currentSkinLabel, soloWaveLabel, partyWaveLabel, projectilesLabel, totalPointsLabel;
 
-        public GameObject gameCenterButton, leaderboardsButton, achievementsButton, logoutButton;
+        public GameObject gameCenterButton, leaderboardsButton, achievementsButton, logoutButton, deleteButton;
 
         private void Start()
         {
@@ -76,6 +76,9 @@ namespace Com.GCTC.ZombCube
             leaderboardsButton.SetActive(false);
             achievementsButton.SetActive(false);
 #endif
+
+            if(CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+                deleteButton.SetActive(false);
 
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
             {

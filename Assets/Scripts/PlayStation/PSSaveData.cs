@@ -21,14 +21,16 @@ public class PSSaveData : MonoBehaviour
 {
     SonySaveDataMount m_Mount;
     SonySaveDataUnmount m_Unmount;
-    SonySaveDataDelete m_Delete;
+    PSSaveDataDelete m_Delete;
     SonySaveDataSearch m_Search;
     SonySaveDataBackup m_Backup;
     PSSaveDataFileOps m_FileOps;
 
     public Material iconMaterial;
 
-    static PSSaveData singleton;
+    public bool initialized;
+
+    public static PSSaveData singleton;
 
     static public UInt64 TestBlockSize = Mounting.MountRequest.BLOCKS_MIN + ((1024 * 1024 * 45) / Mounting.MountRequest.BLOCK_SIZE);
 
@@ -76,7 +78,7 @@ public class PSSaveData : MonoBehaviour
 
         m_Mount = new SonySaveDataMount();
         m_Unmount = new SonySaveDataUnmount();
-        m_Delete = new SonySaveDataDelete();
+        m_Delete = new PSSaveDataDelete();
         m_Search = new SonySaveDataSearch();
         m_Backup = new SonySaveDataBackup();
         m_FileOps = new PSSaveDataFileOps();
@@ -96,9 +98,9 @@ public class PSSaveData : MonoBehaviour
 
         //InitializeSaveData();
 
-        PSGamePad[] gamePads = GetComponents<PSGamePad>();
+        //PSGamePad[] gamePads = GetComponents<PSGamePad>();
 
-        PSUser.Initialize(gamePads);
+        //PSUser.Initialize(gamePads);
 
         //OutputInstructions();
     }
@@ -236,6 +238,11 @@ public class PSSaveData : MonoBehaviour
 
     }
 
+    public void DeleteSaveData()
+    {
+        m_Delete.Delete();
+    }
+
     public void StartAutoSave()
     {
         // Get the user id for the saves
@@ -245,7 +252,7 @@ public class PSSaveData : MonoBehaviour
         Dialogs.NewItem newItem = new Dialogs.NewItem();
 
         newItem.IconPath = "/app0/Media/StreamingAssets/SaveIcon.png";
-        newItem.Title = "Autosave - " + OnScreenLog.FrameCount;
+        newItem.Title = "Autosave";
 
         // The directory name for a new savedata
         DirName newDirName = new DirName();
@@ -260,9 +267,9 @@ public class PSSaveData : MonoBehaviour
         // Parameters to use for the savedata
         SaveDataParams saveDataParams = new SaveDataParams();
 
-        saveDataParams.Title = newItem.Title;
-        saveDataParams.SubTitle = "Subtitle for auto-save " + OnScreenLog.FrameCount;
-        saveDataParams.Detail = "Details for auto-save " + OnScreenLog.FrameCount;
+        saveDataParams.Title = "ZombCube Save Data";
+        saveDataParams.SubTitle = "Auto-save";
+        saveDataParams.Detail = "Details for Auto-save";
         saveDataParams.UserParam = (uint)OnScreenLog.FrameCount;
 
         // Actual custom file operation to perform on the savedata, once it is mounted.
@@ -322,6 +329,7 @@ public class PSSaveData : MonoBehaviour
                 //OnScreenLog.Add("SaveData Initialized ");
                 //OnScreenLog.Add("Plugin SDK Version : " + initResult.SceSDKVersion.ToString());
                 //OnScreenLog.Add("Plugin DLL Version : " + initResult.DllVersion.ToString());
+                initialized = true;
                 StartAutoSaveLoad();
             }
             else

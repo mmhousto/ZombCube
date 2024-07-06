@@ -42,7 +42,7 @@ namespace Com.GCTC.ZombCube
         public static CloudSaveLogin Instance { get { return instance; } }
 
         // What SSO Option the use is using atm.
-        public enum ssoOption { Anonymous, Facebook, Google, Apple, Steam }
+        public enum ssoOption { Anonymous, Facebook, Google, Apple, Steam, PS }
 
         // Player Data Object
         public Player player;
@@ -223,29 +223,36 @@ namespace Com.GCTC.ZombCube
 
         public async void DeleteAccount()
         {
-            await ForceDeleteSpecificData(userID);
-            SaveSystem.DeletePlayer();
-            await AuthenticationService.Instance.DeleteAccountAsync();
-
-            userID = "";
-            userName = "";
-
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            if (currentSSO == ssoOption.PS)
             {
-                this.appleAuthManager.SetCredentialsRevokedCallback(result =>
-                {
-                    // Sign in with Apple Credentials were revoked.
-                    // Discard credentials/user id and go to login screen.
+                SaveSystem.DeletePlayer();
+                userID = "";
+                userName = "";
+                GetComponent<PSAuth>().ResetInit();
+            }
+            else
+            {
+                await ForceDeleteSpecificData(userID);
+                SaveSystem.DeletePlayer();
+                await AuthenticationService.Instance.DeleteAccountAsync();
 
-                    PlayerPrefs.SetString("AppleUserIdKey", "");
-                    PlayerPrefs.SetString("AppleUserNameKey", "");
-                    PlayerPrefs.SetString("AppleTokenIdKey", "");
-                });
+                userID = "";
+                userName = "";
+
+                if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+                {
+                    this.appleAuthManager.SetCredentialsRevokedCallback(result =>
+                    {
+                        // Sign in with Apple Credentials were revoked.
+                        // Discard credentials/user id and go to login screen.
+
+                        PlayerPrefs.SetString("AppleUserIdKey", "");
+                        PlayerPrefs.SetString("AppleUserNameKey", "");
+                        PlayerPrefs.SetString("AppleTokenIdKey", "");
+                    });
+                }
             }
 
-#if UNITY_PS5 || UNITY_PS4
-            GetComponent<PSAuth>().ResetInit();
-#endif
 
             LogoutScreenActivate();
         }
@@ -305,11 +312,22 @@ namespace Com.GCTC.ZombCube
             GetComponent<PSAuth>().Initialize();
         }
 
+        public void PSSignIn()
+        {
+            GetComponent<PSAuth>().SignIn();
+        }
+
         public void SignInPS(string psnUserID, string tokenID, string authCode)
         {
-            currentSSO = ssoOption.Anonymous;
+            currentSSO = ssoOption.PS;
 
-            GetComponent<PSSaveData>().InitializeSaveData();
+            userID = PSUser.GetActiveUserId.ToString();
+            userName = psnUserID;
+
+            if (PSSaveData.singleton.initialized)
+                PSSaveData.singleton.StartAutoSaveLoad();
+            else
+                PSSaveData.singleton.InitializeSaveData();
 
             //SetPlayer(psnUserID, psnUserID);
 

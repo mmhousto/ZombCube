@@ -401,8 +401,19 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3d68f4c0-0384-4e1e-a5d3-dc7c3767459d"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""id"": ""080c5eec-b624-417f-a1ea-f76567687709"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GamePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf434072-b978-4f83-a50b-160adce8dcb0"",
+                    ""path"": ""<XInputController>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad;Touch"",
@@ -490,7 +501,7 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c4ba1de7-8c9e-4000-9061-de85ba600df5"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -505,6 +516,17 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwitchWeapons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06cc91dd-5c6a-4991-a00a-b21f0003f7c9"",
+                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""SwitchWeapons"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

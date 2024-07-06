@@ -49,11 +49,11 @@ public class SonySaveDataDelete
 
             int requestId = Deleting.Delete(request, response);
 
-            OnScreenLog.Add("Delete Async : Request Id = " + requestId);
+            //OnScreenLog.Add("Delete Async : Request Id = " + requestId);
         }
         catch (SaveDataException e)
         {
-            OnScreenLog.AddError("Exception : " + e.ExtendedMessage);
+            //OnScreenLog.AddError("Exception : " + e.ExtendedMessage);
         }
     }
 

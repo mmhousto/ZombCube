@@ -164,9 +164,9 @@ namespace Com.GCTC.ZombCube
             }
 #endif
 
-            //GamePad[] gamePads = GetComponents<GamePad>();
+            PSGamePad[] gamePads = GetComponents<PSGamePad>();
 
-            //User.Initialize(gamePads);
+            PSUser.Initialize(gamePads);
         }
 
         // Update is called once per frame
