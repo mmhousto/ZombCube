@@ -19,6 +19,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Security.Principal;
+using PSNSample;
 
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
@@ -328,6 +329,8 @@ namespace Com.GCTC.ZombCube
                 PSSaveData.singleton.StartAutoSaveLoad();
             else
                 PSSaveData.singleton.InitializeSaveData();
+
+            PSTrophies.Initialize();
 
             //SetPlayer(psnUserID, psnUserID);
 

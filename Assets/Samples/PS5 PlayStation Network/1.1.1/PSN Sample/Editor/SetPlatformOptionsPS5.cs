@@ -54,15 +54,15 @@ public class SetPSNPlatformOptionsPS5
     // Use this for initialization
     static void SetOptions()
     {
-        PlayerSettings.productName = "Unity PSN Example";
+        PlayerSettings.productName = "ZombCube";
 
         string fullSettingsPath = SearchForDirectory(Application.dataPath, "settings~");
 
         string configZipFile = SearchForFile(fullSettingsPath, "npconfig", true);
         string paramFile = SearchForFile(fullSettingsPath, "param", true);
 
-        string pic0 = SearchForFile(fullSettingsPath, "pic0.png", true);
-        string pic1 = SearchForFile(fullSettingsPath, "pic1.png", true);
+        string pic0 = SearchForFile(fullSettingsPath, "ZombCube.png", true);
+        string pic1 = SearchForFile(fullSettingsPath, "MMsGamingNeon.png", true);
     //    string snd0 = SearchForFile(fullSettingsPath, "snd0.png", true);
         string startupImages = SearchForDirectory(fullSettingsPath, "StartupImages", true);
         string titleIcons = SearchForDirectory(fullSettingsPath, "TitleIcons", true);

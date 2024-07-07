@@ -63,7 +63,6 @@ namespace Com.GCTC.ZombCube
         PSAuth psAuth;
 
 #if UNITY_PS5
-        SonyNpTrophies m_Trophies;
         SonyNpUDS m_UDS;
         SonyEntitlements m_Entitlements;
 #endif
@@ -244,6 +243,7 @@ namespace Com.GCTC.ZombCube
         private void PSAuthInit()
         {
             psAuth.Initialize();
+            
         }
 
     }
