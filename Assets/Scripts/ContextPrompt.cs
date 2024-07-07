@@ -8,71 +8,46 @@ namespace Com.GCTC.ZombCube
 {
     public class ContextPrompt : MonoBehaviour
     {
-        public Sprite pc, xbox;
-        private PlayerInput playerInput;
+        public Sprite pc, xbox, ps;
         private Image image;
         // Start is called before the first frame update
         void Start()
         {
-            if (PlayerInput.all.Count > 0)
-                playerInput = PlayerInput.all[0];
             image = GetComponent<Image>();
 
-            if (playerInput != null)
-            {
-                switch (playerInput.currentControlScheme)
-                {
-                    case "KeyboardMouse":
-                        if (image.sprite != pc)
-                            image.sprite = pc;
-                        break;
-                    case "Gamepad":
-                        if (image.sprite != xbox)
-                            image.sprite = xbox;
-                        break;
-                    case "Touch":
-                        if (image.enabled == true)
-                            image.enabled = false;
-                        break;
-                    default:
-                        if (image.sprite != pc)
-                            image.sprite = pc;
-                        break;
-                }
-
-#if (UNITY_IOS || UNITY_ANDROID)
-                image.enabled = false;
-#endif
-            }
+            CheckControllerType();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (playerInput == null && PlayerInput.all.Count > 0)
-                playerInput = PlayerInput.all[0];
+            CheckControllerType();
 
-            if(playerInput != null)
+        }
+
+        void CheckControllerType()
+        {
+            if (Gamepad.current != null)
             {
-                switch (playerInput.currentControlScheme)
+                string controllerName = Gamepad.current.displayName.ToLower();
+
+                if (IsXboxController(controllerName) && image.sprite != xbox)
                 {
-                    case "KeyboardMouse":
-                        if (image.sprite != pc)
-                            image.sprite = pc;
-                        break;
-                    case "Gamepad":
-                        if (image.sprite != xbox)
-                            image.sprite = xbox;
-                        break;
-                    case "Touch":
-                        if (image.enabled == true)
-                            image.enabled = false;
-                        break;
-                    default:
-                        if (image.sprite != pc)
-                            image.sprite = pc;
-                        break;
+                    image.sprite = xbox;
                 }
+                else if (IsPlayStationController(controllerName) && (image.sprite != ps))
+                {
+                    image.sprite = ps;
+                }
+                else if(!IsXboxController(controllerName) && !IsPlayStationController(controllerName) && image != xbox)
+                {
+                    image.sprite = xbox;
+                }
+            }
+            else
+            {
+                if (image.sprite != pc)
+                    image.sprite = pc;
 
 #if (UNITY_IOS || UNITY_ANDROID)
                 if (image.enabled == true)
@@ -80,6 +55,16 @@ namespace Com.GCTC.ZombCube
 #endif
             }
 
+        }
+
+        bool IsXboxController(string controllerName)
+        {
+            return controllerName.Contains("xbox");
+        }
+
+        bool IsPlayStationController(string controllerName)
+        {
+            return controllerName.Contains("dualshock") || controllerName.Contains("dual sense") || controllerName.Contains("ps4") || controllerName.Contains("ps5");
         }
     }
 }

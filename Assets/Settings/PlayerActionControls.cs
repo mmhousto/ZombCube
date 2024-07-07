@@ -402,21 +402,10 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""080c5eec-b624-417f-a1ea-f76567687709"",
-                    ""path"": ""<DualShockGamepad>/start"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""GamePause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bf434072-b978-4f83-a50b-160adce8dcb0"",
-                    ""path"": ""<XInputController>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad;Touch"",
                     ""action"": ""GamePause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -523,7 +512,7 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""06cc91dd-5c6a-4991-a00a-b21f0003f7c9"",
-                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
