@@ -87,9 +87,12 @@ namespace Com.GCTC.ZombCube
             if (mode == 1)
             {
                 couchCoopManager.EnableDisableInput(true);
+                LeaderboardManager.UnlockLetsPlayTogether();
             }
             else if (!playerInput.actions.enabled)
                 playerInput.actions.Enable();
+
+            if (mode == 0) LeaderboardManager.UnlockLetsPlay();
 
             if (overrideCursor == false)
                 Cursor.lockState = CursorLockMode.Locked;
@@ -148,7 +151,7 @@ namespace Com.GCTC.ZombCube
             CurrentRound += 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
             {
                 LeaderboardManager.UnlockStayinAlive();
             }

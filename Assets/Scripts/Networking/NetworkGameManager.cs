@@ -87,6 +87,8 @@ namespace Com.GCTC.ZombCube
             myPlayer = FindPlayer.GetPlayer();
 
             Projectile.pointsToAdd = 10;
+
+            LeaderboardManager.UnlockLetsParty();
         }
 
         // Update is called once per frame
@@ -365,7 +367,7 @@ namespace Com.GCTC.ZombCube
             playersEliminated = 0;
             CurrentRound += 1;
 
-            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
             {
                 LeaderboardManager.UnlockStayinAliveTogether();
             }

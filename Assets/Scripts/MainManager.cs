@@ -1,3 +1,4 @@
+using PSNSample;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -51,13 +52,13 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = player.playerName;
 
-            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && reportedNGamer == false)
+            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
             }
 
-            if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && player != null)
+            if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && player != null)
             {
                 if (player.cubesEliminated >= 10000)
                 {
@@ -172,7 +173,7 @@ namespace Com.GCTC.ZombCube
 
         private void CheckNGamer1()
         {
-            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && reportedNGamer == false)
+            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
