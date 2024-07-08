@@ -6,7 +6,7 @@ namespace Com.GCTC.ZombCube
     public class PSNManager : MonoBehaviour
     { }
 }
-#endif
+#else
 
 using UnityEngine;
 using System;
@@ -248,3 +248,4 @@ namespace Com.GCTC.ZombCube
 
     }
 }
+#endif

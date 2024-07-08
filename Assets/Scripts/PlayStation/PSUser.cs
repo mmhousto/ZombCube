@@ -6,7 +6,7 @@ namespace Com.GCTC.ZombCube
     public class PSUser : MonoBehaviour
     { }
 }
-#endif
+#else
 
 using Unity.PSN.PS5.Aysnc;
 using Unity.PSN.PS5.Sessions;
@@ -297,3 +297,4 @@ namespace Com.GCTC.ZombCube
     }
 
 }
+#endif

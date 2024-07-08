@@ -15,7 +15,11 @@ namespace Com.GCTC.ZombCube
         public static void SavePlayer(Player player)
         {
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+#if UNITY_PS5
                 PSSaveData.singleton.StartAutoSave();
+#endif
+            }
             else
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -57,7 +61,11 @@ namespace Com.GCTC.ZombCube
         public static void DeletePlayer()
         {
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+#if UNITY_PS5
                 PSSaveData.singleton.DeleteSaveData();
+#endif
+            }
             else
             {
                 string path = Application.persistentDataPath + "/playerData.hax";

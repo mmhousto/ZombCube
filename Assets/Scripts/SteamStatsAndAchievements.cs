@@ -6,6 +6,7 @@ using UnityEngine;
 
 #if !DISABLESTEAMWORKS
 using Steamworks;
+using Unity.Services.Authentication;
 #endif
 
 namespace Com.GCTC.ZombCube

@@ -2,11 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem.Users;
 
-#if UNITY_EDITOR && UNITY_PS5
+#if UNITY_EDITOR
 using DualSensePad = UnityEngine.InputSystem.PS5.DualSenseGamepadPC;
 #elif UNITY_PS5
 using DualSensePad = UnityEngine.InputSystem.PS5.DualSenseGamepad;
 #endif
+
 
 namespace UnityEngine.InputSystem.PS5.ControllerSample
 {

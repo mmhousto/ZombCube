@@ -1,9 +1,13 @@
+
 using System;
 using UnityEngine;
+#if UNITY_PS5 || UNITY_PS4
 using UnityEngine.InputSystem.PS5.LowLevel;
 using UnityEngine.Profiling;
 using UnityEngine.PS5;
+#endif
 using UnityEngine.Serialization;
+
 
 namespace UnityEngine.InputSystem.PS5.ControllerSample
 {
@@ -219,4 +223,3 @@ namespace UnityEngine.InputSystem.PS5.ControllerSample
         }
     }
 }
-

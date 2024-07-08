@@ -144,6 +144,8 @@ namespace Com.GCTC.ZombCube
                 SignInWithSteam();
                 isSigningIn = true;
             }
+            else
+                isSigningIn = false;
 #endif
         }
 
@@ -229,7 +231,9 @@ namespace Com.GCTC.ZombCube
                 SaveSystem.DeletePlayer();
                 userID = "";
                 userName = "";
+#if UNITY_PS5
                 GetComponent<PSAuth>().ResetInit();
+#endif
             }
             else
             {
@@ -308,6 +312,7 @@ namespace Com.GCTC.ZombCube
             await SignInAnonymouslyAsync();
         }
 
+#if UNITY_PS5
         public void PSAuthInit()
         {
             GetComponent<PSAuth>().Initialize();
@@ -338,6 +343,7 @@ namespace Com.GCTC.ZombCube
             //Login();
 
         }
+#endif
 
         /*
         /// <summary>

@@ -104,21 +104,24 @@ namespace UnityEngine.InputSystem.PS5.ControllerSample
                 return;
             }
 
+ #if UNITY_PS5
             PSInput.RefreshUsersDetails(sampleGamepad.gamepadDevice.slotIndex);
             PSInput.LoggedInUser user = PSInput.GetUsersDetails(sampleGamepad.gamepadDevice.slotIndex);
 
             string connectionTypeStr = string.Empty;
             if (sampleGamepad.gamepadDevicePS5 != null)
             {
-                #if UNITY_PS5_ENHANCED_INPUT_SYSTEM
+#if UNITY_PS5_ENHANCED_INPUT_SYSTEM
                 connectionTypeStr = sampleGamepad.gamepadDevicePS5.connectionType.ToString();
-                #else
+#else
                 PS5Input.GetPadControllerInformation(sampleGamepad.gamepadDevice.slotIndex, out _, out _, out _, out _, out _, out PS5Input.ConnectionType type);
                 connectionTypeStr = type.ToString();
-                #endif
+#endif
             }
 
+
             usernameTextBox.text = $"{user.userName}\n{connectionTypeStr}";
+#endif
         }
 
         void UpdateButtons()
