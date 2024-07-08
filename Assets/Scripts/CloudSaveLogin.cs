@@ -132,7 +132,6 @@ namespace Com.GCTC.ZombCube
 
 #if UNITY_WSA
             isSigningIn = false;
-            SignInAnonymously();
 #elif UNITY_ANDROID
             // Initializes Google Play Games Login
             InitializePlayGamesLogin();
