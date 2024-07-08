@@ -1,7 +1,17 @@
+#if !UNITY_PS5 && !UNITY_PS4
+using UnityEngine;
+
+namespace Com.GCTC.ZombCube
+{
+    public class PSNManager : MonoBehaviour
+    { }
+}
+#else
 using Com.GCTC.ZombCube;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+
 using Unity.SaveData.PS5;
 using Unity.SaveData.PS5.Info;
 using Unity.SaveData.PS5.Mount;
@@ -178,3 +188,4 @@ namespace Com.GCTC.ZombCube
         public byte[] largeData;
     }
 }
+#endif

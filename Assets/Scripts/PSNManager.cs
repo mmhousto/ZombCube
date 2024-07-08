@@ -1,11 +1,9 @@
 #if !UNITY_PS5 && !UNITY_PS4
 using UnityEngine;
 
-namespace Com.GCTC.ZombCube
-{
     public class PSNManager : MonoBehaviour
     { }
-}
+
 #else
 
 using UnityEngine;

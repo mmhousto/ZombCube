@@ -4,11 +4,13 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+#if UNITY_PS5
 using Unity.SaveData.PS5.Core;
 using Unity.SaveData.PS5.Mount;
 using Unity.SaveData.PS5.Info;
 using Unity.SaveData.PS5.Dialog;
 using Unity.SaveData.PS5.Initialization;
+#endif
 
 // Save/Load process
 using Com.GCTC.ZombCube;
