@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System;
+#if UNITY_PS5
 using UnityEditor.PS5;
+#endif
 
 public class SetSaveDataPlatformOptionsPS5
 {
@@ -58,7 +60,9 @@ public class SetSaveDataPlatformOptionsPS5
             Debug.LogWarning("Didn't find param json");
         }
 
+#if UNITY_PS5
         UnityEditor.PS5.PlayerSettings.paramFilePath = sourceFilePath;
+#endif
     }
 
     // Replace whatever Input Manager you currently have with one to work with the SaveData Sample
