@@ -3,20 +3,16 @@
 #endif
 
 using UnityEngine;
-using System.Collections;
-using System.ComponentModel;
-using Unity.Services.Core;
 
 #if !DISABLESTEAMWORKS
 using Steamworks;
 #endif
-using Unity.Services.Authentication;
 
 namespace Com.GCTC.ZombCube
 {
-	// This is a port of StatsAndAchievements.cpp from SpaceWar, the official Steamworks Example.
-	class SteamStatsAndAchievements : MonoBehaviour
-	{
+    // This is a port of StatsAndAchievements.cpp from SpaceWar, the official Steamworks Example.
+    class SteamStatsAndAchievements : MonoBehaviour
+    {
 #if !DISABLESTEAMWORKS
 		private static SteamStatsAndAchievements instance;
 
@@ -33,7 +29,13 @@ namespace Com.GCTC.ZombCube
             trigger_happy_i,
             trigger_happy_ii,
             trigger_happy_iii,
-            n_gamer_1
+            n_gamer_1,
+			point_racker_i,
+			point_racker_ii,
+			point_racker_iii,
+			lets_play,
+			lets_play_together,
+			lets_party
 		};
 
 		private Achievement_t[] m_Achievements = new Achievement_t[] {
@@ -46,8 +48,13 @@ namespace Com.GCTC.ZombCube
 		new Achievement_t(Achievement.trigger_happy_i, "Trigger Happy I", "Launch 100,000 Projectiles."),
 		new Achievement_t(Achievement.trigger_happy_ii, "Trigger Happy II", "Launch 1,000,000 Projectiles."),
 		new Achievement_t(Achievement.trigger_happy_iii, "Trigger Happy III", "Launch 10,000,000 Projectiles."),
-		new Achievement_t(Achievement.n_gamer_1, "NGamer1", "Change your player name to NGamer1.")
-
+		new Achievement_t(Achievement.n_gamer_1, "NGamer1", "Change your player name to NGamer1."),
+		new Achievement_t(Achievement.point_racker_i, "Point Racker I", "Earn 100,000 total points."),
+		new Achievement_t(Achievement.point_racker_ii, "Point Racker II", "Earn 1,000,000 total points."),
+		new Achievement_t(Achievement.point_racker_iii, "Point Racker III", "Earn 10,000,000 total points."),
+		new Achievement_t(Achievement.lets_play, "Let's Play", "Play a Solo game."),
+		new Achievement_t(Achievement.lets_play_together, "Let's Play Together", "Play a CO-OP game."),
+		new Achievement_t(Achievement.lets_party, "Let's Party", "Play a Party game.")
     };
 
 		// Our GameID
@@ -227,6 +234,24 @@ namespace Com.GCTC.ZombCube
 							UnlockAchievement(achievement);
 						}
 						break;
+					case Achievement.point_racker_i:
+						if (m_nUserTotalPoints >= 100000)
+						{
+							UnlockAchievement(achievement);
+						}
+						break;
+					case Achievement.point_racker_ii:
+						if (m_nUserTotalPoints >= 1000000)
+						{
+							UnlockAchievement(achievement);
+						}
+						break;
+					case Achievement.point_racker_iii:
+						if (m_nUserTotalPoints >= 10000000)
+						{
+							UnlockAchievement(achievement);
+						}
+						break;
 				}
 			}
 
@@ -313,6 +338,60 @@ namespace Com.GCTC.ZombCube
                 {
                     // APPLES
                     case Achievement.n_gamer_1:
+                        UnlockAchievement(achievement);
+                        break;
+                }
+            }
+
+        }
+
+		public void UnlockLetsPlay()
+        {
+            foreach (Achievement_t achievement in m_Achievements)
+            {
+                if (achievement.m_bAchieved)
+                    continue;
+
+                switch (achievement.m_eAchievementID)
+                {
+                    // APPLES
+                    case Achievement.lets_play:
+                        UnlockAchievement(achievement);
+                        break;
+                }
+            }
+
+        }
+
+		public void UnlockLetsPlayTogether()
+        {
+            foreach (Achievement_t achievement in m_Achievements)
+            {
+                if (achievement.m_bAchieved)
+                    continue;
+
+                switch (achievement.m_eAchievementID)
+                {
+                    // APPLES
+                    case Achievement.lets_play_together:
+                        UnlockAchievement(achievement);
+                        break;
+                }
+            }
+
+        }
+
+		public void UnlockLetsParty()
+        {
+            foreach (Achievement_t achievement in m_Achievements)
+            {
+                if (achievement.m_bAchieved)
+                    continue;
+
+                switch (achievement.m_eAchievementID)
+                {
+                    // APPLES
+                    case Achievement.lets_party:
                         UnlockAchievement(achievement);
                         break;
                 }
@@ -475,5 +554,5 @@ namespace Com.GCTC.ZombCube
 			}
 		}
 #endif
-	}
+    }
 }

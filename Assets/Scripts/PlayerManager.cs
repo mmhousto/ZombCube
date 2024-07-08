@@ -444,6 +444,19 @@ namespace Com.GCTC.ZombCube
         private void UpdateTotalPoints()
         {
             player.points += currentPoints;
+
+            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            {
+                LeaderboardManager.UnlockPointRackerI();
+            }
+            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            {
+                LeaderboardManager.UnlockPointRackerII();
+            }
+            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            {
+                LeaderboardManager.UnlockPointRackerIII();
+            }
         }
 
         private void UpdateHighestWave()

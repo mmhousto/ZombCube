@@ -1,14 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using Photon.Pun;
-using Photon.Realtime;
-using StarterAssets;
-using UnityEngine.InputSystem;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using ExitGames.Client.Photon;
-using UnityEngine.SceneManagement;
 
 namespace Com.GCTC.ZombCube
 {
@@ -92,6 +87,8 @@ namespace Com.GCTC.ZombCube
             myPlayer = FindPlayer.GetPlayer();
 
             Projectile.pointsToAdd = 10;
+
+            LeaderboardManager.UnlockLetsParty();
         }
 
         // Update is called once per frame
@@ -99,9 +96,9 @@ namespace Com.GCTC.ZombCube
         {
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-            if(myPlayer == null) myPlayer = FindPlayer.GetPlayer();
+            if (myPlayer == null) myPlayer = FindPlayer.GetPlayer();
 
-            if (grenades != null && grenades.Length > 0 && myPlayer != null && myPlayer.GetComponent<NetworkPlayerManager>().grenade != null) 
+            if (grenades != null && grenades.Length > 0 && myPlayer != null && myPlayer.GetComponent<NetworkPlayerManager>().grenade != null)
             {
                 for (int i = 0; i < grenades.Length; i++)
                 {
@@ -130,7 +127,7 @@ namespace Com.GCTC.ZombCube
 
         #region Public Methods
 
-        public void PauseGame() 
+        public void PauseGame()
         {
             pauseMenu.SetActive(true);
             SelectObject(settingsButton);
@@ -164,11 +161,14 @@ namespace Com.GCTC.ZombCube
 
             if (NetworkSpawner.Instance.hasStarted == false)
             {
+#if !UNITY_PLAYSTATION
                 CustomAnalytics.SendGameStart();
+#endif
+
                 NetworkSpawner.Instance.hasStarted = true;
             }
-            
-            
+
+
         }
 
         public void GoHome()
@@ -285,7 +285,7 @@ namespace Com.GCTC.ZombCube
             {
                 players.Remove(myPlayer);
             }
-                
+
 
             /*if (PhotonNetwork.IsConnectedAndReady)
             {
@@ -294,7 +294,7 @@ namespace Com.GCTC.ZombCube
                     yield return null;
                 Debug.Log("Disconnected from server!!!!!!");
             }*/
-            
+
 
             yield return new WaitForSeconds(1);
             LeaveRoom();
@@ -354,7 +354,10 @@ namespace Com.GCTC.ZombCube
             settingsMenu.SetActive(false);
             continueScreen.SetActive(false);
             isContinue = false;
+
+#if !UNITY_PLAYSTATION
             CustomAnalytics.SendGameOver();
+#endif
         }
 
         [PunRPC]
@@ -364,7 +367,7 @@ namespace Com.GCTC.ZombCube
             playersEliminated = 0;
             CurrentRound += 1;
 
-            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
             {
                 LeaderboardManager.UnlockStayinAliveTogether();
             }
@@ -412,7 +415,7 @@ namespace Com.GCTC.ZombCube
                 continueButton.SetActive(false);
                 waitingText.SetActive(true);
             }
-            
+
         }
 
         [PunRPC]

@@ -2,6 +2,7 @@
 #define DISABLESTEAMWORKS
 #endif
 
+using PSNSample;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -164,6 +165,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if(CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.StayinAliveSolo);
+            }
         }
 
         public static void UnlockStayinAliveTogether()
@@ -181,6 +186,10 @@ namespace Com.GCTC.ZombCube
                 {
                     // handle success or failure
                 });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.StayinAliveParty);
             }
         }
 
@@ -200,6 +209,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.CubeDestroyerI);
+            }
         }
 
         public static void UnlockCubeDestroyerII()
@@ -217,6 +230,10 @@ namespace Com.GCTC.ZombCube
                 {
                     // handle success or failure
                 });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.CubeDestroyerII);
             }
         }
 
@@ -236,6 +253,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.CubeDestroyerIII);
+            }
         }
 
         public static void UnlockRicochetKing()
@@ -253,6 +274,10 @@ namespace Com.GCTC.ZombCube
                 {
                     // handle success or failure
                 });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.RicochetKing);
             }
 #if !DISABLESTEAMWORKS
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
@@ -278,6 +303,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.TriggerHappyI);
+            }
         }
 
         public static void UnlockTriggerHappyII()
@@ -295,6 +324,10 @@ namespace Com.GCTC.ZombCube
                 {
                     // handle success or failure
                 });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.TriggerHappyII);
             }
         }
 
@@ -314,6 +347,10 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.TriggerHappyIII);
+            }
         }
 
         public static void UnlockNGamer1()
@@ -332,10 +369,164 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.Hidden);
+            }
 #if !DISABLESTEAMWORKS
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {
                 SteamStatsAndAchievements.Instance.UnlockNGamer1();
+            }
+#endif
+        }
+
+        public static void UnlockPointRackerI()
+        {
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                Social.ReportProgress("CgkI07-ynroOEAIQDQ", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                Social.ReportProgress("point_racker_i", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.PointRackerI);
+            }
+        }
+
+        public static void UnlockPointRackerII()
+        {
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                Social.ReportProgress("CgkI07-ynroOEAIQDQ", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                Social.ReportProgress("point_racker_ii", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.PointRackerII);
+            }
+        }
+
+        public static void UnlockPointRackerIII()
+        {
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                Social.ReportProgress("CgkI07-ynroOEAIQDQ", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                Social.ReportProgress("point_racker_iii", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.PointRackerIII);
+            }
+        }
+
+        public static void UnlockLetsPlay()
+        {
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                Social.ReportProgress("CgkI07-ynroOEAIQDg", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                Social.ReportProgress("lets_play", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.LetsPlay);
+            }
+#if !DISABLESTEAMWORKS
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamStatsAndAchievements.Instance.UnlockLetsPlay();
+            }
+#endif
+        }
+
+        public static void UnlockLetsPlayTogether()
+        {
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                Social.ReportProgress("CgkI07-ynroOEAIQDg", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                Social.ReportProgress("lets_play_together", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.LetsPlayTogether);
+            }
+#if !DISABLESTEAMWORKS
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamStatsAndAchievements.Instance.UnlockLetsPlayTogether();
+            }
+#endif
+        }
+
+        public static void UnlockLetsParty()
+        {
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
+            {
+                Social.ReportProgress("CgkI07-ynroOEAIQDg", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                Social.ReportProgress("lets_party", 100.0f, (bool success) =>
+                {
+                    // handle success or failure
+                });
+            }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
+            {
+                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.LetsParty);
+            }
+#if !DISABLESTEAMWORKS
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                SteamStatsAndAchievements.Instance.UnlockLetsParty();
             }
 #endif
         }

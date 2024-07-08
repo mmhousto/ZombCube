@@ -75,7 +75,7 @@ namespace Com.GCTC.ZombCube
         protected void CheckForCubeDestroyerAchievements()
 
         {
-            if (Social.localUser.authenticated && Player.Instance != null)
+            if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && Player.Instance != null)
             {
                 if (Player.Instance.cubesEliminated >= 10_000)
                 {
@@ -132,7 +132,7 @@ namespace Com.GCTC.ZombCube
 
                     enemiesHit++;
 
-                    if (enemiesHit >= 5 && Social.localUser.authenticated)
+                    if (enemiesHit >= 5 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
                     {
                         LeaderboardManager.UnlockRicochetKing();
                     }
@@ -287,7 +287,7 @@ namespace Com.GCTC.ZombCube
 
             enemiesHit++;
 
-            if (enemiesHit >= 5 && Social.localUser.authenticated)
+            if (enemiesHit >= 5 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
             {
                 LeaderboardManager.UnlockRicochetKing();
             }

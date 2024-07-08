@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Com.GCTC.ZombCube
@@ -49,7 +46,9 @@ namespace Com.GCTC.ZombCube
 
         public void CallIAPAnalyticsEvent()
         {
+#if !UNITY_PLAYSTATION
             CustomAnalytics.SendIAPComplete();
+#endif
         }
 
     }
