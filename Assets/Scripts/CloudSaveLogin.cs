@@ -141,8 +141,8 @@ namespace Com.GCTC.ZombCube
 #else
             if (isSteam && SteamManager.Initialized)
             {
-                SignInWithSteam();
-                isSigningIn = true;
+                isSigningIn = false;
+
             }
             else
                 isSigningIn = false;
