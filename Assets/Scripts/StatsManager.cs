@@ -65,6 +65,12 @@ namespace Com.GCTC.ZombCube
                 leaderboardsButton.SetActive(true);
                 achievementsButton.SetActive(true);
             }
+            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            {
+                gameCenterButton.SetActive(false);
+                leaderboardsButton.SetActive(false);
+                achievementsButton.SetActive(false);
+            }
             else
             {
                 gameCenterButton.SetActive(true);
