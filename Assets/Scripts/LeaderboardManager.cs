@@ -2,6 +2,7 @@
 #define DISABLESTEAMWORKS
 #endif
 
+using PSNSample;
 using UnityEngine;
 #if UNITY_ANDROID
 using GooglePlayGames;
