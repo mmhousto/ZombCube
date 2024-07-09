@@ -19,7 +19,9 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Security.Principal;
+#if UNITY_PS5
 using PSNSample;
+#endif
 
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
@@ -36,7 +38,7 @@ namespace Com.GCTC.ZombCube
     public class CloudSaveLogin : MonoBehaviour
     {
 
-        #region Fields/Variables
+#region Fields/Variables
 
         private static CloudSaveLogin instance;
 
@@ -72,10 +74,10 @@ namespace Com.GCTC.ZombCube
 #endif
 
 
-        #endregion
+#endregion
 
 
-        #region MonoBehaviour Methods
+#region MonoBehaviour Methods
 
 
         // Start is called before the first frame update
@@ -205,7 +207,7 @@ namespace Com.GCTC.ZombCube
         }
 
 
-        #endregion
+#endregion
 
         IEnumerator checkInternetConnection(Action<bool> action)
         {
@@ -221,7 +223,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        #region Public Sign In/Out Methods
+#region Public Sign In/Out Methods
 
 
         public async void DeleteAccount()
@@ -754,10 +756,10 @@ namespace Com.GCTC.ZombCube
         }
 
 
-        #endregion
+#endregion
 
 
-        #region Facebook Auth
+#region Facebook Auth
         /*
         /// <summary>
         /// Initializes Facebook SDK
@@ -899,10 +901,10 @@ namespace Com.GCTC.ZombCube
         }
 
         */
-        #endregion
+#endregion
 
 
-        #region Google Play Auth
+#region Google Play Auth
 
 #if UNITY_ANDROID
 
@@ -1019,10 +1021,10 @@ namespace Com.GCTC.ZombCube
         
 #endif
 
-        #endregion
+#endregion
 
 
-        #region Steam Auth
+#region Steam Auth
 
 #if !DISABLESTEAMWORKS
         async Task SignInWithSteamAsync(string ticket)
@@ -1056,10 +1058,10 @@ namespace Com.GCTC.ZombCube
         }
 #endif
 
-        #endregion
+#endregion
 
 
-        #region Custom ID Auth
+#region Custom ID Auth
 
         async Task SignInWithCustomIDAsync(string authCode, string idToken)
         {
@@ -1089,10 +1091,10 @@ namespace Com.GCTC.ZombCube
             isSigningIn = false;
         }
 
-        #endregion
+#endregion
 
 
-        #region Private Methods
+#region Private Methods
 
         /// <summary>
         /// Signs in an anonymous player.
