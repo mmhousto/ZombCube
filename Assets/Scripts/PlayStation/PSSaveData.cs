@@ -303,11 +303,34 @@ public class PSSaveData : MonoBehaviour
     {
         if (errorCode == (uint)ReturnCodes.DATA_ERROR_NO_SPACE_FS)
         {
-            //OnScreenLog.AddError("There is no space available for the auto-save");
+            OnScreenLog.AddError("There is no space available for the auto-save");
+            Dialogs.NewItem newItem = new Dialogs.NewItem();
+            DirName dirName = new DirName();
+            dirName.Data = "Autosave";
+
+            // What size should a new save data be created.
+            UInt64 newSaveDataBlocks = SonySaveDataMain.TestBlockSize;
+
+            // Parameters to use for the savedata
+            SaveDataParams saveDataParams = new SaveDataParams();
+
+            saveDataParams.Title = "ZombCube Save Data";
+            saveDataParams.SubTitle = "Auto-save";
+            saveDataParams.Detail = "Details for Auto-save";
+            saveDataParams.UserParam = (uint)OnScreenLog.FrameCount;
+
+            // Actual custom file operation to perform on the savedata, once it is mounted.
+            PSWriteFilesRequest fileRequest = new PSWriteFilesRequest();
+            fileRequest.IgnoreCallback = false; // In this example get a async callback once the file operations are complete
+
+            PSWriteFilesResponse fileResponse = new PSWriteFilesResponse();
+
+            StartCoroutine(SaveDataDialogProcess.StartSaveDialogProcess(PSUser.GetActiveUserId, newItem, dirName, newSaveDataBlocks, saveDataParams, fileRequest, fileResponse, false));
         }
         else if (errorCode == (uint)ReturnCodes.SAVE_DATA_ERROR_BROKEN)
         {
-            //OnScreenLog.AddError("The auto-save file is corrupt");
+            OnScreenLog.AddError("The auto-save file is corrupt");
+            
             // At this point the title should inform the user their auto-save is corrupt and then decide how best to handle that situation.
             // If the save has a backup that could be restored or the title could choose the next oldest save data to load instead.
             // How this is handled will be up to the title.
