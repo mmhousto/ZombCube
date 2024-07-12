@@ -24,7 +24,7 @@ namespace Com.GCTC.ZombCube
         /// <param name="player">Player properties to update and display</param>
         public void UpdateDisplay(Photon.Realtime.Player player)
         {
-            playerName.text = (string)player.CustomProperties["PlayerName"];
+            playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
             isReadyToggle.isOn = (bool)player.CustomProperties["IsReady"];
 
             playerSkin.material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Skin"]];

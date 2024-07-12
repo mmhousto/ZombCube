@@ -412,6 +412,28 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7e07b5df-647c-4ba5-a28e-ed5b74b36807"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GamePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df77efb5-66f7-4f6d-8936-d96f493eb3f0"",
+                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GamePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1d0f5a52-12f9-4898-a5e0-e0f2268d6362"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
@@ -501,7 +523,18 @@ public partial class @PlayerActionControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""82c1f71e-1b54-4cb0-a5e3-b93676264671"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwitchWeapons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ba4b21c-8bfb-4507-86ad-a0144f4fcce0"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",

@@ -12,6 +12,7 @@ using System.Collections;
 using Unity.PSN.PS5.Auth;
 using Unity.PSN.PS5.Aysnc;
 using UnityEngine;
+using UnityEngine.PS5;
 #endif
 
 
@@ -21,6 +22,7 @@ public class PSAuth : MonoBehaviour
     public string userID, iDToken, authCode;
     public bool initialized;
     private bool calledSignIn;
+    private int tries = 0;
     private void Update()
     {
         if(initialized && calledSignIn == false)
@@ -32,20 +34,31 @@ public class PSAuth : MonoBehaviour
 
     public void Initialize()
     {
+        if (PSGamePad.activeGamePad.loggedInUser.userName.Contains("Guest"))
+        {
+            CloudSaveLogin.Instance.isSigningIn = false;
+            CloudSaveLogin.Instance.SignInAnonymously();
+            return;
+        }
         GetAuthCode();
 
     }
 
     public void SignIn()
     {
+        if (PSGamePad.activeGamePad.loggedInUser.userName.Contains("Guest"))
+        {
+            CloudSaveLogin.Instance.isSigningIn = false;
+            CloudSaveLogin.Instance.SignInAnonymously();
+            return;
+        }
         CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
     }
 
     private void GetAuthCode()
     {
         try
-        {
-
+        { 
 
             Authentication.GetAuthorizationCodeRequest request = new Authentication.GetAuthorizationCodeRequest()
             {
@@ -76,7 +89,12 @@ public class PSAuth : MonoBehaviour
         }
         catch
         {
-            GetAuthCode();
+            tries++;
+            Debug.Log("Failed to Auth, Tries: " + tries);
+            if(tries == 5)
+                CloudSaveLogin.Instance.SignInAnonymously();
+            else
+                GetAuthCode();
         }
 
         
@@ -109,7 +127,8 @@ public class PSAuth : MonoBehaviour
                 OnScreenLog.Add("  IdToken = " + antecedent.Request.IdToken);*/
                 iDToken = antecedent.Request.IdToken;
                 userID = antecedent.Request.UserId.ToString();
-                CloudSaveLogin.Instance.userName = userID;
+                CloudSaveLogin.Instance.userID = userID;
+                CloudSaveLogin.Instance.userName = PSUser.GetActiveUserName;
                 initialized = true;
                 
             }

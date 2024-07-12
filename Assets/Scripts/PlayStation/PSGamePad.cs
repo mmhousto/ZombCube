@@ -205,7 +205,7 @@ public class PSGamePad : MonoBehaviour
 
             // Options button is on its own, so we'll do it here
             var pad = UnityEngine.InputSystem.Gamepad.current;
-            currentFrame.options = pad.selectButton.wasPressedThisFrame;
+            currentFrame.options = pad.startButton.isPressed;
 
             if (activeGamePad == null || AnyInput == true)
             {

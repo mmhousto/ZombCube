@@ -327,15 +327,18 @@ namespace Com.GCTC.ZombCube
         {
             currentSSO = ssoOption.PS;
 
-            userID = PSUser.GetActiveUserId.ToString();
-            userName = psnUserID;
-
             if (PSSaveData.singleton.initialized)
                 PSSaveData.singleton.StartAutoSaveLoad();
             else
                 PSSaveData.singleton.InitializeSaveData();
+            
+            userID = PSUser.GetActiveUserId.ToString();
+            userName = PSUser.GetActiveUserName;
 
             PSTrophies.Initialize();
+
+            player.userID = userID;
+            player.userName = userName;
 
             //SetPlayer(psnUserID, psnUserID);
 

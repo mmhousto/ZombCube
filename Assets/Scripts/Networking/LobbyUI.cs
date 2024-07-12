@@ -47,6 +47,7 @@ namespace Com.GCTC.ZombCube
 
             hash.Add("PlayerId", PhotonNetwork.LocalPlayer.ActorNumber);
             hash.Add("PlayerName", player.playerName);
+            hash.Add("UserName", player.userName);
             hash.Add("IsReady", false);
             hash.Add("Blaster", player.currentBlaster);
             hash.Add("Skin", player.currentSkin);
