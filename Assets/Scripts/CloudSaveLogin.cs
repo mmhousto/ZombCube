@@ -335,6 +335,7 @@ namespace Com.GCTC.ZombCube
             userID = PSUser.GetActiveUserId.ToString();
             userName = PSUser.GetActiveUserName;
 
+            PSUDS.Initialize();
             PSTrophies.Initialize();
 
             player.userID = userID;

@@ -4,6 +4,7 @@
 
 using System.Collections;
 using TMPro;
+using Unity.PSN.PS5.UDS;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -185,6 +186,10 @@ namespace Com.GCTC.ZombCube
 
             if (healthPoints <= 0 && isGameOver == false)
             {
+#if UNITY_PS5
+                if(GameManager.Instance.bossCubeDefeated == false)
+                    PSUDS.PostUDSEndEvent("failed", GameManager.Instance.CurrentRound);
+#endif
                 healthPoints = 0;
 
                 SaveDataEndGame();

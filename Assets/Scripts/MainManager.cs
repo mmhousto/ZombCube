@@ -119,6 +119,11 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartSoloGame()
         {
+#if UNITY_PS5
+            PSUDS.PostUDSStartEvent("activitySolo");
+            PSUDS.PostUDSStartEvent("activityBossCube");
+#endif
+
             GameManager.mode = 0;
             CloudSaveLogin.Instance.SaveCloudData();
             SceneLoader.PlayGame();

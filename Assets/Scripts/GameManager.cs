@@ -32,6 +32,7 @@ namespace Com.GCTC.ZombCube
         public int numOfPlayers;
 
         public bool isGameOver = false;
+        public bool bossCubeDefeated = false;
 
 
         private void Awake()
@@ -208,6 +209,13 @@ namespace Com.GCTC.ZombCube
                 playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayerObjects();
                 EnableDisableElimCam(true);
             }
+            else
+            {
+#if UNITY_PS5
+                PSUDS.PostUDSStartEvent("activitySolo");
+                PSUDS.PostUDSStartEvent("activityBossCube");
+#endif
+            }
             SceneLoader.PlayGame();
         }
 
@@ -237,6 +245,13 @@ namespace Com.GCTC.ZombCube
                 playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayers();
                 EnableDisableElimCam(true);
             }
+            else
+            {
+#if UNITY_PS5
+                if (isPaused == true && isGameOver == false)
+                    PSUDS.PostUDSEndEvent("abandoned", CurrentRound);
+#endif
+            }
 
             SceneLoader.ToMainMenu();
 
@@ -264,13 +279,20 @@ namespace Com.GCTC.ZombCube
         public void PauseForContinue()
         {
             isContinue = true;
+            bossCubeDefeated = true;
 
             if (mode == 1)
             {
                 couchCoopManager.EnableDisableInput(false);
             }
             else
+            {
                 playerInput.actions.Disable();
+#if UNITY_PS5
+                PSUDS.PostUDSEndEvent("completed", CurrentRound);
+#endif
+            }
+
 
 #if (UNITY_IOS || UNITY_ANDROID)
                 onScreenControls.SetActive(false);

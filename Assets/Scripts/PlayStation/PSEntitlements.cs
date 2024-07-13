@@ -8,40 +8,18 @@ using Unity.PSN.PS5.Entitlement;
 
 #endif
 
-namespace PSNSample
+namespace Com.GCTC.ZombCube
 {
-#if UNITY_PS5
-    public class SonyEntitlements : IScreen
+    public class PSEntitlements
     {
-        MenuLayout m_MenuEntitlements;
-
-        public SonyEntitlements()
+        public PSEntitlements()
         {
             Initialize();
         }
 
-        public MenuLayout GetMenu()
-        {
-            return m_MenuEntitlements;
-        }
-
-        public void OnEnter()
-        {
-
-        }
-
-        public void OnExit()
-        {
-        }
-
-        public void Process(MenuStack stack)
-        {
-            MenuEntitlements(stack);
-        }
-
         public void Initialize()
         {
-            m_MenuEntitlements = new MenuLayout(this, 450, 20);
+            
         }
 
         Entitlements.AdditionalContentEntitlementInfo[] currentAddEntitlements = null;
@@ -54,28 +32,77 @@ namespace PSNSample
 
             Entitlements.GetUnifiedEntitlementInfoRequest request = new Entitlements.GetUnifiedEntitlementInfoRequest()
             {
-                UserId = GamePad.activeGamePad.loggedInUser.userId,
+                UserId = PSGamePad.activeGamePad.loggedInUser.userId,
                 ServiceLabel = 0,
                 EntitlementLabel = currentUnifiedEntitlements[0].EntitlementLabel
             };
 
             var requestOp = new AsyncRequest<Entitlements.GetUnifiedEntitlementInfoRequest>(request).ContinueWith((antecedent) =>
             {
-                if (SonyNpMain.CheckAysncRequestOK(antecedent))
+                if (PSNManager.CheckAysncRequestOK(antecedent))
                 {
-                    OutputUnifiedEntitlement(antecedent.Request.Entitlement);
+                    ConsumeUnifiedEntitlement();
+                    //OutputUnifiedEntitlement(antecedent.Request.Entitlement);
                 }
             });
 
-            OnScreenLog.Add("Getting unified entitlement...");
+            //OnScreenLog.Add("Getting unified entitlement...");
 
             Entitlements.Schedule(requestOp);
 
         }
 
-        public void MenuEntitlements(MenuStack menuStack)
+        public void ConsumeUnifiedEntitlement()
         {
-            /*m_MenuEntitlements.Update();
+            Entitlements.ConsumeUnifiedEntitlementRequest request = new Entitlements.ConsumeUnifiedEntitlementRequest()
+            {
+                UserId = PSGamePad.activeGamePad.loggedInUser.userId,
+                ServiceLabel = 0,
+                UseCount = 1,
+                EntitlementLabel = currentUnifiedEntitlements[0].EntitlementLabel
+            };
+
+            var requestOp = new AsyncRequest<Entitlements.ConsumeUnifiedEntitlementRequest>(request).ContinueWith((consumeAntecedent) =>
+            {
+                if (PSNManager.CheckAysncRequestOK(consumeAntecedent))
+                {
+                    /*OnScreenLog.Add("Consume Complete : ");
+                    OnScreenLog.Add("      EntitlementLabel : " + consumeAntecedent.Request.EntitlementLabel);
+                    OnScreenLog.Add("      UseCount : " + consumeAntecedent.Request.UseCount);
+                    OnScreenLog.Add("      UseLimit : " + consumeAntecedent.Request.UseLimit);*/
+                }
+            });
+
+            //OnScreenLog.Add("Consuming unified entitlement...");
+
+            Entitlements.Schedule(requestOp);
+        }
+
+        public void GetServiceEntitlement()
+        {
+            Entitlements.GetServiceEntitlementInfoRequest request = new Entitlements.GetServiceEntitlementInfoRequest()
+            {
+                UserId = PSGamePad.activeGamePad.loggedInUser.userId,
+                ServiceLabel = 0,
+                EntitlementLabel = currentServiceEntitlements[0].EntitlementLabel
+            };
+
+            var requestOp = new AsyncRequest<Entitlements.GetServiceEntitlementInfoRequest>(request).ContinueWith((antecedent) =>
+            {
+                if (PSNManager.CheckAysncRequestOK(antecedent))
+                {
+                    //OutputServiceEntitlement(antecedent.Request.Entitlement);
+                }
+            });
+
+            //OnScreenLog.Add("Getting unified entitlement...");
+
+            Entitlements.Schedule(requestOp);
+        }
+
+        /*public void MenuEntitlements(MenuStack menuStack)
+        {
+            m_MenuEntitlements.Update();
 
             bool enabled = true;
 
@@ -284,8 +311,8 @@ namespace PSNSample
             if (m_MenuEntitlements.AddBackIndex("Back"))
             {
                 menuStack.PopMenu();
-            }*/
-        }
+            }
+        }*/
 
         private void OutputUnifiedEntitlement(Entitlements.UnifiedEntitlementInfo entitlement)
         {
@@ -418,5 +445,4 @@ namespace PSNSample
             }
         }
     }
-#endif
 }

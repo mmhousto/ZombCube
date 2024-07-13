@@ -56,7 +56,7 @@ namespace PSNSample
             {
                 if (PSNManager.CheckAysncRequestOK(antecedent))
                 {
-                    StartUDS();
+                    PSUDS.StartUDS();
                 }
             });
 
@@ -278,12 +278,12 @@ namespace PSNSample
                 {
                     if (PSNManager.CheckAysncRequestOK(antecedent))
                     {
-                        OnScreenLog.Add("UpdateKillCount Event sent");
-                        GetTrophyInfo(id);
+                        //OnScreenLog.Add("UpdateKillCount Event sent");
+                        //GetTrophyInfo(id);
                     }
                     else
                     {
-                        OnScreenLog.AddError("Event send error");
+                        //OnScreenLog.AddError("Event send error");
                     }
                 });
 
