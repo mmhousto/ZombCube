@@ -22,6 +22,7 @@ public class PSAuth : MonoBehaviour
     public string userID, iDToken, authCode;
     public bool initialized;
     private bool calledSignIn;
+    private bool notSignedIn = false;
     private int tries = 0;
     private void Update()
     {
@@ -29,6 +30,12 @@ public class PSAuth : MonoBehaviour
         {
             calledSignIn = true;
             CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
+            CheckPremium();
+        }else if (calledSignIn == false && notSignedIn == true)
+        {
+            calledSignIn = true;
+            CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
+            CheckPremium();
         }
     }
 
@@ -38,6 +45,7 @@ public class PSAuth : MonoBehaviour
         {
             CloudSaveLogin.Instance.isSigningIn = false;
             CloudSaveLogin.Instance.SignInAnonymously();
+            CheckPremium();
             return;
         }
         GetAuthCode();
@@ -50,9 +58,17 @@ public class PSAuth : MonoBehaviour
         {
             CloudSaveLogin.Instance.isSigningIn = false;
             CloudSaveLogin.Instance.SignInAnonymously();
+            CheckPremium();
             return;
         }
         CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
+        CheckPremium();
+    }
+
+    private void CheckPremium()
+    {
+        if (PSFeatureGating.premiumEventEnabled) PSFeatureGating.CheckPremium();
+        else PSFeatureGating.Initialize();
     }
 
     private void GetAuthCode()
@@ -75,13 +91,23 @@ public class PSAuth : MonoBehaviour
             {
                 if (PSNManager.CheckAysncRequestOK(antecedent))
                 {
-                    /*OnScreenLog.Add("GetAuthorizationCodeRequest:");
-                    OnScreenLog.Add("  ClientId = " + antecedent.Request.ClientId);
-                    OnScreenLog.Add("  Scope = " + antecedent.Request.Scope);
-                    OnScreenLog.Add("  AuthCode = " + antecedent.Request.AuthCode);
-                    OnScreenLog.Add("  IssuerId = " + antecedent.Request.IssuerId);*/
-                    authCode = antecedent.Request.AuthCode;
-                    GetIDToken();
+                    if(antecedent.HasSequenceFailed)
+                    {
+                        notSignedIn = true;
+                    }
+                    else
+                    {
+                        authCode = antecedent.Request.AuthCode;
+                        GetIDToken();
+                    }
+
+                }
+                else
+                {
+                    userID = antecedent.Request.UserId.ToString();
+                    CloudSaveLogin.Instance.userID = userID;
+                    CloudSaveLogin.Instance.userName = PSUser.GetActiveUserName;
+                    notSignedIn = true;
                 }
             });
 
@@ -92,7 +118,11 @@ public class PSAuth : MonoBehaviour
             tries++;
             Debug.Log("Failed to Auth, Tries: " + tries);
             if(tries == 5)
+            {
+                CloudSaveLogin.Instance.isSigningIn = false;
                 CloudSaveLogin.Instance.SignInAnonymously();
+                CheckPremium();
+            }
             else
                 GetAuthCode();
         }
@@ -120,17 +150,26 @@ public class PSAuth : MonoBehaviour
         {
             if (PSNManager.CheckAysncRequestOK(antecedent))
             {
-                /*OnScreenLog.Add("GetIdTokenRequest:");
-                OnScreenLog.Add("  ClientId = " + antecedent.Request.ClientId);
-                OnScreenLog.Add("  ClientSecret = " + antecedent.Request.ClientSecret);
-                OnScreenLog.Add("  Scope = " + antecedent.Request.Scope);
-                OnScreenLog.Add("  IdToken = " + antecedent.Request.IdToken);*/
-                iDToken = antecedent.Request.IdToken;
+                if (antecedent.HasSequenceFailed)
+                {
+                    notSignedIn = true;
+                }
+                else
+                {
+                    iDToken = antecedent.Request.IdToken;
+                    userID = antecedent.Request.UserId.ToString();
+                    CloudSaveLogin.Instance.userID = userID;
+                    CloudSaveLogin.Instance.userName = PSUser.GetActiveUserName;
+                    initialized = true;
+                }
+
+            }
+            else
+            {
                 userID = antecedent.Request.UserId.ToString();
                 CloudSaveLogin.Instance.userID = userID;
                 CloudSaveLogin.Instance.userName = PSUser.GetActiveUserName;
-                initialized = true;
-                
+                notSignedIn = true;
             }
         });
 
@@ -140,6 +179,7 @@ public class PSAuth : MonoBehaviour
 
     public void ResetInit()
     {
+        notSignedIn = false;
         initialized = false;
         calledSignIn = false;
     }

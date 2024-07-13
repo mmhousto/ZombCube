@@ -145,9 +145,18 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartMultiplayer()
         {
+#if UNITY_PS5
+            if (PSFeatureGating.hasPremium == false)
+            {
+                //NO PREMIUM - Notify Player
+                PSCommerce.OpenJoinPremium();
+                return;
+            }
+#endif
+
             if (string.IsNullOrEmpty(player.playerName))
             {
-                Debug.LogError("Player Name is null or empty!");
+                Debug.Log("Player Name is null or empty!");
                 return;
             }
             CloudSaveLogin.Instance.SaveCloudData();
