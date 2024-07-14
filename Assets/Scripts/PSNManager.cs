@@ -242,6 +242,7 @@ namespace Com.GCTC.ZombCube
         private void PSAuthInit()
         {
             psAuth.Initialize();
+            PSUserProfiles.Initialize();
             PSFeatureGating.Initialize();
         }
 

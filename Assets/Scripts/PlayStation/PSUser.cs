@@ -7,7 +7,7 @@ namespace Com.GCTC.ZombCube
     { }
 }
 #else
-
+using UnityEngine;
 using Unity.PSN.PS5.Aysnc;
 using Unity.PSN.PS5.Sessions;
 using Unity.PSN.PS5.Users;
@@ -111,7 +111,6 @@ namespace Com.GCTC.ZombCube
                                 if (PSNManager.CheckAysncRequestOK(antecedent))
                                 {
                                     //OnScreenLog.Add("User Removed");
-
                                     registeredUser.registerSequence = RegisterSequences.NotSet;
                                 }
                             }
