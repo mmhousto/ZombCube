@@ -31,11 +31,10 @@ namespace Com.GCTC.ZombCube
 
             if(signedInEvent.State == UserSystem.SignedInStates.SignedIn)
             {
-                PSFeatureGating.CheckPremium();
+                PSFeatureGating.Initialize();
             }
             else if (signedInEvent.State == UserSystem.SignedInStates.SignedOut)
             {
-                PSFeatureGating.hasPremium = false;
                 CheckPremiumState();
             }
         }
@@ -53,7 +52,9 @@ namespace Com.GCTC.ZombCube
         {
             if (SceneLoader.GetCurrentScene().buildIndex == 2 || SceneLoader.GetCurrentScene().buildIndex == 3 || SceneLoader.GetCurrentScene().buildIndex == 4 || SceneLoader.GetCurrentScene().buildIndex == 6)
             {
-                SceneLoader.LoadThisScene(1);
+                Time.timeScale = 1;
+                PSFeatureGating.hasPremium = false;
+                SceneLoader.ToMainMenu();
             }
         }
 

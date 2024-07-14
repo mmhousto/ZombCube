@@ -19,8 +19,16 @@ namespace Com.GCTC.ZombCube
 
         public static void Initialize()
         {
-            FeatureGating.OnPremiumNotification += OnPremiumNotification;
-            EnablePremium();
+            if (premiumEventEnabled)
+            {
+                CheckPremium();
+            }
+            else
+            {
+                FeatureGating.OnPremiumNotification += OnPremiumNotification;
+                EnablePremium();
+            }
+            
         }
 
         public static bool premiumEventEnabled = false;

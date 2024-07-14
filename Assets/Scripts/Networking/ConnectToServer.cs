@@ -38,7 +38,8 @@ namespace Com.GCTC.ZombCube
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.ConnectUsingSettings();
-            
+
+            Invoke(nameof(CouldNotConnect), 15f);
         }
 
 
@@ -59,6 +60,11 @@ namespace Com.GCTC.ZombCube
             player.ownedBlasters = data.ownedBlasters;
             player.currentSkin = data.currentSkin;
             player.ownedSkins = data.ownedSkins;
+        }
+
+        void CouldNotConnect()
+        {
+            PhotonNetwork.Disconnect();
         }
 
         void UpdateLoadingText()
@@ -109,7 +115,6 @@ namespace Com.GCTC.ZombCube
             PhotonNetwork.JoinLobby();
             PhotonNetwork.AutomaticallySyncScene = true;
         }
-
 
         /// <summary>
         /// Loads the lobby scene and sets NickName to player's name, after joining successfully.

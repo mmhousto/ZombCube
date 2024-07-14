@@ -243,7 +243,7 @@ namespace Com.GCTC.ZombCube
         {
             psAuth.Initialize();
             PSUserProfiles.Initialize();
-            PSFeatureGating.Initialize();
+            //PSFeatureGating.Initialize();
         }
 
     }
