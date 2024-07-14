@@ -96,7 +96,7 @@ namespace Com.GCTC.ZombCube
         /// <param name="cause"></param>
         public override void OnDisconnected(Photon.Realtime.DisconnectCause cause)
         {
-            Debug.Log(cause);
+            //Debug.Log(cause);
             SceneLoader.ToMainMenu();
         }
 
@@ -105,7 +105,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public override void OnConnectedToMaster()
         {
-            Debug.Log("Connected to Master " + PhotonNetwork.ServerAddress);
+            //Debug.Log("Connected to Master " + PhotonNetwork.ServerAddress);
             PhotonNetwork.JoinLobby();
             PhotonNetwork.AutomaticallySyncScene = true;
         }
@@ -118,7 +118,7 @@ namespace Com.GCTC.ZombCube
         {
             SceneLoader.ToLobby();
             PhotonNetwork.NickName = player.playerName;
-            Debug.Log(PhotonNetwork.ServerAddress);
+            //Debug.Log(PhotonNetwork.ServerAddress);
         }
 
 

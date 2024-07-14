@@ -1,4 +1,3 @@
-using PSNSample;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -119,7 +118,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartSoloGame()
         {
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
             PSUDS.PostUDSStartEvent("activitySolo");
             PSUDS.PostUDSStartEvent("activityBossCube");
 #endif
@@ -145,7 +144,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartMultiplayer()
         {
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
             if (PSFeatureGating.hasPremium == false)
             {
                 //NO PREMIUM - Notify Player

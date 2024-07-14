@@ -19,7 +19,6 @@ namespace Com.GCTC.ZombCube
 
         public static void Initialize()
         {
-            if (premiumEventEnabled == true) return;
             FeatureGating.OnPremiumNotification += OnPremiumNotification;
             EnablePremium();
         }
@@ -92,11 +91,11 @@ namespace Com.GCTC.ZombCube
             {
                 if (PSNManager.CheckAysncRequestOK(antecedent))
                 {
-                    OnScreenLog.Add("Notify Premium OK");
+                    //OnScreenLog.Add("Notify Premium OK");
                 }
                 else
                 {
-                    OnScreenLog.AddError("Notify Premium Failed : " + antecedent.Request.Result.sceErrorCode);
+                    //OnScreenLog.AddError("Notify Premium Failed : " + antecedent.Request.Result.sceErrorCode);
                 }
             });
 

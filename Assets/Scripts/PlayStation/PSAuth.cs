@@ -30,12 +30,10 @@ public class PSAuth : MonoBehaviour
         {
             calledSignIn = true;
             CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
-            CheckPremium();
         }else if (calledSignIn == false && notSignedIn == true)
         {
             calledSignIn = true;
             CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
-            CheckPremium();
         }
     }
 
@@ -45,7 +43,6 @@ public class PSAuth : MonoBehaviour
         {
             CloudSaveLogin.Instance.isSigningIn = false;
             CloudSaveLogin.Instance.SignInAnonymously();
-            CheckPremium();
             return;
         }
         GetAuthCode();
@@ -58,17 +55,14 @@ public class PSAuth : MonoBehaviour
         {
             CloudSaveLogin.Instance.isSigningIn = false;
             CloudSaveLogin.Instance.SignInAnonymously();
-            CheckPremium();
             return;
         }
         CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
-        CheckPremium();
     }
 
     private void CheckPremium()
     {
         if (PSFeatureGating.premiumEventEnabled) PSFeatureGating.CheckPremium();
-        else PSFeatureGating.Initialize();
     }
 
     private void GetAuthCode()
@@ -121,7 +115,6 @@ public class PSAuth : MonoBehaviour
             {
                 CloudSaveLogin.Instance.isSigningIn = false;
                 CloudSaveLogin.Instance.SignInAnonymously();
-                CheckPremium();
             }
             else
                 GetAuthCode();

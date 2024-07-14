@@ -211,7 +211,7 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
                 PSUDS.PostUDSStartEvent("activitySolo");
                 PSUDS.PostUDSStartEvent("activityBossCube");
 #endif
@@ -247,7 +247,7 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
                 if (isPaused == true && isGameOver == false)
                     PSUDS.PostUDSEndEvent("abandoned", CurrentRound);
 #endif
@@ -288,7 +288,7 @@ namespace Com.GCTC.ZombCube
             else
             {
                 playerInput.actions.Disable();
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
                 PSUDS.PostUDSEndEvent("completed", CurrentRound);
 #endif
             }

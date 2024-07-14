@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -305,6 +306,15 @@ namespace Com.GCTC.ZombCube
 
 
         #region PunCallbacks
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            if (players.Contains(myPlayer))
+            {
+                players.Remove(myPlayer);
+            }
+            LeaveServer();
+        }
 
         #endregion
 

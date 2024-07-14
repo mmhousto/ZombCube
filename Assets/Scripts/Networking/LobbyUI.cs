@@ -214,7 +214,7 @@ namespace Com.GCTC.ZombCube
         /// <param name="cause"></param>
         public override void OnDisconnected(Photon.Realtime.DisconnectCause cause)
         {
-            Debug.Log(cause);
+            //Debug.Log(cause);
             SceneLoader.ToMainMenu();
         }
 

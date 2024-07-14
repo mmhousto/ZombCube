@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using Photon.Realtime;
 
 namespace Com.GCTC.ZombCube
 {
@@ -53,6 +54,11 @@ namespace Com.GCTC.ZombCube
             if(PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
                 PhotonNetwork.LeaveLobby();
             PhotonNetwork.Disconnect();
+            SceneLoader.ToMainMenu();
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
             SceneLoader.ToMainMenu();
         }
     }

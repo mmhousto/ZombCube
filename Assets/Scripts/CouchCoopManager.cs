@@ -44,7 +44,7 @@ namespace Com.GCTC.ZombCube
             foreach (GameObject player in joinedPlayers)
             {
                 Destroy(player.transform.GetChild(0).gameObject);
-                Destroy(player.GetComponentInChildren<Canvas>().gameObject);
+                //Destroy(player.GetComponentInChildren<Canvas>().gameObject);
             }
         }
 
@@ -114,10 +114,13 @@ namespace Com.GCTC.ZombCube
                     // Assign minimap texture to camera and minimap
                     clone.GetComponentInChildren<RawImage>().texture = minimaps[i];
                     clone.GetComponent<PlayerManager>().minimapCam.targetTexture = minimaps[i];
-                    clone.GetComponentInChildren<Canvas>().transform.SetParent(joinedPlayers[i].transform, false);
+                    Canvas playerCanvas = clone.GetComponentInChildren<Canvas>();
+                    playerCanvas.transform.SetParent(null, false);
+
+                    SceneManager.MoveGameObjectToScene(playerCanvas.gameObject, SceneManager.GetActiveScene());
 
                     // Destroy audio listeners that are not p1
-                    if(i > 0)
+                    if (i > 0)
                         Destroy(clone.GetComponentInChildren<AudioListener>());
                 }
 
