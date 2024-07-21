@@ -387,9 +387,10 @@ namespace Com.GCTC.ZombCube
         {
             UpdateTotalPoints();
             UpdateHighestWave();
+            UpdateLeaderboards();
 
 #if (UNITY_IOS || UNITY_ANDROID)
-                    UpdateLeaderboards();
+                    
             foreach(Image button in onScreenControlButtons)
             {
                 button.gameObject.SetActive(false);
@@ -688,6 +689,9 @@ namespace Com.GCTC.ZombCube
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
             }
+#if UNITY_PS5 && !UNITY_EDITOR
+                LeaderboardManager.UpdatePSNStats(player);
+#endif
         }
 
         private void UpdateStats()

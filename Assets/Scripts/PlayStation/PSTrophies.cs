@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using UnityEngine;
 
 #if UNITY_PS5 || UNITY_PS4
 using Unity.PSN.PS5.Aysnc;
@@ -251,44 +250,36 @@ namespace PSNSample
             }
         }*/
 
-        private static void IncreaseProgressStat(Trophies trophy, int value, string eventName, string eventProp)
+        public static void IncreaseProgressStat(int value, string eventName, string eventProp)
         {
-            int id = (int)trophy;
+            UniversalDataSystem.UDSEvent myEvent = new UniversalDataSystem.UDSEvent();
 
-            if (currentData[id] != null && currentData[id].IsProgress == true)
+            //myEvent.Create("UpdateKillCount");
+            myEvent.Create(eventName);
+            //myEvent.Properties.Set("newKillCount", (int)currentProgress);
+            myEvent.Properties.Set(eventProp, (uint)value);
+
+            UniversalDataSystem.PostEventRequest request = new UniversalDataSystem.PostEventRequest();
+
+            request.UserId = PSGamePad.activeGamePad.loggedInUser.userId;
+            request.CalculateEstimatedSize = false;
+            request.EventData = myEvent;
+
+            var requestOp = new AsyncRequest<UniversalDataSystem.PostEventRequest>(request).ContinueWith((antecedent) =>
             {
-                long currentProgress = currentData[id].ProgressValue;
-
-                currentProgress = value;
-
-                UniversalDataSystem.UDSEvent myEvent = new UniversalDataSystem.UDSEvent();
-
-                //myEvent.Create("UpdateKillCount");
-                myEvent.Create(eventName);
-                //myEvent.Properties.Set("newKillCount", (int)currentProgress);
-                myEvent.Properties.Set(eventProp, (int)currentProgress);
-
-                UniversalDataSystem.PostEventRequest request = new UniversalDataSystem.PostEventRequest();
-
-                request.UserId = PSGamePad.activeGamePad.loggedInUser.userId;
-                request.CalculateEstimatedSize = false;
-                request.EventData = myEvent;
-
-                var requestOp = new AsyncRequest<UniversalDataSystem.PostEventRequest>(request).ContinueWith((antecedent) =>
+                if (PSNManager.CheckAysncRequestOK(antecedent))
                 {
-                    if (PSNManager.CheckAysncRequestOK(antecedent))
-                    {
-                        //OnScreenLog.Add("UpdateKillCount Event sent");
-                        //GetTrophyInfo(id);
-                    }
-                    else
-                    {
-                        //OnScreenLog.AddError("Event send error");
-                    }
-                });
+                    //OnScreenLog.Add("UpdateKillCount Event sent");
+                    //GetTrophyInfo(id);
+                }
+                else
+                {
+                    //OnScreenLog.AddError("Event send error");
+                }
+            });
 
-                UniversalDataSystem.Schedule(requestOp);
-            }
+            UniversalDataSystem.Schedule(requestOp);
+
         }
 
         public static void IncreaseBasicProgress(Trophies trophy, int value)

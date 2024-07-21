@@ -17,7 +17,7 @@ namespace Com.MorganHouston.Imprecision
         // Start is called before the first frame update
         void Start()
         {
-            sliderValue = PlayerPrefs.GetFloat(sliderName, 1);
+            sliderValue = PlayerPrefs.GetFloat(sliderName, 20);
             slider = GetComponent<Slider>();
             slider.value = sliderValue;
             if(sliderValueLabel != null)

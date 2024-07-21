@@ -445,7 +445,11 @@ namespace Com.GCTC.ZombCube
                 LeaderboardManager.UpdateSoloHighestWaveLeaderboard();
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
+
             }
+#if UNITY_PS5 && !UNITY_EDITOR
+                LeaderboardManager.UpdatePSNStats(player);
+#endif
         }
 
         private void UpdateTotalPoints()
