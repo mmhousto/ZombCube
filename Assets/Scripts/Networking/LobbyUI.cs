@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.EventSystems;
 
 namespace Com.GCTC.ZombCube
 {
@@ -10,6 +11,7 @@ namespace Com.GCTC.ZombCube
         [Header("References")]
         [SerializeField] [Tooltip("Array of PlayerCards.")] private PlayerCard[] lobbyPlayerCards;
         [SerializeField] [Tooltip("UI button to start the game.")] private Button startGameButton;
+        [Tooltip("UI button to ready up for player.")] public GameObject readyButton;
 
         Hashtable hash = new Hashtable();
 
@@ -57,6 +59,14 @@ namespace Com.GCTC.ZombCube
             PhotonNetwork.SetPlayerCustomProperties(hash);
 
             
+        }
+
+        private void Update()
+        {
+            if (PhotonNetwork.IsMasterClient && (EventSystem.current.currentSelectedGameObject == startGameButton.gameObject || EventSystem.current.currentSelectedGameObject == null) && IsEveryoneReady() == false)
+            {
+                EventSystem.current.SetSelectedGameObject(readyButton);
+            }
         }
 
 
