@@ -74,7 +74,7 @@ namespace Com.GCTC.ZombCube
             UserSystem.Schedule(requestOp);
         }
 
-        public static void GetBloackedUsers()
+        public static List<ulong> GetBlockedUsers()
         {
             UInt32 limit = 95;
 
@@ -83,9 +83,11 @@ namespace Com.GCTC.ZombCube
                 UserId = PSGamePad.activeGamePad.loggedInUser.userId,
                 Offset = 0,
                 Limit = limit,
-                RetrievedAccountIds = new System.Collections.Generic.List<UInt64>((int)limit)                
+                RetrievedAccountIds = new System.Collections.Generic.List<UInt64>((int)limit)
 
             };
+
+            List<ulong> accountIds = null;
 
             var requestOp = new AsyncRequest<UserSystem.GetBlockingUsersRequest>(request).ContinueWith((antecedent) =>
             {
@@ -94,7 +96,7 @@ namespace Com.GCTC.ZombCube
                     OnScreenLog.Add("Got Blocked Users : ");
                     OnScreenLog.Add("   Account Ids : ");
 
-                    var accountIds = antecedent.Request.RetrievedAccountIds;
+                    accountIds = antecedent.Request.RetrievedAccountIds;
 
                     OnScreenLog.Add("   NextOffset : " + antecedent.Request.NextOffset);
                     OnScreenLog.Add("   PreviousOffset : " + antecedent.Request.PreviousOffset);
@@ -109,6 +111,7 @@ namespace Com.GCTC.ZombCube
             UserSystem.Schedule(requestOp);
 
             OnScreenLog.Add("Getting Blocked users...");
+            return accountIds;
         }
 
         static Dictionary<Int32, WebApiPushEvent> userCallbackIds = new Dictionary<int, WebApiPushEvent>();

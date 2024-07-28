@@ -58,6 +58,10 @@ namespace Com.GCTC.ZombCube
         public bool loggedIn = false;
         public bool isSigningIn = false;
 
+#if UNITY_PS5 && !UNITY_EDITOR
+        public bool restricted = false;
+#endif
+
         // User Info.
         public string userName, userID;
 
@@ -70,7 +74,7 @@ namespace Com.GCTC.ZombCube
 #endif
 
 
-        #endregion
+#endregion
 
 
         #region MonoBehaviour Methods
@@ -101,6 +105,13 @@ namespace Com.GCTC.ZombCube
                 userName = "Guest_" + userID;
 
                 SetPlayer(userID);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+                restricted = PSOnlineSafety.GetCRStatus();
+#endif
 
                 Login();
                 return;
@@ -291,10 +302,11 @@ namespace Com.GCTC.ZombCube
                 userName = "Guest_" + userID;
                 SetPlayer(userID);
 
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
+                restricted = PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();
@@ -316,7 +328,7 @@ namespace Com.GCTC.ZombCube
             await SignInAnonymouslyAsync();
         }
 
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
         public void PSAuthInit()
         {
             GetComponent<PSAuth>().Initialize();
@@ -344,6 +356,8 @@ namespace Com.GCTC.ZombCube
 
             player.userID = userID;
             player.userName = userName;
+
+            restricted = PSOnlineSafety.GetCRStatus();
 
             //SetPlayer(psnUserID, psnUserID);
 
@@ -1120,6 +1134,7 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
+                restricted = PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();
@@ -1152,10 +1167,11 @@ namespace Com.GCTC.ZombCube
 
                 SetPlayer(AuthenticationService.Instance.PlayerId, userID);
 
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
+                restricted = PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();

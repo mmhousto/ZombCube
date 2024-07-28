@@ -37,6 +37,16 @@ namespace Com.GCTC.ZombCube
             PhotonNetwork.LoadLevel("RoomScene");
         }
 
+        public override void OnCreateRoomFailed(short returnCode, string message)
+        {
+            ErrorManager.Instance.StartErrorMessage("Error: Room already exists. Try a different room name or try joining.");
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            ErrorManager.Instance.StartErrorMessage("Error: Room is full or game has started. Try a different room.");
+        }
+
         /// <summary>
         /// Dynamic method that Changes room name and updates it in script when player types in input field.
         /// </summary>

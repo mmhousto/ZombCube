@@ -795,7 +795,27 @@ namespace Com.GCTC.ZombCube
         public void SetPlayerInfo(string name, string username, int blasterIndex, int skinIndex)
         {
             playerName = name;
+
+            var blockedUsers = PSUserProfiles.GetBlockedUsers();
+            if(blockedUsers != null)
+            {
+                foreach(var blockedUser in blockedUsers)
+                {
+                    if(username == blockedUser.ToString())
+                    {
+                        playerNameText.text = username;
+                    }
+                }
+            }
+
+#if UNITY_PS5 && !UNITY_EDITOR
+            if (CloudSaveLogin.Instance.restricted)
+                playerNameText.text = username;
+            else
+                playerNameText.text = playerName + "<br>" + username;
+#else
             playerNameText.text = playerName + "<br>" + username;
+#endif
 
             GetComponentInChildren<MeshRenderer>().material = blasterMaterial[skinIndex];
 

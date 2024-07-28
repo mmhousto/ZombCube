@@ -54,6 +54,7 @@ namespace Com.GCTC.ZombCube
             else if (eventtype == 1)
 #endif
             {
+                CloudSaveLogin.Instance.Logout();
                 UserLoggedOut((int)userid);
             }
         }
