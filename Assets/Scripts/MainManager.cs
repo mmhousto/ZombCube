@@ -1,7 +1,10 @@
+using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.SaveData.PS5.Core;
 
 namespace Com.GCTC.ZombCube
 {
@@ -96,8 +99,6 @@ namespace Com.GCTC.ZombCube
         {
             if (playerNameText.text != player.playerName)
                 playerNameText.text = player.playerName;
-
-            CheckNGamer1();
         }
 
         /// <summary>
@@ -122,6 +123,7 @@ namespace Com.GCTC.ZombCube
             PSUDS.PostUDSStartEvent("activitySolo");
             PSUDS.PostUDSStartEvent("activityBossCube");
 #endif
+            CheckNGamer1();
 
             GameManager.mode = 0;
             CloudSaveLogin.Instance.SaveCloudData();
@@ -133,6 +135,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartCoopGame()
         {
+            CheckNGamer1();
             GameManager.mode = 1;
             CloudSaveLogin.Instance.SaveCloudData();
             SceneLoader.PlayGame();
@@ -144,6 +147,12 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartMultiplayer()
         {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                ErrorManager.Instance.StartErrorMessage("Error: Not connected to the internet.");
+                return;
+            }
+
 #if UNITY_PS5 && !UNITY_EDITOR
             if (PSFeatureGating.hasPremium == false)
             {
@@ -152,10 +161,11 @@ namespace Com.GCTC.ZombCube
                 return;
             }
 #endif
+            CheckNGamer1();
 
             if (string.IsNullOrEmpty(player.playerName))
             {
-                Debug.Log("Player Name is null or empty!");
+                ErrorManager.Instance.StartErrorMessage("Error: Player Name is null or empty!");
                 return;
             }
             CloudSaveLogin.Instance.SaveCloudData();
@@ -180,7 +190,7 @@ namespace Com.GCTC.ZombCube
             }
             catch
             {
-                Debug.Log("Failed to save data.");
+                ErrorManager.Instance.StartErrorMessage("Failed to save data.");
             }
         }
 
@@ -190,6 +200,28 @@ namespace Com.GCTC.ZombCube
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
+            }
+        }
+
+        private void NoInternet(bool isConnected)
+        {
+            if (!isConnected)
+            {
+                ErrorManager.Instance.StartErrorMessage("Error: Not connected to the internet.");
+            }
+        }
+
+        IEnumerator checkInternetConnection(Action<bool> action)
+        {
+            WWW www = new WWW("http://google.com");
+            yield return www;
+            if (www.error != null)
+            {
+                action(false);
+            }
+            else
+            {
+                action(true);
             }
         }
 

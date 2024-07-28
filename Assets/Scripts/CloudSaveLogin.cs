@@ -1,25 +1,23 @@
 #if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
 #define DISABLESTEAMWORKS
 #endif
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.Services.Authentication;
-using Unity.Services.CloudSave;
-using System.Threading.Tasks;
-using Unity.Services.Core;
-//using Facebook.Unity;
-using System;
 using AppleAuth;
-using AppleAuth.Native;
 using AppleAuth.Enums;
 using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Threading;
-using System.Security.Principal;
+using AppleAuth.Native;
 using PSNSample;
+//using Facebook.Unity;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Services.CloudSave;
+using Unity.Services.Core;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
@@ -93,7 +91,7 @@ namespace Com.GCTC.ZombCube
 
             AdsInitializer.timesPlayed = 0;
 
-            if(Application.internetReachability == NetworkReachability.NotReachable)
+            if (Application.internetReachability == NetworkReachability.NotReachable)
             {
                 isSigningIn = true;
 
@@ -293,6 +291,12 @@ namespace Com.GCTC.ZombCube
                 userName = "Guest_" + userID;
                 SetPlayer(userID);
 
+#if UNITY_PS5
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+#endif
+
                 Login();
             }
             else
@@ -331,20 +335,19 @@ namespace Com.GCTC.ZombCube
                 PSSaveData.singleton.StartAutoSaveLoad();
             else
                 PSSaveData.singleton.InitializeSaveData();
-            
-            userID = PSUser.GetActiveUserId.ToString();
-            userName = PSUser.GetActiveUserName;
 
             PSUDS.Initialize();
             PSTrophies.Initialize();
+
+            userID = PSUser.GetActiveUserId.ToString();
+            userName = PSUser.GetActiveUserName;
 
             player.userID = userID;
             player.userName = userName;
 
             //SetPlayer(psnUserID, psnUserID);
 
-
-            //Login();
+            Login();
 
         }
 #endif
@@ -477,10 +480,10 @@ namespace Com.GCTC.ZombCube
         }*/
 
 
-#endregion
+        #endregion
 
 
-#region Private Login/Logout Methods
+        #region Private Login/Logout Methods
 
         private void OfflineLogin(bool isConnected)
         {
@@ -546,11 +549,11 @@ namespace Com.GCTC.ZombCube
         }
 
 
-#endregion
+        #endregion
 
 
-#region Apple Auth
-        
+        #region Apple Auth
+
         /// <summary>
         /// Performs continue with Apple login.
         /// </summary>
@@ -693,7 +696,7 @@ namespace Com.GCTC.ZombCube
                     {
                         // Apple User ID
                         // You should save the user ID somewhere in the device
-                        if(appleIdCredential.User != null)
+                        if (appleIdCredential.User != null)
                         {
                             userID = appleIdCredential.User;
                             PlayerPrefs.SetString("AppleUserIdKey", userID);
@@ -702,14 +705,14 @@ namespace Com.GCTC.ZombCube
                         {
                             userID = PlayerPrefs.GetString("AppleUserIdKey", "");
                         }
-                        
+
 
                         // Email (Received ONLY in the first login)
                         /*email = appleIdCredential.Email;
                             PlayerPrefs.SetString("AppleUserEmailKey", email);*/
 
                         // Full name (Received ONLY in the first login)
-                        if(appleIdCredential.FullName != null)
+                        if (appleIdCredential.FullName != null)
                         {
                             userName = appleIdCredential.FullName.ToLocalizedString();
                             PlayerPrefs.SetString("AppleUserNameKey", userName);
@@ -718,8 +721,8 @@ namespace Com.GCTC.ZombCube
                         {
                             userName = PlayerPrefs.GetString("AppleUserNameKey", "");
                         }
-                            
-                        
+
+
 
                         // Identity token
                         var idToken = Encoding.UTF8.GetString(
@@ -1113,6 +1116,12 @@ namespace Com.GCTC.ZombCube
 
                 SetPlayer(userID);
 
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+#endif
+
                 Login();
 
             }
@@ -1143,9 +1152,13 @@ namespace Com.GCTC.ZombCube
 
                 SetPlayer(AuthenticationService.Instance.PlayerId, userID);
 
-                Login();
+#if UNITY_PS5
+                userName = PSUser.GetActiveUserName;
 
-                Debug.Log("Signed In Anon PS");
+                player.userName = userName;
+#endif
+
+                Login();
 
             }
             catch (AuthenticationException ex)
@@ -1173,16 +1186,26 @@ namespace Com.GCTC.ZombCube
         /// <param name="id"></param>
         private async void SetPlayer(string id)
         {
-            SaveData incomingSample = await RetrieveSpecificData<SaveData>(id);
+            try
+            {
+                SaveData incomingSample = await RetrieveSpecificData<SaveData>(id);
 
-            if (incomingSample != null)
-            {
-                LoadPlayerData(incomingSample);
+                if (incomingSample != null)
+                {
+                    LoadPlayerData(incomingSample);
+                }
+                else
+                {
+                    LoadPlayerData();
+                }
             }
-            else
+            catch
             {
+                ErrorManager.Instance.StartErrorMessage("Error: Unity Services not intialized. Could not retrieve cloud data. Loading local profile.");
                 LoadPlayerData();
             }
+
+
 
 
         }
@@ -1290,11 +1313,11 @@ namespace Com.GCTC.ZombCube
             }
             catch (CloudSaveValidationException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data. " + e.Message);
             }
             catch (CloudSaveException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data." + e.Message);
             }
         }
 
@@ -1321,11 +1344,11 @@ namespace Com.GCTC.ZombCube
             }
             catch (CloudSaveValidationException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: " + e.Message);
             }
             catch (CloudSaveException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: " + "Not Conntected to the interent loading local profile.");
             }
 
             return default;
@@ -1487,7 +1510,7 @@ namespace Com.GCTC.ZombCube
         /// <param name="data"></param>
         public void LoadPlayerData(SaveData data)
         {
-            if(data.userID == "")
+            if (data.userID == "")
             {
                 player.userID = userID;
             }
@@ -1496,7 +1519,7 @@ namespace Com.GCTC.ZombCube
                 player.userID = data.userID;
             }
 
-            if(data.userName == "")
+            if (data.userName == "")
             {
                 player.userName = userName;
             }
@@ -1504,7 +1527,7 @@ namespace Com.GCTC.ZombCube
             {
                 player.userName = data.userName;
             }
-            
+
             player.playerName = data.playerName;
 
             if (data.rewardOverTime == null || data.rewardOverTime == "")
@@ -1577,7 +1600,7 @@ namespace Com.GCTC.ZombCube
             player.ownedSkins = new int[9];
         }
 
-#endregion
+        #endregion
 
 
     }

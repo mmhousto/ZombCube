@@ -46,8 +46,13 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
+#if UNITY_PS5
+                if (image.sprite != ps)
+                    image.sprite = ps;
+#else
                 if (image.sprite != pc)
                     image.sprite = pc;
+#endif
 
 #if (UNITY_IOS || UNITY_ANDROID)
                 if (image.enabled == true)

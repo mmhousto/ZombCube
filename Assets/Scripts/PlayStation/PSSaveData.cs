@@ -296,7 +296,6 @@ public class PSSaveData : MonoBehaviour
         PSReadFilesResponse fileResponse = new PSReadFilesResponse();
 
         StartSaveDataCoroutine(SaveData.AutoSaveProcess.StartAutoSaveLoadProcess(userId, dirName, fileRequest, fileResponse, HandleAutoSaveError));
-        CloudSaveLogin.Instance.Login();
     }
 
     void HandleAutoSaveError(uint errorCode)

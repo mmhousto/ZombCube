@@ -74,6 +74,43 @@ namespace Com.GCTC.ZombCube
             UserSystem.Schedule(requestOp);
         }
 
+        public static void GetBloackedUsers()
+        {
+            UInt32 limit = 95;
+
+            UserSystem.GetBlockingUsersRequest request = new UserSystem.GetBlockingUsersRequest()
+            {
+                UserId = PSGamePad.activeGamePad.loggedInUser.userId,
+                Offset = 0,
+                Limit = limit,
+                RetrievedAccountIds = new System.Collections.Generic.List<UInt64>((int)limit)                
+
+            };
+
+            var requestOp = new AsyncRequest<UserSystem.GetBlockingUsersRequest>(request).ContinueWith((antecedent) =>
+            {
+                if (PSNManager.CheckAysncRequestOK(antecedent))
+                {
+                    OnScreenLog.Add("Got Blocked Users : ");
+                    OnScreenLog.Add("   Account Ids : ");
+
+                    var accountIds = antecedent.Request.RetrievedAccountIds;
+
+                    OnScreenLog.Add("   NextOffset : " + antecedent.Request.NextOffset);
+                    OnScreenLog.Add("   PreviousOffset : " + antecedent.Request.PreviousOffset);
+                    OnScreenLog.Add("   TotalItemCount : " + antecedent.Request.TotalItemCount);
+                }
+                else
+                {
+                    OnScreenLog.AddError("Get Blocked Users error");
+                }
+            });
+
+            UserSystem.Schedule(requestOp);
+
+            OnScreenLog.Add("Getting Blocked users...");
+        }
+
         static Dictionary<Int32, WebApiPushEvent> userCallbackIds = new Dictionary<int, WebApiPushEvent>();
 
         public static void NotificationEventHandler(WebApiNotifications.CallbackParams eventData)
