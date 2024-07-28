@@ -131,6 +131,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void OnStartGameClicked()
         {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             this.photonView.RPC("StartGameServerRpc", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
         }
 
