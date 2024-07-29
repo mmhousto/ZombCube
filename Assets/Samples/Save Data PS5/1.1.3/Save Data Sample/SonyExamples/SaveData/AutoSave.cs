@@ -79,6 +79,7 @@ namespace SaveData
                                     // Must handle no space and broken save games
                                     //    ReturnCodes.DATA_ERROR_NO_SPACE_FS
                                     //    ReturnCodes.SAVE_DATA_ERROR_BROKEN)
+                                    
                                     currentState = SaveState.HandleError;
                                 }
                                 else

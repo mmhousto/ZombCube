@@ -26,6 +26,7 @@ public class PSAuth : MonoBehaviour
     private int tries = 0;
     private void Update()
     {
+#if UNITY_PS5 && !UNITY_EDITOR
         if(initialized && calledSignIn == false)
         {
             calledSignIn = true;
@@ -35,6 +36,7 @@ public class PSAuth : MonoBehaviour
             calledSignIn = true;
             CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
         }
+#endif
     }
 
     public void Initialize()
@@ -57,7 +59,9 @@ public class PSAuth : MonoBehaviour
             CloudSaveLogin.Instance.SignInAnonymously();
             return;
         }
+#if UNITY_PS5 && !UNITY_EDITOR
         CloudSaveLogin.Instance.SignInPS(userID, iDToken, authCode);
+#endif
     }
 
     private void CheckPremium()

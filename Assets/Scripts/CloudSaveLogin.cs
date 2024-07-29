@@ -1329,11 +1329,11 @@ namespace Com.GCTC.ZombCube
             }
             catch (CloudSaveValidationException e)
             {
-                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data. " + e.Message);
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data.");
             }
             catch (CloudSaveException e)
             {
-                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data." + e.Message);
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data.");
             }
         }
 
@@ -1364,7 +1364,7 @@ namespace Com.GCTC.ZombCube
             }
             catch (CloudSaveException e)
             {
-                ErrorManager.Instance.StartErrorMessage("Error: " + "Not Conntected to the interent loading local profile.");
+                ErrorManager.Instance.StartErrorMessage("Error: " + "Failed to load cloud data, loading local profile.");
             }
 
             return default;

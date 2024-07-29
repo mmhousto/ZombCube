@@ -97,6 +97,10 @@ namespace Com.GCTC.ZombCube
                     OnScreenLog.Add("   Account Ids : ");
 
                     accountIds = antecedent.Request.RetrievedAccountIds;
+                    foreach (var accountId in accountIds)
+                    {
+                        Debug.Log(accountId);
+                    }
 
                     OnScreenLog.Add("   NextOffset : " + antecedent.Request.NextOffset);
                     OnScreenLog.Add("   PreviousOffset : " + antecedent.Request.PreviousOffset);

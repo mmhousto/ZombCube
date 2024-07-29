@@ -149,7 +149,7 @@ namespace Com.GCTC.ZombCube
         {
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
-                ErrorManager.Instance.StartErrorMessage("Error: Not connected to the internet.");
+                ErrorManager.Instance.StartErrorMessage("Network Error: Not connected to the internet.");
                 return;
             }
 
@@ -190,7 +190,7 @@ namespace Com.GCTC.ZombCube
             }
             catch
             {
-                ErrorManager.Instance.StartErrorMessage("Failed to save data.");
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save data.");
             }
         }
 
@@ -207,7 +207,7 @@ namespace Com.GCTC.ZombCube
         {
             if (!isConnected)
             {
-                ErrorManager.Instance.StartErrorMessage("Error: Not connected to the internet.");
+                ErrorManager.Instance.StartErrorMessage("Network Error: Not connected to the internet.");
             }
         }
 
