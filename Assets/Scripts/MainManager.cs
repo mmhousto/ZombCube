@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_PS5
 using Unity.SaveData.PS5.Core;
+#endif
 
 namespace Com.GCTC.ZombCube
 {
@@ -54,11 +56,11 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = player.playerName;
 
-            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && reportedNGamer == false)
+            /*if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
-            }
+            }*/
 
             if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && player != null)
             {

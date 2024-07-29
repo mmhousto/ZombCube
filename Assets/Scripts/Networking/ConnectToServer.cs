@@ -213,7 +213,8 @@ namespace Com.GCTC.ZombCube
         public override void OnDisconnected(Photon.Realtime.DisconnectCause cause)
         {
             //Debug.Log(cause);
-            ErrorManager.Instance.StartErrorMessage("Network Error: Player disconnected from the internet.");
+            if (cause != Photon.Realtime.DisconnectCause.DisconnectByClientLogic)
+                ErrorManager.Instance.StartErrorMessage("Network Error: Player disconnected from the internet.");
             SceneLoader.ToMainMenu();
         }
 

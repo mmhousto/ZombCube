@@ -39,9 +39,16 @@ namespace Com.GCTC.ZombCube
                 {
                     image.sprite = ps;
                 }
-                else if(!IsXboxController(controllerName) && !IsPlayStationController(controllerName) && image != xbox)
+                else if (!IsXboxController(controllerName) && !IsPlayStationController(controllerName))
                 {
-                    image.sprite = xbox;
+
+#if UNITY_PS5
+                    if (image.sprite != ps)
+                        image.sprite = ps;
+#else
+                    if (image.sprite != xbox)
+                        image.sprite = xbox;
+#endif
                 }
             }
             else

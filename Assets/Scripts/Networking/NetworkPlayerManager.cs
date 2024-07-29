@@ -795,7 +795,7 @@ namespace Com.GCTC.ZombCube
         public void SetPlayerInfo(string name, string username, int blasterIndex, int skinIndex)
         {
             playerName = name;
-
+#if UNITY_PS5
             var blockedUsers = PSUserProfiles.GetBlockedUsers();
             if(blockedUsers != null)
             {
@@ -807,6 +807,7 @@ namespace Com.GCTC.ZombCube
                     }
                 }
             }
+#endif
 
 #if UNITY_PS5 && !UNITY_EDITOR
             if (CloudSaveLogin.Instance.restricted)

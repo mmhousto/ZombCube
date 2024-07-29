@@ -12,6 +12,7 @@ namespace Com.GCTC.ZombCube
 {
     public class PSEntitlements
     {
+        #if UNITY_PS5
         public PSEntitlements()
         {
             Initialize();
@@ -314,7 +315,7 @@ namespace Com.GCTC.ZombCube
             }
         }*/
 
-        private void OutputUnifiedEntitlement(Entitlements.UnifiedEntitlementInfo entitlement)
+        /*private void OutputUnifiedEntitlement(Entitlements.UnifiedEntitlementInfo entitlement)
         {
             OnScreenLog.Add("Unified Entitlements : ");
 
@@ -443,6 +444,7 @@ namespace Com.GCTC.ZombCube
                 OnScreenLog.Add("      PackageType : " + entitlement.PackageType);
                 OnScreenLog.Add("      DownloadStatus : " + entitlement.DownloadStatus);
             }
-        }
+        }*/
+#endif
     }
 }

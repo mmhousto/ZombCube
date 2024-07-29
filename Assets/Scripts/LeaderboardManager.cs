@@ -29,6 +29,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UpdatePSNStats(Player player)
         {
+#if UNITY_PS5
             if (player != null)
             {
                 PSTrophies.IncreaseProgressStat(player.totalPointsEarned, "UpdateTotalPoints", "custom");
@@ -38,7 +39,7 @@ namespace Com.GCTC.ZombCube
                 PSTrophies.IncreaseProgressStat(player.cubesEliminated, "UpdateCubesDestroyed", "custom");
                 PSTrophies.IncreaseProgressStat(player.totalProjectilesFired, "UpdateProjectilesFired", "custom");
             }
-            
+#endif
         }
 
         public static void UpdateMostPointsLeaderboard()
