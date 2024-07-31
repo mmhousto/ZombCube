@@ -132,8 +132,11 @@ namespace Com.GCTC.ZombCube
 
 #endif
 
-                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.userName, player.currentBlaster, player.currentSkin);
-                
+#if UNITY_PS5 && !UNITY_EDITOR
+                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.userName, PSUser.GetActiveUserAccountID.ToString(), player.currentBlaster, player.currentSkin);
+#else
+                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.userName, null, player.currentBlaster, player.currentSkin);
+#endif
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
                 healthPoints = 100f;
@@ -350,7 +353,7 @@ namespace Com.GCTC.ZombCube
             NetworkGameManager.endGame -= CallSaveDataEndGame;
         }
 
-        #endregion
+#endregion
 
 
         #region Public Methods
@@ -792,28 +795,27 @@ namespace Com.GCTC.ZombCube
         }
 
         [PunRPC]
-        public void SetPlayerInfo(string name, string username, int blasterIndex, int skinIndex)
+        public void SetPlayerInfo(string name, string username, string accountID, int blasterIndex, int skinIndex)
         {
             playerName = name;
-#if UNITY_PS5
-            var blockedUsers = PSUserProfiles.GetBlockedUsers();
-            if(blockedUsers != null)
-            {
-                foreach(var blockedUser in blockedUsers)
-                {
-                    if(username == blockedUser.ToString())
-                    {
-                        playerNameText.text = username;
-                    }
-                }
-            }
-#endif
 
 #if UNITY_PS5 && !UNITY_EDITOR
             if (CloudSaveLogin.Instance.restricted)
                 playerNameText.text = username;
             else
                 playerNameText.text = playerName + "<br>" + username;
+
+            var blockedUsers = PSUserProfiles.GetBlockedUsers();
+            if(blockedUsers != null && accountID != null)
+            {
+                foreach(var blockedUser in blockedUsers)
+                {
+                    if(accountID == blockedUser.ToString())
+                    {
+                        playerNameText.text = username;
+                    }
+                }
+            }
 #else
             playerNameText.text = playerName + "<br>" + username;
 #endif

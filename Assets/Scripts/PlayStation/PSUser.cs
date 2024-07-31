@@ -149,6 +149,18 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        public static ulong GetActiveUserAccountID
+        {
+            get
+            {
+                if (PSGamePad.activeGamePad == null)
+                {
+                    OnScreenLog.AddError("User.GetActiveUserId : Active Gamepad is null. Must wait until the gamepad system has had time to initialize correctly.");
+                }
+                return PSGamePad.activeGamePad.loggedInUser.accountId;
+            }
+        }
+
         public static PSUser GetActiveUser
         {
             get

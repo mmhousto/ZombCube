@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.EventSystems;
+using System;
 
 namespace Com.GCTC.ZombCube
 {
@@ -53,6 +54,11 @@ namespace Com.GCTC.ZombCube
             hash.Add("IsReady", false);
             hash.Add("Blaster", player.currentBlaster);
             hash.Add("Skin", player.currentSkin);
+#if UNITY_PS5 && !UNITY_EDITOR
+            hash.Add("AccountID", PSUser.GetActiveUserAccountID.ToString());
+#else
+            hash.Add("AccountID", player.userID);
+#endif
 
             if (player.Equals(null)) { return; }
 
@@ -70,7 +76,7 @@ namespace Com.GCTC.ZombCube
         }
 
 
-        #endregion
+#endregion
 
 
         #region Private Methods

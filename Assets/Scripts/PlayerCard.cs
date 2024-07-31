@@ -29,6 +29,18 @@ namespace Com.GCTC.ZombCube
                 playerName.text = (string)player.CustomProperties["UserName"];
             else
                 playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
+
+            var blockedUsers = PSUserProfiles.GetBlockedUsers();
+            if(blockedUsers != null)
+            {
+                foreach(var blockedUser in blockedUsers)
+                {
+                    if((string)player.CustomProperties["AccountID"] == blockedUser.ToString())
+                    {
+                        playerName.text = (string)player.CustomProperties["UserName"];
+                    }
+                }
+            }
 #else
             playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
 #endif
