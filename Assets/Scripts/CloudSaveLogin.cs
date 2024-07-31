@@ -110,7 +110,6 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
-                PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();
@@ -319,7 +318,6 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
-                PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();
@@ -369,8 +367,6 @@ namespace Com.GCTC.ZombCube
 
             player.userID = userID;
             player.userName = userName;
-
-            PSOnlineSafety.GetCRStatus();
 
             //SetPlayer(psnUserID, psnUserID);
 
@@ -1147,7 +1143,6 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
-                PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();
@@ -1184,7 +1179,6 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
-                PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();

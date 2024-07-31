@@ -7,6 +7,7 @@ using Unity.SaveData.PS5.Core;
 using Unity.SaveData.PS5.Dialog;
 using Unity.SaveData.PS5.Info;
 using Unity.SaveData.PS5.Mount;
+using UnityEngine;
 
 namespace SaveData
 {
@@ -74,12 +75,11 @@ namespace SaveData
 
                                 if (mountResponse.IsErrorCode == true)
                                 {
-                                    errorCode = mountResponse.ReturnCodeValue;
-
+                                    errorCode = unchecked((int)ReturnCodes.DATA_ERROR_NO_SPACE_FS);
                                     // Must handle no space and broken save games
                                     //    ReturnCodes.DATA_ERROR_NO_SPACE_FS
                                     //    ReturnCodes.SAVE_DATA_ERROR_BROKEN)
-                                    
+
                                     currentState = SaveState.HandleError;
                                 }
                                 else
@@ -378,7 +378,7 @@ namespace SaveData
             {
                 if (mountResponse.ReturnCodeValue < 0)
                 {
-                    errorCode = mountResponse.ReturnCodeValue;
+                    errorCode = unchecked((int)ReturnCodes.DATA_ERROR_NO_SPACE_FS);//mountResponse.ReturnCodeValue;
                 }
             }
 

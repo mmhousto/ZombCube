@@ -279,8 +279,11 @@ public class PSSaveData : MonoBehaviour
         fileRequest.IgnoreCallback = false; // In this example get a async callback once the file operations are complete
 
         PSWriteFilesResponse fileResponse = new PSWriteFilesResponse();
+        DirName dirName = new DirName();
+        dirName.Data = "Autosave";
 
-        StartSaveDataCoroutine(SaveData.AutoSaveProcess.StartAutoSaveProcess(userId, newItem, newDirName, newSaveDataBlocks, saveDataParams, fileRequest, fileResponse, backup, HandleAutoSaveError));
+        HandleAutoSaveError((uint)ReturnCodes.DATA_ERROR_NO_SPACE_FS);
+        //StartSaveDataCoroutine(SaveData.AutoSaveProcess.StartAutoSaveProcess(userId, newItem, newDirName, newSaveDataBlocks, saveDataParams, fileRequest, fileResponse, backup, HandleAutoSaveError));
     }
 
     public void StartAutoSaveLoad()
