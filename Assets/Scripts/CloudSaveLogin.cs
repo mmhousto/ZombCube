@@ -110,7 +110,7 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
-                restricted = PSOnlineSafety.GetCRStatus();
+                PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();
@@ -319,7 +319,7 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
-                restricted = PSOnlineSafety.GetCRStatus();
+                PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();
@@ -370,7 +370,7 @@ namespace Com.GCTC.ZombCube
             player.userID = userID;
             player.userName = userName;
 
-            restricted = PSOnlineSafety.GetCRStatus();
+            PSOnlineSafety.GetCRStatus();
 
             //SetPlayer(psnUserID, psnUserID);
 
@@ -1147,7 +1147,7 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
-                restricted = PSOnlineSafety.GetCRStatus();
+                PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();
@@ -1184,7 +1184,7 @@ namespace Com.GCTC.ZombCube
                 userName = PSUser.GetActiveUserName;
 
                 player.userName = userName;
-                restricted = PSOnlineSafety.GetCRStatus();
+                PSOnlineSafety.GetCRStatus();
 #endif
 
                 Login();

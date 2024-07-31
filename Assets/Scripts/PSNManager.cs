@@ -165,6 +165,7 @@ namespace Com.GCTC.ZombCube
             PSGamePad[] gamePads = GetComponents<PSGamePad>();
 
             PSUser.Initialize(gamePads);
+            PSOnlineSafety.GetCRStatus();
         }
 
         // Update is called once per frame

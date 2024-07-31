@@ -10,14 +10,12 @@ namespace Com.GCTC.ZombCube
 #if UNITY_PS5 || UNITY_PS4
     public static class PSOnlineSafety
     {
-        public static bool GetCRStatus()
+        public static void GetCRStatus()
         {
             OnlineSafety.GetCommunicationRestrictionStatusRequest request = new OnlineSafety.GetCommunicationRestrictionStatusRequest()
             {
                 UserId = PSGamePad.activeGamePad.loggedInUser.userId
             };
-
-            bool restricted = false;
 
             var requestOp = new AsyncRequest<OnlineSafety.GetCommunicationRestrictionStatusRequest>(request).ContinueWith((antecedent) =>
             {
@@ -26,17 +24,12 @@ namespace Com.GCTC.ZombCube
                     OnScreenLog.Add("CR Status = " + antecedent.Request.Status);
                     if(antecedent.Request.Status == OnlineSafety.CRStatus.Restricted)
                     {
-                        restricted = true;
-                    }
-                    else
-                    {
-                        restricted = false;
+                        CloudSaveLogin.Instance.restricted = true;
                     }
                 }
             });
 
             OnlineSafety.Schedule(requestOp);
-            return restricted;
         }
 
         public static void FilterProfanity(string profanity)
