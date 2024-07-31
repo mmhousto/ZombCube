@@ -805,10 +805,10 @@ namespace Com.GCTC.ZombCube
             else
                 playerNameText.text = playerName + "<br>" + username;
 
-            var blockedUsers = PSUserProfiles.GetBlockedUsers();
-            if(blockedUsers != null && accountID != null)
+            PSUserProfiles.GetBlockedUsers();
+            if(PSUserProfiles.blockedUsers.Count > 0 && accountID != null)
             {
-                foreach(var blockedUser in blockedUsers)
+                foreach(ulong blockedUser in PSUserProfiles.blockedUsers)
                 {
                     if(accountID == blockedUser.ToString())
                     {

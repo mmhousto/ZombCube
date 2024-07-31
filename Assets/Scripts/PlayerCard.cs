@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace Com.GCTC.ZombCube
 {
@@ -30,11 +31,14 @@ namespace Com.GCTC.ZombCube
             else
                 playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
 
-            var blockedUsers = PSUserProfiles.GetBlockedUsers();
-            if(blockedUsers != null)
+            OnScreenLog.Add("Custom Property Account ID: " + (string)player.CustomProperties["AccountID"]);
+
+            PSUserProfiles.GetBlockedUsers();
+            if(PSUserProfiles.blockedUsers.Count > 0)
             {
-                foreach(var blockedUser in blockedUsers)
+                foreach(ulong blockedUser in PSUserProfiles.blockedUsers)
                 {
+                    OnScreenLog.Add("Blocked User: " + blockedUser.ToString());
                     if((string)player.CustomProperties["AccountID"] == blockedUser.ToString())
                     {
                         playerName.text = (string)player.CustomProperties["UserName"];

@@ -16,6 +16,8 @@ namespace Com.GCTC.ZombCube
     {
 
 #if UNITY_PS5
+        public static List<ulong> blockedUsers = new List<ulong>();
+
         private static void OnReachabilityNotification(UserSystem.ReachabilityEvent reachabilityEvent)
         {
             Debug.Log("Reachability Notification : ");
@@ -74,7 +76,7 @@ namespace Com.GCTC.ZombCube
             UserSystem.Schedule(requestOp);
         }
 
-        public static List<ulong> GetBlockedUsers()
+        public static void GetBlockedUsers()
         {
             UInt32 limit = 95;
 
@@ -97,11 +99,7 @@ namespace Com.GCTC.ZombCube
                     OnScreenLog.Add("   Account Ids : ");
 
                     accountIds = antecedent.Request.RetrievedAccountIds;
-                    foreach (var accountId in accountIds)
-                    {
-                        Debug.Log(accountId);
-                    }
-
+                    blockedUsers = accountIds;
                     OnScreenLog.Add("   NextOffset : " + antecedent.Request.NextOffset);
                     OnScreenLog.Add("   PreviousOffset : " + antecedent.Request.PreviousOffset);
                     OnScreenLog.Add("   TotalItemCount : " + antecedent.Request.TotalItemCount);
@@ -115,7 +113,6 @@ namespace Com.GCTC.ZombCube
             UserSystem.Schedule(requestOp);
 
             OnScreenLog.Add("Getting Blocked users...");
-            return accountIds;
         }
 
         static Dictionary<Int32, WebApiPushEvent> userCallbackIds = new Dictionary<int, WebApiPushEvent>();

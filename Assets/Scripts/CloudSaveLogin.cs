@@ -190,6 +190,19 @@ namespace Com.GCTC.ZombCube
             }
 #endif
 
+#if UNITY_PS5 && !UNITY_EDITOR
+            if(player.userName != PSUser.GetActiveUserName)
+            {
+                userName = PSUser.GetActiveUserName;
+                player.userName = userName;
+            }
+            if(player.userID != PSUser.GetActiveUserId.ToString())
+            {
+                userID = PSUser.GetActiveUserId.ToString();
+                player.userID = userID;
+            }
+#endif
+
         }
 
         /// <summary>
