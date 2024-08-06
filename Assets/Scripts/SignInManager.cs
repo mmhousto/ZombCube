@@ -59,7 +59,7 @@ namespace Com.GCTC.ZombCube
             SignInAnon();
 #elif UNITY_IOS
             SignInApple();
-#elif UNITY_PS5 || UNITY_PS4
+#elif UNITY_PS5 && !UNITY_EDITOR
             CloudSaveLogin.Instance.PSSignIn();
 #else
             if (CloudSaveLogin.Instance.isSteam && Application.internetReachability != NetworkReachability.NotReachable)

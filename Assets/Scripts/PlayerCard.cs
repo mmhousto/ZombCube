@@ -24,7 +24,14 @@ namespace Com.GCTC.ZombCube
         /// <param name="player">Player properties to update and display</param>
         public void UpdateDisplay(Photon.Realtime.Player player)
         {
-            playerName.text = (string)player.CustomProperties["PlayerName"];
+#if UNITY_PS5 && !UNITY_EDITOR
+            if (CloudSaveLogin.Instance.restricted)
+                playerName.text = (string)player.CustomProperties["UserName"];
+            else
+                playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
+#else
+            playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
+#endif
             isReadyToggle.isOn = (bool)player.CustomProperties["IsReady"];
 
             playerSkin.material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Skin"]];

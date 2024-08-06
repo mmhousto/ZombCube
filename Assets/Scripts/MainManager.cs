@@ -1,8 +1,12 @@
-using PSNSample;
+using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_PS5
+using Unity.SaveData.PS5.Core;
+#endif
 
 namespace Com.GCTC.ZombCube
 {
@@ -28,7 +32,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         void Awake()
         {
-#if (UNITY_XBOXONE || UNITY_PS4 || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_STADALONE_OSX)
+#if (UNITY_XBOXONE || UNITY_PS4 || UNITY_PS5 || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_STADALONE_OSX)
             iapButton.SetActive(false);
             iapButton2.SetActive(false);
 #endif
@@ -52,11 +56,11 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = player.playerName;
 
-            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && reportedNGamer == false)
+            /*if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
-            }
+            }*/
 
             if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS) && player != null)
             {
@@ -97,8 +101,6 @@ namespace Com.GCTC.ZombCube
         {
             if (playerNameText.text != player.playerName)
                 playerNameText.text = player.playerName;
-
-            CheckNGamer1();
         }
 
         /// <summary>
@@ -119,6 +121,12 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartSoloGame()
         {
+#if UNITY_PS5 && !UNITY_EDITOR
+            PSUDS.PostUDSStartEvent("activitySolo");
+            PSUDS.PostUDSStartEvent("activityBossCube");
+#endif
+            CheckNGamer1();
+
             GameManager.mode = 0;
             CloudSaveLogin.Instance.SaveCloudData();
             SceneLoader.PlayGame();
@@ -129,6 +137,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartCoopGame()
         {
+            CheckNGamer1();
             GameManager.mode = 1;
             CloudSaveLogin.Instance.SaveCloudData();
             SceneLoader.PlayGame();
@@ -140,9 +149,25 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void StartMultiplayer()
         {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                ErrorManager.Instance.StartErrorMessage("Network Error: Not connected to the internet.");
+                return;
+            }
+
+#if UNITY_PS5 && !UNITY_EDITOR
+            if (PSFeatureGating.hasPremium == false)
+            {
+                //NO PREMIUM - Notify Player
+                PSCommerce.OpenJoinPremium();
+                return;
+            }
+#endif
+            CheckNGamer1();
+
             if (string.IsNullOrEmpty(player.playerName))
             {
-                Debug.LogError("Player Name is null or empty!");
+                ErrorManager.Instance.StartErrorMessage("Error: Player Name is null or empty!");
                 return;
             }
             CloudSaveLogin.Instance.SaveCloudData();
@@ -167,7 +192,7 @@ namespace Com.GCTC.ZombCube
             }
             catch
             {
-                Debug.Log("Failed to save data.");
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save data.");
             }
         }
 
@@ -177,6 +202,28 @@ namespace Com.GCTC.ZombCube
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
+            }
+        }
+
+        private void NoInternet(bool isConnected)
+        {
+            if (!isConnected)
+            {
+                ErrorManager.Instance.StartErrorMessage("Network Error: Not connected to the internet.");
+            }
+        }
+
+        IEnumerator checkInternetConnection(Action<bool> action)
+        {
+            WWW www = new WWW("http://google.com");
+            yield return www;
+            if (www.error != null)
+            {
+                action(false);
+            }
+            else
+            {
+                action(true);
             }
         }
 

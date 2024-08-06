@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using TMPro;
+using UnityEngine.UI;
+using Photon.Realtime;
 
 namespace Com.GCTC.ZombCube
 {
@@ -15,9 +17,15 @@ namespace Com.GCTC.ZombCube
 
         public TextMeshProUGUI loadingText;
 
+        public TMP_Dropdown regionList;
+
+        public string region;
+
         private string gameVersion = "0.2";
 
         private int dots = 1;
+
+        private AppSettings serverSettings;
 
         #region MonoBehaviour Methods
 
@@ -33,16 +41,114 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         void Start()
         {
-            InvokeRepeating(nameof(UpdateLoadingText), 0f, 1f);
+            loadingText.gameObject.SetActive(false);
 
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = gameVersion;
-            PhotonNetwork.ConnectUsingSettings();
-            
+            serverSettings = new AppSettings();
+            serverSettings.UseNameServer = true;
+            serverSettings.AppIdRealtime = "6ebea3a1-0375-4762-8828-5a4b07a80f6a";
+            serverSettings.AppVersion = "1";
+            region = PlayerPrefs.GetString("Region", "ussc");
+            switch (region)
+            {
+                case "usw":
+                    regionList.SetValueWithoutNotify(1);
+                    break;
+                case "us":
+                    regionList.SetValueWithoutNotify(2);
+                    break;
+                case "ussc":
+                    regionList.SetValueWithoutNotify(0);
+                    break;
+                case "sa":
+                    regionList.SetValueWithoutNotify(3);
+                    break;
+                case "asia":
+                    regionList.SetValueWithoutNotify(4);
+                    break;
+                case "au":
+                    regionList.SetValueWithoutNotify(5);
+                    break;
+                case "cae":
+                    regionList.SetValueWithoutNotify(6);
+                    break;
+                case "eu":
+                    regionList.SetValueWithoutNotify(7);
+                    break;
+                case "in":
+                    regionList.SetValueWithoutNotify(8);
+                    break;
+                case "jp":
+                    regionList.SetValueWithoutNotify(9);
+                    break;
+                case "za":
+                    regionList.SetValueWithoutNotify(10);
+                    break;
+                default:
+                    regionList.SetValueWithoutNotify(0);
+                    break;
+            }
+
+            serverSettings.FixedRegion = region;
         }
 
 
         #endregion
+
+        public void RegionSelect(int regionIndex)
+        {
+            switch (regionList.options[regionIndex].text)
+            {
+                case "US West":
+                    region = "usw";
+                    break;
+                case "US East":
+                    region = "us";
+                    break;
+                case "US Central":
+                    region = "ussc";
+                    break;
+                case "South America":
+                    region = "sa";
+                    break;
+                case "Asia":
+                    region = "asia";
+                    break;
+                case "Austrailia":
+                    region = "au";
+                    break;
+                case "Canada":
+                    region = "cae";
+                    break;
+                case "Europe":
+                    region = "eu";
+                    break;
+                case "India":
+                    region = "in";
+                    break;
+                case "Japan":
+                    region = "jp";
+                    break;
+                case "South Africa":
+                    region = "za";
+                    break;
+                default:
+                    region = "ussc";
+                    break;
+            }
+            PlayerPrefs.SetString("Region", region);
+            serverSettings.FixedRegion = region;
+        }
+
+        public void Connect()
+        {
+            InvokeRepeating(nameof(UpdateLoadingText), 0f, 1f);
+            loadingText.gameObject.SetActive(true);
+            PhotonNetwork.ConnectUsingSettings(serverSettings);
+
+            Invoke(nameof(CouldNotConnect), 15f);
+        }
 
         /// <summary>
         /// Sets data loaded from player to player variable.
@@ -59,6 +165,16 @@ namespace Com.GCTC.ZombCube
             player.ownedBlasters = data.ownedBlasters;
             player.currentSkin = data.currentSkin;
             player.ownedSkins = data.ownedSkins;
+        }
+
+        public void BackToMainMenu()
+        {
+            SceneLoader.ToMainMenu();
+        }
+
+        void CouldNotConnect()
+        {
+            PhotonNetwork.Disconnect();
         }
 
         void UpdateLoadingText()
@@ -96,7 +212,9 @@ namespace Com.GCTC.ZombCube
         /// <param name="cause"></param>
         public override void OnDisconnected(Photon.Realtime.DisconnectCause cause)
         {
-            Debug.Log(cause);
+            //Debug.Log(cause);
+            if (cause != Photon.Realtime.DisconnectCause.DisconnectByClientLogic)
+                ErrorManager.Instance.StartErrorMessage("Network Error: Player disconnected from the internet.");
             SceneLoader.ToMainMenu();
         }
 
@@ -105,11 +223,10 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public override void OnConnectedToMaster()
         {
-            Debug.Log("Connected to Master " + PhotonNetwork.ServerAddress);
+            //Debug.Log("Connected to Master " + PhotonNetwork.ServerAddress);
             PhotonNetwork.JoinLobby();
             PhotonNetwork.AutomaticallySyncScene = true;
         }
-
 
         /// <summary>
         /// Loads the lobby scene and sets NickName to player's name, after joining successfully.
@@ -118,7 +235,7 @@ namespace Com.GCTC.ZombCube
         {
             SceneLoader.ToLobby();
             PhotonNetwork.NickName = player.playerName;
-            Debug.Log(PhotonNetwork.ServerAddress);
+            //Debug.Log(PhotonNetwork.ServerAddress);
         }
 
 

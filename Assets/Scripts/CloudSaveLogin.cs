@@ -1,27 +1,23 @@
 #if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
 #define DISABLESTEAMWORKS
 #endif
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.Services.Authentication;
-using Unity.Services.CloudSave;
-using System.Threading.Tasks;
-using Unity.Services.Core;
-//using Facebook.Unity;
-using System;
 using AppleAuth;
-using AppleAuth.Native;
 using AppleAuth.Enums;
 using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Threading;
-using System.Security.Principal;
-#if UNITY_PS5
+using AppleAuth.Native;
 using PSNSample;
-#endif
+//using Facebook.Unity;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Services.CloudSave;
+using Unity.Services.Core;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
@@ -38,7 +34,7 @@ namespace Com.GCTC.ZombCube
     public class CloudSaveLogin : MonoBehaviour
     {
 
-#region Fields/Variables
+        #region Fields/Variables
 
         private static CloudSaveLogin instance;
 
@@ -62,6 +58,10 @@ namespace Com.GCTC.ZombCube
         public bool loggedIn = false;
         public bool isSigningIn = false;
 
+#if UNITY_PS5 && !UNITY_EDITOR
+        public bool restricted = false;
+#endif
+
         // User Info.
         public string userName, userID;
 
@@ -77,7 +77,7 @@ namespace Com.GCTC.ZombCube
 #endregion
 
 
-#region MonoBehaviour Methods
+        #region MonoBehaviour Methods
 
 
         // Start is called before the first frame update
@@ -95,7 +95,7 @@ namespace Com.GCTC.ZombCube
 
             AdsInitializer.timesPlayed = 0;
 
-            if(Application.internetReachability == NetworkReachability.NotReachable)
+            if (Application.internetReachability == NetworkReachability.NotReachable)
             {
                 isSigningIn = true;
 
@@ -105,6 +105,13 @@ namespace Com.GCTC.ZombCube
                 userName = "Guest_" + userID;
 
                 SetPlayer(userID);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+                restricted = PSOnlineSafety.GetCRStatus();
+#endif
 
                 Login();
                 return;
@@ -207,7 +214,7 @@ namespace Com.GCTC.ZombCube
         }
 
 
-#endregion
+        #endregion
 
         IEnumerator checkInternetConnection(Action<bool> action)
         {
@@ -223,7 +230,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-#region Public Sign In/Out Methods
+        #region Public Sign In/Out Methods
 
 
         public async void DeleteAccount()
@@ -295,6 +302,13 @@ namespace Com.GCTC.ZombCube
                 userName = "Guest_" + userID;
                 SetPlayer(userID);
 
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+                restricted = PSOnlineSafety.GetCRStatus();
+#endif
+
                 Login();
             }
             else
@@ -314,7 +328,7 @@ namespace Com.GCTC.ZombCube
             await SignInAnonymouslyAsync();
         }
 
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
         public void PSAuthInit()
         {
             GetComponent<PSAuth>().Initialize();
@@ -329,20 +343,25 @@ namespace Com.GCTC.ZombCube
         {
             currentSSO = ssoOption.PS;
 
-            userID = PSUser.GetActiveUserId.ToString();
-            userName = psnUserID;
-
             if (PSSaveData.singleton.initialized)
                 PSSaveData.singleton.StartAutoSaveLoad();
             else
                 PSSaveData.singleton.InitializeSaveData();
 
+            PSUDS.Initialize();
             PSTrophies.Initialize();
+
+            userID = PSUser.GetActiveUserId.ToString();
+            userName = PSUser.GetActiveUserName;
+
+            player.userID = userID;
+            player.userName = userName;
+
+            restricted = PSOnlineSafety.GetCRStatus();
 
             //SetPlayer(psnUserID, psnUserID);
 
-
-            //Login();
+            Login();
 
         }
 #endif
@@ -475,10 +494,10 @@ namespace Com.GCTC.ZombCube
         }*/
 
 
-#endregion
+        #endregion
 
 
-#region Private Login/Logout Methods
+        #region Private Login/Logout Methods
 
         private void OfflineLogin(bool isConnected)
         {
@@ -544,11 +563,11 @@ namespace Com.GCTC.ZombCube
         }
 
 
-#endregion
+        #endregion
 
 
-#region Apple Auth
-        
+        #region Apple Auth
+
         /// <summary>
         /// Performs continue with Apple login.
         /// </summary>
@@ -691,7 +710,7 @@ namespace Com.GCTC.ZombCube
                     {
                         // Apple User ID
                         // You should save the user ID somewhere in the device
-                        if(appleIdCredential.User != null)
+                        if (appleIdCredential.User != null)
                         {
                             userID = appleIdCredential.User;
                             PlayerPrefs.SetString("AppleUserIdKey", userID);
@@ -700,14 +719,14 @@ namespace Com.GCTC.ZombCube
                         {
                             userID = PlayerPrefs.GetString("AppleUserIdKey", "");
                         }
-                        
+
 
                         // Email (Received ONLY in the first login)
                         /*email = appleIdCredential.Email;
                             PlayerPrefs.SetString("AppleUserEmailKey", email);*/
 
                         // Full name (Received ONLY in the first login)
-                        if(appleIdCredential.FullName != null)
+                        if (appleIdCredential.FullName != null)
                         {
                             userName = appleIdCredential.FullName.ToLocalizedString();
                             PlayerPrefs.SetString("AppleUserNameKey", userName);
@@ -716,8 +735,8 @@ namespace Com.GCTC.ZombCube
                         {
                             userName = PlayerPrefs.GetString("AppleUserNameKey", "");
                         }
-                            
-                        
+
+
 
                         // Identity token
                         var idToken = Encoding.UTF8.GetString(
@@ -756,10 +775,10 @@ namespace Com.GCTC.ZombCube
         }
 
 
-#endregion
+        #endregion
 
 
-#region Facebook Auth
+        #region Facebook Auth
         /*
         /// <summary>
         /// Initializes Facebook SDK
@@ -901,10 +920,10 @@ namespace Com.GCTC.ZombCube
         }
 
         */
-#endregion
+        #endregion
 
 
-#region Google Play Auth
+        #region Google Play Auth
 
 #if UNITY_ANDROID
 
@@ -1021,10 +1040,10 @@ namespace Com.GCTC.ZombCube
         
 #endif
 
-#endregion
+        #endregion
 
 
-#region Steam Auth
+        #region Steam Auth
 
 #if !DISABLESTEAMWORKS
         async Task SignInWithSteamAsync(string ticket)
@@ -1058,10 +1077,10 @@ namespace Com.GCTC.ZombCube
         }
 #endif
 
-#endregion
+        #endregion
 
 
-#region Custom ID Auth
+        #region Custom ID Auth
 
         async Task SignInWithCustomIDAsync(string authCode, string idToken)
         {
@@ -1091,10 +1110,10 @@ namespace Com.GCTC.ZombCube
             isSigningIn = false;
         }
 
-#endregion
+        #endregion
 
 
-#region Private Methods
+        #region Private Methods
 
         /// <summary>
         /// Signs in an anonymous player.
@@ -1110,6 +1129,13 @@ namespace Com.GCTC.ZombCube
                 userName = "Guest_" + userID;
 
                 SetPlayer(userID);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+                restricted = PSOnlineSafety.GetCRStatus();
+#endif
 
                 Login();
 
@@ -1141,9 +1167,14 @@ namespace Com.GCTC.ZombCube
 
                 SetPlayer(AuthenticationService.Instance.PlayerId, userID);
 
-                Login();
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
 
-                Debug.Log("Signed In Anon PS");
+                player.userName = userName;
+                restricted = PSOnlineSafety.GetCRStatus();
+#endif
+
+                Login();
 
             }
             catch (AuthenticationException ex)
@@ -1171,16 +1202,26 @@ namespace Com.GCTC.ZombCube
         /// <param name="id"></param>
         private async void SetPlayer(string id)
         {
-            SaveData incomingSample = await RetrieveSpecificData<SaveData>(id);
+            try
+            {
+                SaveData incomingSample = await RetrieveSpecificData<SaveData>(id);
 
-            if (incomingSample != null)
-            {
-                LoadPlayerData(incomingSample);
+                if (incomingSample != null)
+                {
+                    LoadPlayerData(incomingSample);
+                }
+                else
+                {
+                    LoadPlayerData();
+                }
             }
-            else
+            catch
             {
+                ErrorManager.Instance.StartErrorMessage("Error: Unity Services not intialized. Could not retrieve cloud data. Loading local profile.");
                 LoadPlayerData();
             }
+
+
 
 
         }
@@ -1288,11 +1329,11 @@ namespace Com.GCTC.ZombCube
             }
             catch (CloudSaveValidationException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data.");
             }
             catch (CloudSaveException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data.");
             }
         }
 
@@ -1319,11 +1360,11 @@ namespace Com.GCTC.ZombCube
             }
             catch (CloudSaveValidationException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: " + e.Message);
             }
             catch (CloudSaveException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: " + "Failed to load cloud data, loading local profile.");
             }
 
             return default;
@@ -1485,7 +1526,7 @@ namespace Com.GCTC.ZombCube
         /// <param name="data"></param>
         public void LoadPlayerData(SaveData data)
         {
-            if(data.userID == "")
+            if (data.userID == "")
             {
                 player.userID = userID;
             }
@@ -1494,7 +1535,7 @@ namespace Com.GCTC.ZombCube
                 player.userID = data.userID;
             }
 
-            if(data.userName == "")
+            if (data.userName == "")
             {
                 player.userName = userName;
             }
@@ -1502,7 +1543,7 @@ namespace Com.GCTC.ZombCube
             {
                 player.userName = data.userName;
             }
-            
+
             player.playerName = data.playerName;
 
             if (data.rewardOverTime == null || data.rewardOverTime == "")
@@ -1575,7 +1616,7 @@ namespace Com.GCTC.ZombCube
             player.ownedSkins = new int[9];
         }
 
-#endregion
+        #endregion
 
 
     }

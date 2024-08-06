@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using Photon.Realtime;
 
 namespace Com.GCTC.ZombCube
 {
@@ -36,6 +37,16 @@ namespace Com.GCTC.ZombCube
             PhotonNetwork.LoadLevel("RoomScene");
         }
 
+        public override void OnCreateRoomFailed(short returnCode, string message)
+        {
+            ErrorManager.Instance.StartErrorMessage("Error: Room already exists. Try a different room name or try joining.");
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            ErrorManager.Instance.StartErrorMessage("Error: Room is full or game has started. Try a different room.");
+        }
+
         /// <summary>
         /// Dynamic method that Changes room name and updates it in script when player types in input field.
         /// </summary>
@@ -53,6 +64,13 @@ namespace Com.GCTC.ZombCube
             if(PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InLobby)
                 PhotonNetwork.LeaveLobby();
             PhotonNetwork.Disconnect();
+            SceneLoader.ToMainMenu();
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            if (cause != Photon.Realtime.DisconnectCause.DisconnectByClientLogic)
+                ErrorManager.Instance.StartErrorMessage("Network Error: Player disconnected from the internet.");
             SceneLoader.ToMainMenu();
         }
     }

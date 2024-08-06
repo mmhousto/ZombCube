@@ -2,6 +2,7 @@
 #define DISABLESTEAMWORKS
 #endif
 
+using PSNSample;
 using UnityEngine;
 #if UNITY_ANDROID
 using GooglePlayGames;
@@ -25,6 +26,21 @@ namespace Com.GCTC.ZombCube
 
         }
 #endif
+
+        public static void UpdatePSNStats(Player player)
+        {
+#if UNITY_PS5
+            if (player != null)
+            {
+                PSTrophies.IncreaseProgressStat(player.totalPointsEarned, "UpdateTotalPoints", "custom");
+                PSTrophies.IncreaseProgressStat(player.coins, "UpdateCoins", "custom");
+                PSTrophies.IncreaseProgressStat(player.highestWave, "UpdateWaveSolo", "custom");
+                PSTrophies.IncreaseProgressStat(player.highestWaveParty, "UpdateWaveParty", "custom");
+                PSTrophies.IncreaseProgressStat(player.cubesEliminated, "UpdateCubesDestroyed", "custom");
+                PSTrophies.IncreaseProgressStat(player.totalProjectilesFired, "UpdateProjectilesFired", "custom");
+            }
+#endif
+        }
 
         public static void UpdateMostPointsLeaderboard()
         {

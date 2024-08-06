@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -191,7 +192,6 @@ namespace Com.GCTC.ZombCube
         {
             Time.timeScale = 1;
             SceneLoader.ToMainMenu();
-            Debug.Log("left server");
         }
 
         private void LeaveRoom()
@@ -199,7 +199,6 @@ namespace Com.GCTC.ZombCube
             Time.timeScale = 1;
             //SceneLoader.ToLobby();
             PhotonNetwork.LoadLevel(3);
-            Debug.Log("left room");
         }
 
         public bool IsGameOver()
@@ -278,7 +277,6 @@ namespace Com.GCTC.ZombCube
                 PhotonNetwork.LeaveRoom();
                 while (PhotonNetwork.InRoom)
                     yield return null;
-                Debug.Log("Disconnected from room!!!!!!");
             }
 
             if (players.Contains(myPlayer))
@@ -305,6 +303,18 @@ namespace Com.GCTC.ZombCube
 
 
         #region PunCallbacks
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            if (cause != Photon.Realtime.DisconnectCause.DisconnectByClientLogic)
+                ErrorManager.Instance.StartErrorMessage("Network Error: Player disconnected from the internet.");
+
+            if (players.Contains(myPlayer))
+            {
+                players.Remove(myPlayer);
+            }
+            LeaveServer();
+        }
 
         #endregion
 

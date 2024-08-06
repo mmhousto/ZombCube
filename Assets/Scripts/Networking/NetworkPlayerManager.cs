@@ -132,7 +132,7 @@ namespace Com.GCTC.ZombCube
 
 #endif
 
-                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.currentBlaster, player.currentSkin);
+                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.userName, player.currentBlaster, player.currentSkin);
                 
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
@@ -387,9 +387,10 @@ namespace Com.GCTC.ZombCube
         {
             UpdateTotalPoints();
             UpdateHighestWave();
+            UpdateLeaderboards();
 
 #if (UNITY_IOS || UNITY_ANDROID)
-                    UpdateLeaderboards();
+                    
             foreach(Image button in onScreenControlButtons)
             {
                 button.gameObject.SetActive(false);
@@ -688,6 +689,9 @@ namespace Com.GCTC.ZombCube
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
             }
+#if UNITY_PS5 && !UNITY_EDITOR
+                LeaderboardManager.UpdatePSNStats(player);
+#endif
         }
 
         private void UpdateStats()
@@ -788,10 +792,31 @@ namespace Com.GCTC.ZombCube
         }
 
         [PunRPC]
-        public void SetPlayerInfo(string name, int blasterIndex, int skinIndex)
+        public void SetPlayerInfo(string name, string username, int blasterIndex, int skinIndex)
         {
             playerName = name;
-            playerNameText.text = playerName;
+#if UNITY_PS5
+            var blockedUsers = PSUserProfiles.GetBlockedUsers();
+            if(blockedUsers != null)
+            {
+                foreach(var blockedUser in blockedUsers)
+                {
+                    if(username == blockedUser.ToString())
+                    {
+                        playerNameText.text = username;
+                    }
+                }
+            }
+#endif
+
+#if UNITY_PS5 && !UNITY_EDITOR
+            if (CloudSaveLogin.Instance.restricted)
+                playerNameText.text = username;
+            else
+                playerNameText.text = playerName + "<br>" + username;
+#else
+            playerNameText.text = playerName + "<br>" + username;
+#endif
 
             GetComponentInChildren<MeshRenderer>().material = blasterMaterial[skinIndex];
 

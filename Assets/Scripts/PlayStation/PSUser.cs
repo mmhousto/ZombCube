@@ -7,11 +7,13 @@ namespace Com.GCTC.ZombCube
     { }
 }
 #else
-
+using UnityEngine;
 using Unity.PSN.PS5.Aysnc;
 using Unity.PSN.PS5.Sessions;
 using Unity.PSN.PS5.Users;
 using Unity.PSN.PS5.WebApi;
+using UnityEngine.SocialPlatforms.Impl;
+
 
 #if UNITY_PS4
 using PlatformInput = UnityEngine.PS4.PS4Input;
@@ -52,6 +54,7 @@ namespace Com.GCTC.ZombCube
             else if (eventtype == 1)
 #endif
             {
+                CloudSaveLogin.Instance.Logout();
                 UserLoggedOut((int)userid);
             }
         }
@@ -109,7 +112,6 @@ namespace Com.GCTC.ZombCube
                                 if (PSNManager.CheckAysncRequestOK(antecedent))
                                 {
                                     //OnScreenLog.Add("User Removed");
-
                                     registeredUser.registerSequence = RegisterSequences.NotSet;
                                 }
                             }
@@ -132,6 +134,18 @@ namespace Com.GCTC.ZombCube
                     OnScreenLog.AddError("User.GetActiveUserId : Active Gamepad is null. Must wait until the gamepad system has had time to initialize correctly.");
                 }
                 return PSGamePad.activeGamePad.loggedInUser.userId;
+            }
+        }
+
+        public static string GetActiveUserName
+        {
+            get
+            {
+                if (PSGamePad.activeGamePad == null)
+                {
+                    OnScreenLog.AddError("User.GetActiveUserId : Active Gamepad is null. Must wait until the gamepad system has had time to initialize correctly.");
+                }
+                return PSGamePad.activeGamePad.loggedInUser.userName;
             }
         }
 

@@ -16,6 +16,7 @@ using PSNSample;
 using Unity.PSN.PS5;
 using Unity.PSN.PS5.Initialization;
 using Unity.PSN.PS5.Users;
+using Unity.PSN.PS5.PremiumFeatures;
 using Unity.PSN.PS5.Aysnc;
 #endif
 
@@ -62,7 +63,7 @@ namespace Com.GCTC.ZombCube
 
 #if UNITY_PS5
         SonyNpUDS m_UDS;
-        SonyEntitlements m_Entitlements;
+        PSEntitlements m_Entitlements;
 #endif
         SonyLeaderboards m_Leaderboards;
 
@@ -72,7 +73,7 @@ namespace Com.GCTC.ZombCube
 
         SonyOnlineSafety m_OnlineSafety;
 
-        SonyAuth m_SonyAuth;
+        //SonyAuth m_SonyAuth;
 
         SonySessions m_Sessions;
 
@@ -241,7 +242,8 @@ namespace Com.GCTC.ZombCube
         private void PSAuthInit()
         {
             psAuth.Initialize();
-            
+            PSUserProfiles.Initialize();
+            //PSFeatureGating.Initialize();
         }
 
     }
