@@ -83,6 +83,11 @@ namespace Com.GCTC.ZombCube
         {
             swapManager = GetComponent<NetworkSwapManager>();
 
+            if (!photonView.IsMine)
+            {
+                NetworkSpectatorManager.playerUserNames.Add((string)photonView.Owner.CustomProperties["UserName"]);
+            }
+
             if (photonView.IsMine)
             {
 #if !DISABLESTEAMWORKS

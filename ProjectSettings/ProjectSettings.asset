@@ -159,6 +159,7 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 11400000, guid: af419c43525d84363bfd3ec036927c45, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -927,7 +928,8 @@ PlayerSettings:
   suppressCommonWarnings: 1
   allowUnsafeCode: 1
   useDeterministicCompilation: 1
-  additionalIl2CppArgs: 
+  additionalIl2CppArgs: ' --additional-libraries="..\Library\SourceGeneratedPlugins\PS5\09000048\PSN.prx"
+    --additional-libraries="..\Library\SourceGeneratedPlugins\PS5\09000048\SaveData.prx"'
   scriptingRuntimeVersion: 1
   gcIncremental: 1
   gcWBarrierValidation: 0
