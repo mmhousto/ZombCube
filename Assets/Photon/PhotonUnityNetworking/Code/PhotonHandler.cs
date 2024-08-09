@@ -140,10 +140,10 @@ namespace Photon.Pun
             #elif PUN_DISPATCH_IN_LATEUPDATE
             // do not dispatch here
             #else
-            if (Time.timeScale > PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate)
+            /*if (Time.timeScale > PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate)
             {
                 this.Dispatch();
-            }
+            }*/
             #endif
         }
 

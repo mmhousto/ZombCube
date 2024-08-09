@@ -49,6 +49,10 @@ namespace Com.GCTC.ZombCube
             serverSettings.UseNameServer = true;
             serverSettings.AppIdRealtime = "6ebea3a1-0375-4762-8828-5a4b07a80f6a";
             serverSettings.AppVersion = "1";
+            serverSettings.Protocol = ExitGames.Client.Photon.ConnectionProtocol.Udp;
+            serverSettings.EnableProtocolFallback = true;
+            serverSettings.EnableLobbyStatistics = false;
+            serverSettings.NetworkLogging = ExitGames.Client.Photon.DebugLevel.OFF;
             region = PlayerPrefs.GetString("Region", "ussc");
             switch (region)
             {
