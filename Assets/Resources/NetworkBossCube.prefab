@@ -15,10 +15,8 @@ GameObject:
   - component: {fileID: 4997131953507759514}
   - component: {fileID: 5593189247095281424}
   - component: {fileID: 8392845365203952340}
-  - component: {fileID: 5591380355267171067}
   - component: {fileID: 30154607555536523}
   - component: {fileID: 4639143892282040882}
-  - component: {fileID: 1448668173844222210}
   - component: {fileID: -1160210607505636632}
   m_Layer: 12
   m_Name: NetworkBossCube
@@ -250,33 +248,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 724d2e1bea1abd04a82c0374b50a7721, type: 3}
   - {fileID: 8300000, guid: fee5644683582c34695589ef51871e06, type: 3}
   - {fileID: 8300000, guid: 82e2fc5b027d2064e86603aa3ddc8271, type: 3}
---- !u!54 &5591380355267171067
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 880917999861164903}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!114 &30154607555536523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,22 +282,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &1448668173844222210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 880917999861164903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &-1160210607505636632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +302,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 4639143892282040882}
-  - {fileID: 1448668173844222210}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

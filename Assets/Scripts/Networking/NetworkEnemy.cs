@@ -84,11 +84,23 @@ namespace Com.GCTC.ZombCube
             }
         }*/
 
-        private void OnTriggerEnter(Collider other)
+        /*private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player") && hasHit == false)
             {
                 other.transform.root.GetComponent<NetworkPlayerManager>().DamagePlayerCall(20f);
+
+                hasHit = true;
+
+                photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
+            }
+        }*/
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (hit.collider.CompareTag("Player") && hasHit == false)
+            {
+                hit.collider.transform.root.GetComponent<NetworkPlayerManager>().DamagePlayerCall(20f);
 
                 hasHit = true;
 

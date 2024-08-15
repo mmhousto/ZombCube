@@ -43,8 +43,12 @@ namespace Com.GCTC.ZombCube
         {
             loadingText.gameObject.SetActive(false);
 
+            // Enable caching of RPC targets
+            PhotonNetwork.UseRpcMonoBehaviourCache = true;
+
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.GameVersion = gameVersion;
+            PhotonNetwork.NetworkingClient.LoadBalancingPeer.ReuseEventInstance = true;
             serverSettings = new AppSettings();
             serverSettings.UseNameServer = true;
             serverSettings.AppIdRealtime = "6ebea3a1-0375-4762-8828-5a4b07a80f6a";
