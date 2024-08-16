@@ -80,6 +80,7 @@ namespace Com.GCTC.ZombCube
             playerCams.Clear();
             playerUserNames.Clear();
             currentCam = 0;
+            isAlive = true;
         }
 
         public static void ActivateSpectatorCamera(Camera playerCam)

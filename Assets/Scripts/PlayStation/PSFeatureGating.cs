@@ -110,6 +110,29 @@ namespace Com.GCTC.ZombCube
             FeatureGating.Schedule(requestOp);
         }
 
+        public static void NotifyPremiumSpectate()
+        {
+            FeatureGating.NotifyPremiumFeatureRequest request = new FeatureGating.NotifyPremiumFeatureRequest()
+            {
+                UserId = PSGamePad.activeGamePad.loggedInUser.userId,
+                Properties = FeatureGating.MultiplayProperties.InEngineSpectating
+            };
+
+            var requestOp = new AsyncRequest<FeatureGating.NotifyPremiumFeatureRequest>(request).ContinueWith((antecedent) =>
+            {
+                if (PSNManager.CheckAysncRequestOK(antecedent))
+                {
+                    //OnScreenLog.Add("Notify Premium OK");
+                }
+                else
+                {
+                    //OnScreenLog.AddError("Notify Premium Failed : " + antecedent.Request.Result.sceErrorCode);
+                }
+            });
+
+            FeatureGating.Schedule(requestOp);
+        }
+
         /*public void MenuFeatureGating(MenuStack menuStack)
         {
             m_MenuFeatureGating.Update();
