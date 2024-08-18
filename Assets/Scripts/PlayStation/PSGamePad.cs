@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.PS5;
 using System;
 using System.Collections;
+using Com.GCTC.ZombCube;
 
 public class PSGamePad : MonoBehaviour
 {
@@ -101,11 +102,17 @@ public class PSGamePad : MonoBehaviour
         get { return PS5Input.PadIsConnected(playerId); }
     }
 
+    public bool IsMainPlayer
+    {
+        get { return activeGamePad.loggedInUser.primaryUser; }
+    }
+
     public int playerId = -1;
 
     private int stickID;
     private bool hasSetupGamepad = false;
     public PS5Input.LoggedInUser loggedInUser;
+    public UnityEngine.InputSystem.Gamepad currentGamepad;
 
     private KeyCode optionsBtnKeyCode;
 
@@ -196,6 +203,7 @@ public class PSGamePad : MonoBehaviour
                     "Have you installed the PS5 Input System extension and have a gamepad connected?");
                 return;
             }
+            currentGamepad = UnityEngine.InputSystem.Gamepad.current;
 
             // Handle each part individually
             Thumbsticks();
@@ -204,10 +212,9 @@ public class PSGamePad : MonoBehaviour
             TriggerShoulderButtons();
 
             // Options button is on its own, so we'll do it here
-            var pad = UnityEngine.InputSystem.Gamepad.current;
-            currentFrame.options = pad.startButton.isPressed;
+            currentFrame.options = currentGamepad.startButton.isPressed;
 
-            if (activeGamePad == null || AnyInput == true)
+            if ((activeGamePad == null || AnyInput == true))
             {
                 activeGamePad = this;
             }
@@ -229,7 +236,6 @@ public class PSGamePad : MonoBehaviour
 #else
             loggedInUser = PS5Input.PadRefreshUsersDetails(playerId);
 #endif
-
 
             hasSetupGamepad = true;
         }

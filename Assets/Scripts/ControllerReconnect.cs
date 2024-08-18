@@ -8,11 +8,41 @@ namespace Com.GCTC.ZombCube
 {
     public class ControllerReconnect : MonoBehaviour
     {
-        private PlayerInput playerInput; // Reference to your PlayerInput component
+        private static PlayerInput playerInput; // Reference to your PlayerInput component
+        private static PSUser mainUser;
 
-        private void Awake()
+        private void Start()
         {
             playerInput = GetComponent<PlayerInput>();
+
+        }
+
+        public static void ConnectController(PSUser pSUser)
+        {
+#if UNITY_PS5
+                if (pSUser != null && pSUser.gamePad != null && pSUser.gamePad.currentGamepad != null)
+                {
+                    mainUser = pSUser;
+                    playerInput.SwitchCurrentControlScheme(pSUser.gamePad.currentGamepad);
+                }
+#endif
+        }
+
+        private void Update()
+        {
+#if UNITY_PS5 && !UNITY_EDITOR
+            if(mainUser != null && Gamepad.current != mainUser.gamePad.currentGamepad)
+            {
+                foreach (PSUser user in PSUser.users)
+                {
+                    if (user.gamePad.IsMainPlayer)
+                    {
+                        mainUser = user;
+                        playerInput.SwitchCurrentControlScheme(user.gamePad.currentGamepad);
+                    }
+                }
+            }
+#endif
         }
 
         private void OnEnable()
@@ -27,12 +57,21 @@ namespace Com.GCTC.ZombCube
 
         private void OnDeviceChange(InputDevice device, InputDeviceChange change)
         {
-            if (change == InputDeviceChange.Reconnected && PSGamePad.activeGamePad.loggedInUser.primaryUser)
+#if UNITY_PS5 && !UNITY_EDITOR
+            if (change == InputDeviceChange.Reconnected && PSGamePad.activeGamePad.currentGamepad == device && PSGamePad.activeGamePad.IsMainPlayer)
             {
 
                     // Manually reassign the device to the PlayerInput component
                     playerInput.SwitchCurrentControlScheme(device);
             }
+#else
+            if (change == InputDeviceChange.Reconnected)
+            {
+
+                // Manually reassign the device to the PlayerInput component
+                playerInput.SwitchCurrentControlScheme(device);
+            }
+#endif
         }
     }
 }

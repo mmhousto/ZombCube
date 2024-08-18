@@ -23,7 +23,7 @@ using PlatformInput = UnityEngine.PS5.PS5Input;
 
 namespace Com.GCTC.ZombCube
 {
-    class PSUser
+    public class PSUser
     {
 #if UNITY_PS5 || UNITY_PS4
         static PSUser()
@@ -213,7 +213,11 @@ namespace Com.GCTC.ZombCube
 
                 users[playerId] = new PSUser();
                 users[playerId].gamePad = gamePads[i];
+
+                if(users[playerId].gamePad.loggedInUser.primaryUser)
+                    ControllerReconnect.ConnectController(users[playerId]);
             }
+            
         }
 
         public static void CheckRegistration()
@@ -318,7 +322,7 @@ namespace Com.GCTC.ZombCube
 
         AsyncAction<AsyncRequest<WebApiNotifications.RegisterPushEventRequest>> currentRegisterRequest;
 
-        PSGamePad gamePad;
+        public PSGamePad gamePad;
 #endif
     }
 
