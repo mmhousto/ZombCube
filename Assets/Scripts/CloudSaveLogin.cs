@@ -189,13 +189,13 @@ namespace Com.GCTC.ZombCube
             }
 #endif
 
-#if UNITY_PS5 && !UNITY_EDITOR
-            if(player.userName != PSUser.GetActiveUserName)
+#if UNITY_PS5
+            if(player.userName != PSUser.GetActiveUserName && PSUser.GetActiveUser.gamePad.loggedInUser.primaryUser)
             {
                 userName = PSUser.GetActiveUserName;
                 player.userName = userName;
-            }
-            if(player.userID != PSUser.GetActiveUserId.ToString())
+            } 
+            if(player.userID != PSUser.GetActiveUserId.ToString() && PSUser.GetActiveUser.gamePad.loggedInUser.primaryUser)
             {
                 userID = PSUser.GetActiveUserId.ToString();
                 player.userID = userID;

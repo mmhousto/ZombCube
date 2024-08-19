@@ -19,7 +19,7 @@ namespace Com.GCTC.ZombCube
 
         public static void ConnectController(PSUser pSUser)
         {
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
                 if (pSUser != null && pSUser.gamePad != null && pSUser.gamePad.currentGamepad != null)
                 {
                     mainUser = pSUser;
@@ -31,14 +31,13 @@ namespace Com.GCTC.ZombCube
         private void Update()
         {
 #if UNITY_PS5 && !UNITY_EDITOR
-            if(mainUser != null && Gamepad.current != mainUser.gamePad.currentGamepad)
+            if(Gamepad.current != mainUser.gamePad.currentGamepad)
             {
                 foreach (PSUser user in PSUser.users)
                 {
-                    if (user.gamePad.IsMainPlayer)
+                    if (Gamepad.current == user.gamePad.currentGamepad && user.gamePad.IsMainPlayer)
                     {
-                        mainUser = user;
-                        playerInput.SwitchCurrentControlScheme(user.gamePad.currentGamepad);
+                        ConnectController(user);
                     }
                 }
             }
@@ -57,21 +56,12 @@ namespace Com.GCTC.ZombCube
 
         private void OnDeviceChange(InputDevice device, InputDeviceChange change)
         {
-#if UNITY_PS5 && !UNITY_EDITOR
-            if (change == InputDeviceChange.Reconnected && PSGamePad.activeGamePad.currentGamepad == device && PSGamePad.activeGamePad.IsMainPlayer)
-            {
-
-                    // Manually reassign the device to the PlayerInput component
-                    playerInput.SwitchCurrentControlScheme(device);
-            }
-#else
             if (change == InputDeviceChange.Reconnected)
             {
 
                 // Manually reassign the device to the PlayerInput component
                 playerInput.SwitchCurrentControlScheme(device);
             }
-#endif
         }
     }
 }
