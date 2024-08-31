@@ -144,8 +144,8 @@ namespace Com.GCTC.ZombCube
             // Initializes Google Play Games Login
             InitializePlayGamesLogin();
 #elif UNITY_PS5 || UNITY_PS4
-            isSigningIn = true;
-            GetComponent<PSNManager>().Initialize();
+            //isSigningIn = true;
+            //GetComponent<PSNManager>().Initialize();
 #else
             if (isSteam && SteamManager.Initialized)
             {
@@ -189,7 +189,7 @@ namespace Com.GCTC.ZombCube
             }
 #endif
 
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
             if(player.userName != PSUser.GetActiveUserName && PSUser.GetActiveUser.gamePad.loggedInUser.primaryUser)
             {
                 userName = PSUser.GetActiveUserName;
@@ -347,7 +347,7 @@ namespace Com.GCTC.ZombCube
 
         public void PSSignIn()
         {
-            GetComponent<PSAuth>().SignIn();
+            GetComponent<PSNManager>().Initialize();
         }
 
         public void SignInPS(string psnUserID, string tokenID, string authCode)

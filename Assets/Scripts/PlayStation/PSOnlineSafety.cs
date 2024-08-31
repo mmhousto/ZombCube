@@ -2,6 +2,7 @@
 #if UNITY_PS5 || UNITY_PS4
 using Unity.PSN.PS5.Aysnc;
 using Unity.PSN.PS5.Checks;
+using Unity.PSN.PS5.Dialogs;
 #endif
 
 
@@ -25,11 +26,42 @@ namespace Com.GCTC.ZombCube
                     if(antecedent.Request.Status == OnlineSafety.CRStatus.Restricted)
                     {
                         CloudSaveLogin.Instance.restricted = true;
+                        ShowCRMessage(antecedent.Request.UserId);
                     }
                 }
             });
 
             OnlineSafety.Schedule(requestOp);
+        }
+
+        public static void ShowCRMessage(int userID)
+        {
+            MessageDialogSystem.SystemMsgParams msgParams = new MessageDialogSystem.SystemMsgParams()
+            {
+                MsgType = MessageDialogSystem.SystemMsgParams.SystemMessageTypes.PSNCommunicationRestriction
+            };
+
+            MessageDialogSystem.OpenMsgDialogRequest request = new MessageDialogSystem.OpenMsgDialogRequest()
+            {
+                UserId = userID, //PSGamePad.activeGamePad.loggedInUser.userId,
+                Mode = MessageDialogSystem.OpenMsgDialogRequest.MsgModes.SystemMsg,
+                SystemMsg = msgParams
+            };
+
+            var requestOp = new AsyncRequest<MessageDialogSystem.OpenMsgDialogRequest>(request).ContinueWith((antecedent) =>
+            {
+                if (PSNManager.CheckAysncRequestOK(antecedent))
+                {
+                    OnScreenLog.Add("Dialog Status : " + antecedent.Request.Status);
+                    OnScreenLog.Add("Button Pressed : " + antecedent.Request.SelectedButton);
+
+                    OnScreenLog.Add("Dialog Closed...");
+                }
+            });
+
+            OnScreenLog.Add("Opening Dialog ...");
+
+            DialogSystem.Schedule(requestOp);
         }
 
         public static void FilterProfanity(string profanity)

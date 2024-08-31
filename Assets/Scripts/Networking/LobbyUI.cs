@@ -47,6 +47,8 @@ namespace Com.GCTC.ZombCube
             }
 
             player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+            
+            if (player.Equals(null)) { return; }
 
             hash.Add("PlayerId", PhotonNetwork.LocalPlayer.ActorNumber);
             hash.Add("PlayerName", player.playerName);
@@ -59,8 +61,7 @@ namespace Com.GCTC.ZombCube
 #else
             hash.Add("AccountID", player.userID);
 #endif
-
-            if (player.Equals(null)) { return; }
+            hash.Add("IsRestricted", CloudSaveLogin.Instance.restricted);
 
             PhotonNetwork.SetPlayerCustomProperties(hash);
 

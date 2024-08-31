@@ -131,6 +131,11 @@ namespace Com.GCTC.ZombCube
 
         public void Initialize()
         {
+            if(initResult.Initialized == true)
+            {
+                psAuth.SignIn();
+                return;
+            }
             try
             {
                 initResult = Main.Initialize();

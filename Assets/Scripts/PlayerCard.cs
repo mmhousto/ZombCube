@@ -26,7 +26,7 @@ namespace Com.GCTC.ZombCube
         public void UpdateDisplay(Photon.Realtime.Player player)
         {
 #if UNITY_PS5 && !UNITY_EDITOR
-            if (CloudSaveLogin.Instance.restricted)
+            if (CloudSaveLogin.Instance.restricted || (bool)player.CustomProperties["IsRestricted"])
                 playerName.text = (string)player.CustomProperties["UserName"];
             else
                 playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
