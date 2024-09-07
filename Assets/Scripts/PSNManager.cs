@@ -86,6 +86,9 @@ namespace Com.GCTC.ZombCube
         private void Awake()
         {
             psAuth = GetComponent<PSAuth>();
+            PSGamePad[] gamePads = GetComponents<PSGamePad>();
+
+            PSUser.Initialize(gamePads);
         }
 
         // Start is called before the first frame update
@@ -167,9 +170,7 @@ namespace Com.GCTC.ZombCube
             }
 #endif
 
-            PSGamePad[] gamePads = GetComponents<PSGamePad>();
-
-            PSUser.Initialize(gamePads);
+            
         }
 
         // Update is called once per frame

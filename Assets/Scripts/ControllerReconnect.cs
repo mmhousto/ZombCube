@@ -10,19 +10,22 @@ namespace Com.GCTC.ZombCube
     {
         private static PlayerInput playerInput; // Reference to your PlayerInput component
         private static PSUser mainUser;
+        private static PSGamePad mainPlayerGamePad;
 
         private void Start()
         {
             playerInput = GetComponent<PlayerInput>();
-
+            mainUser = null;
+            mainPlayerGamePad = null;
         }
 
         public static void ConnectController(PSUser pSUser)
         {
-#if UNITY_PS5 && !UNITY_EDITOR
-                if (pSUser != null && pSUser.gamePad != null && pSUser.gamePad.currentGamepad != null)
+#if UNITY_PS5
+                if (pSUser != null)
                 {
                     mainUser = pSUser;
+                    mainPlayerGamePad = pSUser.gamePad;
                     playerInput.SwitchCurrentControlScheme(pSUser.gamePad.currentGamepad);
                 }
 #endif
@@ -31,7 +34,7 @@ namespace Com.GCTC.ZombCube
         private void Update()
         {
 #if UNITY_PS5 && !UNITY_EDITOR
-            if(Gamepad.current != mainUser.gamePad.currentGamepad)
+            if(mainUser != null && Gamepad.current != mainUser.gamePad.currentGamepad && mainPlayerGamePad != mainUser.gamePad )
             {
                 foreach (PSUser user in PSUser.users)
                 {

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using Photon.Pun;
+
 #if UNITY_PS5 || UNITY_PS4
-using Unity.PSN.PS5;
 using Unity.PSN.PS5.Aysnc;
 using Unity.PSN.PS5.Users;
 using Unity.PSN.PS5.WebApi;
@@ -31,7 +31,7 @@ namespace Com.GCTC.ZombCube
             Debug.Log(System.String.Format("    UserId : 0x{0:X}", signedInEvent.UserId));
             Debug.Log("    State : " + signedInEvent.State.ToString());
 
-            if(signedInEvent.State == UserSystem.SignedInStates.SignedIn)
+            if (signedInEvent.State == UserSystem.SignedInStates.SignedIn)
             {
                 PSFeatureGating.Initialize();
             }
@@ -52,12 +52,16 @@ namespace Com.GCTC.ZombCube
 
         private static void CheckPremiumState()
         {
-            if (SceneLoader.GetCurrentScene().buildIndex == 2 || SceneLoader.GetCurrentScene().buildIndex == 3 || SceneLoader.GetCurrentScene().buildIndex == 4 || SceneLoader.GetCurrentScene().buildIndex == 6)
+            Time.timeScale = 1;
+            PSFeatureGating.hasPremium = false;
+            CloudSaveLogin.Instance.isSigningIn = false;
+            if(SceneLoader.GetCurrentScene().buildIndex == 2 || SceneLoader.GetCurrentScene().buildIndex == 3 || SceneLoader.GetCurrentScene().buildIndex == 4 || SceneLoader.GetCurrentScene().buildIndex == 6)
             {
-                Time.timeScale = 1;
-                PSFeatureGating.hasPremium = false;
-                SceneLoader.ToMainMenu();
+                PhotonNetwork.Disconnect();
             }
+            CloudSaveLogin.Instance.Logout();
+            
+            
         }
 
         public static void EnableSignInNotifications()
