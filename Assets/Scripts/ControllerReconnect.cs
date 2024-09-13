@@ -9,14 +9,15 @@ namespace Com.GCTC.ZombCube
     public class ControllerReconnect : MonoBehaviour
     {
         private static PlayerInput playerInput; // Reference to your PlayerInput component
-        private static PSUser mainUser;
-        private static PSGamePad mainPlayerGamePad;
+        public static PSUser mainUser;
+        public static PSGamePad mainPlayerGamePad;
 
         private void Start()
         {
             playerInput = GetComponent<PlayerInput>();
             mainUser = null;
             mainPlayerGamePad = null;
+            //ConnectController(PSUser.GetActiveUser);
         }
 
         public static void ConnectController(PSUser pSUser)

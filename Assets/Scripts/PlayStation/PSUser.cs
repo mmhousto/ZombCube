@@ -28,7 +28,7 @@ namespace Com.GCTC.ZombCube
 #if UNITY_PS5 || UNITY_PS4
         static PSUser()
         {
-            PlatformInput.OnUserServiceEvent += OnUserServiceEvent;
+            
         }
 
 #if UNITY_PS5
@@ -81,7 +81,7 @@ namespace Com.GCTC.ZombCube
 
                     UserSystem.Schedule(requestOp);
 
-                    //OnScreenLog.Add("User being added...");
+                    OnScreenLog.Add("User being added...");
                 }
             }
 
@@ -207,6 +207,9 @@ namespace Com.GCTC.ZombCube
 
         public static void Initialize(PSGamePad[] gamePads)
         {
+            PlatformInput.OnUserServiceEvent += OnUserServiceEvent;
+            OnScreenLog.Add("User Service Event Added");
+
             for (int i = 0; i < gamePads.Length; i++)
             {
                 int playerId = gamePads[i].playerId;
@@ -214,7 +217,10 @@ namespace Com.GCTC.ZombCube
                 users[playerId] = new PSUser();
                 users[playerId].gamePad = gamePads[i];
 
-                if(users[playerId].gamePad.loggedInUser.primaryUser)
+                OnScreenLog.Add("PSUser Added");
+                WebApiPushEvent pushEvent = SessionsManager.GetUserSessionPushEvent(users[playerId].gamePad.loggedInUser.userId);
+
+                if (users[playerId].gamePad.loggedInUser.primaryUser)
                     ControllerReconnect.ConnectController(users[playerId]);
             }
             

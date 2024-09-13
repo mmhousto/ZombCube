@@ -25,8 +25,8 @@ namespace Com.GCTC.ZombCube
                     OnScreenLog.Add("CR Status = " + antecedent.Request.Status);
                     if(antecedent.Request.Status == OnlineSafety.CRStatus.Restricted)
                     {
-                        CloudSaveLogin.Instance.restricted = true;
                         ShowCRMessage(antecedent.Request.UserId);
+                        CloudSaveLogin.Instance.restricted = true;
                     }
                 }
             });

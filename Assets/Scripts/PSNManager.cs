@@ -89,6 +89,7 @@ namespace Com.GCTC.ZombCube
             PSGamePad[] gamePads = GetComponents<PSGamePad>();
 
             PSUser.Initialize(gamePads);
+            PSUserProfiles.Initialize();
         }
 
         // Start is called before the first frame update
@@ -147,7 +148,7 @@ namespace Com.GCTC.ZombCube
 
                 if (initResult.Initialized == true)
                 {
-                    StartCoroutine(AuthPlayer());
+                    PSAuthInit();
                     //OnScreenLog.Add("PSN Initialized ");
                     //m_SonyAuth = new SonyAuth();
                     //CloudSaveLogin.Instance.SignInPS(m_SonyAuth.userID, m_SonyAuth.iDToken, m_SonyAuth.authCode);
@@ -248,9 +249,9 @@ namespace Com.GCTC.ZombCube
         private void PSAuthInit()
         {
             psAuth.Initialize();
-            PSUserProfiles.Initialize();
+            //PSUserProfiles.Initialize();
             PSOnlineSafety.GetCRStatus();
-            //PSFeatureGating.Initialize();
+            PSFeatureGating.Initialize();
         }
 
     }
