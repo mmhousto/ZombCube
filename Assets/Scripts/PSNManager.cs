@@ -250,8 +250,7 @@ namespace Com.GCTC.ZombCube
         {
             psAuth.Initialize();
             //PSUserProfiles.Initialize();
-            PSOnlineSafety.GetCRStatus();
-            PSFeatureGating.Initialize();
+            
         }
 
     }

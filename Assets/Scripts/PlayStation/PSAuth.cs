@@ -158,6 +158,8 @@ public class PSAuth : MonoBehaviour
                     CloudSaveLogin.Instance.userID = userID;
                     CloudSaveLogin.Instance.userName = PSUser.GetActiveUserName;
                     initialized = true;
+                    PSOnlineSafety.GetCRStatus();
+                    PSFeatureGating.Initialize();
                 }
 
             }
