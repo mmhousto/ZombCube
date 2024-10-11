@@ -142,7 +142,7 @@ namespace Com.GCTC.ZombCube
 
         protected void CheckForTriggerHappyAchievements()
         {
-            if (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+            if (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
             {
                 if (Player.Instance.totalProjectilesFired >= 100_000)
                 {

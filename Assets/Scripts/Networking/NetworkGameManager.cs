@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using StarterAssets;
-using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using ExitGames.Client.Photon;
-using UnityEngine.SceneManagement;
 
 namespace Com.GCTC.ZombCube
 {
@@ -21,6 +17,9 @@ namespace Com.GCTC.ZombCube
 
         public delegate void EndGame();
         public static event EndGame endGame;
+
+        public delegate void NextWaveEvent();
+        public static event NextWaveEvent nextWave;
 
         public const byte EndGameEventCode = 2;
 
@@ -89,6 +88,8 @@ namespace Com.GCTC.ZombCube
             myPlayer = FindPlayer.GetPlayer();
 
             Projectile.pointsToAdd = 10;
+
+            LeaderboardManager.UnlockLetsParty();
         }
 
         // Update is called once per frame
@@ -96,9 +97,9 @@ namespace Com.GCTC.ZombCube
         {
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-            if(myPlayer == null) myPlayer = FindPlayer.GetPlayer();
+            if (myPlayer == null) myPlayer = FindPlayer.GetPlayer();
 
-            if (grenades != null && grenades.Length > 0 && myPlayer != null && myPlayer.GetComponent<NetworkPlayerManager>().grenade != null) 
+            if (grenades != null && grenades.Length > 0 && myPlayer != null && myPlayer.GetComponent<NetworkPlayerManager>().grenade != null)
             {
                 for (int i = 0; i < grenades.Length; i++)
                 {
@@ -111,12 +112,13 @@ namespace Com.GCTC.ZombCube
 
         private new void OnEnable()
         {
+            base.OnEnable();
             NetworkBossCube.bossDead += CallPauseForContinue;
-            Debug.Log("BossDead Assigned");
         }
 
         private new void OnDisable()
         {
+            base.OnDisable();
             NetworkBossCube.bossDead -= CallPauseForContinue;
         }
 
@@ -126,10 +128,15 @@ namespace Com.GCTC.ZombCube
 
         #region Public Methods
 
-        public void PauseGame() 
+        public void PauseGame()
         {
             pauseMenu.SetActive(true);
             SelectObject(settingsButton);
+
+            if (myPlayer == null)
+                myPlayer = FindPlayer.GetPlayer();
+            if (myPlayer != null)
+                myPlayer.GetComponent<NetworkPlayerManager>().DisableMobileButtons();
         }
 
         public void ResumeGame()
@@ -140,7 +147,8 @@ namespace Com.GCTC.ZombCube
             continueScreen.SetActive(false);
             if (myPlayer == null)
                 myPlayer = FindPlayer.GetPlayer();
-            myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
+            if(myPlayer != null)
+                myPlayer.GetComponent<NetworkPlayerManager>().EnableInputResumeButton();
 
             Time.timeScale = 1.0f;
         }
@@ -154,11 +162,14 @@ namespace Com.GCTC.ZombCube
 
             if (NetworkSpawner.Instance.hasStarted == false)
             {
+#if !UNITY_PLAYSTATION
                 CustomAnalytics.SendGameStart();
+#endif
+
                 NetworkSpawner.Instance.hasStarted = true;
             }
-            
-            
+
+
         }
 
         public void GoHome()
@@ -181,7 +192,6 @@ namespace Com.GCTC.ZombCube
         {
             Time.timeScale = 1;
             SceneLoader.ToMainMenu();
-            Debug.Log("left server");
         }
 
         private void LeaveRoom()
@@ -189,7 +199,6 @@ namespace Com.GCTC.ZombCube
             Time.timeScale = 1;
             //SceneLoader.ToLobby();
             PhotonNetwork.LoadLevel(3);
-            Debug.Log("left room");
         }
 
         public bool IsGameOver()
@@ -268,14 +277,13 @@ namespace Com.GCTC.ZombCube
                 PhotonNetwork.LeaveRoom();
                 while (PhotonNetwork.InRoom)
                     yield return null;
-                Debug.Log("Disconnected from room!!!!!!");
             }
 
             if (players.Contains(myPlayer))
             {
                 players.Remove(myPlayer);
             }
-                
+
 
             /*if (PhotonNetwork.IsConnectedAndReady)
             {
@@ -284,7 +292,7 @@ namespace Com.GCTC.ZombCube
                     yield return null;
                 Debug.Log("Disconnected from server!!!!!!");
             }*/
-            
+
 
             yield return new WaitForSeconds(1);
             LeaveRoom();
@@ -295,6 +303,18 @@ namespace Com.GCTC.ZombCube
 
 
         #region PunCallbacks
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            if (cause != Photon.Realtime.DisconnectCause.DisconnectByClientLogic)
+                ErrorManager.Instance.StartErrorMessage("Network Error: Player disconnected from the internet.");
+
+            if (players.Contains(myPlayer))
+            {
+                players.Remove(myPlayer);
+            }
+            LeaveServer();
+        }
 
         #endregion
 
@@ -344,18 +364,25 @@ namespace Com.GCTC.ZombCube
             settingsMenu.SetActive(false);
             continueScreen.SetActive(false);
             isContinue = false;
+
+#if !UNITY_PLAYSTATION
             CustomAnalytics.SendGameOver();
+#endif
         }
 
         [PunRPC]
         public void NextWave()
         {
+            playersSpawned = playersSpawned - playersEliminated;
+            playersEliminated = 0;
             CurrentRound += 1;
 
-            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
             {
                 LeaderboardManager.UnlockStayinAliveTogether();
             }
+
+            nextWave();
         }
 
         [PunRPC]
@@ -398,7 +425,7 @@ namespace Com.GCTC.ZombCube
                 continueButton.SetActive(false);
                 waitingText.SetActive(true);
             }
-            
+
         }
 
         [PunRPC]

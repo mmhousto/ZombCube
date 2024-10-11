@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace Com.GCTC.ZombCube
 {
@@ -24,7 +25,29 @@ namespace Com.GCTC.ZombCube
         /// <param name="player">Player properties to update and display</param>
         public void UpdateDisplay(Photon.Realtime.Player player)
         {
-            playerName.text = (string)player.CustomProperties["PlayerName"];
+#if UNITY_PS5 && !UNITY_EDITOR
+            if (CloudSaveLogin.Instance.restricted || (bool)player.CustomProperties["IsRestricted"])
+                playerName.text = (string)player.CustomProperties["UserName"];
+            else
+                playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
+
+            OnScreenLog.Add("Custom Property Account ID: " + (string)player.CustomProperties["AccountID"]);
+
+            PSUserProfiles.GetBlockedUsers();
+            if(PSUserProfiles.blockedUsers.Count > 0)
+            {
+                foreach(ulong blockedUser in PSUserProfiles.blockedUsers)
+                {
+                    OnScreenLog.Add("Blocked User: " + blockedUser.ToString());
+                    if((string)player.CustomProperties["AccountID"] == blockedUser.ToString())
+                    {
+                        playerName.text = (string)player.CustomProperties["UserName"];
+                    }
+                }
+            }
+#else
+            playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
+#endif
             isReadyToggle.isOn = (bool)player.CustomProperties["IsReady"];
 
             playerSkin.material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Skin"]];

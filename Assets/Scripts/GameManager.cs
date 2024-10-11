@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using UnityEngine.InputSystem;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Security.Cryptography;
-using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace Com.GCTC.ZombCube
 {
@@ -36,6 +32,7 @@ namespace Com.GCTC.ZombCube
         public int numOfPlayers;
 
         public bool isGameOver = false;
+        public bool bossCubeDefeated = false;
 
 
         private void Awake()
@@ -51,7 +48,7 @@ namespace Com.GCTC.ZombCube
 
             Time.timeScale = 1;
 
-            if(mode == 1)
+            if (mode == 1)
             {
                 playerInputManager = GameObject.Find("CoopManager").GetComponent<PlayerInputManager>();
                 couchCoopManager = playerInputManager.gameObject.GetComponent<CouchCoopManager>();
@@ -84,16 +81,21 @@ namespace Com.GCTC.ZombCube
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
+#if !UNITY_PLAYSTATION
             CustomAnalytics.SendGameStart();
+#endif
 
             if (mode == 1)
             {
                 couchCoopManager.EnableDisableInput(true);
+                LeaderboardManager.UnlockLetsPlayTogether();
             }
             else if (!playerInput.actions.enabled)
                 playerInput.actions.Enable();
 
-            if(overrideCursor == false)
+            if (mode == 0) LeaderboardManager.UnlockLetsPlay();
+
+            if (overrideCursor == false)
                 Cursor.lockState = CursorLockMode.Locked;
             else
                 Cursor.lockState = CursorLockMode.None;
@@ -150,7 +152,7 @@ namespace Com.GCTC.ZombCube
             CurrentRound += 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
             {
                 LeaderboardManager.UnlockStayinAlive();
             }
@@ -193,7 +195,10 @@ namespace Com.GCTC.ZombCube
             pauseScreen.SetActive(false);
             settingsScreen.SetActive(false);
             continueScreen.SetActive(false);
+
+#if !UNITY_PLAYSTATION
             CustomAnalytics.SendGameOver();
+#endif
         }
 
         public void Restart()
@@ -203,6 +208,13 @@ namespace Com.GCTC.ZombCube
                 playerInputManager.splitScreen = false;
                 playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayerObjects();
                 EnableDisableElimCam(true);
+            }
+            else
+            {
+#if UNITY_PS5 && !UNITY_EDITOR
+                PSUDS.PostUDSStartEvent("activitySolo");
+                PSUDS.PostUDSStartEvent("activityBossCube");
+#endif
             }
             SceneLoader.PlayGame();
         }
@@ -233,10 +245,17 @@ namespace Com.GCTC.ZombCube
                 playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayers();
                 EnableDisableElimCam(true);
             }
+            else
+            {
+#if UNITY_PS5 && !UNITY_EDITOR
+                if (isPaused == true && isGameOver == false)
+                    PSUDS.PostUDSEndEvent("abandoned", CurrentRound);
+#endif
+            }
 
             SceneLoader.ToMainMenu();
 
-            if(playerInputManager != null)
+            if (playerInputManager != null)
                 Destroy(playerInputManager.gameObject);
 
             Time.timeScale = 1;
@@ -260,13 +279,20 @@ namespace Com.GCTC.ZombCube
         public void PauseForContinue()
         {
             isContinue = true;
+            bossCubeDefeated = true;
 
             if (mode == 1)
             {
                 couchCoopManager.EnableDisableInput(false);
             }
             else
+            {
                 playerInput.actions.Disable();
+#if UNITY_PS5 && !UNITY_EDITOR
+                PSUDS.PostUDSEndEvent("completed", CurrentRound);
+#endif
+            }
+
 
 #if (UNITY_IOS || UNITY_ANDROID)
                 onScreenControls.SetActive(false);
@@ -321,7 +347,8 @@ namespace Com.GCTC.ZombCube
 #endif
 
                 Time.timeScale = 1;
-            } else if (isGameOver == true)
+            }
+            else if (isGameOver == true)
             {
 #if (UNITY_IOS || UNITY_ANDROID)
                 onScreenControls.SetActive(false);

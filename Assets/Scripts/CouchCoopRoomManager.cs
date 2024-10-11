@@ -50,7 +50,7 @@ namespace Com.GCTC.ZombCube
             PlayerInput[] existingPlayers = FindObjectsOfType<PlayerInput>();
             foreach (PlayerInput playerInput in existingPlayers)
             {
-                if (currentPlayers == 0) playerInput.neverAutoSwitchControlSchemes = true;
+                //if (currentPlayers == 0) playerInput.neverAutoSwitchControlSchemes = true;
                 int playerID = playerInput.devices.FirstOrDefault().device.deviceId;
                 if (currentPlayers < MAX_PLAYERS && !couchCoopManager.joinedPlayerIDs.Contains(playerID))
                 {

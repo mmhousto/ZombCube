@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.EventSystems;
+using System;
 
 namespace Com.GCTC.ZombCube
 {
@@ -10,6 +12,7 @@ namespace Com.GCTC.ZombCube
         [Header("References")]
         [SerializeField] [Tooltip("Array of PlayerCards.")] private PlayerCard[] lobbyPlayerCards;
         [SerializeField] [Tooltip("UI button to start the game.")] private Button startGameButton;
+        [Tooltip("UI button to ready up for player.")] public GameObject readyButton;
 
         Hashtable hash = new Hashtable();
 
@@ -44,22 +47,37 @@ namespace Com.GCTC.ZombCube
             }
 
             player = GameObject.FindWithTag("PlayerData").GetComponent<Player>();
+            
+            if (player.Equals(null)) { return; }
 
             hash.Add("PlayerId", PhotonNetwork.LocalPlayer.ActorNumber);
             hash.Add("PlayerName", player.playerName);
+            hash.Add("UserName", player.userName);
             hash.Add("IsReady", false);
             hash.Add("Blaster", player.currentBlaster);
             hash.Add("Skin", player.currentSkin);
-
-            if (player.Equals(null)) { return; }
+#if UNITY_PS5 && !UNITY_EDITOR
+            hash.Add("AccountID", PSUser.GetActiveUserAccountID.ToString());
+#else
+            hash.Add("AccountID", player.userID);
+#endif
+            hash.Add("IsRestricted", CloudSaveLogin.Instance.restricted);
 
             PhotonNetwork.SetPlayerCustomProperties(hash);
 
             
         }
 
+        private void Update()
+        {
+            if (PhotonNetwork.IsMasterClient && (EventSystem.current.currentSelectedGameObject == startGameButton.gameObject || EventSystem.current.currentSelectedGameObject == null) && IsEveryoneReady() == false)
+            {
+                EventSystem.current.SetSelectedGameObject(readyButton);
+            }
+        }
 
-        #endregion
+
+#endregion
 
 
         #region Private Methods
@@ -120,6 +138,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public void OnStartGameClicked()
         {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             this.photonView.RPC("StartGameServerRpc", RpcTarget.All, PhotonNetwork.LocalPlayer.ActorNumber);
         }
 
@@ -213,7 +232,8 @@ namespace Com.GCTC.ZombCube
         /// <param name="cause"></param>
         public override void OnDisconnected(Photon.Realtime.DisconnectCause cause)
         {
-            Debug.Log(cause);
+            if(cause != Photon.Realtime.DisconnectCause.DisconnectByClientLogic)
+                ErrorManager.Instance.StartErrorMessage("Network Error: Player disconnected from the internet.");
             SceneLoader.ToMainMenu();
         }
 

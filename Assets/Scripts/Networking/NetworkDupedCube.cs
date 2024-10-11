@@ -49,14 +49,14 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        /*private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Projectile"))
             {
                 photonView.RPC(nameof(DestroyEnemy), RpcTarget.MasterClient);
 
             }
-        }
+        }*/
 
         private void OnTriggerEnter(Collider other)
         {

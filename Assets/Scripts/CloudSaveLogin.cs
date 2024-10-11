@@ -1,23 +1,23 @@
 #if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
 #define DISABLESTEAMWORKS
 #endif
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.Services.Authentication;
-using Unity.Services.CloudSave;
-using System.Threading.Tasks;
-using Unity.Services.Core;
-//using Facebook.Unity;
-using System;
 using AppleAuth;
-using AppleAuth.Native;
 using AppleAuth.Enums;
 using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
+using AppleAuth.Native;
+using PSNSample;
+//using Facebook.Unity;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Threading;
+using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Services.CloudSave;
+using Unity.Services.Core;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 #if UNITY_ANDROID
 using GooglePlayGames.BasicApi;
@@ -34,14 +34,14 @@ namespace Com.GCTC.ZombCube
     public class CloudSaveLogin : MonoBehaviour
     {
 
-#region Fields/Variables
+        #region Fields/Variables
 
         private static CloudSaveLogin instance;
 
         public static CloudSaveLogin Instance { get { return instance; } }
 
         // What SSO Option the use is using atm.
-        public enum ssoOption { Anonymous, Facebook, Google, Apple, Steam }
+        public enum ssoOption { Anonymous, Facebook, Google, Apple, Steam, PS }
 
         // Player Data Object
         public Player player;
@@ -56,7 +56,11 @@ namespace Com.GCTC.ZombCube
         public bool devModeActivated = false;
         public bool gameCenterSignedIn = false;
         public bool loggedIn = false;
-        private bool isSigningIn = false;
+        public bool isSigningIn = false;
+
+#if UNITY_PS5
+        public bool restricted = false;
+#endif
 
         // User Info.
         public string userName, userID;
@@ -70,7 +74,7 @@ namespace Com.GCTC.ZombCube
 #endif
 
 
-        #endregion
+#endregion
 
 
         #region MonoBehaviour Methods
@@ -90,6 +94,27 @@ namespace Com.GCTC.ZombCube
             }
 
             AdsInitializer.timesPlayed = 0;
+
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                isSigningIn = true;
+
+                currentSSO = ssoOption.Anonymous;
+
+                userID = "OfflineMode";
+                userName = "Guest_" + userID;
+
+                SetPlayer(userID);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+#endif
+
+                Login();
+                return;
+            }
 
             if (UnityServices.State == ServicesInitializationState.Initialized)
             {
@@ -111,22 +136,31 @@ namespace Com.GCTC.ZombCube
                 // Already initialized, signal an app activation App Event
                 FB.ActivateApp();
             }*/
-#if UNITY_WSA
 
+
+#if UNITY_WSA
+            isSigningIn = false;
 #elif UNITY_ANDROID
             // Initializes Google Play Games Login
             InitializePlayGamesLogin();
+#elif UNITY_PS5 || UNITY_PS4
+            //isSigningIn = true;
+            //GetComponent<PSNManager>().Initialize();
 #else
             if (isSteam && SteamManager.Initialized)
             {
-                SignInWithSteam();
-                isSigningIn = true;
+                isSigningIn = false;
+
             }
+            else
+                isSigningIn = false;
 #endif
         }
 
         private void Start()
         {
+            StartCoroutine(checkInternetConnection((isConnected) => OfflineLogin(isConnected)));
+
             // If the current platform is supported initialize apple authentication.
             if (AppleAuthManager.IsCurrentPlatformSupported)
             {
@@ -155,6 +189,19 @@ namespace Com.GCTC.ZombCube
             }
 #endif
 
+#if UNITY_PS5 && !UNITY_EDITOR
+            if(player.userName != PSUser.GetActiveUserName && PSUser.GetActiveUser.gamePad.loggedInUser.primaryUser)
+            {
+                userName = PSUser.GetActiveUserName;
+                player.userName = userName;
+            } 
+            if(player.userID != PSUser.GetActiveUserId.ToString() && PSUser.GetActiveUser.gamePad.loggedInUser.primaryUser)
+            {
+                userID = PSUser.GetActiveUserId.ToString();
+                player.userID = userID;
+            }
+#endif
+
         }
 
         /// <summary>
@@ -179,33 +226,59 @@ namespace Com.GCTC.ZombCube
         }
 
 
-#endregion
+        #endregion
 
+        IEnumerator checkInternetConnection(Action<bool> action)
+        {
+            WWW www = new WWW("http://google.com");
+            yield return www;
+            if (www.error != null)
+            {
+                action(false);
+            }
+            else
+            {
+                action(true);
+            }
+        }
 
-#region Public Sign In/Out Methods
+        #region Public Sign In/Out Methods
 
 
         public async void DeleteAccount()
         {
-            await ForceDeleteSpecificData(userID);
-            SaveSystem.DeletePlayer();
-            await AuthenticationService.Instance.DeleteAccountAsync();
-
-            userID = "";
-            userName = "";
-
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            if (currentSSO == ssoOption.PS)
             {
-                this.appleAuthManager.SetCredentialsRevokedCallback(result =>
-                {
-                    // Sign in with Apple Credentials were revoked.
-                    // Discard credentials/user id and go to login screen.
-                    
-                    PlayerPrefs.SetString("AppleUserIdKey", "");
-                    PlayerPrefs.SetString("AppleUserNameKey", "");
-                    PlayerPrefs.SetString("AppleTokenIdKey", "");
-                });
+                SaveSystem.DeletePlayer();
+                userID = "";
+                userName = "";
+#if UNITY_PS5
+                GetComponent<PSAuth>().ResetInit();
+#endif
             }
+            else
+            {
+                await ForceDeleteSpecificData(userID);
+                SaveSystem.DeletePlayer();
+                await AuthenticationService.Instance.DeleteAccountAsync();
+
+                userID = "";
+                userName = "";
+
+                if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+                {
+                    this.appleAuthManager.SetCredentialsRevokedCallback(result =>
+                    {
+                        // Sign in with Apple Credentials were revoked.
+                        // Discard credentials/user id and go to login screen.
+
+                        PlayerPrefs.SetString("AppleUserIdKey", "");
+                        PlayerPrefs.SetString("AppleUserNameKey", "");
+                        PlayerPrefs.SetString("AppleTokenIdKey", "");
+                    });
+                }
+            }
+
 
             LogoutScreenActivate();
         }
@@ -217,10 +290,12 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public async void SignInAnonymously()
         {
+            StartCoroutine(checkInternetConnection((isConnected) => OfflineLogin(isConnected)));
             if (isSigningIn) return;
             isSigningIn = true;
 
             currentSSO = ssoOption.Anonymous;
+
             AuthenticationService.Instance.SwitchProfile("default");
 
             // Cloud Save needs to be initialized along with the other Unity Services that
@@ -238,6 +313,12 @@ namespace Com.GCTC.ZombCube
                 userID = AuthenticationService.Instance.PlayerId;
                 userName = "Guest_" + userID;
                 SetPlayer(userID);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+#endif
 
                 Login();
             }
@@ -257,6 +338,42 @@ namespace Com.GCTC.ZombCube
             devModeActivated = true;
             await SignInAnonymouslyAsync();
         }
+
+#if UNITY_PS5 && !UNITY_EDITOR
+        public void PSAuthInit()
+        {
+            GetComponent<PSAuth>().Initialize();
+        }
+
+        public void PSSignIn()
+        {
+            GetComponent<PSNManager>().Initialize();
+        }
+
+        public void SignInPS(string psnUserID, string tokenID, string authCode)
+        {
+            currentSSO = ssoOption.PS;
+
+            if (PSSaveData.singleton.initialized)
+                PSSaveData.singleton.StartAutoSaveLoad();
+            else
+                PSSaveData.singleton.InitializeSaveData();
+
+            PSUDS.Initialize();
+            PSTrophies.Initialize();
+
+            userID = PSUser.GetActiveUserId.ToString();
+            userName = PSUser.GetActiveUserName;
+
+            player.userID = userID;
+            player.userName = userName;
+
+            //SetPlayer(psnUserID, psnUserID);
+
+            Login();
+
+        }
+#endif
 
         /*
         /// <summary>
@@ -303,7 +420,8 @@ namespace Com.GCTC.ZombCube
         public void SignInWithSteam()
         {
 #if !DISABLESTEAMWORKS
-            if (isSigningIn || AuthenticationService.Instance.IsSignedIn) return;
+            StartCoroutine(checkInternetConnection((isConnected) => OfflineLogin(isConnected)));
+            if (isSigningIn || AuthenticationService.Instance.IsSignedIn ||  SteamManager.Initialized == false) return;
             isSigningIn = true;
 
             currentSSO = ssoOption.Steam;
@@ -385,15 +503,30 @@ namespace Com.GCTC.ZombCube
         }*/
 
 
-#endregion
+        #endregion
 
 
-#region Private Login/Logout Methods
+        #region Private Login/Logout Methods
+
+        private void OfflineLogin(bool isConnected)
+        {
+            if (!isConnected)
+            {
+                currentSSO = ssoOption.Anonymous;
+
+                userID = "OfflineMode";
+                userName = "Guest_" + userID;
+
+                SetPlayer(userID);
+
+                Login();
+            }
+        }
 
         /// <summary>
         /// Loads the Main Menu Scene.
         /// </summary>
-        private void Login()
+        public void Login()
         {
             loggedIn = true;
             isSigningIn = false;
@@ -431,15 +564,19 @@ namespace Com.GCTC.ZombCube
                 PlayGamesPlatform.Instance.SignOut();
 #endif
 
+#if UNITY_PS5 || UNITY_PS4
+            GetComponent<PSAuth>().ResetInit();
+#endif
+
             ResetPlayer();
         }
 
 
-#endregion
+        #endregion
 
 
-#region Apple Auth
-        
+        #region Apple Auth
+
         /// <summary>
         /// Performs continue with Apple login.
         /// </summary>
@@ -582,7 +719,7 @@ namespace Com.GCTC.ZombCube
                     {
                         // Apple User ID
                         // You should save the user ID somewhere in the device
-                        if(appleIdCredential.User != null)
+                        if (appleIdCredential.User != null)
                         {
                             userID = appleIdCredential.User;
                             PlayerPrefs.SetString("AppleUserIdKey", userID);
@@ -591,14 +728,14 @@ namespace Com.GCTC.ZombCube
                         {
                             userID = PlayerPrefs.GetString("AppleUserIdKey", "");
                         }
-                        
+
 
                         // Email (Received ONLY in the first login)
                         /*email = appleIdCredential.Email;
                             PlayerPrefs.SetString("AppleUserEmailKey", email);*/
 
                         // Full name (Received ONLY in the first login)
-                        if(appleIdCredential.FullName != null)
+                        if (appleIdCredential.FullName != null)
                         {
                             userName = appleIdCredential.FullName.ToLocalizedString();
                             PlayerPrefs.SetString("AppleUserNameKey", userName);
@@ -607,8 +744,8 @@ namespace Com.GCTC.ZombCube
                         {
                             userName = PlayerPrefs.GetString("AppleUserNameKey", "");
                         }
-                            
-                        
+
+
 
                         // Identity token
                         var idToken = Encoding.UTF8.GetString(
@@ -650,152 +787,152 @@ namespace Com.GCTC.ZombCube
         #endregion
 
 
-#region Facebook Auth
-/*
-/// <summary>
-/// Initializes Facebook SDK
-/// </summary>
-private void InitCallback()
-{
-    if (FB.IsInitialized)
-    {
-        // Signal an app activation App Event
-        FB.ActivateApp();
-        // Continue with Facebook SDK
-        // ...
-    }
-    else
-    {
-        Debug.Log("Failed to Initialize the Facebook SDK");
-    }
-}
+        #region Facebook Auth
+        /*
+        /// <summary>
+        /// Initializes Facebook SDK
+        /// </summary>
+        private void InitCallback()
+        {
+            if (FB.IsInitialized)
+            {
+                // Signal an app activation App Event
+                FB.ActivateApp();
+                // Continue with Facebook SDK
+                // ...
+            }
+            else
+            {
+                Debug.Log("Failed to Initialize the Facebook SDK");
+            }
+        }
 
-private void OnHideUnity(bool isGameShown)
-{
-    if (!isGameShown)
-    {
-        // Pause the game - we will need to hide
-        Time.timeScale = 0;
-    }
-    else
-    {
-        // Resume the game - we're getting focus again
-        Time.timeScale = 1;
-    }
-}
+        private void OnHideUnity(bool isGameShown)
+        {
+            if (!isGameShown)
+            {
+                // Pause the game - we will need to hide
+                Time.timeScale = 0;
+            }
+            else
+            {
+                // Resume the game - we're getting focus again
+                Time.timeScale = 1;
+            }
+        }
 
-/// <summary>
-/// Callback to get player info on login.
-/// </summary>
-/// <param name="result"></param>
-private async void AuthCallback(ILoginResult result)
-{
-    if (FB.IsLoggedIn)
-    {
-        // AccessToken class will have session details
-        var aToken = AccessToken.CurrentAccessToken;
-        // Print current access token's User ID
-        Debug.Log(aToken.UserId);
-        userID = aToken.UserId;
+        /// <summary>
+        /// Callback to get player info on login.
+        /// </summary>
+        /// <param name="result"></param>
+        private async void AuthCallback(ILoginResult result)
+        {
+            if (FB.IsLoggedIn)
+            {
+                // AccessToken class will have session details
+                var aToken = AccessToken.CurrentAccessToken;
+                // Print current access token's User ID
+                Debug.Log(aToken.UserId);
+                userID = aToken.UserId;
 
-        FB.API("me?fields=id,name", HttpMethod.GET, AssignInfo);
-
-
-
-        await SignInWithFacebookAsync(aToken.TokenString);
-
-    }
-    else
-    {
-        Debug.Log("User cancelled login");
-    }
-}
-
-/// <summary>
-/// Assigns player info on login.
-/// </summary>
-/// <param name="result"></param>
-void AssignInfo(IGraphResult result)
-{
-    if (result.Error != null)
-    {
-        Debug.Log("Error: " + result.Error);
-    }
-    else if (!FB.IsLoggedIn)
-        Debug.Log("Login Canceled By Player");
-    else
-    {
-        userID = result.ResultDictionary["id"].ToString();
-        userName = result.ResultDictionary["name"].ToString();
-    }
-}
-
-/// <summary>
-/// Signs the player into Unity Services and sets player data.
-/// </summary>
-/// <param name="accessToken"></param>
-/// <returns></returns>
-async Task SignInWithFacebookAsync(string accessToken)
-{
-    try
-    {
-        await AuthenticationService.Instance.SignInWithFacebookAsync(accessToken);
-        Debug.Log("Sign-In With Facebook is successful.");
-
-        SetPlayer(AuthenticationService.Instance.PlayerId, userName);
-
-        Login();
-    }
-    catch (AuthenticationException ex)
-    {
-        // Compare error code to AuthenticationErrorCodes
-        // Notify the player with the proper error message
-        Debug.LogException(ex);
-    }
-    catch (RequestFailedException ex)
-    {
-        // Compare error code to CommonErrorCodes
-        // Notify the player with the proper error message
-        Debug.LogException(ex);
-    }
-}
-
-/// <summary>
-/// Logs the player in, if they were logged in before.
-/// </summary>
-/// <param name="result"></param>
-private async void LoginStatusCallback(ILoginStatusResult result)
-{
-    if (!string.IsNullOrEmpty(result.Error))
-    {
-        Debug.Log("Error: " + result.Error);
-
-        var perms = new List<string>() { "public_profile" };
-        FB.LogInWithReadPermissions(perms, AuthCallback);
-    }
-    else if (result.Failed)
-    {
-        Debug.Log("Failure: Access Token could not be retrieved");
-
-        var perms = new List<string>() { "public_profile" };
-        FB.LogInWithReadPermissions(perms, AuthCallback);
-    }
-    else
-    {
-        // Successfully logged user in
-        // A popup notification will appear that says "Logged in as <User Name>"
-        Debug.Log("Success: " + result.AccessToken.UserId);
-
-        await SignInWithFacebookAsync(result.AccessToken.TokenString);
-
-    }
-}
-
-*/
-#endregion
+                FB.API("me?fields=id,name", HttpMethod.GET, AssignInfo);
 
 
-#region Google Play Auth
+
+                await SignInWithFacebookAsync(aToken.TokenString);
+
+            }
+            else
+            {
+                Debug.Log("User cancelled login");
+            }
+        }
+
+        /// <summary>
+        /// Assigns player info on login.
+        /// </summary>
+        /// <param name="result"></param>
+        void AssignInfo(IGraphResult result)
+        {
+            if (result.Error != null)
+            {
+                Debug.Log("Error: " + result.Error);
+            }
+            else if (!FB.IsLoggedIn)
+                Debug.Log("Login Canceled By Player");
+            else
+            {
+                userID = result.ResultDictionary["id"].ToString();
+                userName = result.ResultDictionary["name"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// Signs the player into Unity Services and sets player data.
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <returns></returns>
+        async Task SignInWithFacebookAsync(string accessToken)
+        {
+            try
+            {
+                await AuthenticationService.Instance.SignInWithFacebookAsync(accessToken);
+                Debug.Log("Sign-In With Facebook is successful.");
+
+                SetPlayer(AuthenticationService.Instance.PlayerId, userName);
+
+                Login();
+            }
+            catch (AuthenticationException ex)
+            {
+                // Compare error code to AuthenticationErrorCodes
+                // Notify the player with the proper error message
+                Debug.LogException(ex);
+            }
+            catch (RequestFailedException ex)
+            {
+                // Compare error code to CommonErrorCodes
+                // Notify the player with the proper error message
+                Debug.LogException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Logs the player in, if they were logged in before.
+        /// </summary>
+        /// <param name="result"></param>
+        private async void LoginStatusCallback(ILoginStatusResult result)
+        {
+            if (!string.IsNullOrEmpty(result.Error))
+            {
+                Debug.Log("Error: " + result.Error);
+
+                var perms = new List<string>() { "public_profile" };
+                FB.LogInWithReadPermissions(perms, AuthCallback);
+            }
+            else if (result.Failed)
+            {
+                Debug.Log("Failure: Access Token could not be retrieved");
+
+                var perms = new List<string>() { "public_profile" };
+                FB.LogInWithReadPermissions(perms, AuthCallback);
+            }
+            else
+            {
+                // Successfully logged user in
+                // A popup notification will appear that says "Logged in as <User Name>"
+                Debug.Log("Success: " + result.AccessToken.UserId);
+
+                await SignInWithFacebookAsync(result.AccessToken.TokenString);
+
+            }
+        }
+
+        */
+        #endregion
+
+
+        #region Google Play Auth
 
 #if UNITY_ANDROID
 
@@ -804,14 +941,14 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             // Requests an ID token be generated.  
             // This OAuth token can be used to
             // identify the player to other services such as Firebase.
-            var config = new PlayGamesClientConfiguration.Builder()
+            /*var config = new PlayGamesClientConfiguration.Builder()
                 .RequestIdToken()
                 .Build();
 
             PlayGamesPlatform.InitializeInstance(config);
             PlayGamesPlatform.DebugLogEnabled = true;
-            PlayGamesPlatform.Activate();
-            LoginGooglePlayGames();
+            PlayGamesPlatform.Activate();*/
+            //LoginGooglePlayGames();
         }
 
         public void LoginGooglePlayGames()
@@ -820,9 +957,9 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             AuthenticationService.Instance.SwitchProfile("google");
             try
             {
-                PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
+                //PlayGamesPlatform.Instance.Authenticate((success) => { OnGooglePlayGamesLogin(success); });
                 //PlayGamesPlatform.Instance.ManuallyAuthenticate(OnGooglePlayGamesLogin);
-                //Social.localUser.Authenticate(OnGooglePlayGamesLogin);
+                Social.localUser.Authenticate(OnGooglePlayGamesLogin);
             }
             catch (Exception e)
             {
@@ -865,7 +1002,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 // Call Unity Authentication SDK to sign in or link with Google.
                 var idToken = "";
 
-                idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+                idToken = Social.localUser.id;
 
                 userID = Social.localUser.id;
                 userName = Social.localUser.userName;
@@ -912,10 +1049,10 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         
 #endif
 
-#endregion
+        #endregion
 
 
-#region Steam Auth
+        #region Steam Auth
 
 #if !DISABLESTEAMWORKS
         async Task SignInWithSteamAsync(string ticket)
@@ -936,18 +1073,53 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 // Compare error code to AuthenticationErrorCodes
                 // Notify the player with the proper error message
                 //Debug.Log(ex);
+                OfflineLogin(false);
             }
             catch (RequestFailedException ex)
             {
                 // Compare error code to CommonErrorCodes
                 // Notify the player with the proper error message
                 //Debug.Log(ex);
+                OfflineLogin(false);
             }
             isSigningIn = false;
         }
 #endif
 
-#endregion
+        #endregion
+
+
+        #region Custom ID Auth
+
+        async Task SignInWithCustomIDAsync(string authCode, string idToken)
+        {
+            try
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+                SetPlayer(userID, userName);
+
+                Login();
+
+            }
+            catch (AuthenticationException ex)
+            {
+                // Compare error code to AuthenticationErrorCodes
+                // Notify the player with the proper error message
+                //Debug.Log(ex);
+                OfflineLogin(false);
+            }
+            catch (RequestFailedException ex)
+            {
+                // Compare error code to CommonErrorCodes
+                // Notify the player with the proper error message
+                //Debug.Log(ex);
+                OfflineLogin(false);
+            }
+            isSigningIn = false;
+        }
+
+        #endregion
 
 
         #region Private Methods
@@ -967,6 +1139,12 @@ private async void LoginStatusCallback(ILoginStatusResult result)
 
                 SetPlayer(userID);
 
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+#endif
+
                 Login();
 
             }
@@ -974,19 +1152,54 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             {
                 // Compare error code to AuthenticationErrorCodes
                 // Notify the player with the proper error message
-                Debug.LogException(ex);
+                OfflineLogin(false);
             }
             catch (RequestFailedException exception)
             {
                 // Compare error code to CommonErrorCodes
                 // Notify the player with the proper error message
 
-                userID = "OfflineMode";
-                userName = "Guest_" + userID;
+                OfflineLogin(false);
+            }
+        }
 
-                SetPlayer(userID);
+        /// <summary>
+        /// Signs in an anonymous player for PSN.
+        /// </summary>
+        /// <returns></returns>
+        async Task SignInAnonymouslyAsync(string userID)
+        {
+            try
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+                SetPlayer(AuthenticationService.Instance.PlayerId, userID);
+
+#if UNITY_PS5 && !UNITY_EDITOR
+                userName = PSUser.GetActiveUserName;
+
+                player.userName = userName;
+#endif
 
                 Login();
+
+            }
+            catch (AuthenticationException ex)
+            {
+                AuthenticationService.Instance.ClearSessionToken();
+                // Compare error code to AuthenticationErrorCodes
+                // Notify the player with the proper error message
+                Debug.Log(ex);
+
+                isSigningIn = false;
+            }
+            catch (RequestFailedException exception)
+            {
+                // Compare error code to CommonErrorCodes
+                // Notify the player with the proper error message
+                Debug.Log(exception);
+
+                isSigningIn = false;
             }
         }
 
@@ -996,16 +1209,26 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         /// <param name="id"></param>
         private async void SetPlayer(string id)
         {
-            SaveData incomingSample = await RetrieveSpecificData<SaveData>(id);
+            try
+            {
+                SaveData incomingSample = await RetrieveSpecificData<SaveData>(id);
 
-            if (incomingSample != null)
-            {
-                LoadPlayerData(incomingSample);
+                if (incomingSample != null)
+                {
+                    LoadPlayerData(incomingSample);
+                }
+                else
+                {
+                    LoadPlayerData();
+                }
             }
-            else
+            catch
             {
+                ErrorManager.Instance.StartErrorMessage("Error: Unity Services not intialized. Could not retrieve cloud data. Loading local profile.");
                 LoadPlayerData();
             }
+
+
 
 
         }
@@ -1113,11 +1336,11 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             }
             catch (CloudSaveValidationException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data.");
             }
             catch (CloudSaveException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: Failed to save cloud data.");
             }
         }
 
@@ -1144,11 +1367,11 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             }
             catch (CloudSaveValidationException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: " + e.Message);
             }
             catch (CloudSaveException e)
             {
-                Debug.LogError(e);
+                ErrorManager.Instance.StartErrorMessage("Error: " + "Failed to load cloud data, loading local profile.");
             }
 
             return default;
@@ -1310,7 +1533,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
         /// <param name="data"></param>
         public void LoadPlayerData(SaveData data)
         {
-            if(data.userID == "")
+            if (data.userID == "")
             {
                 player.userID = userID;
             }
@@ -1319,7 +1542,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
                 player.userID = data.userID;
             }
 
-            if(data.userName == "")
+            if (data.userName == "")
             {
                 player.userName = userName;
             }
@@ -1327,7 +1550,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             {
                 player.userName = data.userName;
             }
-            
+
             player.playerName = data.playerName;
 
             if (data.rewardOverTime == null || data.rewardOverTime == "")
@@ -1400,7 +1623,7 @@ private async void LoginStatusCallback(ILoginStatusResult result)
             player.ownedSkins = new int[9];
         }
 
-#endregion
+        #endregion
 
 
     }

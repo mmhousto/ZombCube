@@ -51,7 +51,7 @@ namespace Com.GCTC.ZombCube
 
             if(GameManager.mode == 0)
             {
-                weaponSelectUI = GameObject.Find("WeaponSelect");
+                weaponSelectUI = GameObject.Find("WeaponSelect").transform.GetChild(0).gameObject;
 #if (UNITY_IOS || UNITY_ANDROID)
                 touchZone = GameObject.FindWithTag("TouchZone");
 #endif

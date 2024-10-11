@@ -99,6 +99,7 @@ namespace Com.GCTC.ZombCube
         public void GainPoints()
         {
             points += 1000;
+            totalPointsEarned += 1000;
         }
 
         public void SetRewardOvertime(string time)

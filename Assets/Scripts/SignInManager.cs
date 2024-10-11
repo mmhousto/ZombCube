@@ -1,10 +1,4 @@
-using AppleAuth;
-using AppleAuth.Native;
-using AppleAuth.Enums;
-using AppleAuth.Extensions;
-using AppleAuth.Interfaces;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,6 +8,9 @@ namespace Com.GCTC.ZombCube
     public class SignInManager : MonoBehaviour
     {
         public GameObject exitButton, googleSignIn, appleSignIn, playButton;
+        public GameObject signingIn, buttonsPanel;
+        public TextMeshProUGUI signingInLabel;
+        private int dots = 3;
 
         private void Start()
         {
@@ -29,26 +26,43 @@ namespace Com.GCTC.ZombCube
                 appleSignIn.SetActive(true);
                 playButton.SetActive(false);
 #else
-                appleSignIn.SetActive(false);
+            appleSignIn.SetActive(false);
 #endif
 
 #if UNITY_ANDROID
             //googleSignIn.SetActive(true);
             playButton.SetActive(true);
-#else
-            googleSignIn.SetActive(false);
+            SignInAnon();
 #endif
+            googleSignIn.SetActive(false);
 
+            InvokeRepeating(nameof(Dots), 0, 1);
+        }
+
+        private void Update()
+        {
+            if (CloudSaveLogin.Instance.isSigningIn && !signingIn.activeInHierarchy)
+            {
+                signingIn.SetActive(true);
+                buttonsPanel.SetActive(false);
+            }
+            else if (!CloudSaveLogin.Instance.isSigningIn && !buttonsPanel.activeInHierarchy)
+            {
+                signingIn.SetActive(false);
+                buttonsPanel.SetActive(true);
+            }
         }
 
         public void SignInAuto()
         {
 #if UNITY_ANDROID
-            SignInGoogle();
+            SignInAnon();
 #elif UNITY_IOS
             SignInApple();
+#elif UNITY_PS5 && !UNITY_EDITOR
+            CloudSaveLogin.Instance.PSSignIn();
 #else
-            if(CloudSaveLogin.Instance.isSteam)
+            if (CloudSaveLogin.Instance.isSteam && Application.internetReachability != NetworkReachability.NotReachable)
                 SignInSteam();
             else
                 SignInAnon();
@@ -74,7 +88,7 @@ namespace Com.GCTC.ZombCube
 
         public void SignInSteam()
         {
-
+            CloudSaveLogin.Instance.SignInWithSteam();
         }
 
         public void SelectObject(GameObject uiElement)
@@ -86,6 +100,32 @@ namespace Com.GCTC.ZombCube
         public void ExitApplication()
         {
             Application.Quit();
+        }
+
+        private void Dots()
+        {
+            dots++;
+            if (dots > 3) dots = 1;
+
+            switch (dots)
+            {
+                case 0:
+                    signingInLabel.text = "Signing In";
+                    break;
+                case 1:
+                    signingInLabel.text = "Signing In.";
+                    break;
+                case 2:
+                    signingInLabel.text = "Signing In..";
+                    break;
+                case 3:
+                    signingInLabel.text = "Signing In...";
+                    break;
+                default:
+                    signingInLabel.text = "Signing In...";
+                    break;
+            }
+            
         }
     }
 

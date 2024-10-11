@@ -14,6 +14,7 @@ namespace Com.GCTC.ZombCube
 #if UNITY_WSA
             ResetLightingData();
 #endif
+            Time.timeScale = 1;
             levelToLoad = 1;
             SceneManager.LoadScene(7);
         }

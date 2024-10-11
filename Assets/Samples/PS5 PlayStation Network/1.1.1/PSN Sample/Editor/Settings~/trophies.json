@@ -1,0 +1,996 @@
+{
+    "schemaVersion": "3.0",
+    "contextType": "NPCommunicationId",
+    "contextId": "NPWR45753_00",
+    "entities": {
+        "trophySet": [
+            {
+                "objectId": "_trophySet",
+                "metadata": {
+                    "trophyDefRevision": "6175",
+                    "trophySetVersion": "1.0",
+                    "trophySchemaVersion": "0.90",
+                    "defaultLanguage": "en-US",
+                    "name": {
+                        "en-US": "ZombCube"
+                    },
+                    "images": [
+                        {
+                            "en-US": {
+                                "type": "512x512",
+                                "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/a6ec55c3-1dcc-4c5b-b867-e88f66b8d06c.png"
+                            }
+                        }
+                    ],
+                    "platform": [
+                        "PS5"
+                    ]
+                },
+                "links": {
+                    "trophyGroups": [
+                        {
+                            "position": 1,
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "trophyGroups": [
+            {
+                "objectId": "_baseGameGroup",
+                "metadata": {
+                    "trophyGroupId": "0000",
+                    "sortKey": "0001",
+                    "name": {},
+                    "isBaseGameGroup": true
+                },
+                "links": {
+                    "trophySet": [
+                        {
+                            "object": {
+                                "objectId": "_trophySet",
+                                "metadata": {
+                                    "trophyDefRevision": "6175",
+                                    "trophySetVersion": "1.0",
+                                    "trophySchemaVersion": "0.90",
+                                    "defaultLanguage": "en-US",
+                                    "name": {
+                                        "en-US": "ZombCube"
+                                    },
+                                    "images": [
+                                        {
+                                            "en-US": {
+                                                "type": "512x512",
+                                                "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/a6ec55c3-1dcc-4c5b-b867-e88f66b8d06c.png"
+                                            }
+                                        }
+                                    ],
+                                    "platform": [
+                                        "PS5"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "trophies": [
+                        {
+                            "position": 1,
+                            "object": {
+                                "objectId": "100PercentClear",
+                                "metadata": {
+                                    "trophyId": "0000",
+                                    "sortKey": "0001",
+                                    "hidden": false,
+                                    "grade": "platinum",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/f4825cdf-ab9e-44bb-ac6b-ddf475360925.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "name": {
+                                        "en-US": "100% Clear"
+                                    },
+                                    "description": {
+                                        "en-US": "This is the platinum trophy and is unlocked automatically when all the trophies have been unlocked"
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 2,
+                            "object": {
+                                "objectId": "stayinAliveSolo",
+                                "metadata": {
+                                    "trophyId": "0001",
+                                    "sortKey": "0002",
+                                    "hidden": false,
+                                    "grade": "gold",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/59407d0f-3422-4a9d-93d9-4dea3dcb7979.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "_autoGenTrophy_0001",
+                                        "comparator": "ge",
+                                        "targetValue": "1",
+                                        "isProgressive": false
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "platinumTrophyObjectId": "100PercentClear",
+                                    "name": {
+                                        "en-US": "Stayin' Alive Solo"
+                                    },
+                                    "description": {
+                                        "en-US": "Reach level 50 in Solo mode."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 3,
+                            "object": {
+                                "objectId": "stayinAliveParty",
+                                "metadata": {
+                                    "trophyId": "0002",
+                                    "sortKey": "0003",
+                                    "hidden": false,
+                                    "grade": "gold",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/7034358b-c6ba-4c63-8f0c-a157fb3112d3.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "_autoGenTrophy_0002",
+                                        "comparator": "ge",
+                                        "targetValue": "1",
+                                        "isProgressive": false
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "platinumTrophyObjectId": "100PercentClear",
+                                    "name": {
+                                        "en-US": "Stayin' Alive Together"
+                                    },
+                                    "description": {
+                                        "en-US": "Reach level 50 in Party mode."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 4,
+                            "object": {
+                                "objectId": "cubeDestroyer",
+                                "metadata": {
+                                    "trophyId": "0003",
+                                    "sortKey": "0004",
+                                    "hidden": false,
+                                    "grade": "bronze",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/bfa0ebac-9436-4794-9659-7bfc2c8ecd91.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "cubesDestroyed",
+                                        "comparator": "ge",
+                                        "targetValue": "10000",
+                                        "isProgressive": true
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "platinumTrophyObjectId": "100PercentClear",
+                                    "name": {
+                                        "en-US": "Cube Destroyer I"
+                                    },
+                                    "description": {
+                                        "en-US": "Eliminate 10,000 ZombCube's."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 5,
+                            "object": {
+                                "objectId": "cubeDestroyer",
+                                "metadata": {
+                                    "trophyId": "0004",
+                                    "sortKey": "0005",
+                                    "hidden": false,
+                                    "grade": "silver",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/bfa0ebac-9436-4794-9659-7bfc2c8ecd91.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "cubesDestroyed",
+                                        "comparator": "ge",
+                                        "targetValue": "100000",
+                                        "isProgressive": true
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "platinumTrophyObjectId": "100PercentClear",
+                                    "name": {
+                                        "en-US": "Cube Destroyer II"
+                                    },
+                                    "description": {
+                                        "en-US": "Eliminate 100,000 ZombCube's."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 6,
+                            "object": {
+                                "objectId": "cubeDestroyer",
+                                "metadata": {
+                                    "trophyId": "0005",
+                                    "sortKey": "0006",
+                                    "hidden": false,
+                                    "grade": "gold",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/bfa0ebac-9436-4794-9659-7bfc2c8ecd91.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "cubesDestroyed",
+                                        "comparator": "ge",
+                                        "targetValue": "1000000",
+                                        "isProgressive": true
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "platinumTrophyObjectId": "100PercentClear",
+                                    "name": {
+                                        "en-US": "Cube Destroyer III"
+                                    },
+                                    "description": {
+                                        "en-US": "Eliminate 1,000,000 ZombCube's."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 7,
+                            "object": {
+                                "objectId": "ricochetKing",
+                                "metadata": {
+                                    "trophyId": "0006",
+                                    "sortKey": "0007",
+                                    "hidden": false,
+                                    "grade": "gold",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/8c082212-ce87-4213-81f6-55c986c63c3d.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "_autoGenTrophy_0003",
+                                        "comparator": "ge",
+                                        "targetValue": "1",
+                                        "isProgressive": false
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "platinumTrophyObjectId": "100PercentClear",
+                                    "name": {
+                                        "en-US": "Ricochet King"
+                                    },
+                                    "description": {
+                                        "en-US": "Eliminate 5 ZombCube's with a single projectile."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 8,
+                            "object": {
+                                "objectId": "triggerHappy",
+                                "metadata": {
+                                    "trophyId": "0007",
+                                    "sortKey": "0008",
+                                    "hidden": false,
+                                    "grade": "bronze",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/c5fe244c-b20d-450d-812f-38ac6ad68435.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "projectilesFired",
+                                        "comparator": "ge",
+                                        "targetValue": "100000",
+                                        "isProgressive": true
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "name": {
+                                        "en-US": "Trigger Happy I"
+                                    },
+                                    "description": {
+                                        "en-US": "Launch 100,000 Projectiles."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 9,
+                            "object": {
+                                "objectId": "triggerHappy",
+                                "metadata": {
+                                    "trophyId": "0008",
+                                    "sortKey": "0009",
+                                    "hidden": false,
+                                    "grade": "silver",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/c5fe244c-b20d-450d-812f-38ac6ad68435.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "projectilesFired",
+                                        "comparator": "ge",
+                                        "targetValue": "1000000",
+                                        "isProgressive": true
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "name": {
+                                        "en-US": "Trigger Happy II"
+                                    },
+                                    "description": {
+                                        "en-US": "Launch 1,000,000 Projectiles."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 10,
+                            "object": {
+                                "objectId": "triggerHappy",
+                                "metadata": {
+                                    "trophyId": "0009",
+                                    "sortKey": "0010",
+                                    "hidden": false,
+                                    "grade": "gold",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/c5fe244c-b20d-450d-812f-38ac6ad68435.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "projectilesFired",
+                                        "comparator": "ge",
+                                        "targetValue": "10000000",
+                                        "isProgressive": true
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "name": {
+                                        "en-US": "Trigger Happy III"
+                                    },
+                                    "description": {
+                                        "en-US": "Launch 10,000,000 Projectiles."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "position": 11,
+                            "object": {
+                                "objectId": "nGamer1",
+                                "metadata": {
+                                    "trophyId": "0010",
+                                    "sortKey": "0011",
+                                    "hidden": true,
+                                    "grade": "gold",
+                                    "images": [
+                                        {
+                                            "type": "512x512",
+                                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/8c082212-ce87-4213-81f6-55c986c63c3d.png"
+                                        }
+                                    ],
+                                    "hasReward": false,
+                                    "unlockCondition": {
+                                        "udsStatName": "_autoGenTrophy_0004",
+                                        "comparator": "ge",
+                                        "targetValue": "1",
+                                        "isProgressive": false
+                                    },
+                                    "trophyGroupObjectId": "_baseGameGroup",
+                                    "platinumTrophyObjectId": "100PercentClear",
+                                    "name": {
+                                        "en-US": "NGamer1"
+                                    },
+                                    "description": {
+                                        "en-US": "Change your player name to NGamer1."
+                                    },
+                                    "reward": {
+                                        "name": {}
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "trophies": [
+            {
+                "objectId": "100PercentClear",
+                "metadata": {
+                    "trophyId": "0000",
+                    "sortKey": "0001",
+                    "hidden": false,
+                    "grade": "platinum",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/f4825cdf-ab9e-44bb-ac6b-ddf475360925.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "name": {
+                        "en-US": "100% Clear"
+                    },
+                    "description": {
+                        "en-US": "This is the platinum trophy and is unlocked automatically when all the trophies have been unlocked"
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "stayinAliveSolo",
+                "metadata": {
+                    "trophyId": "0001",
+                    "sortKey": "0002",
+                    "hidden": false,
+                    "grade": "gold",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/59407d0f-3422-4a9d-93d9-4dea3dcb7979.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "_autoGenTrophy_0001",
+                        "comparator": "ge",
+                        "targetValue": "1",
+                        "isProgressive": false
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "platinumTrophyObjectId": "100PercentClear",
+                    "name": {
+                        "en-US": "Stayin' Alive Solo"
+                    },
+                    "description": {
+                        "en-US": "Reach level 50 in Solo mode."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "stayinAliveParty",
+                "metadata": {
+                    "trophyId": "0002",
+                    "sortKey": "0003",
+                    "hidden": false,
+                    "grade": "gold",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/7034358b-c6ba-4c63-8f0c-a157fb3112d3.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "_autoGenTrophy_0002",
+                        "comparator": "ge",
+                        "targetValue": "1",
+                        "isProgressive": false
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "platinumTrophyObjectId": "100PercentClear",
+                    "name": {
+                        "en-US": "Stayin' Alive Together"
+                    },
+                    "description": {
+                        "en-US": "Reach level 50 in Party mode."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "cubeDestroyer",
+                "metadata": {
+                    "trophyId": "0003",
+                    "sortKey": "0004",
+                    "hidden": false,
+                    "grade": "bronze",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/bfa0ebac-9436-4794-9659-7bfc2c8ecd91.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "cubesDestroyed",
+                        "comparator": "ge",
+                        "targetValue": "10000",
+                        "isProgressive": true
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "platinumTrophyObjectId": "100PercentClear",
+                    "name": {
+                        "en-US": "Cube Destroyer I"
+                    },
+                    "description": {
+                        "en-US": "Eliminate 10,000 ZombCube's."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "cubeDestroyer",
+                "metadata": {
+                    "trophyId": "0004",
+                    "sortKey": "0005",
+                    "hidden": false,
+                    "grade": "silver",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/bfa0ebac-9436-4794-9659-7bfc2c8ecd91.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "cubesDestroyed",
+                        "comparator": "ge",
+                        "targetValue": "100000",
+                        "isProgressive": true
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "platinumTrophyObjectId": "100PercentClear",
+                    "name": {
+                        "en-US": "Cube Destroyer II"
+                    },
+                    "description": {
+                        "en-US": "Eliminate 100,000 ZombCube's."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "cubeDestroyer",
+                "metadata": {
+                    "trophyId": "0005",
+                    "sortKey": "0006",
+                    "hidden": false,
+                    "grade": "gold",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/bfa0ebac-9436-4794-9659-7bfc2c8ecd91.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "cubesDestroyed",
+                        "comparator": "ge",
+                        "targetValue": "1000000",
+                        "isProgressive": true
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "platinumTrophyObjectId": "100PercentClear",
+                    "name": {
+                        "en-US": "Cube Destroyer III"
+                    },
+                    "description": {
+                        "en-US": "Eliminate 1,000,000 ZombCube's."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "ricochetKing",
+                "metadata": {
+                    "trophyId": "0006",
+                    "sortKey": "0007",
+                    "hidden": false,
+                    "grade": "gold",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/8c082212-ce87-4213-81f6-55c986c63c3d.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "_autoGenTrophy_0003",
+                        "comparator": "ge",
+                        "targetValue": "1",
+                        "isProgressive": false
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "platinumTrophyObjectId": "100PercentClear",
+                    "name": {
+                        "en-US": "Ricochet King"
+                    },
+                    "description": {
+                        "en-US": "Eliminate 5 ZombCube's with a single projectile."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "triggerHappy",
+                "metadata": {
+                    "trophyId": "0007",
+                    "sortKey": "0008",
+                    "hidden": false,
+                    "grade": "bronze",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/c5fe244c-b20d-450d-812f-38ac6ad68435.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "projectilesFired",
+                        "comparator": "ge",
+                        "targetValue": "100000",
+                        "isProgressive": true
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "name": {
+                        "en-US": "Trigger Happy I"
+                    },
+                    "description": {
+                        "en-US": "Launch 100,000 Projectiles."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "triggerHappy",
+                "metadata": {
+                    "trophyId": "0008",
+                    "sortKey": "0009",
+                    "hidden": false,
+                    "grade": "silver",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/c5fe244c-b20d-450d-812f-38ac6ad68435.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "projectilesFired",
+                        "comparator": "ge",
+                        "targetValue": "1000000",
+                        "isProgressive": true
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "name": {
+                        "en-US": "Trigger Happy II"
+                    },
+                    "description": {
+                        "en-US": "Launch 1,000,000 Projectiles."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "triggerHappy",
+                "metadata": {
+                    "trophyId": "0009",
+                    "sortKey": "0010",
+                    "hidden": false,
+                    "grade": "gold",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/c5fe244c-b20d-450d-812f-38ac6ad68435.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "projectilesFired",
+                        "comparator": "ge",
+                        "targetValue": "10000000",
+                        "isProgressive": true
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "name": {
+                        "en-US": "Trigger Happy III"
+                    },
+                    "description": {
+                        "en-US": "Launch 10,000,000 Projectiles."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "objectId": "nGamer1",
+                "metadata": {
+                    "trophyId": "0010",
+                    "sortKey": "0011",
+                    "hidden": true,
+                    "grade": "gold",
+                    "images": [
+                        {
+                            "type": "512x512",
+                            "url": "https://apsnobj.stage.dl.playstation.net/apsnobj_stage/NPWR21430_00/8c082212-ce87-4213-81f6-55c986c63c3d.png"
+                        }
+                    ],
+                    "hasReward": false,
+                    "unlockCondition": {
+                        "udsStatName": "_autoGenTrophy_0004",
+                        "comparator": "ge",
+                        "targetValue": "1",
+                        "isProgressive": false
+                    },
+                    "trophyGroupObjectId": "_baseGameGroup",
+                    "platinumTrophyObjectId": "100PercentClear",
+                    "name": {
+                        "en-US": "NGamer1"
+                    },
+                    "description": {
+                        "en-US": "Change your player name to NGamer1."
+                    },
+                    "reward": {
+                        "name": {}
+                    }
+                },
+                "links": {
+                    "parentTrophyGroup": [
+                        {
+                            "object": {
+                                "objectId": "_baseGameGroup",
+                                "metadata": {
+                                    "trophyGroupId": "0000",
+                                    "sortKey": "0001",
+                                    "name": {},
+                                    "isBaseGameGroup": true
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
