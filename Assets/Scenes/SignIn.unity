@@ -8683,10 +8683,6 @@ PrefabInstance:
       propertyPath: m_UIInputModule
       value: 
       objectReference: {fileID: 701649320}
-    - target: {fileID: 8108663676993523998, guid: c815620d833a79445850f5a51541d7a3, type: 3}
-      propertyPath: m_NeverAutoSwitchControlSchemes
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20858,7 +20854,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1134320861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20866,7 +20862,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134320860}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
   m_Name: 
@@ -27824,6 +27820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d552bf0565aebc4f87ac7b8c9ee0263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  steamLeaderboardsInit: 0000000000
 --- !u!114 &1522244498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30433,7 +30430,7 @@ PrefabInstance:
       objectReference: {fileID: 954628588}
     - target: {fileID: 1764829390, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
       propertyPath: isSteam
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1764829390, guid: 435cbe85d5fbd0042896d7857187c420, type: 3}
       propertyPath: steamStats
@@ -30537,7 +30534,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c191abe8145fd0468e91a4b7b204a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerId: 0
 --- !u!114 &1764829403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30550,10 +30546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2aa9495617a7f4f84fad0def82d01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userID: 
-  iDToken: 
-  authCode: 
-  initialized: 0
 --- !u!114 &1764829404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30566,8 +30558,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f58e0e7a874e046a99967b7334789c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconMaterial: {fileID: 0}
-  initialized: 0
 --- !u!43 &1772487687
 Mesh:
   m_ObjectHideFlags: 0
