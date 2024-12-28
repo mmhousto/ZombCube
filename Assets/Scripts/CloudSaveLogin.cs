@@ -57,10 +57,7 @@ namespace Com.GCTC.ZombCube
         public bool gameCenterSignedIn = false;
         public bool loggedIn = false;
         public bool isSigningIn = false;
-
-#if UNITY_PS5
         public bool restricted = false;
-#endif
 
         // User Info.
         public string userName, userID;
