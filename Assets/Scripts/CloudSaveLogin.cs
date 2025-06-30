@@ -57,7 +57,6 @@ namespace Com.GCTC.ZombCube
         public bool gameCenterSignedIn = false;
         public bool loggedIn = false;
         public bool isSigningIn = false;
-
         public bool restricted = false;
 
         // User Info.

@@ -9,7 +9,6 @@ namespace Com.GCTC.ZombCube
     public class ControllerReconnect : MonoBehaviour
     {
         private static PlayerInput playerInput; // Reference to your PlayerInput component
-
 #if UNITY_PS5 && !UNITY_EDITOR
         public static PSUser mainUser;
         public static PSGamePad mainPlayerGamePad;
@@ -27,7 +26,7 @@ namespace Com.GCTC.ZombCube
 
         public static void ConnectController(PSUser pSUser)
         {
-#if UNITY_PS5
+#if UNITY_PS5 && !UNITY_EDITOR
                 if (pSUser != null)
                 {
                     mainUser = pSUser;
