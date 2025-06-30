@@ -82,7 +82,7 @@ namespace Com.GCTC.ZombCube
         public void SignInGoogle()
         {
 #if UNITY_ANDROID
-            CloudSaveLogin.Instance.LoginGooglePlayGames();
+            //CloudSaveLogin.Instance.LoginGooglePlayGames();
 #endif
         }
 

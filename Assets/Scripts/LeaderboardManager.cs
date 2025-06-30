@@ -4,9 +4,9 @@
 
 using PSNSample;
 using UnityEngine;
-#if UNITY_ANDROID
+/*#if UNITY_ANDROID
 using GooglePlayGames;
-#endif
+#endif*/
 
 namespace Com.GCTC.ZombCube
 {
