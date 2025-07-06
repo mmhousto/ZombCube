@@ -19,11 +19,6 @@ using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-#if UNITY_ANDROID
-using GooglePlayGames.BasicApi;
-using GooglePlayGames;
-using WebSocketSharp;
-#endif
 #if !DISABLESTEAMWORKS
 using Steamworks;
 #endif
@@ -57,10 +52,7 @@ namespace Com.GCTC.ZombCube
         public bool gameCenterSignedIn = false;
         public bool loggedIn = false;
         public bool isSigningIn = false;
-
-#if UNITY_PS5
         public bool restricted = false;
-#endif
 
         // User Info.
         public string userName, userID;
@@ -142,7 +134,7 @@ namespace Com.GCTC.ZombCube
             isSigningIn = false;
 #elif UNITY_ANDROID
             // Initializes Google Play Games Login
-            InitializePlayGamesLogin();
+            //InitializePlayGamesLogin();
 #elif UNITY_PS5 || UNITY_PS4
             //isSigningIn = true;
             //GetComponent<PSNManager>().Initialize();
@@ -560,8 +552,8 @@ namespace Com.GCTC.ZombCube
             }
 
 #if UNITY_ANDROID
-            if(PlayGamesPlatform.Instance.IsAuthenticated())
-                PlayGamesPlatform.Instance.SignOut();
+            /*if(PlayGamesPlatform.Instance.IsAuthenticated())
+                PlayGamesPlatform.Instance.SignOut();*/
 #endif
 
 #if UNITY_PS5 || UNITY_PS4
@@ -934,7 +926,7 @@ namespace Com.GCTC.ZombCube
 
         #region Google Play Auth
 
-#if UNITY_ANDROID
+/*#if UNITY_ANDROID
 
         void InitializePlayGamesLogin()
         {
@@ -947,7 +939,7 @@ namespace Com.GCTC.ZombCube
 
             PlayGamesPlatform.InitializeInstance(config);
             PlayGamesPlatform.DebugLogEnabled = true;
-            PlayGamesPlatform.Activate();*/
+            PlayGamesPlatform.Activate();
             //LoginGooglePlayGames();
         }
 
@@ -1047,7 +1039,7 @@ namespace Com.GCTC.ZombCube
             isSigningIn = false;
         }
         
-#endif
+#endif*/
 
         #endregion
 

@@ -42,8 +42,6 @@ PlayerSettings:
   m_SplashScreenLogos:
   - logo: {fileID: 10404, guid: 0000000000000000f000000000000000, type: 0}
     duration: 2
-  - logo: {fileID: 21300000, guid: fe00e5191a127bf44ab5106f35c8aebf, type: 3}
-    duration: 2
   - logo: {fileID: 21300000, guid: ce7f71d660fa4684d9f139cd7a8d12fe, type: 3}
     duration: 2
   m_VirtualRealitySplashScreen: {fileID: 0}
@@ -90,6 +88,7 @@ PlayerSettings:
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
   Force IOS Speakers When Recording: 0
+  audioSpatialExperience: 0
   deferSystemGesturesMode: 0
   hideHomeButton: 1
   submitAnalytics: 1
@@ -145,7 +144,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.0.0.0
+  bundleVersion: 0.9.0.0
   preloadedAssets:
   - {fileID: 0}
   - {fileID: 0}
@@ -159,6 +158,7 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 11400000, guid: af419c43525d84363bfd3ec036927c45, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -206,8 +206,10 @@ PlayerSettings:
   strictShaderVariantMatching: 0
   VertexChannelCompressionMask: 4054
   iPhoneSdkVersion: 988
+  iOSSimulatorArchitecture: 0
   iOSTargetOSVersionString: 12.0
   tvOSSdkVersion: 0
+  tvOSSimulatorArchitecture: 0
   tvOSRequireExtendedGameController: 1
   tvOSTargetOSVersionString: 12.0
   VisionOSSdkVersion: 0
@@ -775,6 +777,7 @@ PlayerSettings:
   switchSocketBufferEfficiency: 4
   switchSocketInitializeEnabled: 1
   switchNetworkInterfaceManagerInitializeEnabled: 1
+  switchDisableHTCSPlayerConnection: 0
   switchUseNewStyleFilepaths: 0
   switchUseLegacyFmodPriorities: 0
   switchUseMicroSleepForYield: 1
@@ -938,12 +941,12 @@ PlayerSettings:
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: GreenCountryTechnologyCen.ZombCube
-  metroPackageVersion: 0.7.0.0
+  metroPackageVersion: 0.9.0.0
   metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 989AA074-DBED-422A-9835-BFF5F3F45FA0
-  metroCertificateIssuer: 989AA074-DBED-422A-9835-BFF5F3F45FA0
-  metroCertificateNotAfter: 801e7a4bb973db01
+  metroCertificateSubject: GCTC
+  metroCertificateIssuer: GCTC
+  metroCertificateNotAfter: 00f50972de08dd01
   metroApplicationDescription: Cross Platform wave based survival game.
   wsaImages:
     65636: Assets/Screenshots/Logo/ZombCubeLogo-50.jpg
