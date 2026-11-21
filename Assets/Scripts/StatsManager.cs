@@ -77,9 +77,6 @@ namespace Com.GCTC.ZombCube
             achievementsButton.SetActive(false);
 #endif
 
-            if(CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-                deleteButton.SetActive(false);
-
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
             {
                 logoutButton.SetActive(false);

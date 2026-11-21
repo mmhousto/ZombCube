@@ -56,11 +56,7 @@ namespace Com.GCTC.ZombCube
             hash.Add("IsReady", false);
             hash.Add("Blaster", player.currentBlaster);
             hash.Add("Skin", player.currentSkin);
-#if UNITY_PS5 && !UNITY_EDITOR
-            hash.Add("AccountID", PSUser.GetActiveUserAccountID.ToString());
-#else
             hash.Add("AccountID", player.userID);
-#endif
             hash.Add("IsRestricted", CloudSaveLogin.Instance.restricted);
 
             PhotonNetwork.SetPlayerCustomProperties(hash);

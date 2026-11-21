@@ -81,9 +81,7 @@ namespace Com.GCTC.ZombCube
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-#if !UNITY_PLAYSTATION
             CustomAnalytics.SendGameStart();
-#endif
 
             if (mode == 1)
             {
@@ -152,7 +150,7 @@ namespace Com.GCTC.ZombCube
             CurrentRound += 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
-            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockStayinAlive();
             }
@@ -196,9 +194,7 @@ namespace Com.GCTC.ZombCube
             settingsScreen.SetActive(false);
             continueScreen.SetActive(false);
 
-#if !UNITY_PLAYSTATION
             CustomAnalytics.SendGameOver();
-#endif
         }
 
         public void Restart()
@@ -211,10 +207,6 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-#if UNITY_PS5 && !UNITY_EDITOR
-                PSUDS.PostUDSStartEvent("activitySolo");
-                PSUDS.PostUDSStartEvent("activityBossCube");
-#endif
             }
             SceneLoader.PlayGame();
         }
@@ -247,10 +239,6 @@ namespace Com.GCTC.ZombCube
             }
             else
             {
-#if UNITY_PS5 && !UNITY_EDITOR
-                if (isPaused == true && isGameOver == false)
-                    PSUDS.PostUDSEndEvent("abandoned", CurrentRound);
-#endif
             }
 
             SceneLoader.ToMainMenu();
@@ -288,9 +276,6 @@ namespace Com.GCTC.ZombCube
             else
             {
                 playerInput.actions.Disable();
-#if UNITY_PS5 && !UNITY_EDITOR
-                PSUDS.PostUDSEndEvent("completed", CurrentRound);
-#endif
             }
 
 
