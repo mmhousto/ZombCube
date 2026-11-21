@@ -46,9 +46,7 @@ namespace Com.GCTC.ZombCube
 
         public void CallIAPAnalyticsEvent()
         {
-#if !UNITY_PLAYSTATION
             CustomAnalytics.SendIAPComplete();
-#endif
         }
 
     }

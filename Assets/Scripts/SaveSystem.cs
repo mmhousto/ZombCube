@@ -14,23 +14,14 @@ namespace Com.GCTC.ZombCube
         /// <param name="player"></param>
         public static void SavePlayer(Player player)
         {
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-#if UNITY_PS5
-                PSSaveData.singleton.StartAutoSave();
-#endif
-            }
-            else
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                string path = Application.persistentDataPath + "/playerData.hax";
-                FileStream stream = new FileStream(path, FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+            string path = Application.persistentDataPath + "/playerData.hax";
+            FileStream stream = new FileStream(path, FileMode.Create);
 
-                SaveData data = new SaveData(player);
+            SaveData data = new SaveData(player);
 
-                formatter.Serialize(stream, data);
-                stream.Close();
-            }
+            formatter.Serialize(stream, data);
+            stream.Close();
         }
 
         /// <summary>
@@ -60,17 +51,8 @@ namespace Com.GCTC.ZombCube
 
         public static void DeletePlayer()
         {
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-#if UNITY_PS5
-                PSSaveData.singleton.DeleteSaveData();
-#endif
-            }
-            else
-            {
-                string path = Application.persistentDataPath + "/playerData.hax";
-                File.Delete(path);
-            }
+            string path = Application.persistentDataPath + "/playerData.hax";
+            File.Delete(path);
 
 #if UNITY_EDITOR
  UnityEditor.AssetDatabase.Refresh();

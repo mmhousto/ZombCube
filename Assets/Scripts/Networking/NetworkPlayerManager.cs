@@ -137,11 +137,7 @@ namespace Com.GCTC.ZombCube
 
 #endif
 
-#if UNITY_PS5 && !UNITY_EDITOR
-                photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.userName, PSUser.GetActiveUserAccountID.ToString(), player.currentBlaster, player.currentSkin);
-#else
                 photonView.RPC(nameof(SetPlayerInfo), RpcTarget.AllBuffered, player.playerName, player.userName, null, player.currentBlaster, player.currentSkin);
-#endif
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
                 healthPoints = 100f;
@@ -697,9 +693,6 @@ namespace Com.GCTC.ZombCube
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
             }
-#if UNITY_PS5 && !UNITY_EDITOR
-                LeaderboardManager.UpdatePSNStats(player);
-#endif
         }
 
         private void UpdateStats()
@@ -731,15 +724,15 @@ namespace Com.GCTC.ZombCube
             if(player != null)
                 player.points += currentPoints;
 
-            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerI();
             }
-            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerII();
             }
-            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerIII();
             }
@@ -804,26 +797,7 @@ namespace Com.GCTC.ZombCube
         {
             playerName = name;
 
-#if UNITY_PS5 && !UNITY_EDITOR
-            if (CloudSaveLogin.Instance.restricted)
-                playerNameText.text = username;
-            else
-                playerNameText.text = playerName + "<br>" + username;
-
-            PSUserProfiles.GetBlockedUsers();
-            if(PSUserProfiles.blockedUsers.Count > 0 && accountID != null)
-            {
-                foreach(ulong blockedUser in PSUserProfiles.blockedUsers)
-                {
-                    if(accountID == blockedUser.ToString())
-                    {
-                        playerNameText.text = username;
-                    }
-                }
-            }
-#else
             playerNameText.text = playerName + "<br>" + username;
-#endif
 
             GetComponentInChildren<MeshRenderer>().material = blasterMaterial[skinIndex];
 

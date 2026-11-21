@@ -5,7 +5,6 @@ using UnityEngine.Analytics;
 
 static public class CustomAnalytics
 {
-#if !UNITY_PLAYSTATION
     static public void SendGameStart()
     {
         AnalyticsEvent.GameStart();
@@ -40,5 +39,4 @@ static public class CustomAnalytics
     {
         AnalyticsEvent.Custom("Player Name", customParameters);
     }
-#endif
 }

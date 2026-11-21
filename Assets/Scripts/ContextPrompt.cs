@@ -42,24 +42,14 @@ namespace Com.GCTC.ZombCube
                 else if (!IsXboxController(controllerName) && !IsPlayStationController(controllerName))
                 {
 
-#if UNITY_PS5
-                    if (image.sprite != ps)
-                        image.sprite = ps;
-#else
                     if (image.sprite != xbox)
                         image.sprite = xbox;
-#endif
                 }
             }
             else
             {
-#if UNITY_PS5
-                if (image.sprite != ps)
-                    image.sprite = ps;
-#else
                 if (image.sprite != pc)
                     image.sprite = pc;
-#endif
 
 #if (UNITY_IOS || UNITY_ANDROID)
                 if (image.enabled == true)

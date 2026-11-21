@@ -56,11 +56,7 @@ namespace Com.GCTC.ZombCube
             hash.Add("IsReady", false);
             hash.Add("Blaster", player.currentBlaster);
             hash.Add("Skin", player.currentSkin);
-#if UNITY_PS5 && !UNITY_EDITOR
-            hash.Add("AccountID", PSUser.GetActiveUserAccountID.ToString());
-#else
             hash.Add("AccountID", player.userID);
-#endif
             hash.Add("IsRestricted", CloudSaveLogin.Instance.restricted);
 
             PhotonNetwork.SetPlayerCustomProperties(hash);
@@ -99,7 +95,8 @@ namespace Com.GCTC.ZombCube
 
             foreach (var player in PhotonNetwork.PlayerList)
             {
-                if ((bool)player.CustomProperties["IsReady"] == false)
+                // A player who just joined may not have set IsReady yet; treat that as not ready.
+                if (!(player.CustomProperties.TryGetValue("IsReady", out object ready) && ready is bool isReady && isReady))
                 {
                     return false;
                 }

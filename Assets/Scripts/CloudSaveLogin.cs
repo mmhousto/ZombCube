@@ -6,7 +6,6 @@ using AppleAuth.Enums;
 using AppleAuth.Extensions;
 using AppleAuth.Interfaces;
 using AppleAuth.Native;
-using PSNSample;
 //using Facebook.Unity;
 using System;
 using System.Collections;
@@ -36,7 +35,7 @@ namespace Com.GCTC.ZombCube
         public static CloudSaveLogin Instance { get { return instance; } }
 
         // What SSO Option the use is using atm.
-        public enum ssoOption { Anonymous, Facebook, Google, Apple, Steam, PS }
+        public enum ssoOption { Anonymous, Facebook, Google, Apple, Steam }
 
         // Player Data Object
         public Player player;
@@ -98,11 +97,6 @@ namespace Com.GCTC.ZombCube
 
                 SetPlayer(userID);
 
-#if UNITY_PS5 && !UNITY_EDITOR
-                userName = PSUser.GetActiveUserName;
-
-                player.userName = userName;
-#endif
 
                 Login();
                 return;
@@ -135,9 +129,6 @@ namespace Com.GCTC.ZombCube
 #elif UNITY_ANDROID
             // Initializes Google Play Games Login
             //InitializePlayGamesLogin();
-#elif UNITY_PS5 || UNITY_PS4
-            //isSigningIn = true;
-            //GetComponent<PSNManager>().Initialize();
 #else
             if (isSteam && SteamManager.Initialized)
             {
@@ -181,18 +172,6 @@ namespace Com.GCTC.ZombCube
             }
 #endif
 
-#if UNITY_PS5 && !UNITY_EDITOR
-            if(player.userName != PSUser.GetActiveUserName && PSUser.GetActiveUser.gamePad.loggedInUser.primaryUser)
-            {
-                userName = PSUser.GetActiveUserName;
-                player.userName = userName;
-            } 
-            if(player.userID != PSUser.GetActiveUserId.ToString() && PSUser.GetActiveUser.gamePad.loggedInUser.primaryUser)
-            {
-                userID = PSUser.GetActiveUserId.ToString();
-                player.userID = userID;
-            }
-#endif
 
         }
 
@@ -239,38 +218,25 @@ namespace Com.GCTC.ZombCube
 
         public async void DeleteAccount()
         {
-            if (currentSSO == ssoOption.PS)
-            {
-                SaveSystem.DeletePlayer();
-                userID = "";
-                userName = "";
-#if UNITY_PS5
-                GetComponent<PSAuth>().ResetInit();
-#endif
-            }
-            else
-            {
-                await ForceDeleteSpecificData(userID);
-                SaveSystem.DeletePlayer();
-                await AuthenticationService.Instance.DeleteAccountAsync();
+            await ForceDeleteSpecificData(userID);
+            SaveSystem.DeletePlayer();
+            await AuthenticationService.Instance.DeleteAccountAsync();
 
-                userID = "";
-                userName = "";
+            userID = "";
+            userName = "";
 
-                if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            {
+                this.appleAuthManager.SetCredentialsRevokedCallback(result =>
                 {
-                    this.appleAuthManager.SetCredentialsRevokedCallback(result =>
-                    {
-                        // Sign in with Apple Credentials were revoked.
-                        // Discard credentials/user id and go to login screen.
+                    // Sign in with Apple Credentials were revoked.
+                    // Discard credentials/user id and go to login screen.
 
-                        PlayerPrefs.SetString("AppleUserIdKey", "");
-                        PlayerPrefs.SetString("AppleUserNameKey", "");
-                        PlayerPrefs.SetString("AppleTokenIdKey", "");
-                    });
-                }
+                    PlayerPrefs.SetString("AppleUserIdKey", "");
+                    PlayerPrefs.SetString("AppleUserNameKey", "");
+                    PlayerPrefs.SetString("AppleTokenIdKey", "");
+                });
             }
-
 
             LogoutScreenActivate();
         }
@@ -306,11 +272,6 @@ namespace Com.GCTC.ZombCube
                 userName = "Guest_" + userID;
                 SetPlayer(userID);
 
-#if UNITY_PS5 && !UNITY_EDITOR
-                userName = PSUser.GetActiveUserName;
-
-                player.userName = userName;
-#endif
 
                 Login();
             }
@@ -331,41 +292,6 @@ namespace Com.GCTC.ZombCube
             await SignInAnonymouslyAsync();
         }
 
-#if UNITY_PS5 && !UNITY_EDITOR
-        public void PSAuthInit()
-        {
-            GetComponent<PSAuth>().Initialize();
-        }
-
-        public void PSSignIn()
-        {
-            GetComponent<PSNManager>().Initialize();
-        }
-
-        public void SignInPS(string psnUserID, string tokenID, string authCode)
-        {
-            currentSSO = ssoOption.PS;
-
-            if (PSSaveData.singleton.initialized)
-                PSSaveData.singleton.StartAutoSaveLoad();
-            else
-                PSSaveData.singleton.InitializeSaveData();
-
-            PSUDS.Initialize();
-            PSTrophies.Initialize();
-
-            userID = PSUser.GetActiveUserId.ToString();
-            userName = PSUser.GetActiveUserName;
-
-            player.userID = userID;
-            player.userName = userName;
-
-            //SetPlayer(psnUserID, psnUserID);
-
-            Login();
-
-        }
-#endif
 
         /*
         /// <summary>
@@ -556,9 +482,6 @@ namespace Com.GCTC.ZombCube
                 PlayGamesPlatform.Instance.SignOut();*/
 #endif
 
-#if UNITY_PS5 || UNITY_PS4
-            GetComponent<PSAuth>().ResetInit();
-#endif
 
             ResetPlayer();
         }
@@ -1131,11 +1054,6 @@ namespace Com.GCTC.ZombCube
 
                 SetPlayer(userID);
 
-#if UNITY_PS5 && !UNITY_EDITOR
-                userName = PSUser.GetActiveUserName;
-
-                player.userName = userName;
-#endif
 
                 Login();
 
@@ -1156,7 +1074,7 @@ namespace Com.GCTC.ZombCube
         }
 
         /// <summary>
-        /// Signs in an anonymous player for PSN.
+        /// Signs in an anonymous player.
         /// </summary>
         /// <returns></returns>
         async Task SignInAnonymouslyAsync(string userID)
@@ -1167,11 +1085,6 @@ namespace Com.GCTC.ZombCube
 
                 SetPlayer(AuthenticationService.Instance.PlayerId, userID);
 
-#if UNITY_PS5 && !UNITY_EDITOR
-                userName = PSUser.GetActiveUserName;
-
-                player.userName = userName;
-#endif
 
                 Login();
 

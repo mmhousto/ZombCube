@@ -162,9 +162,7 @@ namespace Com.GCTC.ZombCube
 
             if (NetworkSpawner.Instance.hasStarted == false)
             {
-#if !UNITY_PLAYSTATION
                 CustomAnalytics.SendGameStart();
-#endif
 
                 NetworkSpawner.Instance.hasStarted = true;
             }
@@ -365,9 +363,7 @@ namespace Com.GCTC.ZombCube
             continueScreen.SetActive(false);
             isContinue = false;
 
-#if !UNITY_PLAYSTATION
             CustomAnalytics.SendGameOver();
-#endif
         }
 
         [PunRPC]
@@ -377,7 +373,7 @@ namespace Com.GCTC.ZombCube
             playersEliminated = 0;
             CurrentRound += 1;
 
-            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockStayinAliveTogether();
             }

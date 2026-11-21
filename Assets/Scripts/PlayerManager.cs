@@ -4,9 +4,6 @@
 
 using System.Collections;
 using TMPro;
-#if UNITY_PS5
-using Unity.PSN.PS5.UDS;
-#endif
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -188,10 +185,6 @@ namespace Com.GCTC.ZombCube
 
             if (healthPoints <= 0 && isGameOver == false)
             {
-#if UNITY_PS5 && !UNITY_EDITOR
-                if(GameManager.Instance.bossCubeDefeated == false)
-                    PSUDS.PostUDSEndEvent("failed", GameManager.Instance.CurrentRound);
-#endif
                 healthPoints = 0;
 
                 SaveDataEndGame();
@@ -447,24 +440,21 @@ namespace Com.GCTC.ZombCube
                 LeaderboardManager.UpdateAccuracyLeaderboard();
 
             }
-#if UNITY_PS5 && !UNITY_EDITOR
-                LeaderboardManager.UpdatePSNStats(player);
-#endif
         }
 
         private void UpdateTotalPoints()
         {
             player.points += currentPoints;
 
-            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerI();
             }
-            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerII();
             }
-            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS))
+            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerIII();
             }

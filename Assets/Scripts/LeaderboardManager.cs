@@ -2,7 +2,6 @@
 #define DISABLESTEAMWORKS
 #endif
 
-using PSNSample;
 using UnityEngine;
 /*#if UNITY_ANDROID
 using GooglePlayGames;
@@ -26,21 +25,6 @@ namespace Com.GCTC.ZombCube
 
         }
 #endif
-
-        public static void UpdatePSNStats(Player player)
-        {
-#if UNITY_PS5
-            if (player != null)
-            {
-                PSTrophies.IncreaseProgressStat(player.totalPointsEarned, "UpdateTotalPoints", "custom");
-                PSTrophies.IncreaseProgressStat(player.coins, "UpdateCoins", "custom");
-                PSTrophies.IncreaseProgressStat(player.highestWave, "UpdateWaveSolo", "custom");
-                PSTrophies.IncreaseProgressStat(player.highestWaveParty, "UpdateWaveParty", "custom");
-                PSTrophies.IncreaseProgressStat(player.cubesEliminated, "UpdateCubesDestroyed", "custom");
-                PSTrophies.IncreaseProgressStat(player.totalProjectilesFired, "UpdateProjectilesFired", "custom");
-            }
-#endif
-        }
 
         public static void UpdateMostPointsLeaderboard()
         {
@@ -178,12 +162,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if(CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.StayinAliveSolo);
-            }
-#endif
         }
 
         public static void UnlockStayinAliveTogether()
@@ -202,12 +180,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.StayinAliveParty);
-            }
-#endif
         }
 
         public static void UnlockCubeDestroyerI()
@@ -226,12 +198,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.CubeDestroyerI);
-            }
-#endif
         }
 
         public static void UnlockCubeDestroyerII()
@@ -250,12 +216,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.CubeDestroyerII);
-            }
-#endif
         }
 
         public static void UnlockCubeDestroyerIII()
@@ -274,12 +234,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.CubeDestroyerIII);
-            }
-#endif
         }
 
         public static void UnlockRicochetKing()
@@ -298,12 +252,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.RicochetKing);
-            }
-#endif
 #if !DISABLESTEAMWORKS
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {
@@ -328,12 +276,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.TriggerHappyI);
-            }
-#endif
         }
 
         public static void UnlockTriggerHappyII()
@@ -352,12 +294,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.TriggerHappyII);
-            }
-#endif
         }
 
         public static void UnlockTriggerHappyIII()
@@ -376,12 +312,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.TriggerHappyIII);
-            }
-#endif
         }
 
         public static void UnlockNGamer1()
@@ -400,12 +330,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.Hidden);
-            }
-#endif
 #if !DISABLESTEAMWORKS
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {
@@ -430,12 +354,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.PointRackerI);
-            }
-#endif
         }
 
         public static void UnlockPointRackerII()
@@ -454,12 +372,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.PointRackerII);
-            }
-#endif
         }
 
         public static void UnlockPointRackerIII()
@@ -478,12 +390,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.PointRackerIII);
-            }
-#endif
         }
 
         public static void UnlockLetsPlay()
@@ -502,12 +408,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.LetsPlay);
-            }
-#endif
 #if !DISABLESTEAMWORKS
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {
@@ -532,12 +432,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.LetsPlayTogether);
-            }
-#endif
 #if !DISABLESTEAMWORKS
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {
@@ -562,12 +456,6 @@ namespace Com.GCTC.ZombCube
                     // handle success or failure
                 });
             }
-#if UNITY_PS5
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.PS)
-            {
-                PSTrophies.UnlockTrophy((int)PSTrophies.Trophies.LetsParty);
-            }
-#endif
 #if !DISABLESTEAMWORKS
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {

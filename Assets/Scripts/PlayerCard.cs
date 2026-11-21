@@ -25,36 +25,20 @@ namespace Com.GCTC.ZombCube
         /// <param name="player">Player properties to update and display</param>
         public void UpdateDisplay(Photon.Realtime.Player player)
         {
-#if UNITY_PS5 && !UNITY_EDITOR
-            if (CloudSaveLogin.Instance.restricted || (bool)player.CustomProperties["IsRestricted"])
-                playerName.text = (string)player.CustomProperties["UserName"];
-            else
-                playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
+            // Properties may not be set yet when a player has just joined the room.
+            var props = player.CustomProperties;
+            playerName.text = (props["PlayerName"] as string) + "<br>" + (props["UserName"] as string);
+            isReadyToggle.isOn = props.TryGetValue("IsReady", out object ready) && ready is bool isReady && isReady;
 
-            OnScreenLog.Add("Custom Property Account ID: " + (string)player.CustomProperties["AccountID"]);
+            if (props.TryGetValue("Skin", out object skin) && skin is int skinIndex)
+                playerSkin.material = MaterialSelector.Instance.materials[skinIndex];
 
-            PSUserProfiles.GetBlockedUsers();
-            if(PSUserProfiles.blockedUsers.Count > 0)
+            if (props.TryGetValue("Blaster", out object blasterProp) && blasterProp is int blasterIndex)
             {
-                foreach(ulong blockedUser in PSUserProfiles.blockedUsers)
+                foreach (GameObject item in blaster)
                 {
-                    OnScreenLog.Add("Blocked User: " + blockedUser.ToString());
-                    if((string)player.CustomProperties["AccountID"] == blockedUser.ToString())
-                    {
-                        playerName.text = (string)player.CustomProperties["UserName"];
-                    }
+                    item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[blasterIndex];
                 }
-            }
-#else
-            playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
-#endif
-            isReadyToggle.isOn = (bool)player.CustomProperties["IsReady"];
-
-            playerSkin.material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Skin"]];
-
-            foreach (GameObject item in blaster)
-            {
-                item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Blaster"]];
             }
 
             waitingForPlayerPanel.SetActive(false);
