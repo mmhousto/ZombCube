@@ -6,6 +6,11 @@ name: Unity license request
 # returned .ulf into the UNITY_LICENSE secret.
 on:
   workflow_dispatch:
+  # Temporary: runs when this file changes on Chad, because manual dispatch
+  # only works for workflows on the default branch.
+  push:
+    branches: [Chad]
+    paths: [".github/workflows/unity-license-request.yml"]
 
 permissions:
   contents: read
