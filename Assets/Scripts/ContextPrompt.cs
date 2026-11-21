@@ -8,7 +8,7 @@ namespace Com.GCTC.ZombCube
 {
     public class ContextPrompt : MonoBehaviour
     {
-        public Sprite pc, xbox;
+        public Sprite pc, xbox, ps;
         private Image image;
         // Start is called before the first frame update
         void Start()
@@ -29,9 +29,22 @@ namespace Com.GCTC.ZombCube
         {
             if (Gamepad.current != null)
             {
-                // Any connected gamepad uses the Xbox prompts.
-                if (image.sprite != xbox)
+                string controllerName = Gamepad.current.displayName.ToLower();
+
+                if (IsXboxController(controllerName) && image.sprite != xbox)
+                {
                     image.sprite = xbox;
+                }
+                else if (IsPlayStationController(controllerName) && (image.sprite != ps))
+                {
+                    image.sprite = ps;
+                }
+                else if (!IsXboxController(controllerName) && !IsPlayStationController(controllerName))
+                {
+
+                    if (image.sprite != xbox)
+                        image.sprite = xbox;
+                }
             }
             else
             {
@@ -44,6 +57,16 @@ namespace Com.GCTC.ZombCube
 #endif
             }
 
+        }
+
+        bool IsXboxController(string controllerName)
+        {
+            return controllerName.Contains("xbox");
+        }
+
+        bool IsPlayStationController(string controllerName)
+        {
+            return controllerName.Contains("dualshock") || controllerName.Contains("dual sense") || controllerName.Contains("ps4") || controllerName.Contains("ps5");
         }
     }
 }
