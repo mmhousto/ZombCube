@@ -25,14 +25,20 @@ namespace Com.GCTC.ZombCube
         /// <param name="player">Player properties to update and display</param>
         public void UpdateDisplay(Photon.Realtime.Player player)
         {
-            playerName.text = (string)player.CustomProperties["PlayerName"] + "<br>" + (string)player.CustomProperties["UserName"];
-            isReadyToggle.isOn = (bool)player.CustomProperties["IsReady"];
+            // Properties may not be set yet when a player has just joined the room.
+            var props = player.CustomProperties;
+            playerName.text = (props["PlayerName"] as string) + "<br>" + (props["UserName"] as string);
+            isReadyToggle.isOn = props.TryGetValue("IsReady", out object ready) && ready is bool isReady && isReady;
 
-            playerSkin.material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Skin"]];
+            if (props.TryGetValue("Skin", out object skin) && skin is int skinIndex)
+                playerSkin.material = MaterialSelector.Instance.materials[skinIndex];
 
-            foreach (GameObject item in blaster)
+            if (props.TryGetValue("Blaster", out object blasterProp) && blasterProp is int blasterIndex)
             {
-                item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[(int)player.CustomProperties["Blaster"]];
+                foreach (GameObject item in blaster)
+                {
+                    item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[blasterIndex];
+                }
             }
 
             waitingForPlayerPanel.SetActive(false);

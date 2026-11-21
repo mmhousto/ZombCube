@@ -95,7 +95,8 @@ namespace Com.GCTC.ZombCube
 
             foreach (var player in PhotonNetwork.PlayerList)
             {
-                if ((bool)player.CustomProperties["IsReady"] == false)
+                // A player who just joined may not have set IsReady yet; treat that as not ready.
+                if (!(player.CustomProperties.TryGetValue("IsReady", out object ready) && ready is bool isReady && isReady))
                 {
                     return false;
                 }

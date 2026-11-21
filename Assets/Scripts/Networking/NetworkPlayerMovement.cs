@@ -37,10 +37,13 @@ namespace Com.GCTC.ZombCube
 
         private void Awake()
         {
-            if (!this.photonView.IsMine && this != null)
+            if (!this.photonView.IsMine)
             {
-                Destroy(this);
-                Destroy(GetComponent<PlayerInput>());
+                // Disable rather than Destroy: PUN caches this GameObject's MonoBehaviours for RPC lookup,
+                // and destroyed entries in that cache log "missing MonoBehaviours" on every RPC.
+                enabled = false;
+                PlayerInput input = GetComponent<PlayerInput>();
+                if (input != null) input.enabled = false;
             }
         }
 
