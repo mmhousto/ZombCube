@@ -52,7 +52,7 @@ jobs:
           retention-days: 14
 
   build:
-    name: Unity build (Linux)
+    name: Unity build (WebGL)
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -68,12 +68,12 @@ jobs:
           restore-keys: |
             Library-build-
 
-      - name: Build StandaloneLinux64
+      - name: Build WebGL
         uses: game-ci/unity-builder@eb1b9fba120c6e62c9fb7a7a81d6c107ce004c45 # v6.0.0
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          targetPlatform: StandaloneLinux64
+          targetPlatform: WebGL
           buildName: ZombCube
           buildsPath: builds
           githubToken: ${{ secrets.GITHUB_TOKEN }}
@@ -81,7 +81,7 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: unity-build-linux
+          name: unity-build-webgl
           path: builds
           if-no-files-found: error
           retention-days: 7
