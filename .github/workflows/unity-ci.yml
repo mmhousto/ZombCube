@@ -19,6 +19,10 @@ jobs:
   tests:
     name: Unity EditMode tests
     runs-on: ubuntu-latest
+    # Lets the test runner publish its "Test Results" check. Only this job gets it.
+    permissions:
+      contents: read
+      checks: write
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
