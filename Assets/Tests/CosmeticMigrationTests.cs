@@ -13,6 +13,25 @@ public class CosmeticMigrationTests
     }
 
     [Test]
+    public void LegacyIndexesKeepTheirIds()
+    {
+        // Saves made before IDs existed store these indexes. Never change this order.
+        string[] legacy = { "default", "green", "blue", "yellow", "pink", "legend", "osu", "ou", "gold" };
+        for (int i = 0; i < legacy.Length; i++)
+            Assert.AreEqual(legacy[i], CosmeticCatalog.IdAt(i), "Legacy index " + i);
+    }
+
+    [Test]
+    public void LegacyGoldOwnershipSurvivesMigration()
+    {
+        int[] flags = { 1, 0, 0, 0, 0, 0, 0, 0, 1 };
+        string[] ids = SaveMigration.IdsFromFlags(flags);
+        CollectionAssert.Contains(ids, "gold");
+        Assert.AreEqual(1, SaveMigration.FlagsFromIds(ids)[8]);
+        Assert.AreEqual(8, SaveMigration.EquippedIndexFromId(SaveMigration.EquippedIdFromIndex(8)));
+    }
+
+    [Test]
     public void ColorIdsFitInOwnershipArrays()
     {
         Assert.LessOrEqual(CosmeticCatalog.ColorIds.Length, CosmeticCatalog.OwnershipSize);

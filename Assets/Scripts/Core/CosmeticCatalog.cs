@@ -1,8 +1,8 @@
 namespace Com.GCTC.ZombCube
 {
     /// <summary>
-    /// Stable IDs for cosmetic colours. Each ID is the position of its material
-    /// in MaterialSelector.materials, which skins and blasters both use.
+    /// Stable IDs for cosmetic colours. Each ID's position is its index in the
+    /// runtime material list, which skins and blasters both use.
     /// Never rename or reorder an ID once it has shipped: saves store the ID.
     /// Add new colours at the end and add their material to MaterialSelector too.
     /// </summary>
@@ -13,14 +13,16 @@ namespace Com.GCTC.ZombCube
 
         public static readonly string[] ColorIds =
         {
+            // Original nine. Indexes must match the shipped material order.
             "default", // DefaultBlaster.mat
             "green",   // GreenBlaster.mat
             "blue",    // BlueBlaster.mat
             "yellow",  // YellowBlaster.mat
             "pink",    // PinkBlaster.mat
-            "legend",  // LegendBlaster.mat
-            "osu",     // OSUBlaster.mat
-            "ou",      // OU Blaster.mat
+            "legend",  // ForceField.mat
+            "osu",     // ForceField OSU.mat
+            "ou",      // ForceField OU.mat
+            "gold",    // Gold.mat
         };
 
         public static int IndexOf(string id)
