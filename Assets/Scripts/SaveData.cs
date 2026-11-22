@@ -21,6 +21,16 @@ namespace Com.GCTC.ZombCube
         public int totalPointsEarned = 0;
         public int totalProjectilesFired = 0;
 
+        // Stable cosmetic IDs (see CosmeticCatalog). These are the saved source of truth.
+        // The index fields above are kept in sync for the existing runtime code.
+        public int schemaVersion = 0;
+        public string[] ownedBlasterIds;
+        public string[] ownedSkinIds;
+        public string equippedBlasterId;
+        public string equippedSkinId;
+
+        public const int CurrentSchemaVersion = 2;
+
         public SaveData()
         {
             userID = "";
@@ -32,9 +42,9 @@ namespace Com.GCTC.ZombCube
             highestWave = 0;
             highestWaveParty = 0;
             currentBlaster = 0;
-            ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+            ownedBlasters = SaveMigration.NewOwnership();
             currentSkin = 0;
-            ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+            ownedSkins = SaveMigration.NewOwnership();
             cubesEliminated = 0;
             totalPointsEarned = 0;
             totalProjectilesFired = 0;
@@ -57,6 +67,47 @@ namespace Com.GCTC.ZombCube
             cubesEliminated = player.cubesEliminated;
             totalPointsEarned = player.totalPointsEarned;
             totalProjectilesFired = player.totalProjectilesFired;
+
+            ownedBlasterIds = SaveMigration.IdsFromFlags(player.ownedBlasters);
+            ownedSkinIds = SaveMigration.IdsFromFlags(player.ownedSkins);
+            equippedBlasterId = SaveMigration.EquippedIdFromIndex(player.currentBlaster);
+            equippedSkinId = SaveMigration.EquippedIdFromIndex(player.currentSkin);
+            schemaVersion = CurrentSchemaVersion;
+        }
+
+        /// <summary>
+        /// Brings any save (old index-only, or ID-based) to the current format and
+        /// keeps the index fields in sync with the IDs. Safe to call more than once.
+        /// </summary>
+        public void Normalize()
+        {
+            if (ownedBlasterIds == null)
+                ownedBlasterIds = SaveMigration.IdsFromFlags(ownedBlasters);
+            ownedBlasters = SaveMigration.FlagsFromIds(ownedBlasterIds);
+
+            if (ownedSkinIds == null)
+                ownedSkinIds = SaveMigration.IdsFromFlags(ownedSkins);
+            ownedSkins = SaveMigration.FlagsFromIds(ownedSkinIds);
+
+            if (equippedBlasterId == null)
+                equippedBlasterId = SaveMigration.EquippedIdFromIndex(currentBlaster);
+            currentBlaster = SaveMigration.EquippedIndexFromId(equippedBlasterId);
+            if (ownedBlasters[currentBlaster] != 1)
+            {
+                currentBlaster = 0;
+                equippedBlasterId = CosmeticCatalog.ColorIds[0];
+            }
+
+            if (equippedSkinId == null)
+                equippedSkinId = SaveMigration.EquippedIdFromIndex(currentSkin);
+            currentSkin = SaveMigration.EquippedIndexFromId(equippedSkinId);
+            if (ownedSkins[currentSkin] != 1)
+            {
+                currentSkin = 0;
+                equippedSkinId = CosmeticCatalog.ColorIds[0];
+            }
+
+            schemaVersion = CurrentSchemaVersion;
         }
     }
 

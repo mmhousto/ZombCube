@@ -7,52 +7,79 @@ namespace Com.GCTC.ZombCube
 
     public static class SaveSystem
     {
+        // Current local save format (JSON). Older builds wrote a binary file (.hax);
+        // it is read once, converted to JSON, and kept as a backup.
+        private const string JsonFileName = "/playerData.json";
+        private const string LegacyFileName = "/playerData.hax";
+
+        private static string JsonPath => Application.persistentDataPath + JsonFileName;
+        private static string LegacyPath => Application.persistentDataPath + LegacyFileName;
 
         /// <summary>
-        /// Saves the player's data to a file in binary by serialization.
+        /// Saves the player's data to a JSON file.
         /// </summary>
         /// <param name="player"></param>
         public static void SavePlayer(Player player)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            string path = Application.persistentDataPath + "/playerData.hax";
-            FileStream stream = new FileStream(path, FileMode.Create);
-
             SaveData data = new SaveData(player);
-
-            formatter.Serialize(stream, data);
-            stream.Close();
+            File.WriteAllText(JsonPath, JsonUtility.ToJson(data));
         }
 
         /// <summary>
-        /// Loads the player's data after deserializing it and returns it.
+        /// Loads the player's data and returns it in the current format.
         /// </summary>
         /// <returns></returns>
         public static SaveData LoadPlayer()
         {
-            string path = Application.persistentDataPath + "/playerData.hax";
-            if (File.Exists(path))
+            if (File.Exists(JsonPath))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                FileStream stream = new FileStream(path, FileMode.Open);
-
-                SaveData data = formatter.Deserialize(stream) as SaveData;
-                stream.Close();
-
-                return data;
+                SaveData data = JsonUtility.FromJson<SaveData>(File.ReadAllText(JsonPath));
+                if (data != null)
+                {
+                    data.Normalize();
+                    return data;
+                }
             }
-            else
+
+            if (File.Exists(LegacyPath))
             {
-                Debug.Log("Save file not found in " + path);
-                SaveData data = new SaveData();
-                return data;
+                SaveData legacy = ReadLegacyBinary(LegacyPath);
+                if (legacy != null)
+                {
+                    legacy.Normalize();
+                    File.WriteAllText(JsonPath, JsonUtility.ToJson(legacy));
+                    return legacy;
+                }
+            }
+
+            Debug.Log("Save file not found in " + Application.persistentDataPath);
+            SaveData fresh = new SaveData();
+            fresh.Normalize();
+            return fresh;
+        }
+
+        private static SaveData ReadLegacyBinary(string path)
+        {
+            try
+            {
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    return new BinaryFormatter().Deserialize(stream) as SaveData;
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning("Could not read legacy save: " + e.Message);
+                return null;
             }
         }
 
         public static void DeletePlayer()
         {
-            string path = Application.persistentDataPath + "/playerData.hax";
-            File.Delete(path);
+            if (File.Exists(JsonPath))
+                File.Delete(JsonPath);
+            if (File.Exists(LegacyPath))
+                File.Delete(LegacyPath);
 
 #if UNITY_EDITOR
  UnityEditor.AssetDatabase.Refresh();

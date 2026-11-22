@@ -22,8 +22,8 @@ namespace Com.GCTC.ZombCube
         public int highestWaveParty = 0;
         public string playerName = "PlayerName";
         public string RewardOvertime { get; private set; }
-        public int[] ownedBlasters = { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
-        public int[] ownedSkins = { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+        public int[] ownedBlasters = SaveMigration.NewOwnership();
+        public int[] ownedSkins = SaveMigration.NewOwnership();
         public int cubesEliminated = 0;
         public int totalPointsEarned = 0;
         public int totalProjectilesFired = 0;
@@ -44,39 +44,10 @@ namespace Com.GCTC.ZombCube
                 RewardOvertime = player.RewardOvertime;
 
             currentBlaster = player.currentBlaster;
-            if (player.ownedBlasters == null)
-            {
-                ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
-            }
-            else if (player.ownedBlasters.Length != ownedBlasters.Length)
-            {
-                int[] temp = new int[9];
-                ownedBlasters.CopyTo(temp, 0);
-                ownedBlasters = temp;
-                ownedBlasters = player.ownedBlasters;
-            }
-            else
-            {
-                ownedBlasters = player.ownedBlasters;
-            }
+            ownedBlasters = SaveMigration.ResizeFlags(player.ownedBlasters);
 
             currentSkin = player.currentSkin;
-            if (player.ownedSkins == null)
-            {
-                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
-            }
-            else if (player.ownedSkins.Length != ownedSkins.Length)
-            {
-                int[] temp = new int[9];
-                ownedSkins.CopyTo(temp, 0);
-                ownedSkins = temp;
-                ownedSkins = player.ownedSkins;
-
-            }
-            else
-            {
-                ownedSkins = player.ownedSkins;
-            }
+            ownedSkins = SaveMigration.ResizeFlags(player.ownedSkins);
 
             cubesEliminated = player.cubesEliminated;
             totalPointsEarned = player.totalPointsEarned;
@@ -94,6 +65,19 @@ namespace Com.GCTC.ZombCube
                 _instance = this;
             }
             DontDestroyOnLoad(this.gameObject);
+            EnsureCosmeticArrays();
+        }
+
+        /// <summary>
+        /// Makes sure the owned-cosmetic arrays match the catalog size. The values
+        /// serialized on the prefab are only nine long.
+        /// </summary>
+        public void EnsureCosmeticArrays()
+        {
+            if (ownedBlasters == null || ownedBlasters.Length != CosmeticCatalog.OwnershipSize)
+                ownedBlasters = SaveMigration.ResizeFlags(ownedBlasters);
+            if (ownedSkins == null || ownedSkins.Length != CosmeticCatalog.OwnershipSize)
+                ownedSkins = SaveMigration.ResizeFlags(ownedSkins);
         }
 
         public void GainPoints()

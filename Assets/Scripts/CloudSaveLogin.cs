@@ -1352,8 +1352,8 @@ namespace Com.GCTC.ZombCube
             player.totalProjectilesFired = 0;
             player.currentBlaster = 0;
             player.currentSkin = 0;
-            player.ownedBlasters = new int[9];
-            player.ownedSkins = new int[9];
+            player.ownedBlasters = SaveMigration.NewOwnership();
+            player.ownedSkins = SaveMigration.NewOwnership();
         }
 
         /// <summary>
@@ -1396,40 +1396,10 @@ namespace Com.GCTC.ZombCube
             player.totalProjectilesFired = data.totalProjectilesFired;
 
             player.currentBlaster = data.currentBlaster;
-            if (data.ownedBlasters == null)
-            {
-                player.ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
-            }
-            else if (data.ownedBlasters.Length != 9)
-            {
-                int[] temp = new int[9];
-                data.ownedBlasters.CopyTo(temp, 0);
-                data.ownedBlasters = temp;
-                player.ownedBlasters = data.ownedBlasters;
-            }
-            else
-            {
-                player.ownedBlasters = data.ownedBlasters;
-            }
+            player.ownedBlasters = SaveMigration.ResizeFlags(data.ownedBlasters);
 
             player.currentSkin = data.currentSkin;
-
-            if (data.ownedSkins == null)
-            {
-                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
-            }
-            else if (data.ownedSkins.Length != 9)
-            {
-                int[] temp = new int[9];
-                data.ownedSkins.CopyTo(temp, 0);
-                data.ownedSkins = temp;
-                player.ownedSkins = data.ownedSkins;
-
-            }
-            else
-            {
-                player.ownedSkins = data.ownedSkins;
-            }
+            player.ownedSkins = SaveMigration.ResizeFlags(data.ownedSkins);
         }
 
         /// <summary>
@@ -1438,6 +1408,8 @@ namespace Com.GCTC.ZombCube
         /// <param name="data"></param>
         public void LoadPlayerData(SaveData data)
         {
+            data.Normalize();
+
             if (data.userID == "")
             {
                 player.userID = userID;
@@ -1471,40 +1443,10 @@ namespace Com.GCTC.ZombCube
             player.totalProjectilesFired = data.totalProjectilesFired;
 
             player.currentBlaster = data.currentBlaster;
-            if (data.ownedBlasters == null)
-            {
-                player.ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
-            }
-            else if (data.ownedBlasters.Length != 9)
-            {
-                int[] temp = new int[9];
-                data.ownedBlasters.CopyTo(temp, 0);
-                data.ownedBlasters = temp;
-                player.ownedBlasters = data.ownedBlasters;
-            }
-            else
-            {
-                player.ownedBlasters = data.ownedBlasters;
-            }
+            player.ownedBlasters = SaveMigration.ResizeFlags(data.ownedBlasters);
 
             player.currentSkin = data.currentSkin;
-
-            if (data.ownedSkins == null)
-            {
-                player.ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
-            }
-            else if (data.ownedSkins.Length != 9)
-            {
-                int[] temp = new int[9];
-                data.ownedSkins.CopyTo(temp, 0);
-                data.ownedSkins = temp;
-                player.ownedSkins = data.ownedSkins;
-
-            }
-            else
-            {
-                player.ownedSkins = data.ownedSkins;
-            }
+            player.ownedSkins = SaveMigration.ResizeFlags(data.ownedSkins);
         }
 
         /// <summary>
@@ -1524,8 +1466,8 @@ namespace Com.GCTC.ZombCube
             player.totalProjectilesFired = 0;
             player.currentBlaster = 0;
             player.currentSkin = 0;
-            player.ownedBlasters = new int[9];
-            player.ownedSkins = new int[9];
+            player.ownedBlasters = SaveMigration.NewOwnership();
+            player.ownedSkins = SaveMigration.NewOwnership();
         }
 
         #endregion

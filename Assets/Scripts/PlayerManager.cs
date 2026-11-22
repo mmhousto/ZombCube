@@ -126,7 +126,7 @@ namespace Com.GCTC.ZombCube
                 contextPromptImage = contextPrompt.GetComponentInChildren<Image>().gameObject;
                 contextPromptImage.SetActive(false);
             }
-            GetComponentInChildren<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentSkin : 0];
+            GetComponentInChildren<MeshRenderer>().material = CosmeticDatabase.MaterialAt((player != null) ? player.currentSkin : 0);
 
             /*if (blaster == null)
                 blaster = GameObject.FindGameObjectsWithTag("Blaster");*/
@@ -136,14 +136,14 @@ namespace Com.GCTC.ZombCube
             for (int i = 0; i < blasters.Length; i++)
             {
                 if (blasters[i].tag == "Blaster")
-                    blasters[i].material = blasterMaterial[(player != null) ? player.currentBlaster : 0];
+                    blasters[i].material = CosmeticDatabase.MaterialAt((player != null) ? player.currentBlaster : 0);
             }
 
             swapManager.DisableWeapons();
 
             /*foreach (GameObject item in blaster)
             {
-                item.GetComponent<MeshRenderer>().material = blasterMaterial[(player != null) ? player.currentBlaster : 0];
+                item.GetComponent<MeshRenderer>().material = CosmeticDatabase.MaterialAt((player != null) ? player.currentBlaster : 0);
             }*/
         }
 
