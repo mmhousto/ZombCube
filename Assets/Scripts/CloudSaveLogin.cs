@@ -1438,6 +1438,8 @@ namespace Com.GCTC.ZombCube
         /// <param name="data"></param>
         public void LoadPlayerData(SaveData data)
         {
+            data.Normalize();
+
             if (data.userID == "")
             {
                 player.userID = userID;
