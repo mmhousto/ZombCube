@@ -18,7 +18,8 @@ namespace Com.GCTC.ZombCube
 
         public TMP_InputField playerNameText;
 
-        public GameObject iapButton, iapButton2;
+        [Tooltip("The \"Need more coins?\" card on the Coins page. Hidden where in-app purchases aren't available.")]
+        public GameObject iapButton;
 
         public Slider horizontalSens, verticalSens;
 
@@ -29,9 +30,9 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         void Awake()
         {
-#if (UNITY_XBOXONE || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_STADALONE_OSX)
-            iapButton.SetActive(false);
-            iapButton2.SetActive(false);
+#if (UNITY_XBOXONE || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN)
+            if (iapButton != null)
+                iapButton.SetActive(false);
 #endif
         }
 

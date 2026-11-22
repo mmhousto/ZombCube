@@ -20,6 +20,11 @@ public class MaterialSelector : MonoBehaviour
         {
             _instnace = this;
         }
+
+        // The cosmetic list now lives in Resources/CosmeticDatabase.asset.
+        var db = Com.GCTC.ZombCube.CosmeticDatabase.Instance;
+        if (db != null)
+            materials = db.AllMaterials();
     }
 
     // Start is called before the first frame update

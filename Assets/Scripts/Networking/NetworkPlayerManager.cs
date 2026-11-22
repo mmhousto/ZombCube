@@ -799,14 +799,14 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = playerName + "<br>" + username;
 
-            GetComponentInChildren<MeshRenderer>().material = blasterMaterial[skinIndex];
+            GetComponentInChildren<MeshRenderer>().material = CosmeticDatabase.MaterialAt(skinIndex);
 
             MeshRenderer[] blaster = GetComponentsInChildren<MeshRenderer>();
 
             for(int i = 0; i < blaster.Length; i++)
             {
                 if(blaster[i].tag == "Blaster")
-                    blaster[i].material = blasterMaterial[blasterIndex];
+                    blaster[i].material = CosmeticDatabase.MaterialAt(blasterIndex);
 
             }
 

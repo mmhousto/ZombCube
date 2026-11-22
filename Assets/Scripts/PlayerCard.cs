@@ -31,13 +31,13 @@ namespace Com.GCTC.ZombCube
             isReadyToggle.isOn = props.TryGetValue("IsReady", out object ready) && ready is bool isReady && isReady;
 
             if (props.TryGetValue("Skin", out object skin) && skin is int skinIndex)
-                playerSkin.material = MaterialSelector.Instance.materials[skinIndex];
+                playerSkin.material = CosmeticDatabase.MaterialAt(skinIndex);
 
             if (props.TryGetValue("Blaster", out object blasterProp) && blasterProp is int blasterIndex)
             {
                 foreach (GameObject item in blaster)
                 {
-                    item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[blasterIndex];
+                    item.GetComponent<MeshRenderer>().material = CosmeticDatabase.MaterialAt(blasterIndex);
                 }
             }
 
@@ -53,11 +53,11 @@ namespace Com.GCTC.ZombCube
         {
             playerName.text = $"P{playerNum}";
 
-            playerSkin.material = MaterialSelector.Instance.materials[Player.Instance.currentSkin];
+            playerSkin.material = CosmeticDatabase.MaterialAt(Player.Instance.currentSkin);
 
             foreach (GameObject item in blaster)
             {
-                item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[Player.Instance.currentBlaster];
+                item.GetComponent<MeshRenderer>().material = CosmeticDatabase.MaterialAt(Player.Instance.currentBlaster);
             }
 
             waitingForPlayerPanel.SetActive(false);

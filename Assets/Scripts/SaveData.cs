@@ -42,9 +42,9 @@ namespace Com.GCTC.ZombCube
             highestWave = 0;
             highestWaveParty = 0;
             currentBlaster = 0;
-            ownedBlasters = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+            ownedBlasters = SaveMigration.NewOwnership();
             currentSkin = 0;
-            ownedSkins = new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+            ownedSkins = SaveMigration.NewOwnership();
             cubesEliminated = 0;
             totalPointsEarned = 0;
             totalProjectilesFired = 0;
