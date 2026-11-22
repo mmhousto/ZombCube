@@ -74,7 +74,7 @@ namespace Com.GCTC.ZombCube
         // called second
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.buildIndex == 5 && GameManager.mode == 1)
+            if (GameScenes.IsSolo(scene.name) && GameManager.mode == 1)
             {
                 // Disable Elimination camera
                 GameManager.Instance.EnableDisableElimCam(false);
@@ -144,7 +144,7 @@ namespace Com.GCTC.ZombCube
 
                 played = true;
             }
-            else if (scene.buildIndex == 5) Destroy(gameObject);
+            else if (GameScenes.IsSolo(scene.name)) Destroy(gameObject);
         }
 
         public int GetNumOfPlayers()

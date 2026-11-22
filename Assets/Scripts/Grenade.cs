@@ -26,7 +26,7 @@ namespace Com.GCTC.ZombCube
             /*if (collision.gameObject.tag == "Enemy")
             {
                 audioSource.Play();
-                if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+                if (GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display")
                 {
 
                     Destroy(collision.gameObject);
@@ -99,7 +99,7 @@ namespace Com.GCTC.ZombCube
 
             foreach (Collider collider in collidersFar)
             {
-                if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+                if (GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display")
                 {
                     if (collider.gameObject.tag == "Enemy")
                     {
