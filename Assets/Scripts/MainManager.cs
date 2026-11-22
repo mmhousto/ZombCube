@@ -30,7 +30,7 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         void Awake()
         {
-#if (UNITY_XBOXONE || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN || UNITY_STADALONE_OSX)
+#if (UNITY_XBOXONE || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN)
             if (iapButton != null)
                 iapButton.SetActive(false);
 #endif
