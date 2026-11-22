@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Com.GCTC.ZombCube
@@ -9,35 +7,45 @@ namespace Com.GCTC.ZombCube
         private GameObject[] blaster;
         public MeshRenderer playerSkin;
 
-        // Start is called before the first frame update
+        private int appliedSkin = -1;
+        private int appliedBlaster = -1;
+
         void Start()
         {
             blaster = GameObject.FindGameObjectsWithTag("Blaster");
-
-            if(Player.Instance != null)
-            {
-                playerSkin.material = MaterialSelector.Instance.materials[Player.Instance.currentSkin];
-
-                foreach (GameObject item in blaster)
-                {
-                    item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[Player.Instance.currentBlaster];
-                }
-            }
-            
+            Apply();
         }
 
-        // Update is called once per frame
         void Update()
         {
-            if (Player.Instance != null && playerSkin.material != MaterialSelector.Instance.materials[Player.Instance.currentSkin] && blaster[0].GetComponent<MeshRenderer>().material != MaterialSelector.Instance.materials[Player.Instance.currentBlaster])
-            {
-                playerSkin.material = MaterialSelector.Instance.materials[Player.Instance.currentSkin];
+            Apply();
+        }
 
-                foreach (GameObject item in blaster)
-                {
-                    item.GetComponent<MeshRenderer>().material = MaterialSelector.Instance.materials[Player.Instance.currentBlaster];
-                }
+        // Only reassign when the equipped cosmetic changes. Reading Renderer.material
+        // every frame (as before) created a new material instance each time.
+        private void Apply()
+        {
+            if (Player.Instance == null)
+                return;
+
+            int skin = Player.Instance.currentSkin;
+            int blasterIndex = Player.Instance.currentBlaster;
+            if (skin == appliedSkin && blasterIndex == appliedBlaster)
+                return;
+
+            if (playerSkin != null)
+                playerSkin.sharedMaterial = CosmeticDatabase.MaterialAt(skin);
+
+            Material blasterMaterial = CosmeticDatabase.MaterialAt(blasterIndex);
+            foreach (GameObject item in blaster)
+            {
+                MeshRenderer renderer = item != null ? item.GetComponent<MeshRenderer>() : null;
+                if (renderer != null)
+                    renderer.sharedMaterial = blasterMaterial;
             }
+
+            appliedSkin = skin;
+            appliedBlaster = blasterIndex;
         }
     }
 }

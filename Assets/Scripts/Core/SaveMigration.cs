@@ -24,7 +24,33 @@ namespace Com.GCTC.ZombCube
             return ids.ToArray();
         }
 
-        public static int[] FlagsFromIds(string[] ids, int size = CosmeticCatalog.OwnershipSize)
+        /// <summary>A new owned-flag array with only the default cosmetic owned.</summary>
+        public static int[] NewOwnership()
+        {
+            var flags = new int[CosmeticCatalog.OwnershipSize];
+            flags[0] = 1;
+            return flags;
+        }
+
+        /// <summary>
+        /// Copies flags into an array of the current catalog size. Shorter arrays are
+        /// padded and longer ones trimmed; the default cosmetic stays owned.
+        /// </summary>
+        public static int[] ResizeFlags(int[] flags)
+        {
+            var resized = NewOwnership();
+            if (flags != null)
+                System.Array.Copy(flags, resized, System.Math.Min(flags.Length, resized.Length));
+            resized[0] = 1;
+            return resized;
+        }
+
+        public static int[] FlagsFromIds(string[] ids)
+        {
+            return FlagsFromIds(ids, CosmeticCatalog.OwnershipSize);
+        }
+
+        public static int[] FlagsFromIds(string[] ids, int size)
         {
             var flags = new int[size];
             if (ids != null)

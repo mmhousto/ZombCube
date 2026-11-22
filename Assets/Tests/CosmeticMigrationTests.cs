@@ -56,11 +56,46 @@ public class CosmeticMigrationTests
     public void IdsConvertBackToFlags()
     {
         int[] flags = SaveMigration.FlagsFromIds(new[] { "green", "ou" });
-        Assert.AreEqual(9, flags.Length);
+        Assert.AreEqual(CosmeticCatalog.OwnershipSize, flags.Length);
         Assert.AreEqual(1, flags[0]);
         Assert.AreEqual(1, flags[1]);
         Assert.AreEqual(1, flags[7]);
         Assert.AreEqual(0, flags[2]);
+    }
+
+    [Test]
+    public void OwnershipGrowsWithCatalog()
+    {
+        Assert.GreaterOrEqual(CosmeticCatalog.OwnershipSize, CosmeticCatalog.ColorIds.Length);
+        Assert.GreaterOrEqual(CosmeticCatalog.OwnershipSize, CosmeticCatalog.LegacyOwnershipSize);
+    }
+
+    [Test]
+    public void ResizeFlagsPadsLegacyArrays()
+    {
+        int[] legacy = { 1, 0, 1, 0, 0, 0, 0, 0, 1 };
+        int[] resized = SaveMigration.ResizeFlags(legacy);
+        Assert.AreEqual(CosmeticCatalog.OwnershipSize, resized.Length);
+        Assert.AreEqual(1, resized[2]);
+        Assert.AreEqual(1, resized[8]);
+        for (int i = legacy.Length; i < resized.Length; i++)
+            Assert.AreEqual(0, resized[i]);
+    }
+
+    [Test]
+    public void ResizeFlagsHandlesNullAndKeepsDefault()
+    {
+        int[] resized = SaveMigration.ResizeFlags(null);
+        Assert.AreEqual(1, resized[0]);
+        Assert.AreEqual(CosmeticCatalog.OwnershipSize, resized.Length);
+    }
+
+    [Test]
+    public void NewCosmeticIdsMigrateBothWays()
+    {
+        string[] ids = { "camo_neon", "stripes_tiger" };
+        int[] flags = SaveMigration.FlagsFromIds(ids);
+        CollectionAssert.IsSupersetOf(SaveMigration.IdsFromFlags(flags), ids);
     }
 
     [Test]
