@@ -21,7 +21,7 @@ namespace Com.GCTC.ZombCube
         public GameObject notEnoughPointsPanel, closeButton, convertConfirm, noButton;
 
         [Header("Paging buttons (optional)")]
-        [Tooltip("Leave empty to create one under the panel. If assigned, the click is wired automatically; don't add OnClick events for it.")]
+        [Tooltip("Leave empty to create one at the bottom centre of the panel. If assigned, the click is wired automatically; don't add OnClick events for it.")]
         public Button blasterPrevPage;
         public Button blasterNextPage;
         public Button skinPrevPage;
@@ -191,13 +191,15 @@ namespace Com.GCTC.ZombCube
             GameObject clone = Instantiate(slots[0].button.gameObject, panel);
             clone.name = left ? "Prev Page" : "Next Page";
 
-            // Placed just below the panel's bottom corners; move it in the editor if needed.
+            // Side by side at the bottom centre of the panel, just under the cards,
+            // so they stay clear of the shop's Back button in the corner.
+            const float gap = 20f;
             var rect = (RectTransform)clone.transform;
-            rect.anchorMin = rect.anchorMax = new Vector2(left ? 0f : 1f, 0f);
-            rect.pivot = new Vector2(left ? 0f : 1f, 1f);
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0f);
+            rect.pivot = new Vector2(left ? 1f : 0f, 1f);
             Vector2 size = source.rect.size;
             rect.sizeDelta = size.x > 1f && size.y > 1f ? size : new Vector2(160f, 40f);
-            rect.anchoredPosition = new Vector2(0f, -10f);
+            rect.anchoredPosition = new Vector2(left ? -gap / 2f : gap / 2f, -10f);
             rect.localScale = Vector3.one;
 
             TextMeshProUGUI label = clone.GetComponentInChildren<TextMeshProUGUI>(true);
