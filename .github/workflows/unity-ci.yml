@@ -94,8 +94,12 @@ jobs:
 
   build-windows:
     name: Unity build (Windows)
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
+    # Self-hosted Windows runner on a machine with Unity 6000.3.21f1 (IL2CPP) installed.
+    # Only run for pushes/manual runs and same-repo pull requests, never for forks,
+    # because a self-hosted runner executes the pull request's code on that machine.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, Windows, X64]
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -116,6 +120,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneWindows64
+          providerStrategy: local-system
           cliVersion: v0.1.76
           buildName: ZombCube
           buildsPath: builds
