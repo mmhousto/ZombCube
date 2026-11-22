@@ -399,6 +399,13 @@ namespace Com.GCTC.ZombCube.EditorTools
 
             go.AddComponent<BoxCollider>();
 
+            // The player's ground check is a trigger (PlayerMovement.OnTriggerStay) on an object with
+            // no Rigidbody, so the level piece needs one for the trigger to fire. The Arena's floors and
+            // walls use a kinematic Rigidbody for the same reason.
+            var body = go.AddComponent<Rigidbody>();
+            body.isKinematic = true;
+            body.useGravity = false;
+
             // Floors and walkable props use the Ground tag/layer like the Arena; walls use Walls.
             if (kind == Kind.Wall)
             {

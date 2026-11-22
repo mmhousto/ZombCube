@@ -66,6 +66,14 @@ public class KinoLevelBuilderTests
 
         Assert.IsNotNull(GameObject.Find("Stage"), "Stage geometry");
         Assert.Greater(GameObject.FindGameObjectsWithTag("Ground").Length, 10, "Walkable geometry tagged Ground");
+        // Without a Rigidbody the player's ground trigger never fires and jumping is impossible.
+        foreach (GameObject ground in GameObject.FindGameObjectsWithTag("Ground"))
+        {
+            if (ground.GetComponent<UnityEngine.ProBuilder.ProBuilderMesh>() == null) continue;
+            Rigidbody body = ground.GetComponent<Rigidbody>();
+            Assert.IsNotNull(body, ground.name + " needs a Rigidbody for the ground check");
+            Assert.IsTrue(body.isKinematic, ground.name + " Rigidbody should be kinematic");
+        }
     }
 
     [Test]
