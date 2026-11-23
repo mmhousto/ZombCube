@@ -6,14 +6,15 @@ using Unity.AI.Navigation;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.AI;
 
-// Runs the Kino Der Cube builder into a temporary folder and checks the result.
+// Runs the Movie Theatre builder into a temporary folder and checks the result.
 // The builder lives in Assembly-CSharp-Editor, which test assemblies can't reference,
 // so it is called through reflection.
-public class KinoLevelBuilderTests
+public class MovieTheatreLevelBuilderTests
 {
-    private const string Folder = "Assets/__KinoBuilderTest";
-    private const string BuilderType = "Com.GCTC.ZombCube.EditorTools.KinoLevelBuilder, Assembly-CSharp-Editor";
+    private const string Folder = "Assets/__MovieTheatreBuilderTest";
+    private const string BuilderType = "Com.GCTC.ZombCube.EditorTools.MovieTheatreLevelBuilder, Assembly-CSharp-Editor";
 
     private static string soloPath;
     private static string partyPath;
@@ -22,7 +23,7 @@ public class KinoLevelBuilderTests
     public void BuildOnce()
     {
         Type builder = Type.GetType(BuilderType);
-        Assert.IsNotNull(builder, "KinoLevelBuilder not found");
+        Assert.IsNotNull(builder, "MovieTheatreLevelBuilder not found");
         MethodInfo build = builder.GetMethod("Build", BindingFlags.Public | BindingFlags.Static);
         object result = build.Invoke(null, new object[] { Folder, false });
         soloPath = (string)result.GetType().GetField("soloScenePath").GetValue(result);
@@ -74,6 +75,48 @@ public class KinoLevelBuilderTests
             Assert.IsNotNull(body, ground.name + " needs a Rigidbody for the ground check");
             Assert.IsTrue(body.isKinematic, ground.name + " Rigidbody should be kinematic");
         }
+
+        // Starting lobby with twin staircases up to the balcony.
+        Assert.IsNotNull(GameObject.Find("Grand Stairs West"), "West grand staircase");
+        Assert.IsNotNull(GameObject.Find("Grand Stairs East"), "East grand staircase");
+        Assert.IsNotNull(GameObject.Find("Back Stairs"), "Backstage staircase");
+
+        // Walkable floors on every level: ground, stage, balcony / circle and gallery.
+        float scale = Constant("S");
+        foreach (string level in new[] { "StageLevel", "BalconyLevel", "GalleryLevel" })
+        {
+            float top = Constant(level) * scale;
+            bool found = GameObject.FindGameObjectsWithTag("Ground")
+                .Select(g => g.GetComponent<Collider>()).Where(c => c != null)
+                .Any(c => Mathf.Abs(c.bounds.max.y - top) < 0.05f);
+            Assert.IsTrue(found, "No floor at " + level);
+        }
+
+        // Every enemy spawn must be reachable from the lobby on the NavMesh (stairs walkable by enemies).
+        Vector3 lobby = new Vector3(0f, 0f, -18f) * scale;
+        Assert.IsTrue(NavMesh.SamplePosition(lobby, out NavMeshHit start, 2f, NavMesh.AllAreas), "Lobby is not on the NavMesh");
+        foreach (GameObject spawn in GameObject.FindGameObjectsWithTag("SpawnPoint"))
+        {
+            Assert.IsTrue(NavMesh.SamplePosition(spawn.transform.position, out NavMeshHit end, 2f, NavMesh.AllAreas), spawn.name + " is not on the NavMesh");
+            var path = new NavMeshPath();
+            NavMesh.CalculatePath(start.position, end.position, NavMesh.AllAreas, path);
+            Assert.AreEqual(NavMeshPathStatus.PathComplete, path.status, spawn.name + " can't be reached from the lobby");
+        }
+    }
+
+    private static float Constant(string name)
+    {
+        FieldInfo field = Type.GetType(BuilderType).GetField(name, BindingFlags.Public | BindingFlags.Static);
+        Assert.IsNotNull(field, "Builder constant " + name);
+        return Convert.ToSingle(field.GetValue(null));
+    }
+
+    [Test]
+    public void StairsAreClimbable()
+    {
+        // CharacterController.stepOffset on the player prefabs and the NavMesh agent climb are both 0.75.
+        float riserWorld = Constant("Riser") * Constant("S");
+        Assert.Less(riserWorld, 0.75f, "Stair risers must be below the player's step offset");
     }
 
     [Test]
