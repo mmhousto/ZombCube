@@ -114,6 +114,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnDisable()
         {
+            CoopCrashLog.Step("TripleShot.OnDisable");
             StopCoroutine(EndPowerup());
 
             switch (swapManager.GetCurrentWeaponIndex())

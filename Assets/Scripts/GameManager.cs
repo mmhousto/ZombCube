@@ -125,6 +125,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnDisable()
         {
+            CoopCrashLog.Step("GameManager.OnDisable");
             BossCube.bossDead -= PauseForContinue;
         }
 
@@ -199,16 +200,22 @@ namespace Com.GCTC.ZombCube
 
         public void Restart()
         {
+            CoopCrashLog.Step("Restart clicked, mode " + mode);
             if (mode == 1)
             {
+                CoopCrashLog.Step("Restart: splitScreen = false");
                 playerInputManager.splitScreen = false;
+                CoopCrashLog.Step("Restart: DestroyPlayerObjects");
                 playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayerObjects();
+                CoopCrashLog.Step("Restart: enable elim cam");
                 EnableDisableElimCam(true);
             }
             else
             {
             }
+            CoopCrashLog.Step("Restart: SceneLoader.PlayGame");
             SceneLoader.PlayGame();
+            CoopCrashLog.Step("Restart: PlayGame returned");
         }
 
         public void Resume()
@@ -232,21 +239,27 @@ namespace Com.GCTC.ZombCube
 
         public void GoHome()
         {
+            CoopCrashLog.Step("Main Menu clicked, mode " + mode);
             if (mode == 1)
             {
+                CoopCrashLog.Step("GoHome: DestroyPlayers");
                 playerInputManager.GetComponent<CouchCoopManager>().DestroyPlayers();
+                CoopCrashLog.Step("GoHome: enable elim cam");
                 EnableDisableElimCam(true);
             }
             else
             {
             }
 
+            CoopCrashLog.Step("GoHome: SceneLoader.ToMainMenu");
             SceneLoader.ToMainMenu();
 
+            CoopCrashLog.Step("GoHome: destroy CoopManager");
             if (playerInputManager != null)
                 Destroy(playerInputManager.gameObject);
 
             Time.timeScale = 1;
+            CoopCrashLog.Step("GoHome: done");
         }
 
         public void PauseInput()

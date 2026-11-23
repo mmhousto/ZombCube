@@ -43,6 +43,7 @@ namespace Com.GCTC.ZombCube
         {
             foreach (GameObject player in joinedPlayers)
             {
+                CoopCrashLog.Step("DestroyPlayerObjects: " + player.name + " children " + player.transform.childCount);
                 Destroy(player.transform.GetChild(0).gameObject);
                 //Destroy(player.GetComponentInChildren<Canvas>().gameObject);
             }
@@ -52,6 +53,7 @@ namespace Com.GCTC.ZombCube
         {
             foreach(GameObject player in joinedPlayers)
             {
+                CoopCrashLog.Step("DestroyPlayers: " + player.name);
                 Destroy(player);
             }
         }
@@ -74,6 +76,7 @@ namespace Com.GCTC.ZombCube
         // called second
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            CoopCrashLog.Step("CouchCoopManager.OnSceneLoaded " + scene.name);
             if (GameScenes.IsSolo(scene.name) && GameManager.mode == 1)
             {
                 // Disable Elimination camera
@@ -173,6 +176,7 @@ namespace Com.GCTC.ZombCube
         // called when the game is terminated
         void OnDisable()
         {
+            CoopCrashLog.Step("CouchCoopManager.OnDisable");
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }

@@ -16,6 +16,7 @@ public class LoadLevel : MonoBehaviour
 
     void Start()
     {
+        CoopCrashLog.Step("Loading scene started, levelToLoad " + SceneLoader.levelToLoad + " sceneToLoad " + SceneLoader.sceneToLoad);
         InvokeRepeating(nameof(UpdateLoadingText), 0.0f, 1f);
         StartCoroutine(LoadAsynchronously(SceneLoader.levelToLoad));
     }
