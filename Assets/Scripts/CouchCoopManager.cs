@@ -44,7 +44,6 @@ namespace Com.GCTC.ZombCube
             foreach (GameObject player in joinedPlayers)
             {
                 if (player == null || player.transform.childCount == 0) continue;
-                CoopCrashLog.Step("DestroyPlayerObjects: " + player.name + " children " + player.transform.childCount);
                 GameObject clone = player.transform.GetChild(0).gameObject;
                 ReleasePlayerObject(player, clone);
                 CoopPlayerTeardown.Run(clone);
@@ -56,7 +55,6 @@ namespace Com.GCTC.ZombCube
             foreach(GameObject player in joinedPlayers)
             {
                 if (player == null) continue;
-                CoopCrashLog.Step("DestroyPlayers: " + player.name);
                 if (player.transform.childCount > 0)
                 {
                     GameObject clone = player.transform.GetChild(0).gameObject;
@@ -78,26 +76,21 @@ namespace Com.GCTC.ZombCube
             PlayerInput playerInput = player.GetComponent<PlayerInput>();
             if (playerInput != null)
             {
-                CoopCrashLog.Step("Release: unhook uiInputModule/camera " + clone.name);
                 playerInput.uiInputModule = null;
                 playerInput.camera = null;
             }
 
             foreach (InputSystemUIInputModule module in clone.GetComponentsInChildren<InputSystemUIInputModule>(true))
             {
-                CoopCrashLog.Step("Release: disable UI input module");
                 module.enabled = false;
             }
 
             foreach (EventSystem eventSystem in clone.GetComponentsInChildren<EventSystem>(true))
             {
-                CoopCrashLog.Step("Release: disable event system");
                 eventSystem.enabled = false;
             }
 
-            CoopCrashLog.Step("Release: deactivate " + clone.name);
             clone.SetActive(false);
-            CoopCrashLog.Step("Release: done " + clone.name);
         }
 
         public void EnableDisableInput(bool newState)
@@ -118,7 +111,6 @@ namespace Com.GCTC.ZombCube
         // called second
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            CoopCrashLog.Step("CouchCoopManager.OnSceneLoaded " + scene.name);
             if (GameScenes.IsSolo(scene.name) && GameManager.mode == 1)
             {
                 // Disable Elimination camera
@@ -218,7 +210,6 @@ namespace Com.GCTC.ZombCube
         // called when the game is terminated
         void OnDisable()
         {
-            CoopCrashLog.Step("CouchCoopManager.OnDisable");
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }

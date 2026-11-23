@@ -202,13 +202,11 @@ namespace Com.GCTC.ZombCube
 
         private void OnDisable()
         {
-            CoopCrashLog.Step("PlayerManager.OnDisable " + name);
             GameManager.endGame -= SaveDataEndGame;
         }
 
         private void OnDestroy()
         {
-            CoopCrashLog.Step("PlayerManager.OnDestroy " + name);
 #if !DISABLESTEAMWORKS
             // Release the Steam callback so it doesn't outlive this player (Restart destroys players).
             overlayIsOn?.Dispose();
