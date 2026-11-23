@@ -8,12 +8,12 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 
-// Runs the Sandstone builder into a temporary folder and checks the result (through reflection,
+// Runs the Spaceship builder into a temporary folder and checks the result (through reflection,
 // because the builder lives in Assembly-CSharp-Editor).
-public class SandstoneLevelBuilderTests
+public class SpaceshipLevelBuilderTests
 {
-    private const string Folder = "Assets/__SandstoneBuilderTest";
-    private const string BuilderType = "Com.GCTC.ZombCube.EditorTools.SandstoneLevelBuilder, Assembly-CSharp-Editor";
+    private const string Folder = "Assets/__SpaceshipBuilderTest";
+    private const string BuilderType = "Com.GCTC.ZombCube.EditorTools.SpaceshipLevelBuilder, Assembly-CSharp-Editor";
 
     private static string soloPath, partyPath;
 
@@ -21,7 +21,7 @@ public class SandstoneLevelBuilderTests
     public void BuildOnce()
     {
         Type builder = Type.GetType(BuilderType);
-        Assert.IsNotNull(builder, "SandstoneLevelBuilder not found");
+        Assert.IsNotNull(builder, "SpaceshipLevelBuilder not found");
         object result = builder.GetMethod("Build", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { Folder, false });
         soloPath = (string)result.GetType().GetField("soloScenePath").GetValue(result);
         partyPath = (string)result.GetType().GetField("partyScenePath").GetValue(result);
@@ -76,12 +76,12 @@ public class SandstoneLevelBuilderTests
         foreach (NavMeshSurface surface in surfaces)
             Assert.IsNotNull(surface.navMeshData, "NavMesh not baked for " + surface.name);
 
-        foreach (string stairs in new[] { "Bazaar Stairs", "Courtyard Stairs", "Tower Rubble Steps" })
+        foreach (string stairs in new[] { "Hangar Stairs Port", "Hangar Stairs Starboard", "Reactor Stairs", "Command Deck Steps" })
             Assert.IsNotNull(GameObject.Find(stairs), stairs);
 
         // Floors on every level, and a kinematic Rigidbody on level pieces for the ground check.
         float s = Static<float>("S");
-        foreach (string level in new[] { "RoofLevel", "TowerLevel" })
+        foreach (string level in new[] { "CatwalkLevel", "DeckLevel" })
         {
             float top = Static<float>(level) * s;
             Assert.IsTrue(GameObject.FindGameObjectsWithTag("Ground").Select(g => g.GetComponent<Collider>()).Where(c => c != null)
@@ -101,16 +101,20 @@ public class SandstoneLevelBuilderTests
         Assert.Greater(walls.Count, 20, "Wall pieces");
         Assert.Greater(walls.Count(c => c.GetComponent<NavMeshModifier>() is NavMeshModifier m && m.overrideArea && m.area == notWalkable), walls.Count * 3 / 4, "Walls Not Walkable");
 
-        // Every enemy spawn is reachable from the plaza on the enemies' NavMesh.
+        // It's an interior: every area has a ceiling and its own lights.
+        Assert.GreaterOrEqual(UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Count(t => t.name.EndsWith(" Ceiling")), 9, "Ceilings");
+        Assert.GreaterOrEqual(UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Count(l => l.type == LightType.Point), 15, "Point lights");
+
+        // Every enemy spawn is reachable from the hangar on the enemies' NavMesh.
         NavMeshAgent agent = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemies/ZombCube.prefab").GetComponentInChildren<NavMeshAgent>(true);
         var filter = new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = NavMesh.AllAreas };
-        Assert.IsTrue(NavMesh.SamplePosition(new Vector3(0f, 0f, -28f) * s, out NavMeshHit start, 2f, filter), "Plaza is not on the enemy NavMesh");
+        Assert.IsTrue(NavMesh.SamplePosition(new Vector3(0f, 0f, -14f) * s, out NavMeshHit start, 2f, filter), "Hangar is not on the enemy NavMesh");
         foreach (GameObject spawn in GameObject.FindGameObjectsWithTag("SpawnPoint"))
         {
             Assert.IsTrue(NavMesh.SamplePosition(spawn.transform.position, out NavMeshHit end, 2f, filter), spawn.name + " is not on the enemy NavMesh");
             var path = new NavMeshPath();
             NavMesh.CalculatePath(start.position, end.position, filter, path);
-            Assert.AreEqual(NavMeshPathStatus.PathComplete, path.status, spawn.name + " can't be reached from the plaza");
+            Assert.AreEqual(NavMeshPathStatus.PathComplete, path.status, spawn.name + " can't be reached from the hangar");
         }
     }
 
