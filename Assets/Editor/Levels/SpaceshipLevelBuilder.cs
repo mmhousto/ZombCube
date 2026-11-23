@@ -94,7 +94,7 @@ namespace Com.GCTC.ZombCube.EditorTools
             weaponSpots = WeaponSpots,
             previewColor = new Color(0.1f, 0.45f, 0.7f, 1f),
             floorLevels = new[] { DeckLevel, CatwalkLevel },
-            notWalkablePrefixes = new[] { "Shuttle", "Crate", "Console", "Bunk", "Locker", "Bed", "Pod", "Rack", "Reactor", "Chair", "Pipe", "Light", "Window", "Table", "Hangar Door" },
+            notWalkablePrefixes = new[] { "Shuttle", "Crate", "Console", "Bunk", "Locker", "Bed", "Pod", "Rack", "Reactor Core", "Reactor Base", "Reactor Ring", "Chair", "Pipe", "Light", "Window", "Table", "Hangar Door" },
             buildGeometry = BuildGeometry,
         };
 
