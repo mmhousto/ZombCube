@@ -92,14 +92,20 @@ public class MovieTheatreLevelBuilderTests
             Assert.IsTrue(found, "No floor at " + level);
         }
 
-        // Every enemy spawn must be reachable from the lobby on the NavMesh (stairs walkable by enemies).
+        // Every enemy spawn must be reachable from the lobby on the enemies' NavMesh (stairs walkable by enemies).
+        var enemy = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemies/ZombCube.prefab");
+        Assert.IsNotNull(enemy, "ZombCube enemy prefab");
+        NavMeshAgent agent = enemy.GetComponentInChildren<NavMeshAgent>(true);
+        Assert.IsNotNull(agent, "ZombCube NavMeshAgent");
+        var filter = new NavMeshQueryFilter { agentTypeID = agent.agentTypeID, areaMask = NavMesh.AllAreas };
+
         Vector3 lobby = new Vector3(0f, 0f, -18f) * scale;
-        Assert.IsTrue(NavMesh.SamplePosition(lobby, out NavMeshHit start, 2f, NavMesh.AllAreas), "Lobby is not on the NavMesh");
+        Assert.IsTrue(NavMesh.SamplePosition(lobby, out NavMeshHit start, 2f, filter), "Lobby is not on the enemy NavMesh");
         foreach (GameObject spawn in GameObject.FindGameObjectsWithTag("SpawnPoint"))
         {
-            Assert.IsTrue(NavMesh.SamplePosition(spawn.transform.position, out NavMeshHit end, 2f, NavMesh.AllAreas), spawn.name + " is not on the NavMesh");
+            Assert.IsTrue(NavMesh.SamplePosition(spawn.transform.position, out NavMeshHit end, 2f, filter), spawn.name + " is not on the enemy NavMesh");
             var path = new NavMeshPath();
-            NavMesh.CalculatePath(start.position, end.position, NavMesh.AllAreas, path);
+            NavMesh.CalculatePath(start.position, end.position, filter, path);
             Assert.AreEqual(NavMeshPathStatus.PathComplete, path.status, spawn.name + " can't be reached from the lobby");
         }
     }

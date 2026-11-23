@@ -5,6 +5,7 @@ using Unity.AI.Navigation;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.ProBuilder;
 using UnityEngine.SceneManagement;
 
@@ -718,6 +719,15 @@ namespace Com.GCTC.ZombCube.EditorTools
             return null;
         }
 
+        /// <summary>
+        /// The enemy prefabs use the "Boss" agent type, which is 13 units tall with a 12-unit step:
+        /// fine on the open Arena, but at true scale it would rule out every doorway and let enemies
+        /// hop straight up onto balconies. The enemy surface is baked with the regular enemies' size
+        /// instead (same agent type id, so their agents use it); project settings are not changed.
+        /// </summary>
+        public const float EnemyClearance = 3.4f;   // world units: the player's height (enemy cubes are 3)
+        public const float EnemyStep = 0.75f;       // world units: same as the player's step offset
+
         private static void BakeNavMesh(string folder, string sceneName, Result result)
         {
             NavMeshSurface[] surfaces = Object.FindObjectsByType<NavMeshSurface>(FindObjectsInactive.Include, FindObjectsSortMode.None);
@@ -732,7 +742,12 @@ namespace Com.GCTC.ZombCube.EditorTools
             for (int i = 0; i < surfaces.Length; i++)
             {
                 NavMeshSurface surface = surfaces[i];
-                surface.BuildNavMesh();
+                NavMeshBuildSettings settings = NavMesh.GetSettingsByID(surface.agentTypeID);
+                if (settings.agentHeight > EnemyClearance || settings.agentClimb > EnemyStep)
+                    BuildForTheatre(surface, settings);
+                else
+                    surface.BuildNavMesh();
+
                 if (surface.navMeshData == null)
                 {
                     result.warnings.Add($"{sceneName}: NavMesh bake produced no data for {surface.name}.");
@@ -745,6 +760,37 @@ namespace Com.GCTC.ZombCube.EditorTools
                 EditorUtility.SetDirty(surface);
                 PrefabUtility.RecordPrefabInstancePropertyModifications(surface);
             }
+        }
+
+        /// <summary>Same bake as NavMeshSurface.BuildNavMesh, with the agent's headroom and step capped.</summary>
+        private static void BuildForTheatre(NavMeshSurface surface, NavMeshBuildSettings settings)
+        {
+            settings.agentHeight = Mathf.Min(settings.agentHeight, EnemyClearance);
+            settings.agentClimb = Mathf.Min(settings.agentClimb, EnemyStep);
+            settings.minRegionArea = surface.minRegionArea;
+            settings.buildHeightMesh = surface.buildHeightMesh;
+            if (surface.overrideVoxelSize) { settings.overrideVoxelSize = true; settings.voxelSize = surface.voxelSize; }
+            if (surface.overrideTileSize) { settings.overrideTileSize = true; settings.tileSize = surface.tileSize; }
+
+            var sources = new List<NavMeshBuildSource>();
+            var worldBounds = new Bounds(Vector3.zero, new Vector3(2000f, 1000f, 2000f));
+            NavMeshBuilder.CollectSources(worldBounds, surface.layerMask, surface.useGeometry, surface.defaultArea,
+                new List<NavMeshBuildMarkup>(), sources);
+            if (surface.ignoreNavMeshAgent)
+                sources.RemoveAll(s => s.component != null && s.component.gameObject.GetComponent<NavMeshAgent>() != null);
+            if (surface.ignoreNavMeshObstacle)
+                sources.RemoveAll(s => s.component != null && s.component.gameObject.GetComponent<NavMeshObstacle>() != null);
+
+            Transform t = surface.transform;
+            var localBounds = new Bounds(Vector3.zero, worldBounds.size);
+            NavMeshData data = NavMeshBuilder.BuildNavMeshData(settings, sources, localBounds, t.position, t.rotation);
+            if (data == null) return;
+            data.name = surface.gameObject.name;
+
+            surface.RemoveData();
+            surface.navMeshData = data;
+            if (surface.isActiveAndEnabled)
+                surface.AddData();
         }
 
         private static Materials LoadMaterials(Result result)
