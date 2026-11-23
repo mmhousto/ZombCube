@@ -171,6 +171,40 @@ namespace Com.GCTC.ZombCube.EditorTools
         }
 
         /// <summary>
+        /// Re-bakes the NavMesh of both Movie Theatre scenes with the theatre's enemy settings, keeping any
+        /// manual edits in the scenes. Use this instead of the NavMeshSurface "Bake" button: that bakes with
+        /// the project's Boss agent settings (13 units of headroom, 12-unit step), which cuts the doorways and
+        /// the space under the balconies out of the enemy NavMesh.
+        /// </summary>
+        [MenuItem("ZombCube/Levels/Bake Movie Theatre NavMesh (both scenes)")]
+        private static void BakeNavMeshFromMenu()
+        {
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                return;
+
+            var result = new Result();
+            foreach (string sceneName in new[] { SoloSceneName, PartySceneName })
+            {
+                string path = $"{DefaultFolder}/{sceneName}.unity";
+                if (AssetDatabase.LoadAssetAtPath<SceneAsset>(path) == null)
+                {
+                    result.warnings.Add($"{path} not found; run Build Movie Theatre first.");
+                    continue;
+                }
+                Scene scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                BakeNavMesh(DefaultFolder, sceneName, result);
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+            AssetDatabase.SaveAssets();
+
+            foreach (string warning in result.warnings)
+                Debug.LogWarning("[Movie Theatre] " + warning);
+            EditorSceneManager.OpenScene($"{DefaultFolder}/{SoloSceneName}.unity", OpenSceneMode.Single);
+            Debug.Log("[Movie Theatre] Baked the NavMesh for both scenes with the theatre's enemy settings.");
+        }
+
+        /// <summary>
         /// Builds both scenes into <paramref name="folder"/>. When <paramref name="register"/>
         /// is true they are added to Build Settings and the LevelDatabase.
         /// </summary>
@@ -740,6 +774,7 @@ namespace Com.GCTC.ZombCube.EditorTools
 
             string dataFolder = $"{folder}/{sceneName}";
             EnsureFolder(dataFolder);
+            var baked = new HashSet<string>();
             for (int i = 0; i < surfaces.Length; i++)
             {
                 NavMeshSurface surface = surfaces[i];
@@ -758,8 +793,16 @@ namespace Com.GCTC.ZombCube.EditorTools
                 string assetPath = $"{dataFolder}/NavMesh-{surface.name}-{i}.asset";
                 AssetDatabase.DeleteAsset(assetPath);
                 AssetDatabase.CreateAsset(surface.navMeshData, assetPath);
+                baked.Add(assetPath);
                 EditorUtility.SetDirty(surface);
                 PrefabUtility.RecordPrefabInstancePropertyModifications(surface);
+            }
+
+            // Drop NavMesh data the surfaces no longer use (e.g. left by the NavMeshSurface Bake button).
+            foreach (string guid in AssetDatabase.FindAssets("t:NavMeshData", new[] { dataFolder }))
+            {
+                string stale = AssetDatabase.GUIDToAssetPath(guid);
+                if (!baked.Contains(stale)) AssetDatabase.DeleteAsset(stale);
             }
         }
 
