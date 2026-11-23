@@ -269,7 +269,7 @@ namespace Com.GCTC.ZombCube.EditorTools
                 bool removedAny = false;
                 foreach (Component c in go.GetComponentsInChildren<Component>(true))
                 {
-                    if (c == null || c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer) continue;
+                    if (c == null || IsLook(c)) continue;
                     if (!CanRemove(c)) continue;
                     Object.DestroyImmediate(c);
                     removedAny = true;
@@ -280,6 +280,10 @@ namespace Com.GCTC.ZombCube.EditorTools
                 if (t.gameObject.layer == LayerMask.NameToLayer("MiniMap")) t.gameObject.SetActive(false);
             return go;
         }
+
+        // What a statue keeps: meshes and sprites (the enemies' faces are SpriteRenderers).
+        private static bool IsLook(Component c) =>
+            c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer || c is SpriteRenderer;
 
         // A component can go once nothing on its GameObject still requires it.
         private static bool CanRemove(Component c)

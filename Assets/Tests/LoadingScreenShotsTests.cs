@@ -35,9 +35,13 @@ public class LoadingScreenShotsTests
 
             // The cast must be renderers only, so nothing runs, moves or collides in play mode.
             foreach (Component c in shot.GetComponentsInChildren<Component>(true))
-                Assert.IsTrue(c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer || c is Camera,
+                Assert.IsTrue(c is Transform || c is MeshFilter || c is MeshRenderer || c is SkinnedMeshRenderer || c is SpriteRenderer || c is Camera,
                     $"{shot.name}/{c.name} still has {c.GetType().Name}");
         }
         Assert.Greater(root.GetComponentsInChildren<Transform>(true).Count(t => t.name.StartsWith("ZombCube") || t.name.StartsWith("FastCube")), 50, "Enemies");
+
+        // Enemies keep their face (a SpriteRenderer child), visible to the shot cameras.
+        int faces = root.GetComponentsInChildren<SpriteRenderer>(false).Count(r => r.gameObject.layer != LayerMask.NameToLayer("MiniMap"));
+        Assert.Greater(faces, 50, "Enemy faces");
     }
 }
