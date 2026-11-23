@@ -101,6 +101,14 @@ public class SpaceshipLevelBuilderTests
         Assert.Greater(walls.Count, 20, "Wall pieces");
         Assert.Greater(walls.Count(c => c.GetComponent<NavMeshModifier>() is NavMeshModifier m && m.overrideArea && m.area == notWalkable), walls.Count * 3 / 4, "Walls Not Walkable");
 
+        // Catwalks and decks are walkable (no Not Walkable modifier).
+        foreach (string floor in new[] { "Hangar Catwalk", "Reactor Catwalk Fore", "Reactor Catwalk Starboard", "Command Deck" })
+        {
+            GameObject go = GameObject.Find(floor);
+            Assert.IsNotNull(go, floor);
+            Assert.IsNull(go.GetComponent<NavMeshModifier>(), floor + " should be walkable for enemies");
+        }
+
         // It's an interior: every area has a ceiling and its own lights.
         Assert.GreaterOrEqual(UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Count(t => t.name.EndsWith(" Ceiling")), 9, "Ceilings");
         Assert.GreaterOrEqual(UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Count(l => l.type == LightType.Point), 15, "Point lights");
