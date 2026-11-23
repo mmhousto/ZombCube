@@ -100,7 +100,7 @@ namespace Com.GCTC.ZombCube.EditorTools
             new Vector3(-14.5f, BalconyLevel, -29), new Vector3(14.5f, BalconyLevel, -29),       // lobby balcony
             new Vector3(-18.5f, 0, -28.5f), new Vector3(-18.5f, 0, 4),                           // west corridor
             new Vector3(18.5f, 0, -28.5f), new Vector3(18.5f, 0, 4),                             // east corridor
-            new Vector3(-15, BalconyLevel, -6.5f), new Vector3(15, BalconyLevel, -6.5f),         // upper circle
+            new Vector3(-14.5f, BalconyLevel, -5f), new Vector3(14.5f, BalconyLevel, -5f),         // upper circle
             new Vector3(-19.5f, StageLevel, 24.5f), new Vector3(3, StageLevel, 25),              // backstage
             new Vector3(-19.5f, GalleryLevel, 25), new Vector3(19.5f, GalleryLevel, 21.5f),      // gallery
         };
@@ -409,11 +409,12 @@ namespace Com.GCTC.ZombCube.EditorTools
             float[] rows = { -9.2f, -7.4f };
             for (int r = 0; r < rows.Length; r++)
             {
-                float tier = BalconyLevel + 0.25f * (rows.Length - r);
-                Box(t, $"Circle Tier {r + 1} West", -9.5f, rows[r], 11, 1.8f, BalconyLevel, tier - BalconyLevel, m.carpet, Kind.Floor);
-                Box(t, $"Circle Tier {r + 1} East", 9.5f, rows[r], 11, 1.8f, BalconyLevel, tier - BalconyLevel, m.carpet, Kind.Floor);
-                SeatRow(t, $"Circle Seats {r + 1} West", -9.5f, rows[r], 10, tier, m);
-                SeatRow(t, $"Circle Seats {r + 1} East", 9.5f, rows[r], 10, tier, m);
+                // One stair riser per tier, so the tiers can be stepped onto from the walkways.
+                float tier = BalconyLevel + Riser * (rows.Length - r);
+                Box(t, $"Circle Tier {r + 1} West", -9.5f, rows[r], 10, 1.8f, BalconyLevel, tier - BalconyLevel, m.carpet, Kind.Floor);
+                Box(t, $"Circle Tier {r + 1} East", 9.5f, rows[r], 10, 1.8f, BalconyLevel, tier - BalconyLevel, m.carpet, Kind.Floor);
+                SeatRow(t, $"Circle Seats {r + 1} West", -9.5f, rows[r], 9, tier, m);
+                SeatRow(t, $"Circle Seats {r + 1} East", 9.5f, rows[r], 9, tier, m);
             }
         }
 
