@@ -88,6 +88,10 @@ namespace Com.GCTC.ZombCube
                 NetworkSpectatorManager.playerUserNames.Add((string)photonView.Owner.CustomProperties["UserName"]);
             }
 
+            // Remote players are drawn by the local Main Camera (behind walls); the local WeaponCam draws only our gun.
+            if (photonView.IsMine) PlayerViewLayers.ApplyLocal(gameObject, 0);
+            else PlayerViewLayers.ApplyRemote(gameObject);
+
             if (photonView.IsMine)
             {
 #if !DISABLESTEAMWORKS

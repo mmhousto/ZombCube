@@ -40,6 +40,26 @@ public class ProjectIntegrityTests
         Assert.IsEmpty(offenders, "Use SteamManager.IsReady instead of SteamManager.Initialized in:\n" + string.Join("\n", offenders));
     }
 
+    // PlayerViewLayers puts each local player's gun on PlayerView1-4 so other players are drawn by the
+    // Main Camera instead of the WeaponCam overlay (which showed them through walls).
+    [Test]
+    public void PlayerViewLayersExistAndCollideLikeBlaster()
+    {
+        int blaster = LayerMask.NameToLayer("Blaster");
+        Assert.GreaterOrEqual(blaster, 0, "Blaster layer");
+        for (int i = 1; i <= 4; i++)
+        {
+            int layer = LayerMask.NameToLayer("PlayerView" + i);
+            Assert.GreaterOrEqual(layer, 0, "Missing layer PlayerView" + i);
+            for (int other = 0; other < 32; other++)
+            {
+                if (other == layer || (other >= LayerMask.NameToLayer("PlayerView1") && other <= LayerMask.NameToLayer("PlayerView4"))) continue;
+                Assert.AreEqual(Physics.GetIgnoreLayerCollision(blaster, other), Physics.GetIgnoreLayerCollision(layer, other),
+                    $"PlayerView{i} should collide with layer {other} like Blaster does");
+            }
+        }
+    }
+
     [Test]
     public void PrefabsHaveNoMissingScripts()
     {

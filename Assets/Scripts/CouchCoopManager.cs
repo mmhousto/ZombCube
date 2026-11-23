@@ -141,6 +141,9 @@ namespace Com.GCTC.ZombCube
                     // spawns player
                     GameObject clone = Instantiate(playerPrefab, spawnPoints[i].position, spawnPoints[i].rotation, joinedPlayers[i].transform);
 
+                    // Other players are drawn by this player's Main Camera; its WeaponCam draws only its own gun.
+                    PlayerViewLayers.ApplyLocal(clone, i);
+
                     // Sets up player input
                     var playerInput = joinedPlayers[i].GetComponent<PlayerInput>();
                     playerInput.camera = clone.GetComponentInChildren<Camera>();
