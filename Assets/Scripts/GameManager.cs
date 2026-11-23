@@ -208,6 +208,7 @@ namespace Com.GCTC.ZombCube
             else
             {
             }
+            Time.timeScale = 1;
             SceneLoader.PlayGame();
         }
 

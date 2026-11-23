@@ -43,8 +43,10 @@ namespace Com.GCTC.ZombCube
         {
             foreach (GameObject player in joinedPlayers)
             {
-                Destroy(player.transform.GetChild(0).gameObject);
-                //Destroy(player.GetComponentInChildren<Canvas>().gameObject);
+                if (player == null || player.transform.childCount == 0) continue;
+                GameObject clone = player.transform.GetChild(0).gameObject;
+                ReleasePlayerObject(player, clone);
+                CoopPlayerTeardown.Run(clone);
             }
         }
 
@@ -52,8 +54,43 @@ namespace Com.GCTC.ZombCube
         {
             foreach(GameObject player in joinedPlayers)
             {
+                if (player == null) continue;
+                if (player.transform.childCount > 0)
+                {
+                    GameObject clone = player.transform.GetChild(0).gameObject;
+                    ReleasePlayerObject(player, clone);
+                    CoopPlayerTeardown.Run(clone);
+                }
                 Destroy(player);
             }
+        }
+
+        /// <summary>
+        /// Unhooks a spawned co-op player from its persistent PlayerInput before it is destroyed.
+        /// The clone carries its own MultiplayerEventSystem and InputSystemUIInputModule, which the
+        /// PlayerInput drives (uiInputModule) with its actions. Destroying them while still hooked up,
+        /// in the frame a UI click is being processed, froze the editor on Restart / Main Menu.
+        /// </summary>
+        private static void ReleasePlayerObject(GameObject player, GameObject clone)
+        {
+            PlayerInput playerInput = player.GetComponent<PlayerInput>();
+            if (playerInput != null)
+            {
+                playerInput.uiInputModule = null;
+                playerInput.camera = null;
+            }
+
+            foreach (InputSystemUIInputModule module in clone.GetComponentsInChildren<InputSystemUIInputModule>(true))
+            {
+                module.enabled = false;
+            }
+
+            foreach (EventSystem eventSystem in clone.GetComponentsInChildren<EventSystem>(true))
+            {
+                eventSystem.enabled = false;
+            }
+
+            clone.SetActive(false);
         }
 
         public void EnableDisableInput(bool newState)
@@ -74,7 +111,7 @@ namespace Com.GCTC.ZombCube
         // called second
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.buildIndex == 5 && GameManager.mode == 1)
+            if (GameScenes.IsSolo(scene.name) && GameManager.mode == 1)
             {
                 // Disable Elimination camera
                 GameManager.Instance.EnableDisableElimCam(false);
@@ -103,6 +140,9 @@ namespace Com.GCTC.ZombCube
                 {
                     // spawns player
                     GameObject clone = Instantiate(playerPrefab, spawnPoints[i].position, spawnPoints[i].rotation, joinedPlayers[i].transform);
+
+                    // Other players are drawn by this player's Main Camera; its WeaponCam draws only its own gun.
+                    PlayerViewLayers.ApplyLocal(clone, i);
 
                     // Sets up player input
                     var playerInput = joinedPlayers[i].GetComponent<PlayerInput>();
@@ -144,7 +184,7 @@ namespace Com.GCTC.ZombCube
 
                 played = true;
             }
-            else if (scene.buildIndex == 5) Destroy(gameObject);
+            else if (GameScenes.IsSolo(scene.name)) Destroy(gameObject);
         }
 
         public int GetNumOfPlayers()

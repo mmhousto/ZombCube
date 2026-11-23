@@ -43,6 +43,16 @@ public class SteamManager : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// True when Steam was already started (by the Steam sign-in). Unlike <see cref="Initialized"/>,
+	/// this never creates a SteamManager, so it never starts Steam mid-game.
+	/// </summary>
+	public static bool IsReady {
+		get {
+			return s_instance != null && s_instance.m_bInitialized;
+		}
+	}
+
 	protected SteamAPIWarningMessageHook_t m_SteamAPIWarningMessageHook;
 
 	[AOT.MonoPInvokeCallback(typeof(SteamAPIWarningMessageHook_t))]
@@ -174,6 +184,12 @@ public class SteamManager : MonoBehaviour {
 	}
 #else
 	public static bool Initialized {
+		get {
+			return false;
+		}
+	}
+
+	public static bool IsReady {
 		get {
 			return false;
 		}

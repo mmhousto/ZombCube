@@ -24,7 +24,7 @@ namespace Com.GCTC.ZombCube
 
         private void Start()
         {
-            if (SceneLoader.GetCurrentScene().name == "GameScene")
+            if (GameScenes.IsSoloActive)
             {
                 shoot = GetComponent<ShootProjectile>();
                 playerMovement = GetComponent<PlayerMovement>();
@@ -34,7 +34,7 @@ namespace Com.GCTC.ZombCube
                 shotBlaster = GetComponent<Shotblaster>();
                 launchGrenade = GetComponent<LaunchGrenade>();
             }
-            else if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            else if (GameScenes.IsPartyActive)
             {
                 networkShoot = GetComponent<NetworkShootProjectile>();
                 networkPlayerMovement = GetComponent<NetworkPlayerMovement>();
@@ -48,7 +48,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerEnter(Collider other)
         {
-            if (SceneLoader.GetCurrentScene().name == "GameScene")
+            if (GameScenes.IsSoloActive)
             {
                 if (other.CompareTag("TripleShot"))
                 {
@@ -97,7 +97,7 @@ namespace Com.GCTC.ZombCube
                     Destroy(other.gameObject);
                 }
             }
-            else if (SceneLoader.GetCurrentScene().name == "NetworkGameScene" && photonView.IsMine)
+            else if (GameScenes.IsPartyActive && photonView.IsMine)
             {
                 if (other.CompareTag("TripleShot"))
                 {
@@ -178,7 +178,7 @@ namespace Com.GCTC.ZombCube
         IEnumerator EndFullAutoPowerup()
         {
             yield return new WaitForSeconds(25f);
-            if (SceneLoader.GetCurrentScene().name == "GameScene")
+            if (GameScenes.IsSoloActive)
             {
                 tripleShotPowerup.fireRate *= 2;
                 shoot.fireRate *= 2;
@@ -186,7 +186,7 @@ namespace Com.GCTC.ZombCube
                 assaultBlaster.fireRate *= 2;
                 shotBlaster.fireRate *= 2;
             }
-            else if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            else if (GameScenes.IsPartyActive)
             {
                 networkTriple.fireRate *= 2;
                 networkShoot.fireRate *= 2;

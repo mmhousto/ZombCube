@@ -44,7 +44,7 @@ namespace Com.GCTC.ZombCube
             foreach (RaycastHit hit in hits)
             {
                 Transform hitPlayer = hit.transform;
-                if (hitPlayer.CompareTag("Player") && (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu"))
+                if (hitPlayer.CompareTag("Player") && (GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu"))
                 {
                     if (hitPlayers.Contains(hitPlayer.gameObject) || hitPlayer.parent != null && hitPlayers.Contains(hitPlayer.parent.gameObject))
                         continue;
@@ -74,7 +74,7 @@ namespace Com.GCTC.ZombCube
 
         void DestroyProjectile()
         {
-            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
+            if (GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
             {
                 Destroy(gameObject);
             }

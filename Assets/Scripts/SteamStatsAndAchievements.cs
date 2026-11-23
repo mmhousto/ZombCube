@@ -108,7 +108,7 @@ namespace Com.GCTC.ZombCube
 
         void Start()
 		{
-            if (!SteamManager.Initialized || (AuthenticationService.Instance != null && !AuthenticationService.Instance.IsSignedIn) || (CloudSaveLogin.Instance != null && CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam))
+            if (!SteamManager.IsReady || (AuthenticationService.Instance != null && !AuthenticationService.Instance.IsSignedIn) || (CloudSaveLogin.Instance != null && CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam))
 				return;
 
 			player = Player.Instance;
@@ -126,7 +126,7 @@ namespace Com.GCTC.ZombCube
 
 		private void Update()
 		{
-			if (!SteamManager.Initialized || !AuthenticationService.Instance.IsSignedIn || CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam)
+			if (!SteamManager.IsReady || !AuthenticationService.Instance.IsSignedIn || CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam)
 				return;
 
 			if(m_GameID == null)
@@ -150,7 +150,7 @@ namespace Com.GCTC.ZombCube
 			if (!m_bRequestedStats)
 			{
 				// Is Steam Loaded? if no, can't get stats, done
-				if (!SteamManager.Initialized)
+				if (!SteamManager.IsReady)
 				{
 					m_bRequestedStats = true;
 					return;
@@ -406,7 +406,7 @@ namespace Com.GCTC.ZombCube
         //-----------------------------------------------------------------------------
         private void OnUserStatsReceived(UserStatsReceived_t pCallback)
 		{
-			if (!SteamManager.Initialized)
+			if (!SteamManager.IsReady)
 				return;
 
 			// we may get callbacks for other games' stats arriving, ignore them
@@ -503,7 +503,7 @@ namespace Com.GCTC.ZombCube
 		//-----------------------------------------------------------------------------
 		public void Render()
 		{
-			if (!SteamManager.Initialized)
+			if (!SteamManager.IsReady)
 			{
 				GUILayout.Label("Steamworks not Initialized");
 				return;

@@ -9,6 +9,9 @@ namespace Com.GCTC.ZombCube
 
         public static int levelToLoad = 0;
 
+        /// <summary>Scene name for the Loading scene to load when levelToLoad is negative.</summary>
+        public static string sceneToLoad;
+
         public static void ToMainMenu()
         {
 #if UNITY_WSA
@@ -42,7 +45,9 @@ namespace Com.GCTC.ZombCube
 #if UNITY_WSA
             ResetLightingData();
 #endif
-            levelToLoad = 5;
+            // The selected map's Solo / Co-op scene (GameScene for the original map).
+            levelToLoad = -1;
+            sceneToLoad = GameScenes.SelectedSoloScene();
             SceneManager.LoadScene(7);
         }
 

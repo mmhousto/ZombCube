@@ -23,6 +23,43 @@ public class ProjectIntegrityTests
         Assert.IsEmpty(missing, "Build scenes missing from disk:\n" + string.Join("\n", missing));
     }
 
+    // SteamManager.Initialized creates a SteamManager and starts Steam if none exists. Gameplay
+    // code reading it started Steam mid-game (e.g. at game over), the likely cause of editor crashes; only the
+    // Steam sign-in may start Steam. Everything else uses SteamManager.IsReady.
+    [Test]
+    public void OnlySignInStartsSteam()
+    {
+        var offenders = new List<string>();
+        foreach (var path in Directory.GetFiles("Assets/Scripts", "*.cs", SearchOption.AllDirectories))
+        {
+            var file = path.Replace('\\', '/');
+            if (file.EndsWith("/CloudSaveLogin.cs") || file.Contains("/Steamworks.NET/")) continue;
+            if (File.ReadAllText(file).Contains("SteamManager.Initialized"))
+                offenders.Add(file);
+        }
+        Assert.IsEmpty(offenders, "Use SteamManager.IsReady instead of SteamManager.Initialized in:\n" + string.Join("\n", offenders));
+    }
+
+    // PlayerViewLayers puts each local player's gun on PlayerView1-4 so other players are drawn by the
+    // Main Camera instead of the WeaponCam overlay (which showed them through walls).
+    [Test]
+    public void PlayerViewLayersExistAndCollideLikeBlaster()
+    {
+        int blaster = LayerMask.NameToLayer("Blaster");
+        Assert.GreaterOrEqual(blaster, 0, "Blaster layer");
+        for (int i = 1; i <= 4; i++)
+        {
+            int layer = LayerMask.NameToLayer("PlayerView" + i);
+            Assert.GreaterOrEqual(layer, 0, "Missing layer PlayerView" + i);
+            for (int other = 0; other < 32; other++)
+            {
+                if (other == layer || (other >= LayerMask.NameToLayer("PlayerView1") && other <= LayerMask.NameToLayer("PlayerView4"))) continue;
+                Assert.AreEqual(Physics.GetIgnoreLayerCollision(blaster, other), Physics.GetIgnoreLayerCollision(layer, other),
+                    $"PlayerView{i} should collide with layer {other} like Blaster does");
+            }
+        }
+    }
+
     [Test]
     public void PrefabsHaveNoMissingScripts()
     {

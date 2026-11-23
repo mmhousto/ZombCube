@@ -389,7 +389,7 @@ namespace Com.GCTC.ZombCube
             playersSpawned = 0;
             playersEliminated = 0;
             Cursor.lockState = CursorLockMode.Locked;
-            PhotonNetwork.LoadLevel("NetworkGameScene");
+            PhotonNetwork.LoadLevel(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         }
 
         [PunRPC]
