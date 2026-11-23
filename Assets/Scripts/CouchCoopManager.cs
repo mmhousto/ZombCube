@@ -47,7 +47,7 @@ namespace Com.GCTC.ZombCube
                 CoopCrashLog.Step("DestroyPlayerObjects: " + player.name + " children " + player.transform.childCount);
                 GameObject clone = player.transform.GetChild(0).gameObject;
                 ReleasePlayerObject(player, clone);
-                Destroy(clone);
+                CoopPlayerTeardown.Run(clone);
             }
         }
 
@@ -58,7 +58,11 @@ namespace Com.GCTC.ZombCube
                 if (player == null) continue;
                 CoopCrashLog.Step("DestroyPlayers: " + player.name);
                 if (player.transform.childCount > 0)
-                    ReleasePlayerObject(player, player.transform.GetChild(0).gameObject);
+                {
+                    GameObject clone = player.transform.GetChild(0).gameObject;
+                    ReleasePlayerObject(player, clone);
+                    CoopPlayerTeardown.Run(clone);
+                }
                 Destroy(player);
             }
         }
