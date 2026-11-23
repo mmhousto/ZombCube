@@ -213,6 +213,7 @@ namespace Com.GCTC.ZombCube
             else
             {
             }
+            Time.timeScale = 1;
             CoopCrashLog.Step("Restart: SceneLoader.PlayGame");
             SceneLoader.PlayGame();
             CoopCrashLog.Step("Restart: PlayGame returned");

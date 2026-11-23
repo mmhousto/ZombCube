@@ -43,9 +43,11 @@ namespace Com.GCTC.ZombCube
         {
             foreach (GameObject player in joinedPlayers)
             {
+                if (player == null || player.transform.childCount == 0) continue;
                 CoopCrashLog.Step("DestroyPlayerObjects: " + player.name + " children " + player.transform.childCount);
-                Destroy(player.transform.GetChild(0).gameObject);
-                //Destroy(player.GetComponentInChildren<Canvas>().gameObject);
+                GameObject clone = player.transform.GetChild(0).gameObject;
+                ReleasePlayerObject(player, clone);
+                Destroy(clone);
             }
         }
 
@@ -53,9 +55,45 @@ namespace Com.GCTC.ZombCube
         {
             foreach(GameObject player in joinedPlayers)
             {
+                if (player == null) continue;
                 CoopCrashLog.Step("DestroyPlayers: " + player.name);
+                if (player.transform.childCount > 0)
+                    ReleasePlayerObject(player, player.transform.GetChild(0).gameObject);
                 Destroy(player);
             }
+        }
+
+        /// <summary>
+        /// Unhooks a spawned co-op player from its persistent PlayerInput before it is destroyed.
+        /// The clone carries its own MultiplayerEventSystem and InputSystemUIInputModule, which the
+        /// PlayerInput drives (uiInputModule) with its actions. Destroying them while still hooked up,
+        /// in the frame a UI click is being processed, froze the editor on Restart / Main Menu.
+        /// </summary>
+        private static void ReleasePlayerObject(GameObject player, GameObject clone)
+        {
+            PlayerInput playerInput = player.GetComponent<PlayerInput>();
+            if (playerInput != null)
+            {
+                CoopCrashLog.Step("Release: unhook uiInputModule/camera " + clone.name);
+                playerInput.uiInputModule = null;
+                playerInput.camera = null;
+            }
+
+            foreach (InputSystemUIInputModule module in clone.GetComponentsInChildren<InputSystemUIInputModule>(true))
+            {
+                CoopCrashLog.Step("Release: disable UI input module");
+                module.enabled = false;
+            }
+
+            foreach (EventSystem eventSystem in clone.GetComponentsInChildren<EventSystem>(true))
+            {
+                CoopCrashLog.Step("Release: disable event system");
+                eventSystem.enabled = false;
+            }
+
+            CoopCrashLog.Step("Release: deactivate " + clone.name);
+            clone.SetActive(false);
+            CoopCrashLog.Step("Release: done " + clone.name);
         }
 
         public void EnableDisableInput(bool newState)
