@@ -80,7 +80,7 @@ namespace Com.GCTC.ZombCube
 
             if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
             {
-                int j = Random.Range(0, spawnPoints.Length);
+                int j = SpawnPointPicker.Pick(spawnPoints);
                 GameObject cubeClone = Instantiate(enemies[4],
                 spawnPoints[j].transform.position,
                 spawnPoints[j].transform.rotation);
@@ -100,7 +100,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject fastCubeClone = Instantiate(enemies[1],
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -130,7 +130,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject dupeCubeClone = Instantiate(enemies[2],
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -159,7 +159,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject cubeClone = Instantiate(enemies[3],
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -186,7 +186,7 @@ namespace Com.GCTC.ZombCube
                     yield return secondsToWait;
                 }
 
-                int j = Random.Range(0, spawnPoints.Length);
+                int j = SpawnPointPicker.Pick(spawnPoints);
                 GameObject zombCubeClone = Instantiate(enemies[0],
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);

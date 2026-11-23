@@ -120,7 +120,7 @@ namespace Com.GCTC.ZombCube
 
             if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
             {
-                int j = Random.Range(0, spawnPoints.Length);
+                int j = SpawnPointPicker.Pick(spawnPoints);
                 GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
                 spawnPoints[j].transform.position,
                 spawnPoints[j].transform.rotation);
@@ -140,7 +140,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject fastCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkFastCube",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -171,7 +171,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject dupeCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkDupeCube",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -200,7 +200,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkShieldedCube",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -227,7 +227,7 @@ namespace Com.GCTC.ZombCube
                     yield return secondsToWait;
                 }
 
-                int j = Random.Range(0, spawnPoints.Length);
+                int j = SpawnPointPicker.Pick(spawnPoints);
                 GameObject zombCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkEnemy",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
