@@ -64,7 +64,7 @@ namespace Com.GCTC.ZombCube
 #if !DISABLESTEAMWORKS
             // Only touch Steam when it is running; otherwise steam_api is loaded for nothing and
             // takes over crash handling. Each player (up to 4 in co-op) registers its own callback.
-            if (SteamManager.Initialized)
+            if (SteamManager.IsReady)
                 overlayIsOn = Callback<GameOverlayActivated_t>.Create(PauseGameIfSteamOverlayOn);
 #endif
             // Check if a controller is initially connected
@@ -444,7 +444,7 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateLeaderboards()
         {
-            if (Social.localUser.authenticated || SteamManager.Initialized)
+            if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
                 LeaderboardManager.UpdateSoloHighestWaveLeaderboard();

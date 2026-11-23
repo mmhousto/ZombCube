@@ -686,7 +686,7 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateLeaderboards()
         {
-            if (Social.localUser.authenticated || SteamManager.Initialized)
+            if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
                 LeaderboardManager.UpdatePartyHighestWaveLeaderboard();

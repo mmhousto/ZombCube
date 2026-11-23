@@ -23,6 +23,23 @@ public class ProjectIntegrityTests
         Assert.IsEmpty(missing, "Build scenes missing from disk:\n" + string.Join("\n", missing));
     }
 
+    // SteamManager.Initialized creates a SteamManager and starts Steam if none exists. Gameplay
+    // code reading it started Steam mid-game (e.g. at game over), the likely cause of editor crashes; only the
+    // Steam sign-in may start Steam. Everything else uses SteamManager.IsReady.
+    [Test]
+    public void OnlySignInStartsSteam()
+    {
+        var offenders = new List<string>();
+        foreach (var path in Directory.GetFiles("Assets/Scripts", "*.cs", SearchOption.AllDirectories))
+        {
+            var file = path.Replace('\\', '/');
+            if (file.EndsWith("/CloudSaveLogin.cs") || file.Contains("/Steamworks.NET/")) continue;
+            if (File.ReadAllText(file).Contains("SteamManager.Initialized"))
+                offenders.Add(file);
+        }
+        Assert.IsEmpty(offenders, "Use SteamManager.IsReady instead of SteamManager.Initialized in:\n" + string.Join("\n", offenders));
+    }
+
     [Test]
     public void PrefabsHaveNoMissingScripts()
     {

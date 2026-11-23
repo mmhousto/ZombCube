@@ -76,7 +76,7 @@ public class SteamLeaderboardManager : MonoBehaviour
 
         leaderboardToBeInit = 0;
 
-        if (SteamManager.Initialized && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
+        if (SteamManager.IsReady && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
         {
             SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
             m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
