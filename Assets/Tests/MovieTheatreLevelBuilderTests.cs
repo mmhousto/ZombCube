@@ -83,7 +83,10 @@ public class MovieTheatreLevelBuilderTests
         Assert.Greater(walls.Count, 20, "Wall pieces");
         int markedWalls = walls.Count(c => c.GetComponent<NavMeshModifier>() is NavMeshModifier m && m.overrideArea && m.area == notWalkable);
         Assert.Greater(markedWalls, walls.Count * 3 / 4, "Most walls should be Not Walkable");
-        Assert.IsNotNull(GameObject.Find("Seats Row 1 West Seat")?.GetComponent<NavMeshModifier>(), "Seats should be Not Walkable");
+        GameObject seat = GameObject.Find("Seats Row 1 West Seat");
+        Assert.IsNotNull(seat, "Seat row");
+        Assert.IsNull(seat.GetComponent<NavMeshModifier>(), "Seats should stay walkable");
+        Assert.IsNotNull(GameObject.Find("Concession Counter")?.GetComponent<NavMeshModifier>(), "Props should be Not Walkable");
 
         // Starting lobby with twin staircases up to the balcony.
         Assert.IsNotNull(GameObject.Find("Grand Stairs West"), "West grand staircase");

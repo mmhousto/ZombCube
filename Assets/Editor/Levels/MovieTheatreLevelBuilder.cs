@@ -810,7 +810,10 @@ namespace Com.GCTC.ZombCube.EditorTools
         }
 
         // Props whose tops enemies should never use (their NavMesh islands only add links).
-        private static readonly string[] NotWalkableSuffixes = { " Seat", " Back", " Arm Ends", " Cap", " Top" };
+        private static readonly string[] NotWalkableSuffixes = { " Cap", " Top" };
+
+        // Cinema seats stay walkable: enemies climb over the rows.
+        private static readonly string[] WalkableSeatSuffixes = { " Seat", " Back", " Arm Ends" };
         private static readonly string[] NotWalkablePrefixes =
         {
             "Concession", "Crates", "Prop Crates", "Stage Crate", "Stage Piano", "Chandelier", "Debris", "Poster Case",
@@ -818,7 +821,7 @@ namespace Com.GCTC.ZombCube.EditorTools
         };
 
         /// <summary>
-        /// Gives walls, rails, columns and props in the level a NavMeshModifier with the Not Walkable area, so the
+        /// Gives walls, rails, columns and props (not the seats) in the level a NavMeshModifier with the Not Walkable area, so the
         /// enemy NavMesh has no islands on top of them (and no links up to them). Wall pieces whose top is a floor
         /// level are the sills enemies walk across under raised doorways, so they stay walkable.
         /// </summary>
@@ -835,6 +838,14 @@ namespace Com.GCTC.ZombCube.EditorTools
             foreach (Collider collider in root.GetComponentsInChildren<Collider>(true))
             {
                 GameObject go = collider.gameObject;
+                if (WalkableSeatSuffixes.Any(x => go.name.EndsWith(x)))
+                {
+                    // Undo an earlier bake that marked the seats.
+                    NavMeshModifier old = go.GetComponent<NavMeshModifier>();
+                    if (old != null) Object.DestroyImmediate(old, true);
+                    continue;
+                }
+
                 bool wall = go.layer == walls;
                 bool prop = !wall && (NotWalkableSuffixes.Any(x => go.name.EndsWith(x)) || NotWalkablePrefixes.Any(x => go.name.StartsWith(x)));
                 if (!wall && !prop) continue;
