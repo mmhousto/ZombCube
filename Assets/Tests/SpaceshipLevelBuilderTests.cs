@@ -101,6 +101,9 @@ public class SpaceshipLevelBuilderTests
         Assert.Greater(walls.Count, 20, "Wall pieces");
         Assert.Greater(walls.Count(c => c.GetComponent<NavMeshModifier>() is NavMeshModifier m && m.overrideArea && m.area == notWalkable), walls.Count * 3 / 4, "Walls Not Walkable");
 
+        // Boss spawn points in the big rooms.
+        Assert.AreEqual(2, UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Count(t => t.name.StartsWith("BossSpawnPoint")), "Boss spawn points");
+
         // Catwalks and decks are walkable (no Not Walkable modifier).
         foreach (string floor in new[] { "Hangar Catwalk", "Reactor Catwalk Fore", "Reactor Catwalk Starboard", "Command Deck" })
         {
@@ -124,6 +127,18 @@ public class SpaceshipLevelBuilderTests
             NavMesh.CalculatePath(start.position, end.position, filter, path);
             Assert.AreEqual(NavMeshPathStatus.PathComplete, path.status, spawn.name + " can't be reached from the hangar");
         }
+    }
+
+    // The committed (hand-edited) scenes: the roof that lifts off for the boss, and the boss spawn points.
+    [TestCase("Assets/Scenes/Levels/Spaceship/SpaceshipScene.unity")]
+    [TestCase("Assets/Scenes/Levels/Spaceship/NetworkSpaceshipScene.unity")]
+    public void CommittedSceneHasRoofAndBossSpawns(string path)
+    {
+        if (AssetDatabase.LoadAssetAtPath<SceneAsset>(path) == null) Assert.Ignore(path + " not built yet");
+        EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+        var all = UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        Assert.GreaterOrEqual(all.Count(t => t.name.EndsWith(" Ceiling")), 9, "Ceilings for BossRoof to lift");
+        Assert.AreEqual(2, all.Count(t => t.name.StartsWith("BossSpawnPoint")), "Boss spawn points");
     }
 
     [Test]

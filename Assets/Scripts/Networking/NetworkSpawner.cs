@@ -120,10 +120,8 @@ namespace Com.GCTC.ZombCube
 
             if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
             {
-                int j = SpawnPointPicker.Pick(spawnPoints);
-                GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
-                spawnPoints[j].transform.position,
-                spawnPoints[j].transform.rotation);
+                Transform bossSpawn = SpawnPointPicker.PickBoss(spawnPoints);
+                GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube", bossSpawn.position, bossSpawn.rotation);
             }
 
             if (currentRound > 2)

@@ -11,6 +11,20 @@ namespace Com.GCTC.ZombCube
         private static readonly System.Random rng = new System.Random();
         private static float[] distances = new float[0];
 
+        /// <summary>
+        /// Where a boss should spawn: one of the level's "BossSpawnPoint" objects (big open rooms), chosen
+        /// away from the players, or a regular spawn point when the level has none.
+        /// </summary>
+        public static Transform PickBoss(GameObject[] spawnPoints)
+        {
+            var bossPoints = new System.Collections.Generic.List<GameObject>();
+            foreach (Transform t in Object.FindObjectsByType<Transform>(FindObjectsSortMode.None))
+                if (t.name.StartsWith("BossSpawnPoint")) bossPoints.Add(t.gameObject);
+
+            GameObject[] pool = bossPoints.Count > 0 ? bossPoints.ToArray() : spawnPoints;
+            return pool[Pick(pool)].transform;
+        }
+
         public static int Pick(GameObject[] spawnPoints)
         {
             if (spawnPoints == null || spawnPoints.Length == 0) return 0;

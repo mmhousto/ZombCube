@@ -27,6 +27,9 @@ namespace Com.GCTC.ZombCube.EditorTools
     {
         public string id, displayName, soloScene, partyScene, folder, rootName;
         public Vector3[] playerSpawns, enemySpawns, healthPackSpots, weaponSpots;
+
+        /// <summary>Where the boss cube may spawn (big open rooms); empty means it uses the enemy spawns.</summary>
+        public Vector3[] bossSpawns = new Vector3[0];
         public Color previewColor = Color.white;
 
         /// <summary>Floor heights (metres) above the ground; wall pieces whose top is one of these are walkable sills.</summary>
@@ -292,6 +295,12 @@ namespace Com.GCTC.ZombCube.EditorTools
                 var spawn = new GameObject("SpawnPoint " + (i + 1)) { tag = "SpawnPoint" };
                 spawn.transform.SetParent(spawnRoot, false);
                 spawn.transform.position = World(spec.enemySpawns[i]);
+            }
+            for (int i = 0; i < spec.bossSpawns.Length; i++)
+            {
+                var spawn = new GameObject("BossSpawnPoint " + (i + 1));
+                spawn.transform.SetParent(spawnRoot, false);
+                spawn.transform.position = World(spec.bossSpawns[i]);
             }
 
             if (party)

@@ -23,6 +23,7 @@ namespace Com.GCTC.ZombCube
         {
             ai = GetComponent<NavMeshAgent>();
             target = GameObject.FindWithTag("Player").transform;
+            BossRoof.BossSpawned();
             health = 500 + (GameManager.Instance.numOfPlayers * 500);
             healthBar.maxValue = health;
             healthBar.value = health;
@@ -86,5 +87,11 @@ namespace Com.GCTC.ZombCube
         }
 
 
+    
+        // The roof comes back once the boss is gone (killed, or removed with the scene).
+        private void OnDestroy()
+        {
+            BossRoof.BossGone();
+        }
     }
 }

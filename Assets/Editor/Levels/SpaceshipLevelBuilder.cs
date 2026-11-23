@@ -60,6 +60,13 @@ namespace Com.GCTC.ZombCube.EditorTools
             new Vector3(-16, 0, 38), new Vector3(16, 0, 38), new Vector3(-4, DeckLevel, 38),  // bridge
         };
 
+        // The boss cube (13 m) spawns in the two biggest rooms; the roof lifts off while it is alive.
+        public static readonly Vector3[] BossSpawns =
+        {
+            new Vector3(12, 0, -20),                 // hangar
+            new Vector3(-10, 0, 32),                 // bridge
+        };
+
         public static readonly Vector3[] HealthPackSpots =
         {
             new Vector3(0, CatwalkLevel, -34),       // hangar catwalk
@@ -92,6 +99,7 @@ namespace Com.GCTC.ZombCube.EditorTools
             enemySpawns = EnemySpawns,
             healthPackSpots = HealthPackSpots,
             weaponSpots = WeaponSpots,
+            bossSpawns = BossSpawns,
             previewColor = new Color(0.1f, 0.45f, 0.7f, 1f),
             floorLevels = new[] { DeckLevel, CatwalkLevel },
             notWalkablePrefixes = new[] { "Shuttle", "Crate", "Console", "Bunk", "Locker", "Bed", "Pod", "Rack", "Reactor Core", "Reactor Base", "Reactor Ring", "Chair", "Pipe", "Light", "Window", "Table", "Hangar Door" },
