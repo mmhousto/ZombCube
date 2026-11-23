@@ -37,6 +37,7 @@ namespace Com.GCTC.ZombCube.EditorTools
         public const string SoloSceneName = "MovieTheatreScene";
         public const string PartySceneName = "NetworkMovieTheatreScene";
         public const string DefaultFolder = "Assets/Scenes/Levels/MovieTheatre";
+        public const string LevelRootName = "==== MOVIE THEATRE ====";
 
         private const string SoloTemplate = "Assets/Scenes/GameScene.unity";
         private const string PartyTemplate = "Assets/Scenes/NetworkGameScene.unity";
@@ -269,7 +270,7 @@ namespace Com.GCTC.ZombCube.EditorTools
             }
 
             // New environment.
-            var root = new GameObject("==== MOVIE THEATRE ====");
+            var root = new GameObject(LevelRootName);
             BuildGeometry(root.transform, materials);
 
             var spawnRoot = new GameObject("SpawnPoints").transform;
@@ -772,6 +773,8 @@ namespace Com.GCTC.ZombCube.EditorTools
                 return;
             }
 
+            MarkNotWalkable(SceneManager.GetActiveScene());
+
             string dataFolder = $"{folder}/{sceneName}";
             EnsureFolder(dataFolder);
             var baked = new HashSet<string>();
@@ -806,6 +809,48 @@ namespace Com.GCTC.ZombCube.EditorTools
             }
         }
 
+        // Props whose tops enemies should never use (their NavMesh islands only add links).
+        private static readonly string[] NotWalkableSuffixes = { " Seat", " Back", " Arm Ends", " Cap", " Top" };
+        private static readonly string[] NotWalkablePrefixes =
+        {
+            "Concession", "Crates", "Prop Crates", "Stage Crate", "Stage Piano", "Chandelier", "Debris", "Poster Case",
+            "Sconce", "Vanity", "Wardrobe", "Ticket Booth", "Projector", "Entrance Doors", "Boarded Window", "Fire Door", "Screen",
+        };
+
+        /// <summary>
+        /// Gives walls, rails, columns and props in the level a NavMeshModifier with the Not Walkable area, so the
+        /// enemy NavMesh has no islands on top of them (and no links up to them). Wall pieces whose top is a floor
+        /// level are the sills enemies walk across under raised doorways, so they stay walkable.
+        /// </summary>
+        public static int MarkNotWalkable(Scene scene)
+        {
+            GameObject root = scene.GetRootGameObjects().FirstOrDefault(g => g.name == LevelRootName);
+            if (root == null) return 0;
+
+            int notWalkable = NavMesh.GetAreaFromName("Not Walkable");
+            int walls = LayerMask.NameToLayer("Walls");
+            float[] floorTops = { StageLevel * S, BalconyLevel * S, GalleryLevel * S };
+            int marked = 0;
+
+            foreach (Collider collider in root.GetComponentsInChildren<Collider>(true))
+            {
+                GameObject go = collider.gameObject;
+                bool wall = go.layer == walls;
+                bool prop = !wall && (NotWalkableSuffixes.Any(x => go.name.EndsWith(x)) || NotWalkablePrefixes.Any(x => go.name.StartsWith(x)));
+                if (!wall && !prop) continue;
+                if (wall && floorTops.Any(top => Mathf.Abs(collider.bounds.max.y - top) < 0.05f)) continue;   // doorway sill
+
+                NavMeshModifier modifier = go.GetComponent<NavMeshModifier>();
+                if (modifier == null) modifier = go.AddComponent<NavMeshModifier>();
+                modifier.overrideArea = true;
+                modifier.area = notWalkable;
+                modifier.applyToChildren = true;
+                EditorUtility.SetDirty(modifier);
+                marked++;
+            }
+            return marked;
+        }
+
         /// <summary>Same bake as NavMeshSurface.BuildNavMesh, with the agent's headroom and step capped.</summary>
         private static void BuildForTheatre(NavMeshSurface surface, NavMeshBuildSettings settings)
         {
@@ -818,8 +863,20 @@ namespace Com.GCTC.ZombCube.EditorTools
 
             var sources = new List<NavMeshBuildSource>();
             var worldBounds = new Bounds(Vector3.zero, new Vector3(2000f, 1000f, 2000f));
-            NavMeshBuilder.CollectSources(worldBounds, surface.layerMask, surface.useGeometry, surface.defaultArea,
-                new List<NavMeshBuildMarkup>(), sources);
+            var markups = new List<NavMeshBuildMarkup>();
+            foreach (NavMeshModifier modifier in Object.FindObjectsByType<NavMeshModifier>(FindObjectsSortMode.None))
+            {
+                if (!modifier.isActiveAndEnabled || !modifier.AffectsAgentType(surface.agentTypeID)) continue;
+                markups.Add(new NavMeshBuildMarkup
+                {
+                    root = modifier.transform,
+                    overrideArea = modifier.overrideArea,
+                    area = modifier.area,
+                    ignoreFromBuild = modifier.ignoreFromBuild,
+                    applyToChildren = modifier.applyToChildren,
+                });
+            }
+            NavMeshBuilder.CollectSources(worldBounds, surface.layerMask, surface.useGeometry, surface.defaultArea, markups, sources);
             if (surface.ignoreNavMeshAgent)
                 sources.RemoveAll(s => s.component != null && s.component.gameObject.GetComponent<NavMeshAgent>() != null);
             if (surface.ignoreNavMeshObstacle)

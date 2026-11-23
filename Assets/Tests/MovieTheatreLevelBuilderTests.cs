@@ -76,6 +76,15 @@ public class MovieTheatreLevelBuilderTests
             Assert.IsTrue(body.isKinematic, ground.name + " Rigidbody should be kinematic");
         }
 
+        // Walls and props are Not Walkable for the enemies (no NavMesh islands or links on top of them).
+        int notWalkable = NavMesh.GetAreaFromName("Not Walkable");
+        int wallsLayer = LayerMask.NameToLayer("Walls");
+        var walls = UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).Where(c => c.gameObject.layer == wallsLayer).ToList();
+        Assert.Greater(walls.Count, 20, "Wall pieces");
+        int markedWalls = walls.Count(c => c.GetComponent<NavMeshModifier>() is NavMeshModifier m && m.overrideArea && m.area == notWalkable);
+        Assert.Greater(markedWalls, walls.Count * 3 / 4, "Most walls should be Not Walkable");
+        Assert.IsNotNull(GameObject.Find("Seats Row 1 West Seat")?.GetComponent<NavMeshModifier>(), "Seats should be Not Walkable");
+
         // Starting lobby with twin staircases up to the balcony.
         Assert.IsNotNull(GameObject.Find("Grand Stairs West"), "West grand staircase");
         Assert.IsNotNull(GameObject.Find("Grand Stairs East"), "East grand staircase");
