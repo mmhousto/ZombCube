@@ -18,8 +18,8 @@ namespace Com.GCTC.ZombCube.EditorTools
         private static readonly Dictionary<string, string> ByMaterial = new Dictionary<string, string>
         {
             { "Theatre_Carpet", "MinimapRed" }, { "Theatre_Curtain", "MinimapRed" }, { "Theatre_Seat", "MinimapRed" },
-            { "Theatre_Debris", "MinimapGray" }, { "Theatre_Floor", "MinimapOrange" }, { "Theatre_Stage", "MinimapOrange" },
-            { "Theatre_Wood", "MinimapOrange" }, { "Theatre_Marble", "DefaultMinimap" }, { "Theatre_Plaster", "DefaultMinimap" },
+            { "Theatre_Debris", "MinimapGray" }, { "Theatre_Floor", "MinimapBrown" }, { "Theatre_Stage", "MinimapBrown" },
+            { "Theatre_Wood", "MinimapBrown" }, { "Theatre_Marble", "DefaultMinimap" }, { "Theatre_Plaster", "DefaultMinimap" },
             { "Theatre_Screen", "DefaultBlaster" }, { "Theatre_Trim", "MinimapYellow" }, { "Theatre_Wall", "MinimapGray" },
             { "Ship_Floor", "MinimapBlack" }, { "Ship_Wall", "MinimapGray" }, { "Ship_Bulkhead", "MinimapGray" },
             { "Ship_Panel", "MinimapGray" }, { "Ship_Console", "MinimapBlueBlaster" }, { "Ship_Grate", "DefaultMinimap" },

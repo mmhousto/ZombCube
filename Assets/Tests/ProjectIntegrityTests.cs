@@ -72,6 +72,7 @@ public class ProjectIntegrityTests
         if (AssetDatabase.LoadAssetAtPath<SceneAsset>(path) == null) Assert.Ignore(path + " not built yet");
         EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
         int minimapLayer = LayerMask.NameToLayer("MiniMap");
+        int wallsLayer = LayerMask.NameToLayer("Walls");
         var bad = new List<string>();
         int icons = 0;
         foreach (MeshRenderer r in Object.FindObjectsByType<MeshRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -83,9 +84,15 @@ public class ProjectIntegrityTests
             Material m = r.sharedMaterial;
             if (m == null || !AssetDatabase.GetAssetPath(m).StartsWith("Assets/Materials/Minimap/"))
                 bad.Add($"{r.transform.parent?.name}/{r.name}: {(m == null ? "missing" : AssetDatabase.GetAssetPath(m))}");
+
+            // Wall icons sit at the wall's base: the minimap camera is only a few floors above the player.
+            Transform wall = r.transform.parent;
+            MeshRenderer wallRenderer = wall != null && wall.gameObject.layer == wallsLayer ? wall.GetComponent<MeshRenderer>() : null;
+            if (wallRenderer != null && Mathf.Abs(r.bounds.center.y - wallRenderer.bounds.min.y) > 1f)
+                bad.Add($"{wall.name}/{r.name}: icon at y {r.bounds.center.y:F2}, wall base at {wallRenderer.bounds.min.y:F2}");
         }
         Assert.Greater(icons, 0, "No minimap icons found");
-        Assert.IsEmpty(bad, "Minimap icons without a Minimap material:\n" + string.Join("\n", bad.Take(20)));
+        Assert.IsEmpty(bad, "Minimap icons with a wrong material or position:\n" + string.Join("\n", bad.Take(20)));
     }
 
     [Test]
