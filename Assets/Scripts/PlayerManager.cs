@@ -447,7 +447,7 @@ namespace Com.GCTC.ZombCube
             if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
-                LeaderboardManager.UpdateSoloHighestWaveLeaderboard();
+                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, CurrentPlayMode);
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
 
@@ -472,13 +472,13 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        // Couch Co-op has its own records and leaderboards, separate from Solo.
+        private static PlayMode CurrentPlayMode => GameManager.mode == 1 ? PlayMode.Coop : PlayMode.Solo;
+
         private void UpdateHighestWave()
         {
-            int endingRound = GameManager.Instance.CurrentRound;
-            if (player.highestWave < endingRound)
-            {
-                player.highestWave = endingRound;
-            }
+            if (player == null) return;
+            player.RecordWave(GameScenes.ActiveLevelId, CurrentPlayMode, GameManager.Instance.CurrentRound);
         }
 
         public void ResetPlayer()

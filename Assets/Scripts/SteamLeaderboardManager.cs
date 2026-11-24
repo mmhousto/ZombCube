@@ -18,9 +18,6 @@ public class SteamLeaderboardManager : MonoBehaviour
     public static SteamLeaderboardManager Instance { get { return instance; } }
 
     private SteamLeaderboard_t s_currentLeaderboard;
-    private bool s_initialized = false;
-    private CallResult<LeaderboardFindResult_t> m_findResult = new CallResult<LeaderboardFindResult_t>();
-    private CallResult<LeaderboardScoreUploaded_t> m_uploadResult = new CallResult<LeaderboardScoreUploaded_t>();
     private CallResult<LeaderboardScoresDownloaded_t> m_downloadResult = new CallResult<LeaderboardScoresDownloaded_t>();
 
     public enum LeaderboardName
@@ -40,26 +37,23 @@ public class SteamLeaderboardManager : MonoBehaviour
     }
     List<LeaderboardData> LeaderboardDataset;
 
-    private List<string> leaderboardNames = new List<string>{
+    // Steamworks names of the boards in LeaderboardName order. The per-map wave boards
+    // (WaveLeaderboards) are looked up by name the same way.
+    private static readonly string[] leaderboardNames =
+    {
         "Best Accuracy",
         "Cubes Destroyed",
         "Highest Party Wave",
         "Highest Solo Wave",
         "Most Points"
+    };
 
-    };
-    List<SteamLeaderboard_t> steamLeaderboards = new List<SteamLeaderboard_t>();
-    [SerializeField]
-    private List<bool> steamLeaderboardsInit = new List<bool>
-    {
-        false,
-        false,
-        false,
-        false,
-        false
-    };
-    int leaderboardToBeInit = 0;
-    int leaderboardsInit = 0;
+    // Boards found so far, by name; scores waiting for their board to be found.
+    private readonly Dictionary<string, SteamLeaderboard_t> foundBoards = new Dictionary<string, SteamLeaderboard_t>();
+    private readonly Dictionary<string, int> pendingScores = new Dictionary<string, int>();
+    private readonly HashSet<string> findsInFlight = new HashSet<string>();
+    // A CallResult only tracks one call, so each find/upload gets its own (kept alive until it completes).
+    private readonly List<object> liveCalls = new List<object>();
 
     private void Awake()
     {
@@ -68,44 +62,7 @@ public class SteamLeaderboardManager : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
-        else
-        {
-            instance = this;
-            //DontDestroyOnLoad(Instance.gameObject);
-        }
-
-        leaderboardToBeInit = 0;
-
-        if (SteamManager.IsReady && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
-        {
-            SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
-            SteamAPI.RunCallbacks();
-
-            /*
-            SteamAPICall_t hSteamAPICall2 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall2, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall3 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall3, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall4 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall4, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall5 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall5, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();*/
-        }
-
-
-        
+        instance = this;
     }
 
     private void Start()
@@ -120,46 +77,62 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public void UpdateScore(int score, LeaderboardName leaderboardName)
     {
-        if (!steamLeaderboardsInit[(int)leaderboardName])
+        UpdateScore(score, leaderboardNames[(int)leaderboardName]);
+    }
+
+    /// <summary>Uploads a score to the Steam leaderboard with this name, finding the board first if needed.</summary>
+    public void UpdateScore(int score, string boardName)
+    {
+        if (string.IsNullOrEmpty(boardName) || !SteamManager.IsReady) return;
+
+        if (foundBoards.TryGetValue(boardName, out SteamLeaderboard_t board))
         {
-            SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[(int)leaderboardName]);
-            m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
-            SteamAPI.RunCallbacks();
-            UpdateScore(score, leaderboardName);
+            Upload(board, score);
+            return;
         }
-        else
+
+        // Keep the latest score; it's uploaded once the board is found.
+        pendingScores[boardName] = score;
+        if (findsInFlight.Add(boardName))
         {
-            //Change upload method to 
-            SteamAPICall_t hSteamAPICall = SteamUserStats.UploadLeaderboardScore(steamLeaderboards[(int)leaderboardName], ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodForceUpdate, score, null, 0);
-            m_uploadResult.Set(hSteamAPICall, OnLeaderboardUploadResult);
-            SteamAPI.RunCallbacks();
+            var find = new CallResult<LeaderboardFindResult_t>();
+            liveCalls.Add(find);
+            find.Set(SteamUserStats.FindLeaderboard(boardName), (result, failure) =>
+            {
+                liveCalls.Remove(find);
+                findsInFlight.Remove(boardName);
+                OnLeaderboardFindResult(boardName, result, failure);
+            });
         }
     }
 
-    private void OnLeaderboardFindResult(LeaderboardFindResult_t pCallback, bool failure)
+    private void OnLeaderboardFindResult(string boardName, LeaderboardFindResult_t pCallback, bool failure)
     {
-        Debug.Log($"Steam Leaderboard Find: Did it fail? {failure}, Found: {pCallback.m_bLeaderboardFound}, leaderboardID: {pCallback.m_hSteamLeaderboard.m_SteamLeaderboard}");
-        //leaderboardToBeInit++;
-        if(leaderboardsInit == 5) return;
-        steamLeaderboards.Add(pCallback.m_hSteamLeaderboard);
-        steamLeaderboardsInit[leaderboardsInit] = true;
-        leaderboardsInit++;
-        leaderboardToBeInit++;
+        Debug.Log($"Steam Leaderboard Find '{boardName}': Did it fail? {failure}, Found: {pCallback.m_bLeaderboardFound}, leaderboardID: {pCallback.m_hSteamLeaderboard.m_SteamLeaderboard}");
+        if (failure || pCallback.m_bLeaderboardFound == 0)
+        {
+            pendingScores.Remove(boardName);
+            return;
+        }
 
-        if(leaderboardsInit <= 4)
-            StartCoroutine(InitializeNextLeaderboard());
+        foundBoards[boardName] = pCallback.m_hSteamLeaderboard;
+        if (pendingScores.TryGetValue(boardName, out int score))
+        {
+            pendingScores.Remove(boardName);
+            Upload(pCallback.m_hSteamLeaderboard, score);
+        }
     }
 
-    private IEnumerator InitializeNextLeaderboard()
+    private void Upload(SteamLeaderboard_t board, int score)
     {
-        yield return new WaitForSeconds(1f);
-
-        if (leaderboardToBeInit < leaderboardNames.Count)
+        var upload = new CallResult<LeaderboardScoreUploaded_t>();
+        liveCalls.Add(upload);
+        SteamAPICall_t call = SteamUserStats.UploadLeaderboardScore(board, ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodForceUpdate, score, null, 0);
+        upload.Set(call, (result, failure) =>
         {
-            SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
-            SteamAPI.RunCallbacks();
-        }
+            liveCalls.Remove(upload);
+            OnLeaderboardUploadResult(result, failure);
+        });
     }
 
     private void OnLeaderboardUploadResult(LeaderboardScoreUploaded_t pCallback, bool failure)

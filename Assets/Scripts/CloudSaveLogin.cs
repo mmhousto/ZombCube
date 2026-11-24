@@ -1347,6 +1347,8 @@ namespace Com.GCTC.ZombCube
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;
+            player.highestWaveParty = 0;
+            player.waveRecords = new WaveRecord[0];
             player.cubesEliminated = 0;
             player.totalPointsEarned = 0;
             player.totalProjectilesFired = 0;
@@ -1391,6 +1393,8 @@ namespace Com.GCTC.ZombCube
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
+            player.highestWaveParty = data.highestWaveParty;
+            player.waveRecords = data.waveRecords ?? new WaveRecord[0];
             player.cubesEliminated = data.cubesEliminated;
             player.totalPointsEarned = data.totalPointsEarned;
             player.totalProjectilesFired = data.totalProjectilesFired;
@@ -1438,6 +1442,8 @@ namespace Com.GCTC.ZombCube
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
+            player.highestWaveParty = data.highestWaveParty;
+            player.waveRecords = data.waveRecords ?? new WaveRecord[0];
             player.cubesEliminated = data.cubesEliminated;
             player.totalPointsEarned = data.totalPointsEarned;
             player.totalProjectilesFired = data.totalProjectilesFired;
@@ -1461,6 +1467,8 @@ namespace Com.GCTC.ZombCube
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;
+            player.highestWaveParty = 0;
+            player.waveRecords = new WaveRecord[0];
             player.cubesEliminated = 0;
             player.totalPointsEarned = 0;
             player.totalProjectilesFired = 0;

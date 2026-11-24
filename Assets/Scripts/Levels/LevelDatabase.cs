@@ -69,5 +69,13 @@ namespace Com.GCTC.ZombCube
                 if (entry.partyScene == sceneName) return true;
             return false;
         }
+
+        /// <summary>The level whose solo or party scene this is, or null.</summary>
+        public LevelEntry ForScene(string sceneName)
+        {
+            foreach (LevelEntry entry in entries)
+                if (entry.soloScene == sceneName || entry.partyScene == sceneName) return entry;
+            return null;
+        }
     }
 }

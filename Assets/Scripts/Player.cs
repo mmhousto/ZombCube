@@ -27,6 +27,7 @@ namespace Com.GCTC.ZombCube
         public int cubesEliminated = 0;
         public int totalPointsEarned = 0;
         public int totalProjectilesFired = 0;
+        public WaveRecord[] waveRecords = new WaveRecord[0];
 
         public Player(Player player)
         {
@@ -52,6 +53,25 @@ namespace Com.GCTC.ZombCube
             cubesEliminated = player.cubesEliminated;
             totalPointsEarned = player.totalPointsEarned;
             totalProjectilesFired = player.totalProjectilesFired;
+            waveRecords = player.waveRecords ?? new WaveRecord[0];
+        }
+
+        /// <summary>Best wave reached on a map in a mode.</summary>
+        public int BestWave(string levelId, PlayMode mode)
+        {
+            int best = WaveLeaderboards.Best(waveRecords, levelId, mode);
+            if (levelId == WaveLeaderboards.Arena && mode == PlayMode.Solo) best = Math.Max(best, highestWave);
+            if (levelId == WaveLeaderboards.Arena && mode == PlayMode.Party) best = Math.Max(best, highestWaveParty);
+            return best;
+        }
+
+        /// <summary>Saves a wave reached on a map in a mode if it beats the best. Arena Solo/Party also update the legacy fields.</summary>
+        public bool RecordWave(string levelId, PlayMode mode, int wave)
+        {
+            waveRecords = WaveLeaderboards.Record(waveRecords, levelId, mode, wave, out bool improved);
+            if (levelId == WaveLeaderboards.Arena && mode == PlayMode.Solo && wave > highestWave) highestWave = wave;
+            if (levelId == WaveLeaderboards.Arena && mode == PlayMode.Party && wave > highestWaveParty) highestWaveParty = wave;
+            return improved;
         }
 
         private void Awake()

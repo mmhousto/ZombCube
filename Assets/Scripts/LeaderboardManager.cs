@@ -17,8 +17,11 @@ namespace Com.GCTC.ZombCube
             if (Player.Instance != null)
             {
                 SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.totalPointsEarned, SteamLeaderboardManager.LeaderboardName.MostPoints);
-                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.highestWave, SteamLeaderboardManager.LeaderboardName.HighestSoloWave);
-                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.highestWaveParty, SteamLeaderboardManager.LeaderboardName.HighestPartyWave);
+                foreach (WaveBoard board in WaveLeaderboards.All)
+                {
+                    int best = Player.Instance.BestWave(board.LevelId, board.Mode);
+                    if (best > 0) SteamLeaderboardManager.Instance.UpdateScore(best, board.SteamName);
+                }
                 SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.cubesEliminated, SteamLeaderboardManager.LeaderboardName.CubesDestroyed);
                 SteamLeaderboardManager.Instance.UpdateScore((Player.Instance.totalProjectilesFired != 0) ? Player.Instance.cubesEliminated * 100 / Player.Instance.totalProjectilesFired : 0, SteamLeaderboardManager.LeaderboardName.BestAccuracy);
             }
@@ -50,50 +53,32 @@ namespace Com.GCTC.ZombCube
 #endif
         }
 
-        public static void UpdateSoloHighestWaveLeaderboard()
+        /// <summary>
+        /// Reports the player's best wave on a map in a mode (Solo, Co-op or Party) to the
+        /// signed-in platform's leaderboard for it. Boards a platform doesn't have are skipped.
+        /// </summary>
+        public static void UpdateWaveLeaderboard(string levelId, PlayMode mode)
         {
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
-            {
-                Social.ReportScore(Player.Instance.highestWave, "CgkI07-ynroOEAIQAQ", (bool success) =>
-                {
-                    // handle success or failure
-                });
-            }
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
-            {
-                Social.ReportScore(Player.Instance.highestWave, "highest_wave_on_starting_level", (bool success) =>
-                {
-                    // handle success or failure
-                });
-            }
-#if !DISABLESTEAMWORKS
-            else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
-            {
-                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.highestWave, SteamLeaderboardManager.LeaderboardName.HighestSoloWave);
-            }
-#endif
-        }
+            WaveBoard board = WaveLeaderboards.For(levelId, mode);
+            if (board == null || Player.Instance == null || CloudSaveLogin.Instance == null) return;
+            int best = Player.Instance.BestWave(levelId, mode);
+            if (best <= 0) return;
 
-        public static void UpdatePartyHighestWaveLeaderboard()
-        {
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
-                Social.ReportScore(Player.Instance.highestWaveParty, "CgkI07-ynroOEAIQAg", (bool success) =>
-                {
-                    // handle success or failure
-                });
+                if (board.GoogleId != null)
+                    Social.ReportScore(best, board.GoogleId, (bool success) => { });
             }
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
             {
-                Social.ReportScore(Player.Instance.highestWaveParty, "highest_party_wave_on_starting_level", (bool success) =>
-                {
-                    // handle success or failure
-                });
+                if (board.AppleId != null)
+                    Social.ReportScore(best, board.AppleId, (bool success) => { });
             }
 #if !DISABLESTEAMWORKS
             else if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
             {
-                SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.highestWaveParty, SteamLeaderboardManager.LeaderboardName.HighestPartyWave);
+                if (board.SteamName != null && SteamLeaderboardManager.Instance != null)
+                    SteamLeaderboardManager.Instance.UpdateScore(best, board.SteamName);
             }
 #endif
         }
