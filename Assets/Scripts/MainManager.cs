@@ -30,15 +30,23 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         void Awake()
         {
-#if (UNITY_XBOXONE || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN)
+#if (UNITY_XBOXONE || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL)
             if (iapButton != null)
                 iapButton.SetActive(false);
+#elif UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX
+            // On PC, coins are bought through Steam (needs the Steam sign-in).
+            if (iapButton != null)
+                iapButton.SetActive(SteamCoinStore.IsAvailable);
 #endif
         }
 
         private void Start()
         {
             player = Player.Instance;
+
+            // Finish any Steam coin purchase that was paid for but not completed last time.
+            if (SteamCoinStore.IsAvailable)
+                SteamCoinStore.Instance.FinishPendingOrders();
 
             analyticParams = new Dictionary<string, object>();
             analyticParams.Add("PlayerName", player.playerName);
