@@ -132,7 +132,7 @@ namespace Com.GCTC.ZombCube
 
                     enemiesHit++;
 
-                    if (enemiesHit >= 5 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+                    if (enemiesHit == 5)
                     {
                         LeaderboardManager.UnlockRicochetKing();
                     }
@@ -287,7 +287,7 @@ namespace Com.GCTC.ZombCube
 
             enemiesHit++;
 
-            if (enemiesHit >= 5 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (enemiesHit == 5)
             {
                 LeaderboardManager.UnlockRicochetKing();
             }

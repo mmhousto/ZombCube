@@ -131,8 +131,43 @@ namespace Com.GCTC.ZombCube
 #endif
         }
 
+        // Every unlock is also saved locally, so the in-game Achievements page works for all players.
+        private static void RecordLocal(string id)
+        {
+            if (Player.Instance != null) Player.Instance.UnlockAchievement(id);
+        }
+
+        /// <summary>True when the platform's own achievements/leaderboards UI (Game Center) is available.</summary>
+        public static bool HasNativeUI
+        {
+            get
+            {
+#if (UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_TVOS)
+                return Social.localUser.authenticated;
+#else
+                return false;
+#endif
+            }
+        }
+
+        /// <summary>True when the in-game leaderboards can show online scores (signed in with Steam).</summary>
+        public static bool HasSteamLeaderboards
+        {
+            get
+            {
+#if !DISABLESTEAMWORKS
+                return SteamManager.IsReady && CloudSaveLogin.Instance != null
+                    && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam
+                    && SteamLeaderboardManager.Instance != null;
+#else
+                return false;
+#endif
+            }
+        }
+
         public static void UnlockStayinAlive()
         {
+            RecordLocal("stayin_alive_solo");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQBg", 100.0f, (bool success) =>
@@ -151,6 +186,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockStayinAliveTogether()
         {
+            RecordLocal("stayin_alive_party");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDw", 100.0f, (bool success) =>
@@ -169,6 +205,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockCubeDestroyerI()
         {
+            RecordLocal("cube_destroyer_i");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQBw", 100.0f, (bool success) =>
@@ -187,6 +224,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockCubeDestroyerII()
         {
+            RecordLocal("cube_destroyer_ii");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQCA", 100.0f, (bool success) =>
@@ -205,6 +243,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockCubeDestroyerIII()
         {
+            RecordLocal("cube_destroyer_iii");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQCQ", 100.0f, (bool success) =>
@@ -223,6 +262,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockRicochetKing()
         {
+            RecordLocal("ricochet_king");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQCg", 100.0f, (bool success) =>
@@ -247,6 +287,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockTriggerHappyI()
         {
+            RecordLocal("trigger_happy_i");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQCw", 100.0f, (bool success) =>
@@ -265,6 +306,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockTriggerHappyII()
         {
+            RecordLocal("trigger_happy_ii");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDA", 100.0f, (bool success) =>
@@ -283,6 +325,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockTriggerHappyIII()
         {
+            RecordLocal("trigger_happy_iii");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDQ", 100.0f, (bool success) =>
@@ -301,6 +344,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockNGamer1()
         {
+            RecordLocal("n_gamer_1");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDg", 100.0f, (bool success) =>
@@ -325,6 +369,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockPointRackerI()
         {
+            RecordLocal("point_racker_i");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDQ", 100.0f, (bool success) =>
@@ -343,6 +388,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockPointRackerII()
         {
+            RecordLocal("point_racker_ii");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDQ", 100.0f, (bool success) =>
@@ -361,6 +407,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockPointRackerIII()
         {
+            RecordLocal("point_racker_iii");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDQ", 100.0f, (bool success) =>
@@ -379,6 +426,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockLetsPlay()
         {
+            RecordLocal("lets_play");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDg", 100.0f, (bool success) =>
@@ -403,6 +451,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockLetsPlayTogether()
         {
+            RecordLocal("lets_play_together");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDg", 100.0f, (bool success) =>
@@ -427,6 +476,7 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockLetsParty()
         {
+            RecordLocal("lets_party");
             if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportProgress("CgkI07-ynroOEAIQDg", 100.0f, (bool success) =>

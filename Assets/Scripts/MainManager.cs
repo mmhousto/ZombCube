@@ -52,7 +52,7 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = player.playerName;
 
-            /*if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && reportedNGamer == false)
+            /*if (player.playerName == "NGamer1" && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
@@ -180,7 +180,7 @@ namespace Com.GCTC.ZombCube
 
         private void CheckNGamer1()
         {
-            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && reportedNGamer == false)
+            if (player.playerName == "NGamer1" && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;

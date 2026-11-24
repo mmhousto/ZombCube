@@ -6,6 +6,7 @@ using Com.GCTC.ZombCube;
 #if !DISABLESTEAMWORKS
 using Steamworks;
 #endif
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -83,16 +84,85 @@ public class SteamLeaderboardManager : MonoBehaviour
     /// <summary>Uploads a score to the Steam leaderboard with this name, finding the board first if needed.</summary>
     public void UpdateScore(int score, string boardName)
     {
-        if (string.IsNullOrEmpty(boardName) || !SteamManager.IsReady) return;
-
-        if (foundBoards.TryGetValue(boardName, out SteamLeaderboard_t board))
+        if (string.IsNullOrEmpty(boardName)) return;
+        // Several uploads to one board before it's found: only the latest score is sent.
+        pendingScores[boardName] = score;
+        WithBoard(boardName, (found, board) =>
         {
-            Upload(board, score);
+            if (!pendingScores.TryGetValue(boardName, out int latest)) return;
+            pendingScores.Remove(boardName);
+            if (found) Upload(board, latest);
+        });
+    }
+
+    /// <summary>
+    /// Downloads entries from a board for the in-game leaderboards page. <paramref name="done"/> gets the rows
+    /// (empty if the board has no scores) or null if Steam couldn't be reached or the board doesn't exist.
+    /// </summary>
+    public void RequestEntries(string boardName, LeaderboardScope scope, int count, Action<List<LeaderboardRow>> done)
+    {
+        WithBoard(boardName, (found, board) =>
+        {
+            if (!found) { done?.Invoke(null); return; }
+
+            ELeaderboardDataRequest type;
+            int start, end;
+            switch (scope)
+            {
+                case LeaderboardScope.Friends:
+                    type = ELeaderboardDataRequest.k_ELeaderboardDataRequestFriends; start = 1; end = count; break;
+                case LeaderboardScope.AroundMe:
+                    type = ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobalAroundUser; start = -(count / 2); end = count - count / 2 - 1; break;
+                default:
+                    type = ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal; start = 1; end = count; break;
+            }
+
+            var download = new CallResult<LeaderboardScoresDownloaded_t>();
+            liveCalls.Add(download);
+            download.Set(SteamUserStats.DownloadLeaderboardEntries(board, type, start, end), (result, failure) =>
+            {
+                liveCalls.Remove(download);
+                if (failure) { done?.Invoke(null); return; }
+
+                CSteamID me = SteamUser.GetSteamID();
+                var rows = new List<LeaderboardRow>();
+                for (int i = 0; i < result.m_cEntryCount; i++)
+                {
+                    SteamUserStats.GetDownloadedLeaderboardEntry(result.m_hSteamLeaderboardEntries, i, out LeaderboardEntry_t entry, null, 0);
+                    rows.Add(new LeaderboardRow
+                    {
+                        rank = entry.m_nGlobalRank,
+                        name = SteamFriends.GetFriendPersonaName(entry.m_steamIDUser),
+                        score = entry.m_nScore,
+                        isMe = entry.m_steamIDUser == me
+                    });
+                }
+                done?.Invoke(rows);
+            });
+        });
+    }
+
+    // Finds a board by name once, then runs every action waiting for it.
+    private readonly Dictionary<string, List<Action<bool, SteamLeaderboard_t>>> waitingForBoard = new Dictionary<string, List<Action<bool, SteamLeaderboard_t>>>();
+
+    private void WithBoard(string boardName, Action<bool, SteamLeaderboard_t> then)
+    {
+        if (string.IsNullOrEmpty(boardName) || !SteamManager.IsReady)
+        {
+            then(false, default);
             return;
         }
 
-        // Keep the latest score; it's uploaded once the board is found.
-        pendingScores[boardName] = score;
+        if (foundBoards.TryGetValue(boardName, out SteamLeaderboard_t board))
+        {
+            then(true, board);
+            return;
+        }
+
+        if (!waitingForBoard.TryGetValue(boardName, out var waiting))
+            waitingForBoard[boardName] = waiting = new List<Action<bool, SteamLeaderboard_t>>();
+        waiting.Add(then);
+
         if (findsInFlight.Add(boardName))
         {
             var find = new CallResult<LeaderboardFindResult_t>();
@@ -109,18 +179,12 @@ public class SteamLeaderboardManager : MonoBehaviour
     private void OnLeaderboardFindResult(string boardName, LeaderboardFindResult_t pCallback, bool failure)
     {
         Debug.Log($"Steam Leaderboard Find '{boardName}': Did it fail? {failure}, Found: {pCallback.m_bLeaderboardFound}, leaderboardID: {pCallback.m_hSteamLeaderboard.m_SteamLeaderboard}");
-        if (failure || pCallback.m_bLeaderboardFound == 0)
-        {
-            pendingScores.Remove(boardName);
-            return;
-        }
+        bool found = !failure && pCallback.m_bLeaderboardFound != 0;
+        if (found) foundBoards[boardName] = pCallback.m_hSteamLeaderboard;
 
-        foundBoards[boardName] = pCallback.m_hSteamLeaderboard;
-        if (pendingScores.TryGetValue(boardName, out int score))
-        {
-            pendingScores.Remove(boardName);
-            Upload(pCallback.m_hSteamLeaderboard, score);
-        }
+        if (!waitingForBoard.TryGetValue(boardName, out var waiting)) return;
+        waitingForBoard.Remove(boardName);
+        foreach (var action in waiting) action(found, pCallback.m_hSteamLeaderboard);
     }
 
     private void Upload(SteamLeaderboard_t board, int score)

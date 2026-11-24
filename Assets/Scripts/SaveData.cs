@@ -24,6 +24,9 @@ namespace Com.GCTC.ZombCube
         // Best wave per map and mode (Arena Solo/Party also stay in highestWave/highestWaveParty).
         public WaveRecord[] waveRecords = new WaveRecord[0];
 
+        // Event achievements earned (AchievementCatalog IDs); stat achievements are worked out from the stats.
+        public string[] achievements = new string[0];
+
         // Stable cosmetic IDs (see CosmeticCatalog). These are the saved source of truth.
         // The index fields above are kept in sync for the existing runtime code.
         public int schemaVersion = 0;
@@ -71,6 +74,7 @@ namespace Com.GCTC.ZombCube
             totalPointsEarned = player.totalPointsEarned;
             totalProjectilesFired = player.totalProjectilesFired;
             waveRecords = player.waveRecords ?? new WaveRecord[0];
+            achievements = player.achievements ?? new string[0];
 
             ownedBlasterIds = SaveMigration.IdsFromFlags(player.ownedBlasters);
             ownedSkinIds = SaveMigration.IdsFromFlags(player.ownedSkins);
@@ -86,6 +90,7 @@ namespace Com.GCTC.ZombCube
         public void Normalize()
         {
             if (waveRecords == null) waveRecords = new WaveRecord[0];
+            if (achievements == null) achievements = new string[0];
 
             if (ownedBlasterIds == null)
                 ownedBlasterIds = SaveMigration.IdsFromFlags(ownedBlasters);
