@@ -57,7 +57,7 @@ namespace Com.GCTC.ZombCube
         /// Reports the player's best wave on a map in a mode (Solo, Co-op or Party) to the
         /// signed-in platform's leaderboard for it. Boards a platform doesn't have are skipped.
         /// </summary>
-        public static void UpdateWaveLeaderboard(string levelId, PlayMode mode)
+        public static void UpdateWaveLeaderboard(string levelId, WaveMode mode)
         {
             WaveBoard board = WaveLeaderboards.For(levelId, mode);
             if (board == null || Player.Instance == null || CloudSaveLogin.Instance == null) return;

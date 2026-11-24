@@ -16,7 +16,7 @@ public class WaveLeaderboardsTests
         for (int i = 0; i < entries.arraySize; i++)
         {
             string id = entries.GetArrayElementAtIndex(i).FindPropertyRelative("id").stringValue;
-            foreach (PlayMode mode in new[] { PlayMode.Solo, PlayMode.Coop, PlayMode.Party })
+            foreach (WaveMode mode in new[] { WaveMode.Solo, WaveMode.Coop, WaveMode.Party })
             {
                 WaveBoard board = WaveLeaderboards.For(id, mode);
                 Assert.IsNotNull(board, $"No {mode} leaderboard for level '{id}'");
@@ -36,28 +36,28 @@ public class WaveLeaderboardsTests
     [Test]
     public void ArenaKeepsTheOriginalBoards()
     {
-        Assert.AreEqual("highest_wave_on_starting_level", WaveLeaderboards.For("arena", PlayMode.Solo).AppleId);
-        Assert.AreEqual("Highest Solo Wave", WaveLeaderboards.For("arena", PlayMode.Solo).SteamName);
-        Assert.AreEqual("highest_party_wave_on_starting_level", WaveLeaderboards.For("arena", PlayMode.Party).AppleId);
-        Assert.AreEqual("Highest Party Wave", WaveLeaderboards.For("arena", PlayMode.Party).SteamName);
+        Assert.AreEqual("highest_wave_on_starting_level", WaveLeaderboards.For("arena", WaveMode.Solo).AppleId);
+        Assert.AreEqual("Highest Solo Wave", WaveLeaderboards.For("arena", WaveMode.Solo).SteamName);
+        Assert.AreEqual("highest_party_wave_on_starting_level", WaveLeaderboards.For("arena", WaveMode.Party).AppleId);
+        Assert.AreEqual("Highest Party Wave", WaveLeaderboards.For("arena", WaveMode.Party).SteamName);
     }
 
     [Test]
     public void RecordsOnlyGoUpAndAreSeparatePerMapAndMode()
     {
         WaveRecord[] records = null;
-        records = WaveLeaderboards.Record(records, "theatre", PlayMode.Coop, 12, out bool improved);
+        records = WaveLeaderboards.Record(records, "theatre", WaveMode.Coop, 12, out bool improved);
         Assert.IsTrue(improved);
-        records = WaveLeaderboards.Record(records, "theatre", PlayMode.Coop, 8, out improved);
+        records = WaveLeaderboards.Record(records, "theatre", WaveMode.Coop, 8, out improved);
         Assert.IsFalse(improved);
-        records = WaveLeaderboards.Record(records, "theatre", PlayMode.Solo, 5, out improved);
+        records = WaveLeaderboards.Record(records, "theatre", WaveMode.Solo, 5, out improved);
         Assert.IsTrue(improved);
-        records = WaveLeaderboards.Record(records, "spaceship", PlayMode.Coop, 20, out improved);
+        records = WaveLeaderboards.Record(records, "spaceship", WaveMode.Coop, 20, out improved);
 
-        Assert.AreEqual(12, WaveLeaderboards.Best(records, "theatre", PlayMode.Coop));
-        Assert.AreEqual(5, WaveLeaderboards.Best(records, "theatre", PlayMode.Solo));
-        Assert.AreEqual(0, WaveLeaderboards.Best(records, "theatre", PlayMode.Party));
-        Assert.AreEqual(20, WaveLeaderboards.Best(records, "spaceship", PlayMode.Coop));
+        Assert.AreEqual(12, WaveLeaderboards.Best(records, "theatre", WaveMode.Coop));
+        Assert.AreEqual(5, WaveLeaderboards.Best(records, "theatre", WaveMode.Solo));
+        Assert.AreEqual(0, WaveLeaderboards.Best(records, "theatre", WaveMode.Party));
+        Assert.AreEqual(20, WaveLeaderboards.Best(records, "spaceship", WaveMode.Coop));
         Assert.AreEqual(3, records.Length);
     }
 
@@ -71,9 +71,9 @@ public class WaveLeaderboardsTests
         Assert.IsNotNull(field, "SaveData.waveRecords missing");
 
         object data = System.Activator.CreateInstance(type);
-        field.SetValue(data, WaveLeaderboards.Record((WaveRecord[])field.GetValue(data), "spaceship", PlayMode.Party, 9, out _));
+        field.SetValue(data, WaveLeaderboards.Record((WaveRecord[])field.GetValue(data), "spaceship", WaveMode.Party, 9, out _));
         object loaded = JsonUtility.FromJson(JsonUtility.ToJson(data), type);
-        Assert.AreEqual(9, WaveLeaderboards.Best((WaveRecord[])field.GetValue(loaded), "spaceship", PlayMode.Party));
+        Assert.AreEqual(9, WaveLeaderboards.Best((WaveRecord[])field.GetValue(loaded), "spaceship", WaveMode.Party));
 
         // Saves from before wave records get an empty list once normalized.
         object old = JsonUtility.FromJson("{\"highestWave\":7}", type);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Com.GCTC.ZombCube
 {
     /// <summary>How a game is being played, for wave records and leaderboards.</summary>
-    public enum PlayMode
+    public enum WaveMode
     {
         Solo,
         Coop,
@@ -15,12 +15,12 @@ namespace Com.GCTC.ZombCube
     public sealed class WaveBoard
     {
         public readonly string LevelId;
-        public readonly PlayMode Mode;
+        public readonly WaveMode Mode;
         public readonly string AppleId;
         public readonly string GoogleId;
         public readonly string SteamName;
 
-        public WaveBoard(string levelId, PlayMode mode, string appleId, string googleId, string steamName)
+        public WaveBoard(string levelId, WaveMode mode, string appleId, string googleId, string steamName)
         {
             LevelId = levelId;
             Mode = mode;
@@ -51,31 +51,31 @@ namespace Com.GCTC.ZombCube
 
         public static readonly IReadOnlyList<WaveBoard> All = new[]
         {
-            new WaveBoard(Arena, PlayMode.Solo, "highest_wave_on_starting_level", "CgkI07-ynroOEAIQAQ", "Highest Solo Wave"),
-            new WaveBoard(Arena, PlayMode.Party, "highest_party_wave_on_starting_level", "CgkI07-ynroOEAIQAg", "Highest Party Wave"),
-            new WaveBoard(Arena, PlayMode.Coop, "highest_coop_wave_on_starting_level", null, "Highest COOP Wave"),
+            new WaveBoard(Arena, WaveMode.Solo, "highest_wave_on_starting_level", "CgkI07-ynroOEAIQAQ", "Highest Solo Wave"),
+            new WaveBoard(Arena, WaveMode.Party, "highest_party_wave_on_starting_level", "CgkI07-ynroOEAIQAg", "Highest Party Wave"),
+            new WaveBoard(Arena, WaveMode.Coop, "highest_coop_wave_on_starting_level", null, "Highest COOP Wave"),
 
-            new WaveBoard(Spaceship, PlayMode.Solo, "highest_wave_spaceship", null, "Highest Solo Wave - Spaceship"),
-            new WaveBoard(Spaceship, PlayMode.Party, "highest_party_wave_spaceship", null, "Highest Party Wave - Spaceship"),
-            new WaveBoard(Spaceship, PlayMode.Coop, "highest_coop_wave_spaceship", null, "Highest COOP Wave - Spaceship"),
+            new WaveBoard(Spaceship, WaveMode.Solo, "highest_wave_spaceship", null, "Highest Solo Wave - Spaceship"),
+            new WaveBoard(Spaceship, WaveMode.Party, "highest_party_wave_spaceship", null, "Highest Party Wave - Spaceship"),
+            new WaveBoard(Spaceship, WaveMode.Coop, "highest_coop_wave_spaceship", null, "Highest COOP Wave - Spaceship"),
 
-            new WaveBoard(Theatre, PlayMode.Solo, "highest_wave_theatre", null, "Highest Solo Wave - Theatre"),
-            new WaveBoard(Theatre, PlayMode.Party, "highest_party_wave_theatre", null, "Highest Party Wave - Theatre"),
-            new WaveBoard(Theatre, PlayMode.Coop, "highest_coop_wave_theatre", null, "Highest COOP Wave - Theatre"),
+            new WaveBoard(Theatre, WaveMode.Solo, "highest_wave_theatre", null, "Highest Solo Wave - Theatre"),
+            new WaveBoard(Theatre, WaveMode.Party, "highest_party_wave_theatre", null, "Highest Party Wave - Theatre"),
+            new WaveBoard(Theatre, WaveMode.Coop, "highest_coop_wave_theatre", null, "Highest COOP Wave - Theatre"),
         };
 
         /// <summary>The board for a map and mode, or null if there isn't one.</summary>
-        public static WaveBoard For(string levelId, PlayMode mode)
+        public static WaveBoard For(string levelId, WaveMode mode)
         {
             foreach (WaveBoard board in All)
                 if (board.LevelId == levelId && board.Mode == mode) return board;
             return null;
         }
 
-        public static string ModeKey(PlayMode mode) => mode.ToString().ToLowerInvariant();
+        public static string ModeKey(WaveMode mode) => mode.ToString().ToLowerInvariant();
 
         /// <summary>Best saved wave for a map and mode (0 if none).</summary>
-        public static int Best(WaveRecord[] records, string levelId, PlayMode mode)
+        public static int Best(WaveRecord[] records, string levelId, WaveMode mode)
         {
             if (records == null || string.IsNullOrEmpty(levelId)) return 0;
             string key = ModeKey(mode);
@@ -89,7 +89,7 @@ namespace Com.GCTC.ZombCube
         /// Records a wave if it beats the saved best. Returns the (possibly new) array;
         /// <paramref name="improved"/> tells whether the best went up.
         /// </summary>
-        public static WaveRecord[] Record(WaveRecord[] records, string levelId, PlayMode mode, int wave, out bool improved)
+        public static WaveRecord[] Record(WaveRecord[] records, string levelId, WaveMode mode, int wave, out bool improved)
         {
             improved = false;
             if (string.IsNullOrEmpty(levelId) || wave <= 0) return records ?? new WaveRecord[0];

@@ -693,7 +693,7 @@ namespace Com.GCTC.ZombCube
             if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
-                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, PlayMode.Party);
+                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, WaveMode.Party);
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
             }
@@ -748,7 +748,7 @@ namespace Com.GCTC.ZombCube
                 player = Player.Instance;
 
             if (player != null)
-                player.RecordWave(GameScenes.ActiveLevelId, PlayMode.Party, NetworkGameManager.Instance.CurrentRound);
+                player.RecordWave(GameScenes.ActiveLevelId, WaveMode.Party, NetworkGameManager.Instance.CurrentRound);
         }
 
         private void Pause()

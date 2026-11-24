@@ -57,20 +57,20 @@ namespace Com.GCTC.ZombCube
         }
 
         /// <summary>Best wave reached on a map in a mode.</summary>
-        public int BestWave(string levelId, PlayMode mode)
+        public int BestWave(string levelId, WaveMode mode)
         {
             int best = WaveLeaderboards.Best(waveRecords, levelId, mode);
-            if (levelId == WaveLeaderboards.Arena && mode == PlayMode.Solo) best = Math.Max(best, highestWave);
-            if (levelId == WaveLeaderboards.Arena && mode == PlayMode.Party) best = Math.Max(best, highestWaveParty);
+            if (levelId == WaveLeaderboards.Arena && mode == WaveMode.Solo) best = Math.Max(best, highestWave);
+            if (levelId == WaveLeaderboards.Arena && mode == WaveMode.Party) best = Math.Max(best, highestWaveParty);
             return best;
         }
 
         /// <summary>Saves a wave reached on a map in a mode if it beats the best. Arena Solo/Party also update the legacy fields.</summary>
-        public bool RecordWave(string levelId, PlayMode mode, int wave)
+        public bool RecordWave(string levelId, WaveMode mode, int wave)
         {
             waveRecords = WaveLeaderboards.Record(waveRecords, levelId, mode, wave, out bool improved);
-            if (levelId == WaveLeaderboards.Arena && mode == PlayMode.Solo && wave > highestWave) highestWave = wave;
-            if (levelId == WaveLeaderboards.Arena && mode == PlayMode.Party && wave > highestWaveParty) highestWaveParty = wave;
+            if (levelId == WaveLeaderboards.Arena && mode == WaveMode.Solo && wave > highestWave) highestWave = wave;
+            if (levelId == WaveLeaderboards.Arena && mode == WaveMode.Party && wave > highestWaveParty) highestWaveParty = wave;
             return improved;
         }
 
