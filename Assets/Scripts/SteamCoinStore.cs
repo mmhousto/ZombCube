@@ -94,37 +94,63 @@ namespace Com.GCTC.ZombCube
         }
 
         /// <summary>
-        /// Buys a coin pack by its product ID (the same IDs as the mobile stores).
-        /// <paramref name="done"/> gets the result and the coins granted.
+        /// Buys a coin pack by its product ID (the same IDs as the mobile stores). Progress and problems
+        /// are shown with the game's ErrorMessage banner. <paramref name="done"/> gets the result and coins.
         /// </summary>
-        public async void Buy(string productId, Action<Result, int> done)
+        public async void Buy(string productId, Action<Result, int> done = null)
         {
 #if !DISABLESTEAMWORKS
-            if (busy || !IsAvailable)
+            if (busy) return;
+            if (!IsAvailable)
             {
+                Notify("Sign in with Steam to buy coins.");
                 done?.Invoke(Result.Failed, 0);
                 return;
             }
+            if (!SteamUtils.IsOverlayEnabled())
+            {
+                // Steam asks the player to approve in-game purchases in the overlay, so it must be on.
+                Notify("Steam purchases need the Steam overlay. Turn on \"Enable the Steam Overlay while in-game\" in Steam Settings > In Game, then restart the game.");
+                done?.Invoke(Result.Failed, 0);
+                return;
+            }
+
             busy = true;
             try
             {
                 if (authorizationCallback == null)
                     authorizationCallback = Callback<MicroTxnAuthorizationResponse_t>.Create(OnAuthorization);
 
-                var init = await CloudCodeService.Instance.CallEndpointAsync<InitResponse>("SteamInitPurchase",
-                    new Dictionary<string, object>
-                    {
-                        { "productId", productId },
-                        { "steamId", SteamUser.GetSteamID().m_SteamID.ToString() }
-                    });
+                Notify("Contacting Steam...");
+                InitResponse init;
+                try
+                {
+                    init = await CloudCodeService.Instance.CallEndpointAsync<InitResponse>("SteamInitPurchase",
+                        new Dictionary<string, object>
+                        {
+                            { "productId", productId },
+                            { "steamId", SteamUser.GetSteamID().m_SteamID.ToString() }
+                        });
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("SteamInitPurchase failed: " + e);
+                    Notify("Store server error: " + Short(e.Message) + " You weren't charged.");
+                    done?.Invoke(Result.Failed, 0);
+                    return;
+                }
+
                 if (init == null || !init.ok || !ulong.TryParse(init.orderId, out ulong orderId))
                 {
-                    Debug.LogWarning($"Steam purchase couldn't start: {init?.error}");
+                    string reason = init == null ? "no response from the store server" : (string.IsNullOrEmpty(init.error) ? "unknown error" : init.error);
+                    Debug.LogWarning("Steam purchase couldn't start: " + reason);
+                    Notify("Steam purchase failed: " + reason + ". You weren't charged.");
                     done?.Invoke(Result.Failed, 0);
                     return;
                 }
 
                 // Steam's overlay now asks the player to approve the purchase.
+                Notify("Approve the purchase in the Steam overlay.");
                 waitingOrderId = orderId;
                 waitingForAuthorization = new TaskCompletionSource<bool>();
                 Task<bool> approval = waitingForAuthorization.Task;
@@ -132,25 +158,35 @@ namespace Com.GCTC.ZombCube
                 waitingForAuthorization = null;
                 if (!answered)
                 {
-                    // No answer from Steam (overlay closed or disabled). Check the order again next launch.
+                    // No answer from Steam. Check the order again next launch in case it was approved.
                     AddPending(init.orderId);
+                    Notify("Steam didn't answer. If you approved the purchase, your coins will be added next time you start the game.");
                     done?.Invoke(Result.Failed, 0);
                     return;
                 }
-                bool approved = approval.Result;
-                if (!approved)
+                if (!approval.Result)
                 {
+                    Notify("Purchase cancelled. You weren't charged.");
                     done?.Invoke(Result.Cancelled, 0);
                     return;
                 }
 
                 AddPending(init.orderId);   // paid for: finish it even if the game closes now
                 int coins = await Finalize(init.orderId);
-                done?.Invoke(coins > 0 ? Result.Granted : Result.Failed, coins);
+                if (coins > 0)
+                    done?.Invoke(Result.Granted, coins);   // Grant() shows the thank-you message
+                else
+                {
+                    Notify(coins < 0
+                        ? "Your purchase is still processing. Your coins will be added as soon as Steam confirms it."
+                        : "Steam couldn't complete the payment. You weren't charged.");
+                    done?.Invoke(Result.Failed, 0);
+                }
             }
             catch (Exception e)
             {
-                Debug.LogWarning("Steam purchase failed: " + e.Message);
+                Debug.LogWarning("Steam purchase failed: " + e);
+                Notify("Steam purchase failed: " + Short(e.Message));
                 done?.Invoke(Result.Failed, 0);
             }
             finally
@@ -161,6 +197,20 @@ namespace Com.GCTC.ZombCube
             await Task.Yield();
             done?.Invoke(Result.Failed, 0);
 #endif
+        }
+
+        private static void Notify(string message)
+        {
+            if (ErrorManager.Instance != null) ErrorManager.Instance.StartErrorMessage(message);
+            else Debug.Log(message);
+        }
+
+        // Cloud Code exceptions can carry long JSON; keep the banner readable.
+        private static string Short(string message)
+        {
+            if (string.IsNullOrEmpty(message)) return "unknown error.";
+            message = message.Replace("\n", " ").Trim();
+            return message.Length > 140 ? message.Substring(0, 140) + "..." : message;
         }
 
 #if !DISABLESTEAMWORKS
@@ -195,10 +245,10 @@ namespace Com.GCTC.ZombCube
             catch (Exception e)
             {
                 Debug.LogWarning($"Steam order {orderId} couldn't be finalized yet: {e.Message}");
-                return 0;   // keep it pending; it's retried on the next launch
+                return -1;   // keep it pending; it's retried on the next launch
             }
 
-            if (result == null) return 0;
+            if (result == null) return -1;
             if (result.ok)
             {
                 RemovePending(orderId);
@@ -207,8 +257,12 @@ namespace Com.GCTC.ZombCube
             }
 
             // "pending" (Steam hasn't finished approving) and "error" stay pending for a retry.
-            if (result.status == "cancelled" || result.status == "unknown") RemovePending(orderId);
-            return 0;
+            if (result.status == "cancelled" || result.status == "unknown")
+            {
+                RemovePending(orderId);
+                return 0;
+            }
+            return -1;
         }
 #endif
 
@@ -220,6 +274,7 @@ namespace Com.GCTC.ZombCube
             try { SaveSystem.SavePlayer(player); } catch { Debug.Log("Failed to save local data."); }
             try { CloudSaveLogin.Instance.SaveCloudData(); } catch { Debug.Log("Failed to save cloud data."); }
             CustomAnalytics.SendIAPComplete();
+            Notify($"Thanks! +{coins} {(coins == 1 ? "Coin" : "Coins")}");
             CoinsGranted?.Invoke(coins);
         }
 

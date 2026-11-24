@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +14,6 @@ namespace Com.GCTC.ZombCube
 
         // Steam: the coin pack buttons buy through SteamCoinStore instead of Unity IAP.
         private readonly List<Button> steamButtons = new List<Button>();
-        private TextMeshProUGUI steamMessage;
-        private float hideMessageAt;
 
         private void Awake()
         {
@@ -34,16 +31,6 @@ namespace Com.GCTC.ZombCube
                 UseSteamForCoinButtons();
         }
 
-        private void OnEnable()
-        {
-            SteamCoinStore.CoinsGranted += OnSteamCoinsGranted;
-        }
-
-        private void OnDisable()
-        {
-            SteamCoinStore.CoinsGranted -= OnSteamCoinsGranted;
-        }
-
         private void Update()
         {
             if (steamButtons.Count == 0) return;
@@ -52,9 +39,6 @@ namespace Com.GCTC.ZombCube
             bool usable = !SteamCoinStore.IsBusy;
             foreach (Button b in steamButtons)
                 if (b != null && b.interactable != usable) b.interactable = usable;
-
-            if (steamMessage != null && steamMessage.gameObject.activeSelf && Time.unscaledTime > hideMessageAt && !SteamCoinStore.IsBusy)
-                steamMessage.gameObject.SetActive(false);
         }
 
         public void GrantCoins(int credits)
@@ -108,57 +92,11 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        // Progress, problems and the thank-you message are shown with the ErrorMessage banner.
         private void BuyOnSteam(string productId)
         {
-            if (SteamCoinStore.IsBusy) return;
-            ShowMessage("Complete the purchase in the Steam overlay...", 60f);
-            SteamCoinStore.Instance.Buy(productId, (result, coins) =>
-            {
-                switch (result)
-                {
-                    case SteamCoinStore.Result.Granted:
-                        // OnSteamCoinsGranted shows the message.
-                        break;
-                    case SteamCoinStore.Result.Cancelled:
-                        ShowMessage("Purchase cancelled.", 3f);
-                        break;
-                    default:
-                        ShowMessage("The purchase couldn't be completed. You weren't charged.", 5f);
-                        break;
-                }
-            });
-        }
-
-        private void OnSteamCoinsGranted(int coins)
-        {
-            ShowMessage($"Thanks! +{coins} {(coins == 1 ? "Coin" : "Coins")}", 4f);
-        }
-
-        private void ShowMessage(string text, float seconds)
-        {
-            if (steamMessage == null)
-            {
-                TextMeshProUGUI template = GetComponentInChildren<TextMeshProUGUI>(true);
-                if (template == null) return;
-                steamMessage = Instantiate(template, transform);
-                steamMessage.name = "SteamPurchaseMessage";
-                steamMessage.raycastTarget = false;
-                steamMessage.alignment = TextAlignmentOptions.Center;
-                steamMessage.enableAutoSizing = true;
-                steamMessage.fontSizeMin = 18f;
-                steamMessage.fontSizeMax = 40f;
-                RectTransform rt = steamMessage.rectTransform;
-                rt.anchorMin = new Vector2(0.1f, 0f);
-                rt.anchorMax = new Vector2(0.9f, 0f);
-                rt.pivot = new Vector2(0.5f, 0f);
-                rt.anchoredPosition = new Vector2(0f, 30f);
-                rt.sizeDelta = new Vector2(0f, 60f);
-                rt.localScale = Vector3.one;
-            }
-            steamMessage.text = text;
-            steamMessage.gameObject.SetActive(true);
-            steamMessage.transform.SetAsLastSibling();
-            hideMessageAt = Time.unscaledTime + seconds;
+            if (!SteamCoinStore.IsBusy)
+                SteamCoinStore.Instance.Buy(productId);
         }
     }
 
