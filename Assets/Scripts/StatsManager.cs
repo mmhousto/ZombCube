@@ -38,13 +38,13 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        // Game Center players get the Apple UI; everyone else gets the in-game page.
+        // In-game page for everyone (it has a GAME CENTER button for Apple players); Apple UI as a fallback.
         public void ShowAchievements()
         {
-            if (LeaderboardManager.HasNativeUI)
-                Social.ShowAchievementsUI();
-            else if (screens != null)
+            if (screens != null)
                 screens.OpenAchievements();
+            else if (LeaderboardManager.HasNativeUI)
+                Social.ShowAchievementsUI();
         }
 
         public void LogoutUser()
@@ -54,10 +54,10 @@ namespace Com.GCTC.ZombCube
 
         public void ShowLeaderboard()
         {
-            if (LeaderboardManager.HasNativeUI)
-                Social.ShowLeaderboardUI();
-            else if (screens != null)
+            if (screens != null)
                 screens.OpenLeaderboards();
+            else if (LeaderboardManager.HasNativeUI)
+                Social.ShowLeaderboardUI();
         }
 
         public void DeleteAccount()

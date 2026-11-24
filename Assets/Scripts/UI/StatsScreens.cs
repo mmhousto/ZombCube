@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 namespace Com.GCTC.ZombCube
@@ -31,7 +32,10 @@ namespace Com.GCTC.ZombCube
 
         private Color accent = new Color(0.2f, 0.8f, 1f, 1f);
         private Color dimAccent;
-        private Color textColor = Color.white;
+        private Color textColor = Color.white;            // Stats panel text (the Highest Waves table)
+        private Color orange = new Color(1f, 0.647f, 0f, 1f);   // button text colour: bars, highlights, UNLOCKED
+        private static readonly Color PageText = Color.white;   // text on the dark Leaderboards/Achievements pages
+        private readonly Dictionary<RectTransform, GameObject> gameCenterButtons = new Dictionary<RectTransform, GameObject>();
 
         // Pages.
         private RectTransform wavesPanel;
@@ -59,6 +63,7 @@ namespace Com.GCTC.ZombCube
         {
             public string label;
             public string steamName;
+            public string appleId;
             public Func<int> yourBest;
             public bool percent;
         }
@@ -101,10 +106,16 @@ namespace Com.GCTC.ZombCube
             if (buttonImage != null) accent = buttonImage.color;
             dimAccent = new Color(accent.r * 0.45f, accent.g * 0.45f, accent.b * 0.45f, Mathf.Max(0.6f, accent.a * 0.8f));
             textColor = valueTemplate.color;
+            TextMeshProUGUI buttonText = buttonTemplate.GetComponentInChildren<TextMeshProUGUI>(true);
+            if (buttonText != null) orange = buttonText.color;
 
             BuildWavesTab();
             leaderboardPage = BuildLeaderboardPage();
             achievementsPage = BuildAchievementsPage();
+
+            // Arena-only Solo/Party waves are now in the Highest Waves tab with every other map.
+            if (stats.soloWaveLabel != null) stats.soloWaveLabel.transform.parent.gameObject.SetActive(false);
+            if (stats.partyWaveLabel != null) stats.partyWaveLabel.transform.parent.gameObject.SetActive(false);
             return true;
         }
 
@@ -141,7 +152,14 @@ namespace Com.GCTC.ZombCube
             wavesPanel.SetSiblingIndex(overviewPanel.GetSiblingIndex() + 1);
 
             Image back = wavesPanel.gameObject.AddComponent<Image>();
-            back.color = new Color(0f, 0f, 0f, 0.35f);
+            Image overviewBack = overviewPanel.GetComponent<Image>();
+            if (overviewBack != null)
+            {
+                back.sprite = overviewBack.sprite;
+                back.type = overviewBack.type;
+                back.color = overviewBack.color;
+            }
+            else back.color = new Color(1f, 1f, 1f, 0.26f);
             back.raycastTarget = false;
 
             wavesTableText = NewText(valueTemplate, wavesPanel, "", 36f, TextAlignmentOptions.Center);
@@ -177,7 +195,7 @@ namespace Com.GCTC.ZombCube
         private void RefreshWaves()
         {
             Player player = Player.Instance;
-            string hex = ColorUtility.ToHtmlStringRGB(accent);
+            string hex = ColorUtility.ToHtmlStringRGB(textColor);
             var sb = new System.Text.StringBuilder();
             sb.Append("<line-height=140%>");
             sb.Append($"<color=#{hex}><b><pos=0%>MAP<pos=48%>SOLO<pos=66%>CO-OP<pos=84%>PARTY</b></color>\n");
@@ -252,7 +270,7 @@ namespace Com.GCTC.ZombCube
 
             boardTitle = NewText(labelTemplate, Row(body, 50f), "", 32f, TextAlignmentOptions.Center);
             Stretch(boardTitle.rectTransform, 0f, 0f);
-            boardTitle.color = accent;
+            boardTitle.color = orange;
 
             // Header + rows.
             AddRow(body, new[] { "#", "PLAYER", "SCORE" }, true);
@@ -265,6 +283,7 @@ namespace Com.GCTC.ZombCube
             Stretch(boardStatus.rectTransform, 10f, 0f);
 
             WireTabNavigation(new[] { mapTabs, modeTabs, scopeTabs });
+            Recolor(page);
             page.gameObject.SetActive(false);
             return page;
         }
@@ -291,7 +310,7 @@ namespace Com.GCTC.ZombCube
                 t.enableAutoSizing = true;
                 t.fontSizeMin = 14f;
                 t.fontSizeMax = header ? 24f : 28f;
-                if (header) t.color = accent;
+                t.color = header ? orange : PageText;
                 texts[c] = t;
             }
             if (!header)
@@ -322,15 +341,15 @@ namespace Com.GCTC.ZombCube
                 switch (mode)
                 {
                     case 1:
-                        return new BoardChoice { label = "CUBES DESTROYED", steamName = "Cubes Destroyed", yourBest = () => Player.Instance != null ? Player.Instance.cubesEliminated : 0 };
+                        return new BoardChoice { label = "CUBES DESTROYED", steamName = "Cubes Destroyed", appleId = "cubes_destroyed", yourBest = () => Player.Instance != null ? Player.Instance.cubesEliminated : 0 };
                     case 2:
                         return new BoardChoice
                         {
-                            label = "BEST ACCURACY", steamName = "Best Accuracy", percent = true,
+                            label = "BEST ACCURACY", steamName = "Best Accuracy", appleId = "best_accuracy", percent = true,
                             yourBest = () => Player.Instance != null && Player.Instance.totalProjectilesFired != 0 ? Player.Instance.cubesEliminated * 100 / Player.Instance.totalProjectilesFired : 0
                         };
                     default:
-                        return new BoardChoice { label = "MOST POINTS", steamName = "Most Points", yourBest = () => Player.Instance != null ? Player.Instance.totalPointsEarned : 0 };
+                        return new BoardChoice { label = "MOST POINTS", steamName = "Most Points", appleId = "most_points", yourBest = () => Player.Instance != null ? Player.Instance.totalPointsEarned : 0 };
                 }
             }
 
@@ -344,6 +363,7 @@ namespace Com.GCTC.ZombCube
             {
                 label = $"HIGHEST {modeName} WAVE - {mapName.ToUpperInvariant()}",
                 steamName = board != null ? board.SteamName : null,
+                appleId = board != null ? board.AppleId : null,
                 yourBest = () => Player.Instance != null ? Player.Instance.BestWave(levelId, waveMode) : 0
             };
         }
@@ -372,7 +392,7 @@ namespace Com.GCTC.ZombCube
         {
             for (int i = 0; i < rowCells.Count; i++)
             {
-                foreach (TextMeshProUGUI t in rowCells[i]) { t.text = ""; t.color = textColor; }
+                foreach (TextMeshProUGUI t in rowCells[i]) { t.text = ""; t.color = PageText; }
                 rowBacks[i].color = new Color(1f, 1f, 1f, i % 2 == 0 ? 0.06f : 0.02f);
             }
         }
@@ -392,7 +412,75 @@ namespace Com.GCTC.ZombCube
                 return;
             }
 #endif
-            boardStatus.text = "SIGN IN WITH STEAM TO SEE LEADERBOARDS";
+            if (LeaderboardManager.HasNativeUI && !string.IsNullOrEmpty(board.appleId))
+            {
+                boardStatus.text = "LOADING...";
+                LoadGameCenterEntries(board.appleId, scope, rows =>
+                {
+                    if (id != requestId || this == null) return;
+                    ShowEntries(rows, board.percent);
+                });
+                return;
+            }
+            boardStatus.text = "SIGN IN WITH STEAM OR GAME CENTER TO SEE LEADERBOARDS";
+        }
+
+        // Game Center scores through Unity's Social API. Around Me first finds the player's rank.
+        private void LoadGameCenterEntries(string boardId, LeaderboardScope scope, Action<List<LeaderboardRow>> done)
+        {
+            ILeaderboard board = Social.CreateLeaderboard();
+            board.id = boardId;
+            board.userScope = scope == LeaderboardScope.Friends ? UserScope.FriendsOnly : UserScope.Global;
+            board.timeScope = TimeScope.AllTime;
+            board.range = new UnityEngine.SocialPlatforms.Range(1, LeaderboardRows);
+            board.LoadScores(ok =>
+            {
+                if (!ok) { done(null); return; }
+                IScore mine = board.localUserScore;
+                if (scope == LeaderboardScope.AroundMe && mine != null && mine.rank > LeaderboardRows / 2)
+                {
+                    ILeaderboard around = Social.CreateLeaderboard();
+                    around.id = boardId;
+                    around.userScope = UserScope.Global;
+                    around.timeScope = TimeScope.AllTime;
+                    around.range = new UnityEngine.SocialPlatforms.Range(Mathf.Max(1, mine.rank - LeaderboardRows / 2), LeaderboardRows);
+                    around.LoadScores(ok2 => { if (!ok2) done(null); else NameScores(around.scores, done); });
+                    return;
+                }
+                NameScores(board.scores, done);
+            });
+        }
+
+        private static void NameScores(IScore[] scores, Action<List<LeaderboardRow>> done)
+        {
+            scores = scores ?? new IScore[0];
+            string me = Social.localUser != null ? Social.localUser.id : null;
+            var ids = new string[scores.Length];
+            for (int i = 0; i < scores.Length; i++) ids[i] = scores[i].userID;
+
+            Action<IUserProfile[]> build = profiles =>
+            {
+                var names = new Dictionary<string, string>();
+                if (profiles != null)
+                    foreach (IUserProfile p in profiles)
+                        if (p != null && p.id != null) names[p.id] = p.userName;
+                var rows = new List<LeaderboardRow>();
+                foreach (IScore score in scores)
+                {
+                    names.TryGetValue(score.userID ?? "", out string name);
+                    rows.Add(new LeaderboardRow
+                    {
+                        rank = score.rank,
+                        name = name ?? "Player",
+                        score = (int)Math.Min(int.MaxValue, score.value),
+                        isMe = score.userID == me
+                    });
+                }
+                done(rows);
+            };
+
+            if (ids.Length == 0) build(null);
+            else Social.LoadUsers(ids, build);
         }
 
         private void ShowEntries(List<LeaderboardRow> rows, bool percent)
@@ -412,9 +500,9 @@ namespace Com.GCTC.ZombCube
                 cells[0].text = r.rank.ToString("N0");
                 cells[1].text = string.IsNullOrEmpty(r.name) ? "?" : r.name;
                 cells[2].text = r.score.ToString("N0") + (percent ? "%" : "");
-                Color c = r.isMe ? accent : textColor;
+                Color c = r.isMe ? orange : PageText;
                 foreach (TextMeshProUGUI t in cells) t.color = c;
-                if (r.isMe) rowBacks[i].color = new Color(accent.r, accent.g, accent.b, 0.18f);
+                if (r.isMe) rowBacks[i].color = new Color(orange.r, orange.g, orange.b, 0.2f);
                 else if (r.rank <= 3 && scopeIndex == 0) cells[0].text = $"<b>{r.rank}</b>";
             }
         }
@@ -492,7 +580,7 @@ namespace Com.GCTC.ZombCube
             RectTransform handle = NewRect("Handle", handleArea);
             Stretch(handle, 0f, 0f);
             Image handleImage = handle.gameObject.AddComponent<Image>();
-            handleImage.color = accent;
+            handleImage.color = orange;
             var scrollbar = barArea.gameObject.AddComponent<Scrollbar>();
             scrollbar.direction = Scrollbar.Direction.BottomToTop;
             scrollbar.handleRect = handle;
@@ -507,6 +595,7 @@ namespace Com.GCTC.ZombCube
             scroll.verticalScrollbar = scrollbar;
             scroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.Permanent;
 
+            Recolor(page);
             page.gameObject.SetActive(false);
             return page;
         }
@@ -555,21 +644,21 @@ namespace Com.GCTC.ZombCube
             Image back = card.gameObject.AddComponent<Image>();
             back.sprite = panelTemplate.sprite;
             back.type = panelTemplate.type;
-            back.color = done ? new Color(accent.r, accent.g, accent.b, 0.30f) : new Color(0f, 0f, 0f, 0.45f);
+            back.color = done ? new Color(1f, 1f, 1f, 0.22f) : new Color(0f, 0f, 0f, 0.45f);
             back.raycastTarget = false;
 
             TextMeshProUGUI name = NewText(labelTemplate, card, a.Name.ToUpperInvariant(), 30f, TextAlignmentOptions.TopLeft);
             Place(name.rectTransform, 0f, 0.62f, 1f, 1f, 18f, 10f);
-            name.color = done ? accent : textColor;
+            name.color = done ? PageText : new Color(1f, 1f, 1f, 0.7f);
 
             TextMeshProUGUI state = NewText(labelTemplate, card, done ? "UNLOCKED" : "", 22f, TextAlignmentOptions.TopRight);
             Place(state.rectTransform, 0.6f, 0.62f, 1f, 1f, 18f, 12f);
-            state.color = accent;
+            state.color = orange;
 
             TextMeshProUGUI desc = NewText(valueTemplate, card, a.Description, 22f, TextAlignmentOptions.TopLeft);
             Place(desc.rectTransform, 0f, 0.3f, 1f, 0.62f, 18f, 2f);
             desc.textWrappingMode = TextWrappingModes.Normal;
-            desc.color = done ? textColor : new Color(textColor.r, textColor.g, textColor.b, 0.75f);
+            desc.color = done ? PageText : new Color(1f, 1f, 1f, 0.6f);
 
             if (a.HasProgress)
             {
@@ -577,13 +666,14 @@ namespace Com.GCTC.ZombCube
                 Place(bar, 0f, 0.1f, 0.62f, 0.24f, 18f, 0f);
                 SetFill(fill, done ? 1f : AchievementCatalog.Progress(a, value, false));
                 TextMeshProUGUI count = NewText(valueTemplate, card, done ? $"{a.Target:N0}" : $"{Math.Min(value, a.Target):N0} / {a.Target:N0}", 20f, TextAlignmentOptions.Right);
+                count.color = done ? PageText : new Color(1f, 1f, 1f, 0.7f);
                 Place(count.rectTransform, 0.62f, 0.04f, 1f, 0.3f, 18f, 0f);
             }
             else if (!done)
             {
                 TextMeshProUGUI hint = NewText(valueTemplate, card, "LOCKED", 20f, TextAlignmentOptions.Left);
                 Place(hint.rectTransform, 0f, 0.04f, 1f, 0.3f, 18f, 0f);
-                hint.color = new Color(textColor.r, textColor.g, textColor.b, 0.5f);
+                hint.color = new Color(1f, 1f, 1f, 0.5f);
             }
         }
 
@@ -612,6 +702,18 @@ namespace Com.GCTC.ZombCube
             heading.fontSizeMax = 64f;
             heading.fontSizeMin = 30f;
 
+            // Game Center players can also open the Apple screen from here.
+            Button gameCenter = NewButton(page, "GAME CENTER", () =>
+            {
+                if (page == leaderboardPage) Social.ShowLeaderboardUI();
+                else Social.ShowAchievementsUI();
+            }, 26f);
+            RectTransform gc = (RectTransform)gameCenter.transform;
+            gc.anchorMin = gc.anchorMax = gc.pivot = new Vector2(1f, 1f);
+            gc.anchoredPosition = new Vector2(-24f, -24f);
+            gc.sizeDelta = new Vector2(260f, 72f);
+            gameCenterButtons[page] = gameCenter.gameObject;
+
             if (closeTemplate != null)
             {
                 Button close = Instantiate(closeTemplate, page);
@@ -627,6 +729,7 @@ namespace Com.GCTC.ZombCube
             if (morePanel != null) morePanel.gameObject.SetActive(false);
             if (leaderboardPage != null) leaderboardPage.gameObject.SetActive(page == leaderboardPage);
             if (achievementsPage != null) achievementsPage.gameObject.SetActive(page == achievementsPage);
+            if (gameCenterButtons.TryGetValue(page, out GameObject gc)) gc.SetActive(LeaderboardManager.HasNativeUI);
         }
 
         /// <summary>Closes the Leaderboards/Achievements page and returns to the More panel.</summary>
@@ -657,6 +760,13 @@ namespace Com.GCTC.ZombCube
         }
 
         // ------------------------------------------------------------------ helpers
+
+        // Text cloned from the Stats panel is dark; on the dark pages it's shown white.
+        private void Recolor(RectTransform page)
+        {
+            foreach (TextMeshProUGUI t in page.GetComponentsInChildren<TextMeshProUGUI>(true))
+                if (t.color == textColor) t.color = PageText;
+        }
 
         private static RectTransform NewRect(string name, Transform parent)
         {
@@ -766,7 +876,7 @@ namespace Com.GCTC.ZombCube
             back.raycastTarget = false;
             RectTransform fillRect = NewRect("Fill", bar);
             fill = fillRect.gameObject.AddComponent<Image>();
-            fill.color = accent;
+            fill.color = orange;
             fill.raycastTarget = false;
             fillRect.anchorMin = Vector2.zero;
             fillRect.anchorMax = new Vector2(0f, 1f);
