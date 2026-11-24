@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
@@ -58,6 +59,33 @@ public class ProjectIntegrityTests
                     $"PlayerView{i} should collide with layer {other} like Blaster does");
             }
         }
+    }
+
+    // Minimap icons on the level pieces must use a material (the icon prefab's default material is missing),
+    // and it should be one of the unlit Minimap materials.
+    [TestCase("Assets/Scenes/Levels/MovieTheatre/MovieTheatreScene.unity")]
+    [TestCase("Assets/Scenes/Levels/MovieTheatre/NetworkMovieTheatreScene.unity")]
+    [TestCase("Assets/Scenes/Levels/Spaceship/SpaceshipScene.unity")]
+    [TestCase("Assets/Scenes/Levels/Spaceship/NetworkSpaceshipScene.unity")]
+    public void MinimapIconsUseMinimapMaterials(string path)
+    {
+        if (AssetDatabase.LoadAssetAtPath<SceneAsset>(path) == null) Assert.Ignore(path + " not built yet");
+        EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+        int minimapLayer = LayerMask.NameToLayer("MiniMap");
+        var bad = new List<string>();
+        int icons = 0;
+        foreach (MeshRenderer r in Object.FindObjectsByType<MeshRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (r.gameObject.layer != minimapLayer || !r.name.StartsWith("MinimapIcon")) continue;
+            string root = r.transform.root.name;   // only the level geometry (pickups carry their own icons)
+            if (!root.StartsWith("==== MOVIE THEATRE") && !root.StartsWith("==== SPACESHIP")) continue;
+            icons++;
+            Material m = r.sharedMaterial;
+            if (m == null || !AssetDatabase.GetAssetPath(m).StartsWith("Assets/Materials/Minimap/"))
+                bad.Add($"{r.transform.parent?.name}/{r.name}: {(m == null ? "missing" : AssetDatabase.GetAssetPath(m))}");
+        }
+        Assert.Greater(icons, 0, "No minimap icons found");
+        Assert.IsEmpty(bad, "Minimap icons without a Minimap material:\n" + string.Join("\n", bad.Take(20)));
     }
 
     [Test]

@@ -179,6 +179,12 @@ namespace Com.GCTC.ZombCube.EditorTools
             icon.transform.localPosition = new Vector3(0f, size.y / 2f + 0.05f, 0f);
             icon.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
             icon.transform.localScale = new Vector3(size.x, size.z, 1f);
+
+            // Unlit minimap material in the piece's colour (the icon prefab's own material is missing).
+            MeshRenderer pieceRenderer = piece.GetComponent<MeshRenderer>();
+            Material minimap = MinimapColors.For(pieceRenderer != null ? pieceRenderer.sharedMaterial : null);
+            if (minimap != null)
+                foreach (MeshRenderer r in icon.GetComponentsInChildren<MeshRenderer>(true)) r.sharedMaterial = minimap;
             foreach (Collider collider in icon.GetComponentsInChildren<Collider>())
                 Object.DestroyImmediate(collider);
         }
