@@ -61,6 +61,29 @@ public class ProjectIntegrityTests
         }
     }
 
+    // The minimap camera doesn't render the Walls layer, so every Arena wall needs its own minimap icon.
+    [Test]
+    public void ArenaWallsHaveMinimapIcons()
+    {
+        var environment = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Maps/Environment.prefab");
+        Assert.IsNotNull(environment, "Arena Environment prefab missing");
+        int wallsLayer = LayerMask.NameToLayer("Walls");
+        int minimapLayer = LayerMask.NameToLayer("MiniMap");
+        var missing = new List<string>();
+        int walls = 0;
+        foreach (MeshRenderer r in environment.GetComponentsInChildren<MeshRenderer>(true))
+        {
+            if (r.gameObject.layer != wallsLayer) continue;
+            walls++;
+            bool hasIcon = false;
+            foreach (Transform child in r.transform)
+                if (child.gameObject.layer == minimapLayer && child.name.StartsWith("MinimapIcon")) hasIcon = true;
+            if (!hasIcon) missing.Add(r.name);
+        }
+        Assert.Greater(walls, 0, "No Walls-layer objects in the Arena");
+        Assert.IsEmpty(missing, "Arena walls without a minimap icon:\n" + string.Join("\n", missing));
+    }
+
     // Minimap icons on the level pieces must use a material (the icon prefab's default material is missing),
     // and it should be one of the unlit Minimap materials.
     [TestCase("Assets/Scenes/Levels/MovieTheatre/MovieTheatreScene.unity")]
