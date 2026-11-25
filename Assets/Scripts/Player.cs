@@ -27,6 +27,8 @@ namespace Com.GCTC.ZombCube
         public int cubesEliminated = 0;
         public int totalPointsEarned = 0;
         public int totalProjectilesFired = 0;
+        public WaveRecord[] waveRecords = new WaveRecord[0];
+        public string[] achievements = new string[0];
 
         public Player(Player player)
         {
@@ -52,6 +54,55 @@ namespace Com.GCTC.ZombCube
             cubesEliminated = player.cubesEliminated;
             totalPointsEarned = player.totalPointsEarned;
             totalProjectilesFired = player.totalProjectilesFired;
+            waveRecords = player.waveRecords ?? new WaveRecord[0];
+            achievements = player.achievements ?? new string[0];
+        }
+
+        /// <summary>Saves an event achievement locally (works for every player, signed in or not).</summary>
+        public void UnlockAchievement(string id)
+        {
+            achievements = AchievementCatalog.AddUnlock(achievements, id, out _);
+        }
+
+        /// <summary>The saved number a stat achievement counts towards.</summary>
+        public long StatFor(AchievementStat stat)
+        {
+            switch (stat)
+            {
+                case AchievementStat.CubesEliminated: return cubesEliminated;
+                case AchievementStat.ProjectilesFired: return totalProjectilesFired;
+                case AchievementStat.TotalPoints: return totalPointsEarned;
+                case AchievementStat.ArenaSoloWave: return BestWave(WaveLeaderboards.Arena, WaveMode.Solo);
+                case AchievementStat.ArenaPartyWave: return BestWave(WaveLeaderboards.Arena, WaveMode.Party);
+                default: return 0;
+            }
+        }
+
+        /// <summary>Whether an achievement is earned, from the saved stats or the saved event unlocks.</summary>
+        public bool HasAchievement(AchievementDef a)
+        {
+            if (a == null) return false;
+            if (a.Id == "n_gamer_1" && playerName == "NGamer1") return true;
+            if (achievements != null && Array.IndexOf(achievements, a.Id) >= 0) return true;
+            return a.HasProgress && StatFor(a.Stat) >= a.Target;
+        }
+
+        /// <summary>Best wave reached on a map in a mode.</summary>
+        public int BestWave(string levelId, WaveMode mode)
+        {
+            int best = WaveLeaderboards.Best(waveRecords, levelId, mode);
+            if (levelId == WaveLeaderboards.Arena && mode == WaveMode.Solo) best = Math.Max(best, highestWave);
+            if (levelId == WaveLeaderboards.Arena && mode == WaveMode.Party) best = Math.Max(best, highestWaveParty);
+            return best;
+        }
+
+        /// <summary>Saves a wave reached on a map in a mode if it beats the best. Arena Solo/Party also update the legacy fields.</summary>
+        public bool RecordWave(string levelId, WaveMode mode, int wave)
+        {
+            waveRecords = WaveLeaderboards.Record(waveRecords, levelId, mode, wave, out bool improved);
+            if (levelId == WaveLeaderboards.Arena && mode == WaveMode.Solo && wave > highestWave) highestWave = wave;
+            if (levelId == WaveLeaderboards.Arena && mode == WaveMode.Party && wave > highestWaveParty) highestWaveParty = wave;
+            return improved;
         }
 
         private void Awake()

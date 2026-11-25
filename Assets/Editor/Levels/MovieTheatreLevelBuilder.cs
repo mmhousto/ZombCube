@@ -662,7 +662,7 @@ namespace Com.GCTC.ZombCube.EditorTools
             go.transform.position = new Vector3(x, baseY + height / 2f, z) * S;
             Finish(go, material, kind);
             if (minimap && kind != Kind.Prop)
-                AddMinimapIcon(go, size);
+                AddMinimapIcon(go, size, kind == Kind.Wall);
             return go;
         }
 
@@ -693,15 +693,23 @@ namespace Com.GCTC.ZombCube.EditorTools
             }
         }
 
-        private static void AddMinimapIcon(GameObject piece, Vector3 size)
+        private static void AddMinimapIcon(GameObject piece, Vector3 size, bool atBase)
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(MinimapIconPrefab);
             if (prefab == null) return;
 
             var icon = (GameObject)PrefabUtility.InstantiatePrefab(prefab, piece.transform);
-            icon.transform.localPosition = new Vector3(0f, size.y / 2f + 0.05f, 0f);
+            // Wall icons sit just above the wall's base so the minimap camera (above the player) sees them
+            // and catwalks/balconies above can still cover them; floor icons sit on the top face.
+            icon.transform.localPosition = new Vector3(0f, atBase ? -size.y / 2f + 0.25f : size.y / 2f + 0.05f, 0f);
             icon.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
             icon.transform.localScale = new Vector3(size.x, size.z, 1f);
+
+            // Unlit minimap material in the piece's colour (the icon prefab's own material is missing).
+            MeshRenderer pieceRenderer = piece.GetComponent<MeshRenderer>();
+            Material minimap = MinimapColors.For(pieceRenderer != null ? pieceRenderer.sharedMaterial : null);
+            if (minimap != null)
+                foreach (MeshRenderer r in icon.GetComponentsInChildren<MeshRenderer>(true)) r.sharedMaterial = minimap;
             foreach (Collider collider in icon.GetComponentsInChildren<Collider>())
                 Object.DestroyImmediate(collider);
         }

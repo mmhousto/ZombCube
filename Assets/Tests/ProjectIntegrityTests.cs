@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
@@ -58,6 +59,63 @@ public class ProjectIntegrityTests
                     $"PlayerView{i} should collide with layer {other} like Blaster does");
             }
         }
+    }
+
+    // The minimap camera doesn't render the Walls layer, so every Arena wall needs its own minimap icon.
+    [Test]
+    public void ArenaWallsHaveMinimapIcons()
+    {
+        var environment = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Maps/Environment.prefab");
+        Assert.IsNotNull(environment, "Arena Environment prefab missing");
+        int wallsLayer = LayerMask.NameToLayer("Walls");
+        int minimapLayer = LayerMask.NameToLayer("MiniMap");
+        var missing = new List<string>();
+        int walls = 0;
+        foreach (MeshRenderer r in environment.GetComponentsInChildren<MeshRenderer>(true))
+        {
+            if (r.gameObject.layer != wallsLayer) continue;
+            walls++;
+            bool hasIcon = false;
+            foreach (Transform child in r.transform)
+                if (child.gameObject.layer == minimapLayer && child.name.StartsWith("MinimapIcon")) hasIcon = true;
+            if (!hasIcon) missing.Add(r.name);
+        }
+        Assert.Greater(walls, 0, "No Walls-layer objects in the Arena");
+        Assert.IsEmpty(missing, "Arena walls without a minimap icon:\n" + string.Join("\n", missing));
+    }
+
+    // Minimap icons on the level pieces must use a material (the icon prefab's default material is missing),
+    // and it should be one of the unlit Minimap materials.
+    [TestCase("Assets/Scenes/Levels/MovieTheatre/MovieTheatreScene.unity")]
+    [TestCase("Assets/Scenes/Levels/MovieTheatre/NetworkMovieTheatreScene.unity")]
+    [TestCase("Assets/Scenes/Levels/Spaceship/SpaceshipScene.unity")]
+    [TestCase("Assets/Scenes/Levels/Spaceship/NetworkSpaceshipScene.unity")]
+    public void MinimapIconsUseMinimapMaterials(string path)
+    {
+        if (AssetDatabase.LoadAssetAtPath<SceneAsset>(path) == null) Assert.Ignore(path + " not built yet");
+        EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+        int minimapLayer = LayerMask.NameToLayer("MiniMap");
+        int wallsLayer = LayerMask.NameToLayer("Walls");
+        var bad = new List<string>();
+        int icons = 0;
+        foreach (MeshRenderer r in Object.FindObjectsByType<MeshRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (r.gameObject.layer != minimapLayer || !r.name.StartsWith("MinimapIcon")) continue;
+            string root = r.transform.root.name;   // only the level geometry (pickups carry their own icons)
+            if (!root.StartsWith("==== MOVIE THEATRE") && !root.StartsWith("==== SPACESHIP")) continue;
+            icons++;
+            Material m = r.sharedMaterial;
+            if (m == null || !AssetDatabase.GetAssetPath(m).StartsWith("Assets/Materials/Minimap/"))
+                bad.Add($"{r.transform.parent?.name}/{r.name}: {(m == null ? "missing" : AssetDatabase.GetAssetPath(m))}");
+
+            // Wall icons sit at the wall's base: the minimap camera is only a few floors above the player.
+            Transform wall = r.transform.parent;
+            MeshRenderer wallRenderer = wall != null && wall.gameObject.layer == wallsLayer ? wall.GetComponent<MeshRenderer>() : null;
+            if (wallRenderer != null && Mathf.Abs(r.bounds.center.y - wallRenderer.bounds.min.y) > 1f)
+                bad.Add($"{wall.name}/{r.name}: icon at y {r.bounds.center.y:F2}, wall base at {wallRenderer.bounds.min.y:F2}");
+        }
+        Assert.Greater(icons, 0, "No minimap icons found");
+        Assert.IsEmpty(bad, "Minimap icons with a wrong material or position:\n" + string.Join("\n", bad.Take(20)));
     }
 
     [Test]

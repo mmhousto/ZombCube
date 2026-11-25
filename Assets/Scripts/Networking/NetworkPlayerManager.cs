@@ -417,7 +417,7 @@ namespace Com.GCTC.ZombCube
 
             try
             {
-                CloudSaveLogin.Instance.SaveCloudData();
+                CloudSaveLogin.SaveCloudDataIfSignedIn();
             }
             catch
             {
@@ -647,7 +647,7 @@ namespace Com.GCTC.ZombCube
 
                     try
                     {
-                        CloudSaveLogin.Instance.SaveCloudData();
+                        CloudSaveLogin.SaveCloudDataIfSignedIn();
                     }
                     catch
                     {
@@ -693,7 +693,7 @@ namespace Com.GCTC.ZombCube
             if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
-                LeaderboardManager.UpdatePartyHighestWaveLeaderboard();
+                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, WaveMode.Party);
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
             }
@@ -728,15 +728,15 @@ namespace Com.GCTC.ZombCube
             if(player != null)
                 player.points += currentPoints;
 
-            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerI();
             }
-            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerII();
             }
-            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerIII();
             }
@@ -747,11 +747,8 @@ namespace Com.GCTC.ZombCube
             if (player == null)
                 player = Player.Instance;
 
-            int endingRound = NetworkGameManager.Instance.CurrentRound;
-            if (player != null && player.highestWaveParty < endingRound)
-            {
-                player.highestWaveParty = endingRound;
-            }
+            if (player != null)
+                player.RecordWave(GameScenes.ActiveLevelId, WaveMode.Party, NetworkGameManager.Instance.CurrentRound);
         }
 
         private void Pause()

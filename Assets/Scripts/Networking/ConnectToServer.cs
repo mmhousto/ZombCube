@@ -21,7 +21,7 @@ namespace Com.GCTC.ZombCube
 
         public string region;
 
-        private string gameVersion = "0.2";
+        private string gameVersion = "1.0";
 
         private int dots = 1;
 

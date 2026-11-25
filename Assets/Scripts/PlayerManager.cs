@@ -258,7 +258,7 @@ namespace Com.GCTC.ZombCube
 
             try
             {
-                CloudSaveLogin.Instance.SaveCloudData();
+                CloudSaveLogin.SaveCloudDataIfSignedIn();
             }
             catch
             {
@@ -447,7 +447,7 @@ namespace Com.GCTC.ZombCube
             if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
-                LeaderboardManager.UpdateSoloHighestWaveLeaderboard();
+                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, CurrentPlayMode);
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
 
@@ -458,27 +458,27 @@ namespace Com.GCTC.ZombCube
         {
             player.points += currentPoints;
 
-            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerI();
             }
-            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerII();
             }
-            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerIII();
             }
         }
 
+        // Couch Co-op has its own records and leaderboards, separate from Solo.
+        private static WaveMode CurrentPlayMode => GameManager.mode == 1 ? WaveMode.Coop : WaveMode.Solo;
+
         private void UpdateHighestWave()
         {
-            int endingRound = GameManager.Instance.CurrentRound;
-            if (player.highestWave < endingRound)
-            {
-                player.highestWave = endingRound;
-            }
+            if (player == null) return;
+            player.RecordWave(GameScenes.ActiveLevelId, CurrentPlayMode, GameManager.Instance.CurrentRound);
         }
 
         public void ResetPlayer()

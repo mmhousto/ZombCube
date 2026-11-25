@@ -6,6 +6,7 @@ using Com.GCTC.ZombCube;
 #if !DISABLESTEAMWORKS
 using Steamworks;
 #endif
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,9 +19,6 @@ public class SteamLeaderboardManager : MonoBehaviour
     public static SteamLeaderboardManager Instance { get { return instance; } }
 
     private SteamLeaderboard_t s_currentLeaderboard;
-    private bool s_initialized = false;
-    private CallResult<LeaderboardFindResult_t> m_findResult = new CallResult<LeaderboardFindResult_t>();
-    private CallResult<LeaderboardScoreUploaded_t> m_uploadResult = new CallResult<LeaderboardScoreUploaded_t>();
     private CallResult<LeaderboardScoresDownloaded_t> m_downloadResult = new CallResult<LeaderboardScoresDownloaded_t>();
 
     public enum LeaderboardName
@@ -40,26 +38,23 @@ public class SteamLeaderboardManager : MonoBehaviour
     }
     List<LeaderboardData> LeaderboardDataset;
 
-    private List<string> leaderboardNames = new List<string>{
+    // Steamworks names of the boards in LeaderboardName order. The per-map wave boards
+    // (WaveLeaderboards) are looked up by name the same way.
+    private static readonly string[] leaderboardNames =
+    {
         "Best Accuracy",
         "Cubes Destroyed",
         "Highest Party Wave",
         "Highest Solo Wave",
         "Most Points"
+    };
 
-    };
-    List<SteamLeaderboard_t> steamLeaderboards = new List<SteamLeaderboard_t>();
-    [SerializeField]
-    private List<bool> steamLeaderboardsInit = new List<bool>
-    {
-        false,
-        false,
-        false,
-        false,
-        false
-    };
-    int leaderboardToBeInit = 0;
-    int leaderboardsInit = 0;
+    // Boards found so far, by name; scores waiting for their board to be found.
+    private readonly Dictionary<string, SteamLeaderboard_t> foundBoards = new Dictionary<string, SteamLeaderboard_t>();
+    private readonly Dictionary<string, int> pendingScores = new Dictionary<string, int>();
+    private readonly HashSet<string> findsInFlight = new HashSet<string>();
+    // A CallResult only tracks one call, so each find/upload gets its own (kept alive until it completes).
+    private readonly List<object> liveCalls = new List<object>();
 
     private void Awake()
     {
@@ -68,44 +63,7 @@ public class SteamLeaderboardManager : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
-        else
-        {
-            instance = this;
-            //DontDestroyOnLoad(Instance.gameObject);
-        }
-
-        leaderboardToBeInit = 0;
-
-        if (SteamManager.IsReady && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam)
-        {
-            SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
-            SteamAPI.RunCallbacks();
-
-            /*
-            SteamAPICall_t hSteamAPICall2 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall2, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall3 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall3, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall4 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall4, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();
-
-            SteamAPICall_t hSteamAPICall5 = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall5, OnLeaderboardFindResult);
-            leaderboardToBeInit++;
-            SteamAPI.RunCallbacks();*/
-        }
-
-
-        
+        instance = this;
     }
 
     private void Start()
@@ -120,46 +78,125 @@ public class SteamLeaderboardManager : MonoBehaviour
 
     public void UpdateScore(int score, LeaderboardName leaderboardName)
     {
-        if (!steamLeaderboardsInit[(int)leaderboardName])
+        UpdateScore(score, leaderboardNames[(int)leaderboardName]);
+    }
+
+    /// <summary>Uploads a score to the Steam leaderboard with this name, finding the board first if needed.</summary>
+    public void UpdateScore(int score, string boardName)
+    {
+        if (string.IsNullOrEmpty(boardName)) return;
+        // Several uploads to one board before it's found: only the latest score is sent.
+        pendingScores[boardName] = score;
+        WithBoard(boardName, (found, board) =>
         {
-            SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[(int)leaderboardName]);
-            m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
-            SteamAPI.RunCallbacks();
-            UpdateScore(score, leaderboardName);
+            if (!pendingScores.TryGetValue(boardName, out int latest)) return;
+            pendingScores.Remove(boardName);
+            if (found) Upload(board, latest);
+        });
+    }
+
+    /// <summary>
+    /// Downloads entries from a board for the in-game leaderboards page. <paramref name="done"/> gets the rows
+    /// (empty if the board has no scores) or null if Steam couldn't be reached or the board doesn't exist.
+    /// </summary>
+    public void RequestEntries(string boardName, LeaderboardScope scope, int count, Action<List<LeaderboardRow>> done)
+    {
+        WithBoard(boardName, (found, board) =>
+        {
+            if (!found) { done?.Invoke(null); return; }
+
+            ELeaderboardDataRequest type;
+            int start, end;
+            switch (scope)
+            {
+                case LeaderboardScope.Friends:
+                    type = ELeaderboardDataRequest.k_ELeaderboardDataRequestFriends; start = 1; end = count; break;
+                case LeaderboardScope.AroundMe:
+                    type = ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobalAroundUser; start = -(count / 2); end = count - count / 2 - 1; break;
+                default:
+                    type = ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal; start = 1; end = count; break;
+            }
+
+            var download = new CallResult<LeaderboardScoresDownloaded_t>();
+            liveCalls.Add(download);
+            download.Set(SteamUserStats.DownloadLeaderboardEntries(board, type, start, end), (result, failure) =>
+            {
+                liveCalls.Remove(download);
+                if (failure) { done?.Invoke(null); return; }
+
+                CSteamID me = SteamUser.GetSteamID();
+                var rows = new List<LeaderboardRow>();
+                for (int i = 0; i < result.m_cEntryCount; i++)
+                {
+                    SteamUserStats.GetDownloadedLeaderboardEntry(result.m_hSteamLeaderboardEntries, i, out LeaderboardEntry_t entry, null, 0);
+                    rows.Add(new LeaderboardRow
+                    {
+                        rank = entry.m_nGlobalRank,
+                        name = SteamFriends.GetFriendPersonaName(entry.m_steamIDUser),
+                        score = entry.m_nScore,
+                        isMe = entry.m_steamIDUser == me
+                    });
+                }
+                done?.Invoke(rows);
+            });
+        });
+    }
+
+    // Finds a board by name once, then runs every action waiting for it.
+    private readonly Dictionary<string, List<Action<bool, SteamLeaderboard_t>>> waitingForBoard = new Dictionary<string, List<Action<bool, SteamLeaderboard_t>>>();
+
+    private void WithBoard(string boardName, Action<bool, SteamLeaderboard_t> then)
+    {
+        if (string.IsNullOrEmpty(boardName) || !SteamManager.IsReady)
+        {
+            then(false, default);
+            return;
         }
-        else
+
+        if (foundBoards.TryGetValue(boardName, out SteamLeaderboard_t board))
         {
-            //Change upload method to 
-            SteamAPICall_t hSteamAPICall = SteamUserStats.UploadLeaderboardScore(steamLeaderboards[(int)leaderboardName], ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodForceUpdate, score, null, 0);
-            m_uploadResult.Set(hSteamAPICall, OnLeaderboardUploadResult);
-            SteamAPI.RunCallbacks();
+            then(true, board);
+            return;
+        }
+
+        if (!waitingForBoard.TryGetValue(boardName, out var waiting))
+            waitingForBoard[boardName] = waiting = new List<Action<bool, SteamLeaderboard_t>>();
+        waiting.Add(then);
+
+        if (findsInFlight.Add(boardName))
+        {
+            var find = new CallResult<LeaderboardFindResult_t>();
+            liveCalls.Add(find);
+            find.Set(SteamUserStats.FindLeaderboard(boardName), (result, failure) =>
+            {
+                liveCalls.Remove(find);
+                findsInFlight.Remove(boardName);
+                OnLeaderboardFindResult(boardName, result, failure);
+            });
         }
     }
 
-    private void OnLeaderboardFindResult(LeaderboardFindResult_t pCallback, bool failure)
+    private void OnLeaderboardFindResult(string boardName, LeaderboardFindResult_t pCallback, bool failure)
     {
-        Debug.Log($"Steam Leaderboard Find: Did it fail? {failure}, Found: {pCallback.m_bLeaderboardFound}, leaderboardID: {pCallback.m_hSteamLeaderboard.m_SteamLeaderboard}");
-        //leaderboardToBeInit++;
-        if(leaderboardsInit == 5) return;
-        steamLeaderboards.Add(pCallback.m_hSteamLeaderboard);
-        steamLeaderboardsInit[leaderboardsInit] = true;
-        leaderboardsInit++;
-        leaderboardToBeInit++;
+        Debug.Log($"Steam Leaderboard Find '{boardName}': Did it fail? {failure}, Found: {pCallback.m_bLeaderboardFound}, leaderboardID: {pCallback.m_hSteamLeaderboard.m_SteamLeaderboard}");
+        bool found = !failure && pCallback.m_bLeaderboardFound != 0;
+        if (found) foundBoards[boardName] = pCallback.m_hSteamLeaderboard;
 
-        if(leaderboardsInit <= 4)
-            StartCoroutine(InitializeNextLeaderboard());
+        if (!waitingForBoard.TryGetValue(boardName, out var waiting)) return;
+        waitingForBoard.Remove(boardName);
+        foreach (var action in waiting) action(found, pCallback.m_hSteamLeaderboard);
     }
 
-    private IEnumerator InitializeNextLeaderboard()
+    private void Upload(SteamLeaderboard_t board, int score)
     {
-        yield return new WaitForSeconds(1f);
-
-        if (leaderboardToBeInit < leaderboardNames.Count)
+        var upload = new CallResult<LeaderboardScoreUploaded_t>();
+        liveCalls.Add(upload);
+        SteamAPICall_t call = SteamUserStats.UploadLeaderboardScore(board, ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodForceUpdate, score, null, 0);
+        upload.Set(call, (result, failure) =>
         {
-            SteamAPICall_t hSteamAPICall = SteamUserStats.FindLeaderboard(leaderboardNames[leaderboardToBeInit]);
-            m_findResult.Set(hSteamAPICall, OnLeaderboardFindResult);
-            SteamAPI.RunCallbacks();
-        }
+            liveCalls.Remove(upload);
+            OnLeaderboardUploadResult(result, failure);
+        });
     }
 
     private void OnLeaderboardUploadResult(LeaderboardScoreUploaded_t pCallback, bool failure)

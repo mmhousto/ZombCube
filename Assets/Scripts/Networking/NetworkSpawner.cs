@@ -49,6 +49,12 @@ namespace Com.GCTC.ZombCube
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             if (!PhotonNetwork.IsMasterClient) { return; }
             cubesToSpawn *= PhotonNetwork.CurrentRoom.PlayerCount;
+            if (BotSettings.Active)
+            {
+                // Bot run: wave 49's enemy count, and time to buy a wall gun first.
+                cubesToSpawn = BotSettings.PartyCubesAtWave(BotSettings.StartWave, PhotonNetwork.CurrentRoom.PlayerCount);
+                photonView.RPC(nameof(SetCountdown), RpcTarget.All, BotSettings.BuyWindowSeconds);
+            }
             gameOver = NetworkGameManager.Instance.IsGameOver();
             countDownLabel.gameObject.SetActive(true);
             isCountingDown = true;
@@ -120,10 +126,8 @@ namespace Com.GCTC.ZombCube
 
             if (currentRound == 50 || currentRound == 60 || currentRound == 70 || currentRound == 80 || currentRound == 90 || currentRound == 100)
             {
-                int j = Random.Range(0, spawnPoints.Length);
-                GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube",
-                spawnPoints[j].transform.position,
-                spawnPoints[j].transform.rotation);
+                Transform bossSpawn = SpawnPointPicker.PickBoss(spawnPoints);
+                GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkBossCube", bossSpawn.position, bossSpawn.rotation);
             }
 
             if (currentRound > 2)
@@ -140,7 +144,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject fastCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkFastCube",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -171,7 +175,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject dupeCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkDupeCube",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -200,7 +204,7 @@ namespace Com.GCTC.ZombCube
                         yield return secondsToWait;
                     }
 
-                    int j = Random.Range(0, spawnPoints.Length);
+                    int j = SpawnPointPicker.Pick(spawnPoints);
                     GameObject cubeClone = PhotonNetwork.InstantiateRoomObject("NetworkShieldedCube",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -227,7 +231,7 @@ namespace Com.GCTC.ZombCube
                     yield return secondsToWait;
                 }
 
-                int j = Random.Range(0, spawnPoints.Length);
+                int j = SpawnPointPicker.Pick(spawnPoints);
                 GameObject zombCubeClone = PhotonNetwork.InstantiateRoomObject("NetworkEnemy",
                     spawnPoints[j].transform.position,
                     spawnPoints[j].transform.rotation);
@@ -242,6 +246,13 @@ namespace Com.GCTC.ZombCube
             }
 
             yield return null;
+        }
+
+        // Bot runs: a longer first countdown so bots can buy a wall gun.
+        [PunRPC]
+        private void SetCountdown(int seconds)
+        {
+            timeTilNextWave = seconds;
         }
 
         [PunRPC]

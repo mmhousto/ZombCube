@@ -27,6 +27,17 @@ namespace Com.GCTC.ZombCube
             return db != null && db.IsPartyScene(sceneName);
         }
 
+        /// <summary>LevelDatabase ID of a game scene; the Arena scenes (and anything unknown) are "arena".</summary>
+        public static string LevelIdOf(string sceneName)
+        {
+            LevelDatabase db = LevelDatabase.Instance;
+            LevelEntry entry = db != null ? db.ForScene(sceneName) : null;
+            return entry != null && !string.IsNullOrEmpty(entry.id) ? entry.id : WaveLeaderboards.Arena;
+        }
+
+        /// <summary>LevelDatabase ID of the level being played.</summary>
+        public static string ActiveLevelId => LevelIdOf(SceneManager.GetActiveScene().name);
+
         public static bool IsSoloActive => IsSolo(SceneManager.GetActiveScene().name);
         public static bool IsPartyActive => IsParty(SceneManager.GetActiveScene().name);
 
