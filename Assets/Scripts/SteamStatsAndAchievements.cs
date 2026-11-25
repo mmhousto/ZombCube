@@ -108,7 +108,7 @@ namespace Com.GCTC.ZombCube
 
         void Start()
 		{
-            if (!SteamManager.IsReady || (AuthenticationService.Instance != null && !AuthenticationService.Instance.IsSignedIn) || (CloudSaveLogin.Instance != null && CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam))
+            if (!SteamManager.IsReady || (AuthenticationService.Instance != null && !AuthenticationService.Instance.IsSignedIn) || (CloudSaveLogin.Instance != null && CloudSaveLogin.CurrentSSO != CloudSaveLogin.ssoOption.Steam))
 				return;
 
 			player = Player.Instance;
@@ -126,7 +126,7 @@ namespace Com.GCTC.ZombCube
 
 		private void Update()
 		{
-			if (!SteamManager.IsReady || !AuthenticationService.Instance.IsSignedIn || CloudSaveLogin.Instance.currentSSO != CloudSaveLogin.ssoOption.Steam)
+			if (!SteamManager.IsReady || !AuthenticationService.Instance.IsSignedIn || CloudSaveLogin.CurrentSSO != CloudSaveLogin.ssoOption.Steam)
 				return;
 
 			if(m_GameID == null)

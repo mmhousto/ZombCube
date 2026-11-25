@@ -631,7 +631,7 @@ namespace Com.GCTC.ZombCube
         {
             if (player != null && player.HasAchievement(a)) return true;
 #if !DISABLESTEAMWORKS
-            if (SteamManager.IsReady && CloudSaveLogin.Instance != null && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam
+            if (SteamManager.IsReady && CloudSaveLogin.Instance != null && CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam
                 && Steamworks.SteamUserStats.GetAchievement(a.Id, out bool achieved) && achieved)
                 return true;
 #endif

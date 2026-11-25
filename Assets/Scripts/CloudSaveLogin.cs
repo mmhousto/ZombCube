@@ -34,6 +34,16 @@ namespace Com.GCTC.ZombCube
 
         public static CloudSaveLogin Instance { get { return instance; } }
 
+        /// <summary>Sign-in type, or Anonymous when there's no CloudSaveLogin (e.g. bot runs).</summary>
+        public static ssoOption CurrentSSO => instance != null ? instance.currentSSO : ssoOption.Anonymous;
+
+        /// <summary>Saves to the cloud if signed in. Bot runs never save.</summary>
+        public static void SaveCloudDataIfSignedIn()
+        {
+            if (BotSettings.Active || instance == null) return;
+            instance.SaveCloudData();
+        }
+
         // What SSO Option the use is using atm.
         public enum ssoOption { Anonymous, Facebook, Google, Apple, Steam }
 

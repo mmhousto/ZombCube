@@ -73,7 +73,7 @@ namespace Com.GCTC.ZombCube
 
             playersSpawned = 0;
             playersEliminated = 0;
-            CurrentRound = 1;
+            CurrentRound = BotSettings.Active ? BotSettings.StartWave : 1;   // bot runs start near the boss
             waveTxt.text = "Wave: " + CurrentRound.ToString();
             isGameOver = false;
 
@@ -373,7 +373,7 @@ namespace Com.GCTC.ZombCube
             playersEliminated = 0;
             CurrentRound += 1;
 
-            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockStayinAliveTogether();
             }

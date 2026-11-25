@@ -80,7 +80,7 @@ namespace Com.GCTC.ZombCube
 #endif
             achievementsButton.SetActive(LeaderboardManager.HasNativeUI || screens != null);
 
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Apple)
             {
                 logoutButton.SetActive(false);
             }

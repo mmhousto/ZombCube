@@ -39,7 +39,7 @@ namespace Com.GCTC.ZombCube
             {
 #if !DISABLESTEAMWORKS
                 return SteamManager.IsReady && CloudSaveLogin.Instance != null
-                    && CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam;
+                    && CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam;
 #else
                 return false;
 #endif
@@ -272,7 +272,7 @@ namespace Com.GCTC.ZombCube
             if (player == null) return;
             player.coins += coins;
             try { SaveSystem.SavePlayer(player); } catch { Debug.Log("Failed to save local data."); }
-            try { CloudSaveLogin.Instance.SaveCloudData(); } catch { Debug.Log("Failed to save cloud data."); }
+            try { CloudSaveLogin.SaveCloudDataIfSignedIn(); } catch { Debug.Log("Failed to save cloud data."); }
             CustomAnalytics.SendIAPComplete();
             Notify($"Thanks! +{coins} {(coins == 1 ? "Coin" : "Coins")}");
             CoinsGranted?.Invoke(coins);

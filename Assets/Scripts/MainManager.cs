@@ -66,7 +66,7 @@ namespace Com.GCTC.ZombCube
                 reportedNGamer = true;
             }*/
 
-            if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && player != null)
+            if ((Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam) && player != null)
             {
                 if (player.cubesEliminated >= 10000)
                 {
@@ -128,7 +128,7 @@ namespace Com.GCTC.ZombCube
             CheckNGamer1();
 
             GameManager.mode = 0;
-            CloudSaveLogin.Instance.SaveCloudData();
+            CloudSaveLogin.SaveCloudDataIfSignedIn();
             SceneLoader.PlayGame();
         }
 
@@ -139,7 +139,7 @@ namespace Com.GCTC.ZombCube
         {
             CheckNGamer1();
             GameManager.mode = 1;
-            CloudSaveLogin.Instance.SaveCloudData();
+            CloudSaveLogin.SaveCloudDataIfSignedIn();
             SceneLoader.PlayGame();
         }
 
@@ -162,7 +162,7 @@ namespace Com.GCTC.ZombCube
                 ErrorManager.Instance.StartErrorMessage("Error: Player Name is null or empty!");
                 return;
             }
-            CloudSaveLogin.Instance.SaveCloudData();
+            CloudSaveLogin.SaveCloudDataIfSignedIn();
             SceneLoader.ToLoading();
         }
 
