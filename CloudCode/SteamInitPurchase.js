@@ -17,6 +17,13 @@ const { DataApi } = require("@unity-services/cloud-save-1.4");
 
 const APP_ID = "3035180";
 
+// Cloud Code's JavaScript runtime has no URLSearchParams, so form bodies are encoded by hand.
+function formBody(fields) {
+  return Object.keys(fields)
+    .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(String(fields[k])))
+    .join("&");
+}
+
 // productId (same IDs as the iOS / Google products) -> Steam item id, coins granted, price in US cents.
 // Steam converts USD to the player's wallet currency when the purchase is finalized.
 const PRODUCTS = {
@@ -54,7 +61,7 @@ module.exports = async ({ params, context, logger, secretManager }) => {
   // 64-bit order id that fits in a JavaScript number: milliseconds * 1000 + random.
   const orderId = String(Date.now() * 1000 + Math.floor(Math.random() * 1000));
 
-  const form = new URLSearchParams({
+  const form = formBody({
     key,
     orderid: orderId,
     steamid: String(params.steamId),
@@ -72,7 +79,7 @@ module.exports = async ({ params, context, logger, secretManager }) => {
 
   let response;
   try {
-    const res = await axios.post(`${await steamBase(secretManager)}/InitTxn/v3/`, form.toString(), {
+    const res = await axios.post(`${await steamBase(secretManager)}/InitTxn/v3/`, form, {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       timeout: 15000,
     });

@@ -34,6 +34,8 @@ public class SteamCoinStoreTests
             StringAssert.Contains("ISteamMicroTxnSandbox", script, name);
             StringAssert.Contains("live = false", script, name + " must fall back to the sandbox without STEAM_LIVE");
             StringAssert.DoesNotContain("console.log(key", script, name);
+            // Cloud Code's JavaScript runtime has no URLSearchParams (it failed with "URLSearchParams is not defined").
+            StringAssert.DoesNotContain("new URLSearchParams", script, name);
         }
     }
 }

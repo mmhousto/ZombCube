@@ -209,7 +209,7 @@ namespace Com.GCTC.ZombCube
         private static string Short(string message)
         {
             if (string.IsNullOrEmpty(message)) return "unknown error.";
-            message = message.Replace("\n", " ").Trim();
+            message = System.Text.RegularExpressions.Regex.Replace(message, @"\s+", " ").Trim();
             return message.Length > 140 ? message.Substring(0, 140) + "..." : message;
         }
 

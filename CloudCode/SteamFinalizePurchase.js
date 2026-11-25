@@ -17,6 +17,13 @@ const { DataApi } = require("@unity-services/cloud-save-1.4");
 
 const APP_ID = "3035180";
 
+// Cloud Code's JavaScript runtime has no URLSearchParams, so form bodies are encoded by hand.
+function formBody(fields) {
+  return Object.keys(fields)
+    .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(String(fields[k])))
+    .join("&");
+}
+
 async function steamBase(secretManager) {
   let live = false;
   try {
@@ -65,8 +72,8 @@ module.exports = async ({ params, context, logger, secretManager }) => {
 
   let finalized = false;
   try {
-    const form = new URLSearchParams({ key, orderid: orderId, appid: APP_ID });
-    const res = await axios.post(`${base}/FinalizeTxn/v2/`, form.toString(), {
+    const form = formBody({ key, orderid: orderId, appid: APP_ID });
+    const res = await axios.post(`${base}/FinalizeTxn/v2/`, form, {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       timeout: 15000,
     });
