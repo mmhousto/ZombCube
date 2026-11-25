@@ -2,8 +2,12 @@ name: Bot runs
 
 # Long automated play tests: bots play each map from wave 49 (10,000 points, 15 s to buy a wall gun)
 # and must defeat the boss on wave 50 and clear wave 51. Solo, Co-op (2 bots) and Party
-# (Photon offline, 1 bot). Manual only, so pull request checks stay fast.
+# (Photon offline, 1 bot). Manual only, so pull request checks stay fast:
+# run it from the Actions tab, or push a commit whose message contains "[bot-runs]"
+# (or "[bot-runs solo]", "[bot-runs coop]", "[bot-runs party]").
 on:
+  push:
+    branches: [Chad]
   workflow_dispatch:
     inputs:
       modes:
@@ -22,6 +26,7 @@ concurrency:
 jobs:
   bots:
     name: Bot runs (${{ matrix.map }})
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[bot-runs')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -48,8 +53,17 @@ jobs:
         id: filter
         env:
           MODES: ${{ inputs.modes }}
+          MESSAGE: ${{ github.event.head_commit.message }}
           MAP: ${{ matrix.map }}
         run: |
+          if [ -z "$MODES" ]; then
+            case "$MESSAGE" in
+              *"[bot-runs solo]"*)  MODES=solo ;;
+              *"[bot-runs coop]"*)  MODES=coop ;;
+              *"[bot-runs party]"*) MODES=party ;;
+              *)                    MODES=all ;;
+            esac
+          fi
           case "$MODES" in
             solo)  modes="Solo" ;;
             coop)  modes="Coop" ;;
