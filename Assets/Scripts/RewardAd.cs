@@ -2,15 +2,13 @@ using Com.GCTC.ZombCube;
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Advertisements;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.Services.LevelPlay;
 
-public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
+public class RewardAd : MonoBehaviour
 {
     [SerializeField] Button _showAdButton;
-    [SerializeField] string _androidAdUnitId = "Rewarded_Android";
-    [SerializeField] string _iOSAdUnitId = "Rewarded_iOS";
     string _adUnitId = null; // This will remain null for unsupported platforms
     private DateTime pressedTime, overTime;
     private bool buttonEnabled;
@@ -19,14 +17,18 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
     public TextMeshProUGUI labelText;
     public GameObject buttonToSelect;
 
+    private LevelPlayRewardedAd rewardedAd;
+
     void Awake()
     {
         // Get the Ad Unit ID for the current platform:
 #if UNITY_IOS
-            _adUnitId = _iOSAdUnitId;
+            _adUnitId = "e9mwai9q9pp28zfb";
 #elif UNITY_ANDROID
-        _adUnitId = _androidAdUnitId;
+        _adUnitId = "e9mwai9q9pp28zfb";
 #endif
+
+        CreateAd();
 
         // Disable the button until the ad is ready to show:
         buttonEnabled = false;
@@ -83,20 +85,41 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
         }
     }
 
-    // Call this public method when you want to get an ad ready to show.
-    public void LoadAd()
+    public void CreateAd()
     {
-        // IMPORTANT! Only load content AFTER initialization (in this example, initialization is handled in a different script).
-        Advertisement.Load(_adUnitId, this);
+        rewardedAd = new LevelPlayRewardedAd(_adUnitId);
+        rewardedAd.OnAdLoaded += OnAdLoaded;
+        rewardedAd.OnAdLoadFailed += OnAdLoadFailed;
+        rewardedAd.OnAdDisplayed += OnAdDisplayed;
+        rewardedAd.OnAdRewarded += OnAdRewarded;
+        rewardedAd.OnAdClicked += OnAdClicked;
+        rewardedAd.OnAdClosed += OnAdClosed;
+        rewardedAd.OnAdInfoChanged += OnAdInfoChanged;
     }
 
-    // If the ad successfully loads, add a listener to the button and enable it:
-    public void OnUnityAdsAdLoaded(string adUnitId)
+    #region NEW LEVELPLAY
+    
+    void ShowRewardedAd(string placementName = null)
     {
-
-        if (adUnitId.Equals(_adUnitId))
+        if (rewardedAd.IsAdReady() && !LevelPlayRewardedAd.IsPlacementCapped(placementName))
         {
-            adLoaded = true;
+            rewardedAd.ShowAd(placementName);
+        }
+    }
+    
+    bool CheckIfRewardedAdIsReady()
+    {
+        return rewardedAd.IsAdReady();
+    }
+    
+    bool CheckIfPlacementIsCapped(string placementName)
+    {
+        return LevelPlayRewardedAd.IsPlacementCapped(placementName);
+    }
+    
+    void OnAdLoaded(LevelPlayAdInfo adInfo)
+    {
+        adLoaded = true;
             // Configure the button to call the ShowAd() method when clicked:
             _showAdButton.onClick.AddListener(ShowAd);
             // Enable the button for users to click:
@@ -110,7 +133,69 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
                 buttonEnabled = false;
                 _showAdButton.interactable = buttonEnabled;
             }
+    }
+    
+    void OnAdLoadFailed(LevelPlayAdError adError)
+    {
+        Debug.Log($"Rewarded ad failed to load with ad error {adError}");
+    }
+   
+    void OnAdDisplayed(LevelPlayAdInfo adInfo)
+    {
+        CustomAnalytics.SendAdStarted();
+    }
+
+    void OnAdRewarded(LevelPlayAdInfo adInfo, LevelPlayReward adReward)
+    {
+        Player player = Player.Instance;
+
+        player.SetRewardOvertime(overTime.ToString());
+        player.GainPoints();
+
+        try
+        {
+            SaveSystem.SavePlayer(player);
         }
+        catch
+        {
+            Debug.Log("Failed to save local data.");
+        }
+
+        try
+        {
+            CloudSaveLogin.SaveCloudDataIfSignedIn();
+        }
+        catch
+        {
+            Debug.Log("Failed to save cloud data.");
+        }
+            
+            CustomAnalytics.SendAdCompleted();
+    }
+    
+    void OnAdClicked(LevelPlayAdInfo adInfo)
+    {
+        Debug.Log($"Rewarded ad clicked with ad info {adInfo}");
+    }
+    
+    void OnAdClosed(LevelPlayAdInfo adInfo)
+    {
+        Debug.Log($"Rewarded ad closed with ad info {adInfo}");
+    }
+    
+    void OnAdInfoChanged(LevelPlayAdInfo adInfo)
+    {
+        Debug.Log($"Rewarded ad info changed with ad info {adInfo}");
+    }
+
+    #endregion
+
+    // Call this public method when you want to get an ad ready to show.
+    public void LoadAd()
+    {
+        // IMPORTANT! Only load content AFTER initialization (in this example, initialization is handled in a different script).
+        //Advertisement.Load(_adUnitId, this);
+        rewardedAd.LoadAd();
     }
 
     private void GetPoints()
@@ -176,7 +261,8 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
             buttonEnabled = false;
             _showAdButton.interactable = false;
             // Then show the ad:
-            Advertisement.Show(_adUnitId, this);
+            //Advertisement.Show(_adUnitId, this);
+            ShowRewardedAd("Main_Menu");
 
             pressedTime = DateTime.Now;
             overTime = pressedTime.AddHours(2);
@@ -207,58 +293,7 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
         }
         
     }
-
-    // Implement the Show Listener's OnUnityAdsShowComplete callback method to determine if the user gets a reward:
-    public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
-    {
-        if (adUnitId.Equals(_adUnitId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
-        {
-            
-
-            Player player = Player.Instance;
-
-            player.SetRewardOvertime(overTime.ToString());
-            player.GainPoints();
-
-            try
-            {
-                SaveSystem.SavePlayer(player);
-            }
-            catch
-            {
-                Debug.Log("Failed to save local data.");
-            }
-
-            try
-            {
-                CloudSaveLogin.SaveCloudDataIfSignedIn();
-            }
-            catch
-            {
-                Debug.Log("Failed to save cloud data.");
-            }
-
-
-            // Grant a reward.
-        }
-    }
-
-    // Implement Load and Show Listener error callbacks:
-    public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
-    {
-        Debug.Log($"Error loading Ad Unit {adUnitId}: {error.ToString()} - {message}");
-        // Use the error details to determine whether to try to load another ad.
-    }
-
-    public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
-    {
-        Debug.Log($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
-        // Use the error details to determine whether to try to load another ad.
-    }
-
-    public void OnUnityAdsShowStart(string adUnitId) { }
-    public void OnUnityAdsShowClick(string adUnitId) { }
-
+    
     void OnDestroy()
     {
         // Clean up the button listeners:

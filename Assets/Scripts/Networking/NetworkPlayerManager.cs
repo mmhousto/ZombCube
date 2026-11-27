@@ -226,7 +226,7 @@ namespace Com.GCTC.ZombCube
                 {
                     hp.StartResetHealthPack();
 
-                    Damage(-20);
+                    Damage(-50);
                     SpendPoints(500);
 
                     if (healthPoints >= 100) { healthPoints = 100; }
@@ -253,12 +253,12 @@ namespace Com.GCTC.ZombCube
 
                     if (swapManager.HasWeapon(2))
                     {
-                        fullyAutoSMB.GetAmmo(90);
+                        fullyAutoSMB.GetAmmo(360);
                     }
                     else
                     {
                         swapManager.GetWeapon(2);
-                        fullyAutoSMB.GetAmmo(90);
+                        fullyAutoSMB.GetAmmo(300);
                     }
 
                     contextPromptText.gameObject.SetActive(false);
@@ -280,12 +280,12 @@ namespace Com.GCTC.ZombCube
 
                     if (swapManager.HasWeapon(3))
                     {
-                        aB.GetAmmo(210);
+                        aB.GetAmmo(360);
                     }
                     else
                     {
                         swapManager.GetWeapon(3);
-                        aB.GetAmmo(210);
+                        aB.GetAmmo(300);
                     }
 
                     contextPromptText.gameObject.SetActive(false);
@@ -307,12 +307,12 @@ namespace Com.GCTC.ZombCube
 
                     if (swapManager.HasWeapon(4))
                     {
-                        shotblaster.GetAmmo(35);
+                        shotblaster.GetAmmo(60);
                     }
                     else
                     {
                         swapManager.GetWeapon(4);
-                        shotblaster.GetAmmo(35);
+                        shotblaster.GetAmmo(50);
                     }
 
                     contextPromptText.gameObject.SetActive(false);
@@ -334,12 +334,12 @@ namespace Com.GCTC.ZombCube
 
                     if (swapManager.HasWeapon(5))
                     {
-                        sniper.GetAmmo(20);
+                        sniper.GetAmmo(60);
                     }
                     else
                     {
                         swapManager.GetWeapon(5);
-                        sniper.GetAmmo(20);
+                        sniper.GetAmmo(50);
                     }
 
                     contextPromptText.gameObject.SetActive(false);
@@ -541,13 +541,13 @@ namespace Com.GCTC.ZombCube
 
         protected IEnumerator ChargeHoldTime()
         {
-            while (isInteracting && holdTime < 0.25f)
+            while (isInteracting && holdTime < 0.15f)
             {
                 holdTime += Time.deltaTime; // Increase launch power over time
                 yield return null;
             }
 
-            if (holdTime < 0.25f)
+            if (holdTime < 0.15f)
             {
                 isInteractHeld = false;
                 Debug.Log("Not Holding!");

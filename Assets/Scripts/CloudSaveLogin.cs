@@ -157,6 +157,7 @@ namespace Com.GCTC.ZombCube
             // If the current platform is supported initialize apple authentication.
             if (AppleAuthManager.IsCurrentPlatformSupported)
             {
+                Debug.Log("Apple Auth Platform Supported!");
                 // Creates a default JSON deserializer, to transform JSON Native responses to C# instances
                 IPayloadDeserializer deserializer = new PayloadDeserializer();
                 // Creates an Apple Authentication manager with the deserializer
@@ -326,6 +327,9 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public async void SignInApple()
         {
+            Debug.Log($"Is Signing In: {isSigningIn}");
+            Debug.Log($"AuthService Signed In: {AuthenticationService.Instance.IsSignedIn}");
+            Debug.Log($"Platform Supported: {AppleAuthManager.IsCurrentPlatformSupported}");
             if (isSigningIn || AuthenticationService.Instance.IsSignedIn || AppleAuthManager.IsCurrentPlatformSupported == false) return;
             isSigningIn = true;
 

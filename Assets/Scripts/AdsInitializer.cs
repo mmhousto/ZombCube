@@ -1,63 +1,33 @@
+using Unity.Services.LevelPlay;
 using UnityEngine;
 
 #if UNITY_IOS || UNITY_ANDROID
-using UnityEngine.Advertisements;
 
-public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
+public class AdsInitializer : MonoBehaviour
 {
-    [SerializeField] string _androidGameId = "4415503";
-    [SerializeField] string _iOsGameId = "4415502";
-    [SerializeField] bool _testMode = false;
-    [SerializeField] bool _enablePerPlacementMode = true;
     public static int timesPlayed = 0;
-    private string _gameId;
-
-    public InterstitialAd interstitialAd;
     public RewardAd rewardAd;
+
+
 
     void Awake()
     {
         /*if(timesPlayed % 3 != 0)*/
-        InitializeAds();
+        LevelPlay.OnInitSuccess += OnInitializationComplete;
+        LevelPlay.OnInitFailed += OnInitializationFailed;
+        LevelPlay.Init("29e011b5d");
+        //InitializeAds();
     }
 
-    public void InitializeAds()
-    {
-        _gameId = (Application.platform == RuntimePlatform.IPhonePlayer)
-            ? _iOsGameId
-            : _androidGameId;
-        Advertisement.Initialize(_gameId, _testMode, this);
-    }
-
-    public void OnInitializationComplete()
+    public void OnInitializationComplete(LevelPlayConfiguration config)
     {
         //interstitialAd.LoadAd();
         rewardAd.LoadAd();
     }
 
-    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    public void OnInitializationFailed(LevelPlayInitError error)
     {
-        Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
-    }
-
-    public void OnUnityAdsReady(string placementId)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnUnityAdsDidError(string message)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnUnityAdsDidStart(string placementId)
-    {
-        CustomAnalytics.SendAdStarted();
-    }
-
-    public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
-    {
-        CustomAnalytics.SendAdCompleted();
+        Debug.Log($"Unity Ads Initialization Failed: {error}");
     }
 
 }

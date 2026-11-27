@@ -33,7 +33,7 @@ namespace Com.GCTC.ZombCube
         {
             isUsable = false;
             healthPack.enabled = false;
-            yield return new WaitForSeconds(120);
+            yield return new WaitForSeconds(30);
             healthPack.enabled = true;
             isUsable = true;
         }
