@@ -32,7 +32,7 @@ namespace Com.GCTC.ZombCube
         {
             isUsable = false;
             weaponImage.enabled = false;
-            yield return new WaitForSeconds(120);
+            yield return new WaitForSeconds(5);
             weaponImage.enabled = true;
             isUsable = true;
         }
