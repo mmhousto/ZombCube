@@ -35,7 +35,7 @@ namespace Com.GCTC.ZombCube
         {
             photonView.RPC("RPC_DisablePack", RpcTarget.AllBuffered);
             
-            yield return new WaitForSeconds(120);
+            yield return new WaitForSeconds(30);
             photonView.RPC("RPC_EnablePack", RpcTarget.AllBuffered);
             
         }
