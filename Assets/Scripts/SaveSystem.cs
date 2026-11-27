@@ -21,6 +21,7 @@ namespace Com.GCTC.ZombCube
         /// <param name="player"></param>
         public static void SavePlayer(Player player)
         {
+            if (BotSettings.Active) return;   // bot runs never touch the player's profile
             SaveData data = new SaveData(player);
             File.WriteAllText(JsonPath, JsonUtility.ToJson(data));
         }

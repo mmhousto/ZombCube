@@ -124,7 +124,7 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
         pressedTime = DateTime.Now;
         overTime = pressedTime.AddHours(24);
 
-        switch (CloudSaveLogin.Instance.currentSSO)
+        switch (CloudSaveLogin.CurrentSSO)
         {
             case CloudSaveLogin.ssoOption.Anonymous:
                 PlayerPrefs.SetString("RewardOverTime", overTime.ToString());
@@ -159,7 +159,7 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
 
         try
         {
-            CloudSaveLogin.Instance.SaveCloudData();
+            CloudSaveLogin.SaveCloudDataIfSignedIn();
         }
         catch
         {
@@ -181,7 +181,7 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
             pressedTime = DateTime.Now;
             overTime = pressedTime.AddHours(2);
 
-            switch (CloudSaveLogin.Instance.currentSSO)
+            switch (CloudSaveLogin.CurrentSSO)
             {
                 case CloudSaveLogin.ssoOption.Anonymous:
                     PlayerPrefs.SetString("RewardOverTime", overTime.ToString());
@@ -231,7 +231,7 @@ public class RewardAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListe
 
             try
             {
-                CloudSaveLogin.Instance.SaveCloudData();
+                CloudSaveLogin.SaveCloudDataIfSignedIn();
             }
             catch
             {

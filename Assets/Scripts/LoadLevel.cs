@@ -27,7 +27,9 @@ public class LoadLevel : MonoBehaviour
         Resources.UnloadUnusedAssets();
 #endif
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync(index);
+        AsyncOperation operation = index < 0 && !string.IsNullOrEmpty(SceneLoader.sceneToLoad)
+            ? SceneManager.LoadSceneAsync(SceneLoader.sceneToLoad)
+            : SceneManager.LoadSceneAsync(index);
 
         while (!operation.isDone)
         {

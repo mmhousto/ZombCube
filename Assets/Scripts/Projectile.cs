@@ -24,7 +24,7 @@ namespace Com.GCTC.ZombCube
             audioSource = GetComponent<AudioSource>();
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
 
-            if(SceneLoader.GetCurrentScene().name == "GameScene" & GameManager.Instance?.numOfPlayers > 1)
+            if(GameScenes.IsSoloActive & GameManager.Instance?.numOfPlayers > 1)
             {
                 couchCoopManager = GameObject.Find("CoopManager").GetComponent<CouchCoopManager>();
             }
@@ -32,7 +32,7 @@ namespace Com.GCTC.ZombCube
 
         protected void DestroyProjectile()
         {
-            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
+            if (GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
             {
                 Destroy(gameObject);
             }
@@ -62,11 +62,11 @@ namespace Com.GCTC.ZombCube
             float randChance = Random.value;
 
             // Check if power-up should be spawned based on drop chance
-            if (randChance <= dropChance && SceneLoader.GetCurrentScene().name == "GameScene")
+            if (randChance <= dropChance && GameScenes.IsSoloActive)
             {
                 // Instantiate the power-up prefab at the enemy's position
                 Instantiate(powerUpPrefabs[rand], new Vector3(pos.x, 2, pos.z), Quaternion.identity);
-            }else if (randChance <= dropChance && SceneLoader.GetCurrentScene().name == "NetworkGameScene" && this.photonView.IsMine)
+            }else if (randChance <= dropChance && GameScenes.IsPartyActive && this.photonView.IsMine)
             {
                 PhotonNetwork.Instantiate(powerUpPrefabs[rand].name, new Vector3(pos.x, 2, pos.z), Quaternion.identity);
             }
@@ -132,7 +132,7 @@ namespace Com.GCTC.ZombCube
 
                     enemiesHit++;
 
-                    if (enemiesHit >= 5 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+                    if (enemiesHit == 5)
                     {
                         LeaderboardManager.UnlockRicochetKing();
                     }
@@ -195,7 +195,7 @@ namespace Com.GCTC.ZombCube
             if (collision.gameObject.CompareTag("Armor"))
             {
                 audioSource.Play();
-                if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+                if (GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display")
                     Destroy(collision.gameObject);
                 else if (SceneLoader.GetCurrentScene().name == "MainMenu")
                     collision.gameObject.SetActive(false);
@@ -255,7 +255,7 @@ namespace Com.GCTC.ZombCube
             if(audioSource != null)
                 audioSource.Play();
             
-            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
+            if (GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display" || SceneLoader.GetCurrentScene().name == "MainMenu")
             {
 
                 if (collision.transform.name.Contains("Dupe") && !collision.transform.name.Contains("Duped"))
@@ -287,7 +287,7 @@ namespace Com.GCTC.ZombCube
 
             enemiesHit++;
 
-            if (enemiesHit >= 5 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (enemiesHit == 5)
             {
                 LeaderboardManager.UnlockRicochetKing();
             }

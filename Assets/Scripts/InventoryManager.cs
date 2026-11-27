@@ -426,7 +426,7 @@ namespace Com.GCTC.ZombCube
 
             try
             {
-                CloudSaveLogin.Instance.SaveCloudData();
+                CloudSaveLogin.SaveCloudDataIfSignedIn();
             }
             catch
             {

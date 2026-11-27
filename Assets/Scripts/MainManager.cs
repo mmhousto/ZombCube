@@ -30,15 +30,23 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         void Awake()
         {
-#if (UNITY_XBOXONE || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL || UNITY_STANDALONE_WIN)
+#if (UNITY_XBOXONE || UNITY_WSA || UNITY_WAS_10_0 || UNITY_WEBGL)
             if (iapButton != null)
                 iapButton.SetActive(false);
+#elif UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX
+            // On PC, coins are bought through Steam (needs the Steam sign-in).
+            if (iapButton != null)
+                iapButton.SetActive(SteamCoinStore.IsAvailable);
 #endif
         }
 
         private void Start()
         {
             player = Player.Instance;
+
+            // Finish any Steam coin purchase that was paid for but not completed last time.
+            if (SteamCoinStore.IsAvailable)
+                SteamCoinStore.Instance.FinishPendingOrders();
 
             analyticParams = new Dictionary<string, object>();
             analyticParams.Add("PlayerName", player.playerName);
@@ -52,13 +60,13 @@ namespace Com.GCTC.ZombCube
 
             playerNameText.text = player.playerName;
 
-            /*if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && reportedNGamer == false)
+            /*if (player.playerName == "NGamer1" && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;
             }*/
 
-            if ((Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && player != null)
+            if ((Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam) && player != null)
             {
                 if (player.cubesEliminated >= 10000)
                 {
@@ -120,7 +128,7 @@ namespace Com.GCTC.ZombCube
             CheckNGamer1();
 
             GameManager.mode = 0;
-            CloudSaveLogin.Instance.SaveCloudData();
+            CloudSaveLogin.SaveCloudDataIfSignedIn();
             SceneLoader.PlayGame();
         }
 
@@ -131,7 +139,7 @@ namespace Com.GCTC.ZombCube
         {
             CheckNGamer1();
             GameManager.mode = 1;
-            CloudSaveLogin.Instance.SaveCloudData();
+            CloudSaveLogin.SaveCloudDataIfSignedIn();
             SceneLoader.PlayGame();
         }
 
@@ -154,7 +162,7 @@ namespace Com.GCTC.ZombCube
                 ErrorManager.Instance.StartErrorMessage("Error: Player Name is null or empty!");
                 return;
             }
-            CloudSaveLogin.Instance.SaveCloudData();
+            CloudSaveLogin.SaveCloudDataIfSignedIn();
             SceneLoader.ToLoading();
         }
 
@@ -180,7 +188,7 @@ namespace Com.GCTC.ZombCube
 
         private void CheckNGamer1()
         {
-            if (player.playerName == "NGamer1" && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam) && reportedNGamer == false)
+            if (player.playerName == "NGamer1" && reportedNGamer == false)
             {
                 LeaderboardManager.UnlockNGamer1();
                 reportedNGamer = true;

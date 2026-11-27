@@ -20,22 +20,31 @@ namespace Com.GCTC.ZombCube
 
         public GameObject gameCenterButton, leaderboardsButton, achievementsButton, logoutButton, deleteButton;
 
+        private StatsScreens screens;
+
         private void Start()
         {
+            screens = StatsScreens.Create(this);
             SetButtons();
         }
 
         private void OnEnable()
         {
             SetLabels();
+            if (screens != null)
+            {
+                screens.ResetTabs();
+                SetButtons();
+            }
         }
 
+        // In-game page for everyone (it has a GAME CENTER button for Apple players); Apple UI as a fallback.
         public void ShowAchievements()
         {
-            if (Social.localUser.authenticated)
-            {
+            if (screens != null)
+                screens.OpenAchievements();
+            else if (LeaderboardManager.HasNativeUI)
                 Social.ShowAchievementsUI();
-            }
         }
 
         public void LogoutUser()
@@ -45,10 +54,10 @@ namespace Com.GCTC.ZombCube
 
         public void ShowLeaderboard()
         {
-            if(Social.localUser.authenticated)
-            {
+            if (screens != null)
+                screens.OpenLeaderboards();
+            else if (LeaderboardManager.HasNativeUI)
                 Social.ShowLeaderboardUI();
-            }
         }
 
         public void DeleteAccount()
@@ -58,26 +67,20 @@ namespace Com.GCTC.ZombCube
 
         public void SetButtons()
         {
+            // Achievements are always available (Game Center UI, or the in-game page for everyone else).
+            // Leaderboards need Game Center or Steam.
+            bool steamBoards = LeaderboardManager.HasSteamLeaderboards && screens != null;
 #if (UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_TVOS)
-            if (Social.localUser.authenticated)
-            {
-                gameCenterButton.SetActive(false);
-                leaderboardsButton.SetActive(true);
-                achievementsButton.SetActive(true);
-            }
-            else
-            {
-                gameCenterButton.SetActive(true);
-                leaderboardsButton.SetActive(false);
-                achievementsButton.SetActive(false);
-            }
+            bool gameCenter = Social.localUser.authenticated;
+            gameCenterButton.SetActive(!gameCenter && !steamBoards);
+            leaderboardsButton.SetActive(gameCenter || steamBoards);
 #else
             gameCenterButton.SetActive(false);
-            leaderboardsButton.SetActive(false);
-            achievementsButton.SetActive(false);
+            leaderboardsButton.SetActive(steamBoards);
 #endif
+            achievementsButton.SetActive(LeaderboardManager.HasNativeUI || screens != null);
 
-            if (CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Apple)
+            if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Apple)
             {
                 logoutButton.SetActive(false);
             }
@@ -92,12 +95,7 @@ namespace Com.GCTC.ZombCube
         {
             CloudSaveLogin.Instance.SignInGameCenter();
 
-            if (Social.localUser.authenticated)
-            {
-                gameCenterButton.SetActive(false);
-                leaderboardsButton.SetActive(true);
-                achievementsButton.SetActive(true);
-            }
+            SetButtons();
         }
 
         private void SetLabels()
@@ -118,41 +116,8 @@ namespace Com.GCTC.ZombCube
 
         private string GetColor(int index)
         {
-            string result = "";
-            switch (index)
-            {
-                case 0:
-                    result = "White";
-                    break;
-                case 1:
-                    result = "Green";
-                    break;
-                case 2:
-                    result = "Blue";
-                    break;
-                case 3:
-                    result = "Yellow";
-                    break;
-                case 4:
-                    result = "Pink";
-                    break;
-                case 5:
-                    result = "Legend";
-                    break;
-                case 6:
-                    result = "OSU";
-                    break;
-                case 7:
-                    result = "OU";
-                    break;
-                case 8:
-                    result = "Gold";
-                    break;
-                default:
-                    result = "White";
-                    break;
-            }
-            return result;
+            CosmeticEntry entry = CosmeticDatabase.Instance != null ? CosmeticDatabase.Instance.Get(index) : null;
+            return entry != null && !string.IsNullOrEmpty(entry.displayName) ? entry.displayName : "White";
         }
     }
 

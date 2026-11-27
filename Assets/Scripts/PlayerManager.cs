@@ -62,7 +62,10 @@ namespace Com.GCTC.ZombCube
         void Start()
         {
 #if !DISABLESTEAMWORKS
-            overlayIsOn = Callback<GameOverlayActivated_t>.Create(PauseGameIfSteamOverlayOn);
+            // Only touch Steam when it is running; otherwise steam_api is loaded for nothing and
+            // takes over crash handling. Each player (up to 4 in co-op) registers its own callback.
+            if (SteamManager.IsReady)
+                overlayIsOn = Callback<GameOverlayActivated_t>.Create(PauseGameIfSteamOverlayOn);
 #endif
             // Check if a controller is initially connected
             if (Gamepad.current != null)
@@ -202,6 +205,15 @@ namespace Com.GCTC.ZombCube
             GameManager.endGame -= SaveDataEndGame;
         }
 
+        private void OnDestroy()
+        {
+#if !DISABLESTEAMWORKS
+            // Release the Steam callback so it doesn't outlive this player (Restart destroys players).
+            overlayIsOn?.Dispose();
+            overlayIsOn = null;
+#endif
+        }
+
         private void CheckControllerConnection()
         {
             // Check if a controller was connected and gets disconnected
@@ -246,7 +258,7 @@ namespace Com.GCTC.ZombCube
 
             try
             {
-                CloudSaveLogin.Instance.SaveCloudData();
+                CloudSaveLogin.SaveCloudDataIfSignedIn();
             }
             catch
             {
@@ -292,7 +304,7 @@ namespace Com.GCTC.ZombCube
             {
                 hp.StartResetHealthPack();
 
-                Damage(-20);
+                Damage(-50);
                 SpendPoints(500);
 
                 if (healthPoints >= 100) { healthPoints = 100; }
@@ -319,12 +331,12 @@ namespace Com.GCTC.ZombCube
 
                 if (swapManager.HasWeapon(2))
                 {
-                    fullyAutoSMB.GetAmmo(90);
+                    fullyAutoSMB.GetAmmo(360);
                 }
                 else
                 {
                     swapManager.GetWeapon(2);
-                    fullyAutoSMB.GetAmmo(90);
+                    fullyAutoSMB.GetAmmo(300);
                 }
 
                 contextPromptText.gameObject.SetActive(false);
@@ -346,12 +358,12 @@ namespace Com.GCTC.ZombCube
 
                 if (swapManager.HasWeapon(3))
                 {
-                    aB.GetAmmo(210);
+                    aB.GetAmmo(360);
                 }
                 else
                 {
                     swapManager.GetWeapon(3);
-                    aB.GetAmmo(210);
+                    aB.GetAmmo(300);
                 }
 
                 contextPromptText.gameObject.SetActive(false);
@@ -373,12 +385,12 @@ namespace Com.GCTC.ZombCube
 
                 if (swapManager.HasWeapon(4))
                 {
-                    shotblaster.GetAmmo(35);
+                    shotblaster.GetAmmo(60);
                 }
                 else
                 {
                     swapManager.GetWeapon(4);
-                    shotblaster.GetAmmo(35);
+                    shotblaster.GetAmmo(50);
                 }
 
                 contextPromptText.gameObject.SetActive(false);
@@ -400,12 +412,12 @@ namespace Com.GCTC.ZombCube
 
                 if (swapManager.HasWeapon(5))
                 {
-                    sniperBlaster.GetAmmo(20);
+                    sniperBlaster.GetAmmo(60);
                 }
                 else
                 {
                     swapManager.GetWeapon(5);
-                    sniperBlaster.GetAmmo(20);
+                    sniperBlaster.GetAmmo(50);
                 }
 
                 contextPromptText.gameObject.SetActive(false);
@@ -432,10 +444,10 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateLeaderboards()
         {
-            if (Social.localUser.authenticated || SteamManager.Initialized)
+            if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
-                LeaderboardManager.UpdateSoloHighestWaveLeaderboard();
+                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, CurrentPlayMode);
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
 
@@ -446,27 +458,27 @@ namespace Com.GCTC.ZombCube
         {
             player.points += currentPoints;
 
-            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerI();
             }
-            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerII();
             }
-            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerIII();
             }
         }
 
+        // Couch Co-op has its own records and leaderboards, separate from Solo.
+        private static WaveMode CurrentPlayMode => GameManager.mode == 1 ? WaveMode.Coop : WaveMode.Solo;
+
         private void UpdateHighestWave()
         {
-            int endingRound = GameManager.Instance.CurrentRound;
-            if (player.highestWave < endingRound)
-            {
-                player.highestWave = endingRound;
-            }
+            if (player == null) return;
+            player.RecordWave(GameScenes.ActiveLevelId, CurrentPlayMode, GameManager.Instance.CurrentRound);
         }
 
         public void ResetPlayer()
@@ -508,13 +520,13 @@ namespace Com.GCTC.ZombCube
 
         protected IEnumerator ChargeHoldTime()
         {
-            while (isInteracting && holdTime < 0.25f)
+            while (isInteracting && holdTime < 0.15f)
             {
                 holdTime += Time.deltaTime; // Increase launch power over time
                 yield return null;
             }
 
-            if (holdTime < 0.25f)
+            if (holdTime < 0.15f)
             {
                 isInteractHeld = false;
                 Debug.Log("Not Holding!");

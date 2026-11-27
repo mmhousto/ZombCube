@@ -156,7 +156,13 @@ namespace Com.GCTC.ZombCube
 
             if (!IsEveryoneReady()) { return; }
 
-            PhotonNetwork.LoadLevel("NetworkGameScene");
+            // Everyone plays the host's map and texture pack.
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
+            {
+                { RoomLevelKeys.Map, LevelSelect.mapSelected },
+                { RoomLevelKeys.TexturePack, LevelSelect.levelSelected },
+            });
+            PhotonNetwork.LoadLevel(GameScenes.SelectedPartyScene());
         }
 
         /// <summary>

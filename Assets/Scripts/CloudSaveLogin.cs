@@ -34,6 +34,16 @@ namespace Com.GCTC.ZombCube
 
         public static CloudSaveLogin Instance { get { return instance; } }
 
+        /// <summary>Sign-in type, or Anonymous when there's no CloudSaveLogin (e.g. bot runs).</summary>
+        public static ssoOption CurrentSSO => instance != null ? instance.currentSSO : ssoOption.Anonymous;
+
+        /// <summary>Saves to the cloud if signed in. Bot runs never save.</summary>
+        public static void SaveCloudDataIfSignedIn()
+        {
+            if (BotSettings.Active || instance == null) return;
+            instance.SaveCloudData();
+        }
+
         // What SSO Option the use is using atm.
         public enum ssoOption { Anonymous, Facebook, Google, Apple, Steam }
 
@@ -1347,6 +1357,9 @@ namespace Com.GCTC.ZombCube
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;
+            player.highestWaveParty = 0;
+            player.waveRecords = new WaveRecord[0];
+            player.achievements = new string[0];
             player.cubesEliminated = 0;
             player.totalPointsEarned = 0;
             player.totalProjectilesFired = 0;
@@ -1391,6 +1404,9 @@ namespace Com.GCTC.ZombCube
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
+            player.highestWaveParty = data.highestWaveParty;
+            player.waveRecords = data.waveRecords ?? new WaveRecord[0];
+            player.achievements = data.achievements ?? new string[0];
             player.cubesEliminated = data.cubesEliminated;
             player.totalPointsEarned = data.totalPointsEarned;
             player.totalProjectilesFired = data.totalProjectilesFired;
@@ -1438,6 +1454,9 @@ namespace Com.GCTC.ZombCube
             player.coins = data.coins;
             player.points = data.points;
             player.highestWave = data.highestWave;
+            player.highestWaveParty = data.highestWaveParty;
+            player.waveRecords = data.waveRecords ?? new WaveRecord[0];
+            player.achievements = data.achievements ?? new string[0];
             player.cubesEliminated = data.cubesEliminated;
             player.totalPointsEarned = data.totalPointsEarned;
             player.totalProjectilesFired = data.totalProjectilesFired;
@@ -1461,6 +1480,9 @@ namespace Com.GCTC.ZombCube
             player.coins = 0;
             player.points = 0;
             player.highestWave = 0;
+            player.highestWaveParty = 0;
+            player.waveRecords = new WaveRecord[0];
+            player.achievements = new string[0];
             player.cubesEliminated = 0;
             player.totalPointsEarned = 0;
             player.totalProjectilesFired = 0;

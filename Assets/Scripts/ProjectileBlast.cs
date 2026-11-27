@@ -14,7 +14,7 @@ namespace Com.GCTC.ZombCube
             audioSource = GetComponent<AudioSource>();
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
 
-            if (SceneLoader.GetCurrentScene().name == "GameScene" & GameManager.Instance?.numOfPlayers > 1)
+            if (GameScenes.IsSoloActive & GameManager.Instance?.numOfPlayers > 1)
             {
                 couchCoopManager = GameObject.Find("CoopManager").GetComponent<CouchCoopManager>();
             }

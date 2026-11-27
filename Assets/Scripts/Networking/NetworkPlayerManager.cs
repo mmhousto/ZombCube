@@ -88,6 +88,10 @@ namespace Com.GCTC.ZombCube
                 NetworkSpectatorManager.playerUserNames.Add((string)photonView.Owner.CustomProperties["UserName"]);
             }
 
+            // Remote players are drawn by the local Main Camera (behind walls); the local WeaponCam draws only our gun.
+            if (photonView.IsMine) PlayerViewLayers.ApplyLocal(gameObject, 0);
+            else PlayerViewLayers.ApplyRemote(gameObject);
+
             if (photonView.IsMine)
             {
 #if !DISABLESTEAMWORKS
@@ -222,7 +226,7 @@ namespace Com.GCTC.ZombCube
                 {
                     hp.StartResetHealthPack();
 
-                    Damage(-20);
+                    Damage(-50);
                     SpendPoints(500);
 
                     if (healthPoints >= 100) { healthPoints = 100; }
@@ -249,12 +253,12 @@ namespace Com.GCTC.ZombCube
 
                     if (swapManager.HasWeapon(2))
                     {
-                        fullyAutoSMB.GetAmmo(90);
+                        fullyAutoSMB.GetAmmo(360);
                     }
                     else
                     {
                         swapManager.GetWeapon(2);
-                        fullyAutoSMB.GetAmmo(90);
+                        fullyAutoSMB.GetAmmo(300);
                     }
 
                     contextPromptText.gameObject.SetActive(false);
@@ -276,12 +280,12 @@ namespace Com.GCTC.ZombCube
 
                     if (swapManager.HasWeapon(3))
                     {
-                        aB.GetAmmo(210);
+                        aB.GetAmmo(360);
                     }
                     else
                     {
                         swapManager.GetWeapon(3);
-                        aB.GetAmmo(210);
+                        aB.GetAmmo(300);
                     }
 
                     contextPromptText.gameObject.SetActive(false);
@@ -303,12 +307,12 @@ namespace Com.GCTC.ZombCube
 
                     if (swapManager.HasWeapon(4))
                     {
-                        shotblaster.GetAmmo(35);
+                        shotblaster.GetAmmo(60);
                     }
                     else
                     {
                         swapManager.GetWeapon(4);
-                        shotblaster.GetAmmo(35);
+                        shotblaster.GetAmmo(50);
                     }
 
                     contextPromptText.gameObject.SetActive(false);
@@ -330,12 +334,12 @@ namespace Com.GCTC.ZombCube
 
                     if (swapManager.HasWeapon(5))
                     {
-                        sniper.GetAmmo(20);
+                        sniper.GetAmmo(60);
                     }
                     else
                     {
                         swapManager.GetWeapon(5);
-                        sniper.GetAmmo(20);
+                        sniper.GetAmmo(50);
                     }
 
                     contextPromptText.gameObject.SetActive(false);
@@ -413,7 +417,7 @@ namespace Com.GCTC.ZombCube
 
             try
             {
-                CloudSaveLogin.Instance.SaveCloudData();
+                CloudSaveLogin.SaveCloudDataIfSignedIn();
             }
             catch
             {
@@ -537,13 +541,13 @@ namespace Com.GCTC.ZombCube
 
         protected IEnumerator ChargeHoldTime()
         {
-            while (isInteracting && holdTime < 0.25f)
+            while (isInteracting && holdTime < 0.15f)
             {
                 holdTime += Time.deltaTime; // Increase launch power over time
                 yield return null;
             }
 
-            if (holdTime < 0.25f)
+            if (holdTime < 0.15f)
             {
                 isInteractHeld = false;
                 Debug.Log("Not Holding!");
@@ -643,7 +647,7 @@ namespace Com.GCTC.ZombCube
 
                     try
                     {
-                        CloudSaveLogin.Instance.SaveCloudData();
+                        CloudSaveLogin.SaveCloudDataIfSignedIn();
                     }
                     catch
                     {
@@ -686,10 +690,10 @@ namespace Com.GCTC.ZombCube
 
         private void UpdateLeaderboards()
         {
-            if (Social.localUser.authenticated || SteamManager.Initialized)
+            if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
-                LeaderboardManager.UpdatePartyHighestWaveLeaderboard();
+                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, WaveMode.Party);
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
             }
@@ -724,15 +728,15 @@ namespace Com.GCTC.ZombCube
             if(player != null)
                 player.points += currentPoints;
 
-            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerI();
             }
-            else if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerII();
             }
-            else if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.Instance.currentSSO == CloudSaveLogin.ssoOption.Steam))
+            if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {
                 LeaderboardManager.UnlockPointRackerIII();
             }
@@ -743,11 +747,8 @@ namespace Com.GCTC.ZombCube
             if (player == null)
                 player = Player.Instance;
 
-            int endingRound = NetworkGameManager.Instance.CurrentRound;
-            if (player != null && player.highestWaveParty < endingRound)
-            {
-                player.highestWaveParty = endingRound;
-            }
+            if (player != null)
+                player.RecordWave(GameScenes.ActiveLevelId, WaveMode.Party, NetworkGameManager.Instance.CurrentRound);
         }
 
         private void Pause()

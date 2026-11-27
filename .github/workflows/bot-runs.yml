@@ -1,0 +1,107 @@
+name: Bot runs
+
+# Long automated play tests: bots play each map from wave 49 (10,000 points, 15 s to buy a wall gun)
+# and must defeat the boss on wave 50 and clear wave 51. Solo, Co-op (2 bots) and Party
+# (Photon offline, 1 bot). Manual only, so pull request checks stay fast:
+# run it from the Actions tab, or push a commit whose message contains "[bot-runs]"
+# (or "[bot-runs solo]", "[bot-runs coop]", "[bot-runs party]").
+on:
+  push:
+    branches: [Chad]
+  workflow_dispatch:
+    inputs:
+      modes:
+        description: "Modes to run"
+        type: choice
+        default: all
+        options: [all, solo, coop, party]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bot-runs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bots:
+    name: Bot runs (${{ matrix.map }})
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[bot-runs')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        map: [Arena, Spaceship, Theatre]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          lfs: false
+
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: Library
+          key: Library-bots-${{ hashFiles('Packages/packages-lock.json', 'ProjectSettings/ProjectVersion.txt') }}
+          restore-keys: |
+            Library-
+
+      - name: Pick tests
+        id: filter
+        env:
+          MODES: ${{ inputs.modes }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+          MAP: ${{ matrix.map }}
+        run: |
+          if [ -z "$MODES" ]; then
+            case "$MESSAGE" in
+              *"[bot-runs solo]"*)  MODES=solo ;;
+              *"[bot-runs coop]"*)  MODES=coop ;;
+              *"[bot-runs party]"*) MODES=party ;;
+              *)                    MODES=all ;;
+            esac
+          fi
+          case "$MODES" in
+            solo)  modes="Solo" ;;
+            coop)  modes="Coop" ;;
+            party) modes="PartyOffline" ;;
+            *)     modes="Solo|Coop|PartyOffline" ;;
+          esac
+          echo "filter=BotRuns\\.(${modes})_${MAP}" >> "$GITHUB_OUTPUT"
+
+      - name: Run bot runs
+        uses: game-ci/unity-test-runner@32e57712352b500e17974b245a6dce9e11a73213 # v4.4.0
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          testMode: playmode
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Bot runs (${{ matrix.map }})
+          artifactsPath: test-results
+          customParameters: -testFilter "${{ steps.filter.outputs.filter }}"
+          cliVersion: v0.1.76
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Bot runs: ${{ matrix.map }}" >> "$GITHUB_STEP_SUMMARY"
+          if ls bot-results/*.json >/dev/null 2>&1; then
+            for f in bot-results/*.json; do echo "- \`$(basename "$f" .json)\`: \`$(cat "$f")\`" >> "$GITHUB_STEP_SUMMARY"; done
+          else
+            echo "No bot results were written." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: bot-runs-${{ matrix.map }}
+          path: |
+            test-results
+            bot-results
+          if-no-files-found: ignore
+          retention-days: 14

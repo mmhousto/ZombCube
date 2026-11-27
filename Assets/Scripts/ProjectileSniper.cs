@@ -18,7 +18,7 @@ namespace Com.GCTC.ZombCube
             audioSource = GetComponent<AudioSource>();
             ovAudioSource = GameObject.FindWithTag("OVAudio")?.GetComponent<AudioSource>();
 
-            if (SceneLoader.GetCurrentScene().name == "GameScene" & GameManager.Instance?.numOfPlayers > 1)
+            if (GameScenes.IsSoloActive & GameManager.Instance?.numOfPlayers > 1)
             {
                 couchCoopManager = GameObject.Find("CoopManager").GetComponent<CouchCoopManager>();
             }
@@ -135,7 +135,7 @@ namespace Com.GCTC.ZombCube
             if (hit.transform.CompareTag("Armor"))
             {
                 audioSource.Play();
-                if ((SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display"))
+                if ((GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display"))
                     Destroy(hit.transform.gameObject);
                 else if (this.photonView.IsMine)
                 {
@@ -185,7 +185,7 @@ namespace Com.GCTC.ZombCube
 
             objectsHit++;
 
-            if (SceneLoader.GetCurrentScene().name == "GameScene" || SceneLoader.GetCurrentScene().name == "Display")
+            if (GameScenes.IsSoloActive || SceneLoader.GetCurrentScene().name == "Display")
             {
 
                 if (hit.transform.TryGetComponent<DupeCube>(out DupeCube dupeCube))

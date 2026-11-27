@@ -46,6 +46,8 @@ jobs:
           testMode: editmode
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           artifactsPath: test-results
+          # Pinned like the builder: resolving "latest" calls the GitHub API and can hit a 403 rate limit.
+          cliVersion: v0.1.76
 
       - name: Upload test results
         if: always()
