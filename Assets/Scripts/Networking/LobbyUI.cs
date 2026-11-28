@@ -68,7 +68,7 @@ namespace Com.GCTC.ZombCube
         {
             RefreshModeButton();
 
-            if (PhotonNetwork.IsMasterClient && (EventSystem.current.currentSelectedGameObject == startGameButton.gameObject || EventSystem.current.currentSelectedGameObject == null) && IsEveryoneReady() == false)
+            if (PhotonNetwork.IsMasterClient && (EventSystem.current.currentSelectedGameObject == startGameButton.gameObject || EventSystem.current.currentSelectedGameObject == null) && CanStartGame() == false)
             {
                 EventSystem.current.SetSelectedGameObject(readyButton);
             }
@@ -119,6 +119,14 @@ namespace Com.GCTC.ZombCube
             if (modeLabel != null && modeLabel.text != text) modeLabel.text = text;
             bool leader = PhotonNetwork.IsMasterClient;
             if (modeButton.interactable != leader) modeButton.interactable = leader;
+            if (leader && startGameButton != null && startGameButton.interactable != CanStartGame())
+                startGameButton.interactable = CanStartGame();
+            if (RoomLevelKeys.IsHardcoreRoom && PhotonNetwork.PlayerList.Length < 2)
+            {
+                string needsTwo = "MODE: HARDCORE (2+ PLAYERS)";
+                if (modeLabelTmp != null && modeLabelTmp.text != needsTwo) modeLabelTmp.text = needsTwo;
+                if (modeLabel != null && modeLabel.text != needsTwo) modeLabel.text = needsTwo;
+            }
         }
 
 
@@ -129,6 +137,13 @@ namespace Com.GCTC.ZombCube
         /// else return true.
         /// </summary>
         /// <returns></returns>
+        /// <summary>Everyone is ready, and Hardcore needs at least two players (one out ends the game).</summary>
+        private bool CanStartGame()
+        {
+            if (!IsEveryoneReady()) return false;
+            return !RoomLevelKeys.IsHardcoreRoom || PhotonNetwork.PlayerList.Length >= 2;
+        }
+
         private bool IsEveryoneReady()
         {
             if (PhotonNetwork.PlayerList.Length < 1)
@@ -197,7 +212,7 @@ namespace Com.GCTC.ZombCube
         {
             if (playerId != PhotonNetwork.LocalPlayer.ActorNumber) { return; }
 
-            if (!IsEveryoneReady()) { return; }
+            if (!CanStartGame()) { return; }
 
             // Everyone plays the host's map and texture pack.
             PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
@@ -229,7 +244,7 @@ namespace Com.GCTC.ZombCube
 
             if(PhotonNetwork.IsMasterClient)
             {
-                startGameButton.interactable = IsEveryoneReady();
+                startGameButton.interactable = CanStartGame();
             }
 
             playerData = GameObject.FindGameObjectsWithTag("PlayerData");
