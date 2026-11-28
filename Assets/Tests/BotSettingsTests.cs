@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using NUnit.Framework;
 
-// Bot run settings: argument parsing and the wave-49 enemy counts (BotSettings is Editor-only code in
+// Bot run settings: argument parsing (BotSettings is Editor-only code in
 // Assembly-CSharp-Editor, reached by reflection). The bot runs themselves are PlayMode tests (BotRuns) in their own workflow.
 public class BotSettingsTests
 {
@@ -42,16 +42,5 @@ public class BotSettingsTests
         Assert.AreEqual(4, Get("Players"));
         Call("TryParse", (object)new[] { "-zcbot", "coop", "-zcbotPlayers", "1" });
         Assert.AreEqual(2, Get("Players"));
-    }
-
-    [Test]
-    public void WaveFortyNineEnemyCountsMatchTheSpawners()
-    {
-        // Solo/co-op: starts at 5 per player and grows by count / wave after each wave.
-        Assert.AreEqual(245, Call("SoloCubesAtWave", 49, 1));
-        Assert.AreEqual(490, Call("SoloCubesAtWave", 49, 2));
-        // Party: 5 per player, plus 5 after each wave.
-        Assert.AreEqual(250, Call("PartyCubesAtWave", 49, 2));
-        Assert.AreEqual(5, Call("SoloCubesAtWave", 1, 1));
     }
 }

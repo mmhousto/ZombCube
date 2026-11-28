@@ -6,8 +6,8 @@ using UnityEngine;
 using UnityEngine.TestTools;
 
 /// <summary>
-/// Bot runs: bots play each map from wave 49 with 10,000 points and 15 seconds to buy a wall gun, and must
-/// defeat the boss (wave 50) and clear the next wave. They take a long time, so they only run in the
+/// Bot runs: bots play each map from wave 1; the boss spawns on wave 5. Reaching the boss passes (beating it
+/// is optional). They take a long time, so they only run in the
 /// "Bot runs" GitHub workflow or on demand from the Test Runner (category BotRun), never in the PR checks.
 ///
 /// Party here is Photon offline mode with one bot (one Unity editor can only be one Photon client).

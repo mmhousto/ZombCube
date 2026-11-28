@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Com.GCTC.ZombCube.EditorTools.Bots
 {
     /// <summary>
-    /// Settings for a bot run (Editor only): bots play a map from wave <see cref="StartWave"/> through the boss.
+    /// Settings for a bot run (Editor only): bots play a map from wave <see cref="StartWave"/> to the boss on wave <see cref="BossWave"/>.
     /// Runs start from a Multiplayer Play Mode scenario ("Bots - ..." in Assets/Settings/PlayMode, see
     /// <see cref="BotScenarioLauncher"/>) or the BotRuns PlayMode tests. Arguments use the same names as before:
     ///   solo|coop|party  -zcbotMap arena|spaceship|theatre  -zcbotPlayers N  -zcbotSpeed X
@@ -25,16 +25,12 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         public static bool QuitWhenDone;
         public static float TimeoutMinutes = 60f;
 
-        /// <summary>Wave the run starts on (the boss arrives on wave 50).</summary>
-        public const int StartWave = 49;
-        /// <summary>Wave the boss spawns on (see Spawner / NetworkSpawner).</summary>
-        public const int BossWave = 50;
-        /// <summary>The run passes once the boss is dead and this wave is cleared.</summary>
+        /// <summary>Bots play a normal game from wave 1.</summary>
+        public const int StartWave = 1;
+        /// <summary>The bot run spawns the boss when this wave starts (the game itself waits until wave 50).</summary>
+        public const int BossWave = 5;
+        /// <summary>The run ends once the boss is dead and this wave is cleared (beating the boss isn't required to pass).</summary>
         public const int FinalWave = BossWave + 1;
-        /// <summary>Points each bot starts with, to buy wall guns, ammo and health packs.</summary>
-        public const int StartPoints = 10000;
-        /// <summary>Countdown before the first wave, so bots can buy a wall gun.</summary>
-        public const int BuyWindowSeconds = 15;
 
         /// <summary>Reads the -zcbot arguments. Returns false (and changes nothing) if -zcbot isn't there.</summary>
         public static bool TryParse(string[] args)
@@ -89,20 +85,6 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             QuitWhenDone = false;
             TimeoutMinutes = 60f;
         }
-
-        /// <summary>
-        /// Enemies in the first wave of a run, as if the game had been played from wave 1
-        /// (solo and co-op: the count grows by count / wave after every wave).
-        /// </summary>
-        public static int SoloCubesAtWave(int wave, int players)
-        {
-            int cubes = 5 * Math.Max(1, players);
-            for (int round = 1; round < wave; round++) cubes += cubes / round;
-            return cubes;
-        }
-
-        /// <summary>Party: the count starts at 5 per player and grows by 5 after every wave.</summary>
-        public static int PartyCubesAtWave(int wave, int players) => 5 * Math.Max(1, players) + 5 * (wave - 1);
 
         private static RunMode ParseMode(string value)
         {

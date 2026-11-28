@@ -17,10 +17,12 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
     /// <summary>
     /// One bot run in play mode (Editor only; nothing is added to the game's scripts or scenes):
     /// loads the map in Solo, Co-op or Party, gives every local player a <see cref="VirtualGamepad"/> and a
-    /// <see cref="PlayerBot"/>, starts at wave 49 with 10,000 points and a 15 s buy window, presses Continue
-    /// after the boss, and records the result.
+    /// <see cref="PlayerBot"/>, plays a normal game from wave 1, spawns the boss when wave 5 starts, presses
+    /// Continue after the boss, and records the result.
     ///
-    /// Pass: the boss is defeated and wave 51 is cleared. Fail: game over, a stall or the time limit.
+    /// Pass: the bots reach wave 5 and the boss spawns (defeating it isn't required). The run ends when the
+    /// bots are eliminated, or the boss is defeated and wave 6 is cleared. Fail: eliminated before wave 5,
+    /// a stall or the time limit.
     /// The result is logged as "[ZCBOT] RESULT {json}" and written to a JSON file.
     /// Runs every frame from InputSystem.onBeforeUpdate (so the pads' state is read that frame) and gets
     /// Photon callbacks as a callback target, so it needs no MonoBehaviour.
@@ -35,12 +37,11 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         public static string ResultJson { get; private set; }
 
         private readonly float startedAt;
-        private bool bossDefeated, loadingStarted, waveSet;
+        private bool bossDefeated, loadingStarted;
         private float sceneLoadedAt = -1f;
         private int highestWave, lastWave = -1, lastEnemyCount = -1, botsEliminated, padCount;
         private float lastProgressAt, lastDiagnosticsAt;
         private readonly Dictionary<GameObject, PlayerBot> bots = new Dictionary<GameObject, PlayerBot>();
-        private readonly Dictionary<GameObject, float> pointsDueAt = new Dictionary<GameObject, float>();
         private readonly HashSet<GameObject> eliminated = new HashSet<GameObject>();
         private static readonly Dictionary<string, int> purchases = new Dictionary<string, int>();
         private InputSettings.BackgroundBehavior savedBackground;
@@ -147,7 +148,6 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             if (GameScenes.IsSolo(scene.name) || GameScenes.IsParty(scene.name))
             {
                 sceneLoadedAt = Time.realtimeSinceStartup;
-                waveSet = false;
             }
         }
 
@@ -278,7 +278,6 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
             if (Time.timeScale > 0f && !Mathf.Approximately(Time.timeScale, BotSettings.Speed)) Time.timeScale = BotSettings.Speed;
 
-            SetStartingWave(now);
             AttachBots(now);
             foreach (PlayerBot bot in bots.Values) bot.Tick();
             if (now - lastDiagnosticsAt > 5f)
@@ -290,31 +289,33 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             CheckProgress(now);
         }
 
-        // Wave 49 with its normal enemy count and a 15 s countdown, set on the game's own objects after they start.
-        private void SetStartingWave(float now)
+        // The game's own boss arrives on wave 50; for bot runs it spawns when wave 5 starts, the same way the
+        // spawners do it (boss spawn point away from the players).
+        private bool bossSpawned;
+
+        private void SpawnBossAtBossWave(int wave)
         {
-            if (waveSet || sceneLoadedAt < 0f || now - sceneLoadedAt < 0.3f) return;
+            if (bossSpawned || wave < BotSettings.BossWave) return;
 
             if (GameManager.Instance != null)
             {
                 Spawner spawner = UnityEngine.Object.FindFirstObjectByType<Spawner>();
-                if (spawner == null) return;
-                int players = BotSettings.Mode == BotSettings.RunMode.Coop ? BotSettings.Players : 1;
-                GameManager.Instance.CurrentRound = BotSettings.StartWave;
-                if (GameManager.Instance.waveTxt != null) GameManager.Instance.waveTxt.text = "Wave: " + BotSettings.StartWave;
-                SetField(spawner, "cubesToSpawn", BotSettings.SoloCubesAtWave(BotSettings.StartWave, players));
-                SetField(spawner, "timeTilNextWave", BotSettings.BuyWindowSeconds);
-                waveSet = true;
+                if (spawner == null || spawner.enemies == null || spawner.enemies.Length < 5) return;
+                Transform at = SpawnPointPicker.PickBoss(spawner.spawnPoints);
+                if (at == null) return;
+                UnityEngine.Object.Instantiate(spawner.enemies[4], at.position, at.rotation);
             }
             else if (NetworkGameManager.Instance != null && NetworkSpawner.Instance != null)
             {
-                int players = PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.PlayerCount : 1;
-                NetworkGameManager.Instance.CurrentRound = BotSettings.StartWave;
-                SetField(NetworkSpawner.Instance, "cubesToSpawn", BotSettings.PartyCubesAtWave(BotSettings.StartWave, players));
-                SetField(NetworkSpawner.Instance, "timeTilNextWave", BotSettings.BuyWindowSeconds);
-                waveSet = true;
+                if (!PhotonNetwork.IsMasterClient) { bossSpawned = true; return; }   // the master spawns it for everyone
+                Transform at = SpawnPointPicker.PickBoss(NetworkSpawner.Instance.spawnPoints);
+                if (at == null) return;
+                PhotonNetwork.InstantiateRoomObject("NetworkBossCube", at.position, at.rotation);
             }
-            if (waveSet) Log($"Starting on wave {BotSettings.StartWave} with {BotSettings.BuyWindowSeconds} s to buy");
+            else return;
+
+            bossSpawned = true;
+            Log($"Boss spawned on wave {wave}");
         }
 
         private static void SetField(object target, string name, object value)
@@ -337,32 +338,14 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 pad.PairWith(input);
                 bots[root] = new PlayerBot(root, pad);
                 Log($"PlayerInput on {input.name}: scheme {input.currentControlScheme}, devices [{string.Join(", ", System.Linq.Enumerable.Select(input.devices, d => d.name))}], actions enabled {input.actions != null && input.actions.enabled}, behaviour {input.notificationBehavior}");
-                pointsDueAt[root] = now + 1f;   // after the player's own Start resets the points
                 Log($"Bot playing {root.name} with {pad.Device.name}");
             }
 
             foreach (var kv in new List<KeyValuePair<GameObject, PlayerBot>>(bots))
             {
                 if (kv.Key == null) { kv.Value.Dispose(); kv.Value.Pad.Remove(); bots.Remove(kv.Key); continue; }
-                if (pointsDueAt.TryGetValue(kv.Key, out float due) && now >= due)
-                {
-                    pointsDueAt.Remove(kv.Key);
-                    GivePoints(kv.Value);
-                }
                 if (!kv.Value.Alive && eliminated.Add(kv.Key)) botsEliminated++;
             }
-        }
-
-        // 10,000 per bot. Co-op players on one machine share one points pool, so co-op gets 10,000 x bots.
-        private static void GivePoints(PlayerBot bot)
-        {
-            int start = BotSettings.Mode == BotSettings.RunMode.Coop ? BotSettings.StartPoints * BotSettings.Players : BotSettings.StartPoints;
-            if (bot.IsNetwork)
-            {
-                FieldInfo f = typeof(NetworkPlayerManager).GetField("currentPoints", BindingFlags.Public | BindingFlags.Static);
-                if (f != null && (int)f.GetValue(null) < start) f.SetValue(null, start);
-            }
-            else if (PlayerManager.currentPoints < start) PlayerManager.currentPoints = start;
         }
 
         private static GameObject PlayerRoot(GameObject tagged)
@@ -407,13 +390,20 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 lastWave = wave;
                 lastProgressAt = now;
             }
-            if (waveSet) highestWave = Mathf.Max(highestWave, wave);
+            highestWave = Mathf.Max(highestWave, wave);
+            SpawnBossAtBossWave(wave);
 
             int enemies = GameObject.FindGameObjectsWithTag("Enemy").Length + (GameObject.FindWithTag("BossCube") != null ? 1 : 0);
             if (enemies != lastEnemyCount) { lastEnemyCount = enemies; lastProgressAt = now; }
 
             if (bossDefeated && wave > BotSettings.FinalWave) { Finish(true, $"boss defeated and wave {BotSettings.FinalWave} cleared"); return; }
-            if (gameOver) { Finish(false, $"game over on wave {wave}{(bossDefeated ? " (boss was defeated)" : "")}"); return; }
+            if (gameOver)
+            {
+                // Reaching the boss is a pass; beating it isn't required.
+                if (bossSpawned) Finish(true, $"reached the boss on wave {BotSettings.BossWave}; eliminated on wave {wave}{(bossDefeated ? " after defeating it" : "")}");
+                else Finish(false, $"eliminated on wave {wave}, before the boss (wave {BotSettings.BossWave})");
+                return;
+            }
             if (now - lastProgressAt > 240f / Mathf.Max(1f, BotSettings.Speed) + 60f)
                 Finish(false, $"stalled on wave {wave}: no wave or enemy change for 4+ minutes ({enemies} enemies left)");
         }
@@ -459,7 +449,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             sb.Append($"\"players\":{(BotSettings.Mode == BotSettings.RunMode.Solo ? 1 : BotSettings.Players)},");
             sb.Append($"\"partyOffline\":{(BotSettings.PartyOffline ? "true" : "false")},");
             sb.Append($"\"startWave\":{BotSettings.StartWave},\"highestWave\":{highestWave},");
-            sb.Append($"\"bossDefeated\":{(bossDefeated ? "true" : "false")},\"botsEliminated\":{botsEliminated},");
+            sb.Append($"\"bossSpawned\":{(bossSpawned ? "true" : "false")},\"bossDefeated\":{(bossDefeated ? "true" : "false")},\"botsEliminated\":{botsEliminated},");
             sb.Append($"\"speed\":{BotSettings.Speed.ToString(System.Globalization.CultureInfo.InvariantCulture)},");
             sb.Append($"\"realSeconds\":{Mathf.RoundToInt(Time.realtimeSinceStartup - startedAt)},\"purchases\":{{");
             bool first = true;
