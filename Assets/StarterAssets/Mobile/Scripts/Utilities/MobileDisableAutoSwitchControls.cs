@@ -94,7 +94,7 @@ public class MobileDisableAutoSwitchControls : MonoBehaviourPun
 
     private void Start()
     {
-        if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+        if (GameScenes.IsPartyActive)
         {
             gameObject.SetActive(false);
             //Destroy(this.gameObject);

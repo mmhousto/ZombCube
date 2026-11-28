@@ -141,6 +141,9 @@ namespace Com.GCTC.ZombCube
 
         public override void FireInput(bool newValue)
         {
+            // Like the guns: no new throw while this player is paused (Party doesn't stop time).
+            if (newValue && playerManager != null && playerManager.isInputDisabled) return;
+
             if (grenadeCount > 0)
             {
 

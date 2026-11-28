@@ -36,6 +36,8 @@ namespace Com.GCTC.ZombCube
 
         public bool isGameOver = false;
         private bool isContinue = false;
+        /// <summary>The Continue screen after the boss is up (time is stopped for everyone).</summary>
+        public bool IsContinue => isContinue;
 
         GameObject myPlayer;
         public static List<GameObject> players = new List<GameObject>();

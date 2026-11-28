@@ -36,9 +36,12 @@ namespace StarterAssets
         private void Start()
         {
 #if (UNITY_IOS || UNITY_ANDROID)
-            if (SceneLoader.GetCurrentScene().name == "GameScene")
+            // Every map's Solo scene (not only the original GameScene).
+            if (GameScenes.IsSoloActive)
             {
-                GetPlayer(gameManager.GetPlayer(), false);
+                if (gameManager == null) gameManager = GameManager.Instance;
+                if (gameManager != null && gameManager.GetPlayer() != null)
+                    GetPlayer(gameManager.GetPlayer(), false);
             }
 #endif
         }
@@ -106,7 +109,7 @@ namespace StarterAssets
 
         public void VirtualMoveInput(Vector2 virtualMoveDirection)
         {
-            if(SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            if(GameScenes.IsPartyActive)
             {
                 playerMovementN.MoveInput(virtualMoveDirection.x, virtualMoveDirection.y);
             }
@@ -119,7 +122,7 @@ namespace StarterAssets
 
         public void VirtualLookInput(Vector2 virtualLookDirection)
         {
-            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            if (GameScenes.IsPartyActive)
             {
                 playerLookN.LookInput(virtualLookDirection);
             }
@@ -131,7 +134,7 @@ namespace StarterAssets
 
         public void VirtualJumpInput(bool virtualJumpState)
         {
-            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            if (GameScenes.IsPartyActive)
             {
                 playerMovementN.JumpInput(virtualJumpState);
             }
@@ -144,7 +147,7 @@ namespace StarterAssets
 
         public void VirtualSwitchInput(bool virtualJumpState)
         {
-            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            if (GameScenes.IsPartyActive)
             {
                 swapManagerN.SwapInput(virtualJumpState);
             }
@@ -157,7 +160,7 @@ namespace StarterAssets
 
         public void VirtualPauseInput()
         {
-            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            if (GameScenes.IsPartyActive)
             {
                 playerManagerN.PauseInput();
             }
@@ -170,7 +173,7 @@ namespace StarterAssets
 
         public void VirtualFireInput(bool virtualFireState)
         {
-            if (SceneLoader.GetCurrentScene().name == "NetworkGameScene")
+            if (GameScenes.IsPartyActive)
             {
                 if (playerFireN != null)
                     playerFireN.FireInput(virtualFireState);

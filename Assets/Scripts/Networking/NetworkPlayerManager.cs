@@ -446,6 +446,11 @@ namespace Com.GCTC.ZombCube
 
         public void PauseInput()
         {
+            // Pausing only affects this player in Party (time keeps running for everyone). The Continue screen after
+            // the boss already stops time for the whole room; Resume would restart it for this player only, so the
+            // pause menu stays closed until everyone has continued.
+            if (!isPaused && NetworkGameManager.Instance != null && NetworkGameManager.Instance.IsContinue) return;
+
             isPaused = !isPaused;
             isGameOver = NetworkGameManager.Instance.IsGameOver();
             if (isPaused == true && isGameOver == false)
