@@ -52,6 +52,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
         private int navAgentType;
         private bool navReady;
+        // The most open places on the map (lots of room in every direction): where to fight from.
+        private readonly List<Vector3> openSpots = new List<Vector3>();
         private Vector3 moveDir;
         private Transform target;
         private float nextTargetTime;
@@ -88,6 +90,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             lastPos = root.transform.position;
             lastProgressTime = Time.time;
             FindNavMeshAgentType();
+            FindOpenSpots();
             All.Add(this);
         }
 
@@ -101,7 +104,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             return $"{Name}{interact}: pos {Position.x:0},{Position.y:0},{Position.z:0} hp {Health:0} pts {Points} {Activity}" +
                    $" | move {Pad.Move.x:0.00},{Pad.Move.y:0.00} look {Pad.Look.x:0.00},{Pad.Look.y:0.00} fire {(Pad.Fire ? 1 : 0)} west {(Pad.West ? 1 : 0)}" +
                    $" | weapon {(w != null ? w.GetType().Name : "none")} ammo {Ammo(w)} slots [{string.Join(",", Slots())}]" +
-                   $" | enemies {enemies.Count} nearest {(nearestDist < 9999f ? nearestDist.ToString("0") : "-")} target {(target != null ? target.name : "-")} shop {(shopTarget != null ? shopTarget.tag + " d" + Flat(shopTarget.ClosestPoint(Position) - Position).magnitude.ToString("0.0") + (atPickupSince >= 0f ? " holding" : "") : "-")} nav {(navReady ? navAgentType.ToString() : "none")}";
+                   $" | enemies {enemies.Count} nearest {(nearestDist < 9999f ? nearestDist.ToString("0") : "-")} target {(target != null ? target.name : "-")} shop {(shopTarget != null ? shopTarget.tag + " d" + Flat(shopTarget.ClosestPoint(Position) - Position).magnitude.ToString("0.0") + (atPickupSince >= 0f ? " holding" : "") : "-")} nav {(navReady ? navAgentType.ToString() : "none")} open {openSpots.Count}";
         }
 
         public void Dispose()
@@ -375,7 +378,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 if (d < 35f) away += off.normalized * (e == boss ? 2f : 1f) / (d * d) * 100f;
             }
 
-            Vector3 desired = away + TeamPull();
+            Vector3 desired = away + TeamPull() + OpenSpotPull(nearestDist);
             if (nearest != null && nearestDist > PreferredRange * 1.6f && away.magnitude < 0.3f)
                 desired += PathDirection(nearest.position) * 0.8f;   // nothing close: go find the wave
             if (desired.sqrMagnitude < 0.01f) return Vector3.zero;
@@ -400,6 +403,55 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             return PathDirection(sum / count) * Mathf.Clamp01((d - TeamRadius) / TeamRadius) * 1.5f;
         }
 
+        // Head for the nearest open spot (ignoring ones a cube is standing on); stronger when nothing is close.
+        private Vector3 OpenSpotPull(float nearestDist)
+        {
+            if (openSpots.Count == 0) return Vector3.zero;
+            Vector3 best = Vector3.zero;
+            float bestScore = float.MaxValue;
+            foreach (Vector3 spot in openSpots)
+            {
+                Nearest(spot, out float crowd);
+                if (crowd < 10f) continue;
+                float score = Flat(spot - Position).magnitude;
+                if (score < bestScore) { bestScore = score; best = spot; }
+            }
+            if (bestScore == float.MaxValue || bestScore < 6f) return Vector3.zero;
+            float weight = nearestDist < 8f ? 0.4f : nearestDist < 16f ? 0.9f : 1.4f;
+            return PathDirection(best) * weight;
+        }
+
+        private void FindOpenSpots()
+        {
+            openSpots.Clear();
+            if (!navReady) return;
+            NavMeshTriangulation mesh = NavMesh.CalculateTriangulation();
+            if (mesh.vertices == null || mesh.vertices.Length == 0) return;
+            var filter = new NavMeshQueryFilter { agentTypeID = navAgentType, areaMask = NavMesh.AllAreas };
+            var scored = new List<KeyValuePair<float, Vector3>>();
+            int step = Mathf.Max(1, mesh.vertices.Length / 300);
+            for (int i = 0; i < mesh.vertices.Length; i += step)
+            {
+                if (!NavMesh.SamplePosition(mesh.vertices[i], out NavMeshHit hit, 2f, filter)) continue;
+                float open = 0f;
+                for (int d = 0; d < 8; d++)
+                {
+                    Vector3 dir = Quaternion.Euler(0f, d * 45f, 0f) * Vector3.forward;
+                    open += NavMesh.Raycast(hit.position, hit.position + dir * 30f, out NavMeshHit edge, filter) ? edge.distance : 30f;
+                }
+                scored.Add(new KeyValuePair<float, Vector3>(open, hit.position));
+            }
+            scored.Sort((a, b) => b.Key.CompareTo(a.Key));
+            foreach (var candidate in scored)
+            {
+                bool farFromOthers = true;
+                foreach (Vector3 spot in openSpots)
+                    if (Vector3.Distance(spot, candidate.Value) < 25f) { farFromOthers = false; break; }
+                if (farFromOthers) openSpots.Add(candidate.Value);
+                if (openSpots.Count >= 6) break;
+            }
+        }
+
         private Vector3 BestOpenDirection(Vector3 wanted)
         {
             if (!navReady) return wanted;
@@ -410,8 +462,9 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             for (int i = 0; i < 16; i++)
             {
                 Vector3 dir = Quaternion.Euler(0f, i * 22.5f, 0f) * Vector3.forward;
-                float open = NavMesh.Raycast(here.position, here.position + dir * 10f, out NavMeshHit hit, filter) ? hit.distance : 10f;
-                float score = Vector3.Dot(dir, wanted) * 2f + open / 10f * 1.5f;
+                float open = NavMesh.Raycast(here.position, here.position + dir * 20f, out NavMeshHit hit, filter) ? hit.distance : 20f;
+                float score = Vector3.Dot(dir, wanted) * 2f + open / 20f * 2f;
+                if (open < 5f) score -= 3f;   // that way is a wall or a corner
                 foreach (Transform e in enemies)
                 {
                     if (e == null) continue;
