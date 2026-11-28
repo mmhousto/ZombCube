@@ -123,7 +123,7 @@ namespace Com.GCTC.ZombCube
                 startGameButton.interactable = CanStartGame();
             if (RoomLevelKeys.IsHardcoreRoom && PhotonNetwork.PlayerList.Length < 2)
             {
-                string needsTwo = "MODE: HARDCORE (2+ PLAYERS)";
+                string needsTwo = "HARD\n(2+ PLAYERS)";
                 if (modeLabelTmp != null && modeLabelTmp.text != needsTwo) modeLabelTmp.text = needsTwo;
                 if (modeLabel != null && modeLabel.text != needsTwo) modeLabel.text = needsTwo;
             }
