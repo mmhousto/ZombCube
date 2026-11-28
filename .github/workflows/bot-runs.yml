@@ -20,9 +20,11 @@ on:
 permissions:
   contents: read
 
+# Don't cancel a running bot run: every push starts this workflow (untagged pushes skip the job),
+# and cancelling would kill a long run for nothing.
 concurrency:
-  group: bot-runs-${{ github.ref }}
-  cancel-in-progress: true
+  group: bot-runs-${{ github.ref }}-${{ github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   bots:
