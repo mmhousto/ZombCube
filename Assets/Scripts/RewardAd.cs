@@ -82,6 +82,11 @@ public class RewardAd : MonoBehaviour
             buttonText.text = "Free Points";
         }
 #endif
+        else if (buttonEnabled == false && overTime <= DateTime.Now)
+        {
+            // Wait is over but no ad has loaded yet (mobile).
+            if (buttonText.text != "Loading Ad") buttonText.text = "Loading Ad";
+        }
         else if (buttonEnabled == false)
         {
             buttonText.text = $"{(overTime - DateTime.Now).ToString("hh\\:mm\\:ss")}";
