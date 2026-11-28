@@ -38,7 +38,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         private bool bossDefeated, loadingStarted, waveSet;
         private float sceneLoadedAt = -1f;
         private int highestWave, lastWave = -1, lastEnemyCount = -1, botsEliminated, padCount;
-        private float lastProgressAt;
+        private float lastProgressAt, lastDiagnosticsAt;
         private readonly Dictionary<GameObject, PlayerBot> bots = new Dictionary<GameObject, PlayerBot>();
         private readonly Dictionary<GameObject, float> pointsDueAt = new Dictionary<GameObject, float>();
         private readonly HashSet<GameObject> eliminated = new HashSet<GameObject>();
@@ -281,6 +281,11 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             SetStartingWave(now);
             AttachBots(now);
             foreach (PlayerBot bot in bots.Values) bot.Tick();
+            if (now - lastDiagnosticsAt > 5f)
+            {
+                lastDiagnosticsAt = now;
+                foreach (PlayerBot bot in bots.Values) Log(bot.Describe());
+            }
             HandleContinueScreen();
             CheckProgress(now);
         }
@@ -331,6 +336,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 var pad = new VirtualGamepad($"ZCBot Pad {++padCount}");
                 pad.PairWith(input);
                 bots[root] = new PlayerBot(root, pad);
+                Log($"PlayerInput on {input.name}: scheme {input.currentControlScheme}, devices [{string.Join(", ", System.Linq.Enumerable.Select(input.devices, d => d.name))}], actions enabled {input.actions != null && input.actions.enabled}, behaviour {input.notificationBehavior}");
                 pointsDueAt[root] = now + 1f;   // after the player's own Start resets the points
                 Log($"Bot playing {root.name} with {pad.Device.name}");
             }

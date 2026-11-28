@@ -72,6 +72,7 @@ jobs:
             *)     modes="Solo|Coop|PartyOffline" ;;
           esac
           echo "filter=BotRuns\\.(${modes})_${MAP}" >> "$GITHUB_OUTPUT"
+          echo "Running bot tests matching \`BotRuns.(${modes})_${MAP}\`" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Run bot runs
         uses: game-ci/unity-test-runner@32e57712352b500e17974b245a6dce9e11a73213 # v4.4.0
