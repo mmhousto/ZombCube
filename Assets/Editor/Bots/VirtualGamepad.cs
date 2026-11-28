@@ -38,7 +38,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
             // A PlayerInput that lost its input user (e.g. its devices were removed) can't switch schemes; restarting
             // it gives it a new user, then pair again.
-            if (!input.devices.Contains(Device))
+            if (!System.Linq.Enumerable.Contains(input.devices, Device))
             {
                 input.enabled = false;
                 input.enabled = true;
