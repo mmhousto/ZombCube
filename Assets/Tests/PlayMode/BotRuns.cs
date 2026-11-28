@@ -27,7 +27,17 @@ public class BotRuns
     
     // Speed and time limit for CI; override with the ZCBOT_SPEED environment variable when running locally.
     private static string Speed => Environment.GetEnvironmentVariable("ZCBOT_SPEED") ?? "2";
-    private const float TimeoutMinutes = 40f;
+    // Time limit per run; CI can shorten it with the command-line argument -zcbotCiTimeout MINUTES.
+    private static float TimeoutMinutes
+    {
+        get
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            int at = Array.IndexOf(args, "-zcbotCiTimeout");
+            return at >= 0 && at + 1 < args.Length && float.TryParse(args[at + 1], System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out float minutes) && minutes > 0f ? minutes : 40f;
+        }
+    }
 
     [UnityTest, Timeout(int.MaxValue)] public IEnumerator Solo_Arena() => Run("solo -zcbotMap arena");
     [UnityTest, Timeout(int.MaxValue)] public IEnumerator Solo_Spaceship() => Run("solo -zcbotMap spaceship");
@@ -61,7 +71,7 @@ public class BotRuns
         System.IO.Directory.CreateDirectory(resultDir);
         string variant = arguments.Contains("-zcbotChill") ? "chill-" : arguments.Contains("-zcbotHardcore") ? "hardcore-" : "";
         string name = arguments.Split(' ')[0] + "-" + variant + arguments.Substring(arguments.IndexOf("-zcbotMap ", StringComparison.Ordinal) + 10).Split(' ')[0];
-        string args = $"{arguments} -zcbotSpeed {Speed} -zcbotTimeout {TimeoutMinutes} -zcbotResult \"{System.IO.Path.Combine(resultDir, name + ".json")}\"";
+        string args = $"{arguments} -zcbotSpeed {Speed} -zcbotTimeout {TimeoutMinutes.ToString(System.Globalization.CultureInfo.InvariantCulture)} -zcbotResult \"{System.IO.Path.Combine(resultDir, name + ".json")}\"";
         // Paths with spaces would split the argument string; keep the result path simple.
         args = args.Replace("\"", "");
 

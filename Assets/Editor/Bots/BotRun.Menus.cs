@@ -71,10 +71,27 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             nextActionAt = stepStartedAt + 1f;   // let the scene's Start methods run first
         }
 
+        private float lastMenuLogAt;
+
         private void TickMenus(float now)
         {
-            if (step == MenuStep.Loading || now < nextActionAt) return;
             string scene = SceneManager.GetActiveScene().name;
+
+            // Every menu step should be over in seconds; fail fast (with where it stuck) instead of waiting for the
+            // run's time limit. Loading a map can take a while on CI.
+            float stepLimit = step == MenuStep.Loading ? 240f : step == MenuStep.PartyRoom && !BotSettings.PartyOffline ? 330f : 150f;
+            if (now - stepStartedAt > stepLimit)
+            {
+                Finish(false, $"stuck in the menus: step {step}, scene {scene}, for {now - stepStartedAt:0} s");
+                return;
+            }
+            if (now - lastMenuLogAt > 10f)
+            {
+                lastMenuLogAt = now;
+                Log($"Menus: step {step}, scene {scene}, {now - stepStartedAt:0} s in step");
+            }
+
+            if (step == MenuStep.Loading || now < nextActionAt) return;
 
             switch (step)
             {

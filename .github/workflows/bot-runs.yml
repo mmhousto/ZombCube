@@ -18,6 +18,10 @@ on:
         type: choice
         default: all
         options: [all, solo, coop, chill, party, hardcore]
+      timeout:
+        description: "Time limit per bot run, in minutes"
+        type: string
+        default: "40"
 
 permissions:
   contents: read
@@ -60,6 +64,7 @@ jobs:
           MODES: ${{ inputs.modes }}
           MESSAGE: ${{ github.event.head_commit.message }}
           MAP: ${{ matrix.map }}
+          TIMEOUT: ${{ inputs.timeout }}
         run: |
           if [ -z "$MODES" ]; then
             case "$MESSAGE" in
@@ -80,6 +85,8 @@ jobs:
             *)     modes="Solo|Coop|CoopChill|PartyOffline|PartyHardcore" ;;
           esac
           echo "filter=BotRuns\\.(${modes})_${MAP}" >> "$GITHUB_OUTPUT"
+          case "$TIMEOUT" in ''|*[!0-9]*) TIMEOUT=40 ;; esac
+          echo "timeout=${TIMEOUT}" >> "$GITHUB_OUTPUT"
           echo "Running bot tests matching \`BotRuns.(${modes})_${MAP}\`" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Run bot runs
@@ -92,7 +99,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           checkName: Bot runs (${{ matrix.map }})
           artifactsPath: test-results
-          customParameters: -testFilter "${{ steps.filter.outputs.filter }}"
+          customParameters: -testFilter "${{ steps.filter.outputs.filter }}" -zcbotCiTimeout ${{ steps.filter.outputs.timeout }}
           cliVersion: v0.1.76
 
       - name: Summary
