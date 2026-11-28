@@ -28,7 +28,7 @@ public class RewardAd : MonoBehaviour
         _adUnitId = "e9mwai9q9pp28zfb";
 #endif
 
-        CreateAd();
+        // The ad object is created once LevelPlay has initialized (see LoadAd, called by AdsInitializer).
 
         // Disable the button until the ad is ready to show:
         buttonEnabled = false;
@@ -39,12 +39,15 @@ public class RewardAd : MonoBehaviour
 #if (!UNITY_IOS && !UNITY_ANDROID)
         labelText.text = "Free 1,000 Points";
         _showAdButton.onClick.AddListener(GetPoints);
+#else
+        // One listener for the button's whole life (it used to be added again on every ad load).
+        _showAdButton.onClick.AddListener(ShowAd);
 #endif
     }
 
     private void Update()
     {
-#if (UNITY_IOS && UNITY_ANDROID)
+#if (UNITY_IOS || UNITY_ANDROID)
         if (overTime <= DateTime.Now && adLoaded && buttonEnabled == false)
         {
             buttonEnabled = true;
@@ -68,7 +71,7 @@ public class RewardAd : MonoBehaviour
 
     private void HandleButtonText()
     {
-#if (UNITY_IOS && UNITY_ANDROID)
+#if (UNITY_IOS || UNITY_ANDROID)
         if (buttonEnabled == true && buttonText.text != "Watch Ad")
         {
             buttonText.text = "Watch Ad";
@@ -87,6 +90,11 @@ public class RewardAd : MonoBehaviour
 
     public void CreateAd()
     {
+#if UNITY_IOS || UNITY_ANDROID
+        // AdsInitializer can ask for an ad before this object's Awake has run.
+        if (string.IsNullOrEmpty(_adUnitId)) _adUnitId = "e9mwai9q9pp28zfb";
+#endif
+        if (rewardedAd != null || string.IsNullOrEmpty(_adUnitId)) return;
         rewardedAd = new LevelPlayRewardedAd(_adUnitId);
         rewardedAd.OnAdLoaded += OnAdLoaded;
         rewardedAd.OnAdLoadFailed += OnAdLoadFailed;
@@ -99,17 +107,19 @@ public class RewardAd : MonoBehaviour
 
     #region NEW LEVELPLAY
     
-    void ShowRewardedAd(string placementName = null)
+    bool ShowRewardedAd(string placementName = null)
     {
-        if (rewardedAd.IsAdReady() && !LevelPlayRewardedAd.IsPlacementCapped(placementName))
+        if (rewardedAd != null && rewardedAd.IsAdReady() && !LevelPlayRewardedAd.IsPlacementCapped(placementName))
         {
             rewardedAd.ShowAd(placementName);
+            return true;
         }
+        return false;
     }
     
     bool CheckIfRewardedAdIsReady()
     {
-        return rewardedAd.IsAdReady();
+        return rewardedAd != null && rewardedAd.IsAdReady();
     }
     
     bool CheckIfPlacementIsCapped(string placementName)
@@ -120,8 +130,6 @@ public class RewardAd : MonoBehaviour
     void OnAdLoaded(LevelPlayAdInfo adInfo)
     {
         adLoaded = true;
-            // Configure the button to call the ShowAd() method when clicked:
-            _showAdButton.onClick.AddListener(ShowAd);
             // Enable the button for users to click:
             if (overTime <= DateTime.Now && adLoaded && buttonEnabled == false)
             {
@@ -138,6 +146,10 @@ public class RewardAd : MonoBehaviour
     void OnAdLoadFailed(LevelPlayAdError adError)
     {
         Debug.Log($"Rewarded ad failed to load with ad error {adError}");
+        adLoaded = false;
+        // Try again in a while (no fill, no network...).
+        CancelInvoke(nameof(LoadAd));
+        Invoke(nameof(LoadAd), 30f);
     }
    
     void OnAdDisplayed(LevelPlayAdInfo adInfo)
@@ -181,6 +193,9 @@ public class RewardAd : MonoBehaviour
     void OnAdClosed(LevelPlayAdInfo adInfo)
     {
         Debug.Log($"Rewarded ad closed with ad info {adInfo}");
+        // Each rewarded ad shows once; get the next one ready.
+        adLoaded = false;
+        LoadAd();
     }
     
     void OnAdInfoChanged(LevelPlayAdInfo adInfo)
@@ -195,7 +210,8 @@ public class RewardAd : MonoBehaviour
     {
         // IMPORTANT! Only load content AFTER initialization (in this example, initialization is handled in a different script).
         //Advertisement.Load(_adUnitId, this);
-        rewardedAd.LoadAd();
+        CreateAd();
+        if (rewardedAd != null) rewardedAd.LoadAd();
     }
 
     private void GetPoints()
@@ -255,14 +271,18 @@ public class RewardAd : MonoBehaviour
     // Implement a method to execute when the user clicks the button:
     public void ShowAd()
     {
-        if(adLoaded == true)
+        if (adLoaded == true && CheckIfRewardedAdIsReady())
         {
+            // Show the ad; the 2-hour wait only starts if it actually opened.
+            if (!ShowRewardedAd("Main_Menu"))
+            {
+                Debug.Log("Rewarded ad wasn't shown (not ready or placement capped)");
+                return;
+            }
+
             // Disable the button:
             buttonEnabled = false;
             _showAdButton.interactable = false;
-            // Then show the ad:
-            //Advertisement.Show(_adUnitId, this);
-            ShowRewardedAd("Main_Menu");
 
             pressedTime = DateTime.Now;
             overTime = pressedTime.AddHours(2);
@@ -289,6 +309,7 @@ public class RewardAd : MonoBehaviour
         }
         else
         {
+            adLoaded = false;
             LoadAd();
         }
         

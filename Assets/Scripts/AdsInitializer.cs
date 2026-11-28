@@ -10,24 +10,44 @@ public class AdsInitializer : MonoBehaviour
 
 
 
+    private static bool initStarted, initialized;
+
     void Awake()
     {
-        /*if(timesPlayed % 3 != 0)*/
+        // The main menu loads many times; LevelPlay is initialized once per app run.
+        if (initialized)
+        {
+            if (rewardAd != null) rewardAd.LoadAd();
+            return;
+        }
+
         LevelPlay.OnInitSuccess += OnInitializationComplete;
         LevelPlay.OnInitFailed += OnInitializationFailed;
-        LevelPlay.Init("29e011b5d");
+        if (!initStarted)
+        {
+            initStarted = true;
+            LevelPlay.Init("29e011b5d");
+        }
         //InitializeAds();
+    }
+
+    private void OnDestroy()
+    {
+        LevelPlay.OnInitSuccess -= OnInitializationComplete;
+        LevelPlay.OnInitFailed -= OnInitializationFailed;
     }
 
     public void OnInitializationComplete(LevelPlayConfiguration config)
     {
+        initialized = true;
         //interstitialAd.LoadAd();
-        rewardAd.LoadAd();
+        if (rewardAd != null) rewardAd.LoadAd();
     }
 
     public void OnInitializationFailed(LevelPlayInitError error)
     {
         Debug.Log($"Unity Ads Initialization Failed: {error}");
+        initStarted = false;   // let the next main menu visit try again
     }
 
 }
