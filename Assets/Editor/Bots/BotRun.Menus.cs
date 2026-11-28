@@ -174,8 +174,14 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             Log($"Main Menu: name {Player.Instance.playerName}, blaster {Player.Instance.currentBlaster}, skin {Player.Instance.currentSkin}");
 
             var levels = UnityEngine.Object.FindFirstObjectByType<LevelSelect>(FindObjectsInactive.Include);
+            int wantedMap = MapIndex(BotSettings.MapId);
             if (levels != null) levels.SelectLevel(LevelOption(BotSettings.MapId));
-            else LevelSelect.mapSelected = MapIndex(BotSettings.MapId);
+            if (LevelSelect.mapSelected != wantedMap)
+            {
+                // The level cards haven't been set up (their panel hasn't been opened); pick the map the way a card does.
+                LevelSelect.mapSelected = wantedMap;
+                LevelSelect.levelSelected = 0;
+            }
             Log($"Map {LevelDatabase.Instance?.Get(LevelSelect.mapSelected).id} (pack {LevelSelect.levelSelected})");
 
             switch (BotSettings.Mode)
@@ -240,9 +246,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                     if (existing.devices.Count == 0) NewMenuPad().PairWith(existing);
 
                 // The lobby selects Leave until two players are in; keep the pads' A press from clicking it.
-                if (EventSystem.current != null)
-                    foreach (BaseInputModule module in EventSystem.current.GetComponents<BaseInputModule>())
-                        if (module.enabled) { module.enabled = false; pausedModules.Add(module); }
+                foreach (BaseInputModule module in UnityEngine.Object.FindObjectsByType<BaseInputModule>(FindObjectsSortMode.None))
+                    if (module.enabled) { module.enabled = false; pausedModules.Add(module); }
 
                 Log("Co-op lobby");
                 ActivateWithParents(coopLobby.transform);
@@ -287,6 +292,11 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             if (GameManager.chillCoop != BotSettings.Chill) { Finish(false, "co-op mode button not found"); return; }
 
             if (coopLobby.startButton == null || !coopLobby.startButton.interactable) { nextActionAt = now + 0.2f; return; }
+            foreach (GameObject p in manager.joinedPlayers)
+            {
+                PlayerInput pi = p != null ? p.GetComponent<PlayerInput>() : null;
+                Log($"Co-op lobby: player {p?.name}: devices [{(pi != null ? string.Join(", ", System.Linq.Enumerable.Select(pi.devices, d => d.name)) : "-")}]");
+            }
             Log($"Co-op lobby: {joined} players, {(GameManager.chillCoop ? "Chill" : "Hardcore")}: Start");
             Step(MenuStep.Loading);
             coopLobby.startButton.onClick.Invoke();

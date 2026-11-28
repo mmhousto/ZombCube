@@ -35,6 +35,17 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             input.neverAutoSwitchControlSchemes = true;
             try { input.SwitchCurrentControlScheme("Gamepad", Device); }
             catch (System.Exception e) { Debug.LogWarning("[ZCBOT] Couldn't pair the virtual gamepad: " + e.Message); }
+
+            // A PlayerInput that lost its input user (e.g. its devices were removed) can't switch schemes; restarting
+            // it gives it a new user, then pair again.
+            if (!input.devices.Contains(Device))
+            {
+                input.enabled = false;
+                input.enabled = true;
+                input.neverAutoSwitchControlSchemes = true;
+                try { input.SwitchCurrentControlScheme("Gamepad", Device); }
+                catch (System.Exception e) { Debug.LogWarning("[ZCBOT] Couldn't pair the virtual gamepad: " + e.Message); }
+            }
         }
 
         /// <summary>Sends this frame's state to the Input System (stick values are pre-scaled for the stick deadzone).</summary>
