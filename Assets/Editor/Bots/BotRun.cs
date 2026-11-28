@@ -412,6 +412,17 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         }
 
         private static string Escape(string s) => (s ?? "").Replace("\\", "\\\\").Replace("\"", "\\\"");
-        private static void Log(string message) => Debug.Log("[ZCBOT] " + message);
+        private static void Log(string message)
+        {
+            Debug.Log("[ZCBOT] " + message);
+            // Also kept in bot-results/zcbot.log, so CI can show how far a run got even if the editor is stopped.
+            try
+            {
+                string dir = Path.Combine(Application.dataPath, "..", "bot-results");
+                Directory.CreateDirectory(dir);
+                File.AppendAllText(Path.Combine(dir, "zcbot.log"), $"{DateTime.UtcNow:HH:mm:ss} {message}\n");
+            }
+            catch (Exception) { }
+        }
     }
 }

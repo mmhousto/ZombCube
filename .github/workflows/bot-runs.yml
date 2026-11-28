@@ -111,6 +111,9 @@ jobs:
           else
             echo "No bot results were written." >> "$GITHUB_STEP_SUMMARY"
           fi
+          # The bots' log (also printed here, so it shows even when the run was stopped).
+          for f in bot-results/*.json; do [ -f "$f" ] && echo "RESULT $(basename "$f" .json): $(cat "$f")"; done
+          if [ -f bot-results/zcbot.log ]; then grep -v "Describe:" bot-results/zcbot.log | tail -n 400; fi
 
       - name: Upload results
         if: always()
