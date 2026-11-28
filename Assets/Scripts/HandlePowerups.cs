@@ -260,8 +260,9 @@ namespace Com.GCTC.ZombCube
             Transform powerUps = null;
 
             PlayerManager manager = GetComponent<PlayerManager>();
-            if (manager != null && manager.healthBar != null && manager.healthBar.canvas != null)
-                powerUps = FindChild(manager.healthBar.canvas.rootCanvas.transform, "PowerUps");
+            Canvas hud = manager != null && manager.healthBar != null ? manager.healthBar.GetComponentInParent<Canvas>(true) : null;
+            if (hud != null)
+                powerUps = FindChild(hud.rootCanvas.transform, "PowerUps");
 
             if (powerUps == null)
             {
