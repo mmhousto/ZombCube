@@ -55,7 +55,7 @@ namespace Com.GCTC.ZombCube
         private void RefreshModeButton()
         {
             if (modeButton == null) return;
-            string text = GameManager.chillCoop ? "MODE: CHILL" : "MODE: HARDCORE";
+            string text = GameManager.chillCoop ? "CHILL" : "HARD";
             if (modeLabelTmp != null) modeLabelTmp.text = text;
             if (modeLabel != null) modeLabel.text = text;
         }

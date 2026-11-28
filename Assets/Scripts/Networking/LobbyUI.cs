@@ -114,7 +114,7 @@ namespace Com.GCTC.ZombCube
         private void RefreshModeButton()
         {
             if (modeButton == null) return;
-            string text = RoomLevelKeys.IsHardcoreRoom ? "MODE: HARDCORE" : "MODE: NORMAL";
+            string text = RoomLevelKeys.IsHardcoreRoom ? "HARD" : "CHILL";
             if (modeLabelTmp != null && modeLabelTmp.text != text) modeLabelTmp.text = text;
             if (modeLabel != null && modeLabel.text != text) modeLabel.text = text;
             bool leader = PhotonNetwork.IsMasterClient;
