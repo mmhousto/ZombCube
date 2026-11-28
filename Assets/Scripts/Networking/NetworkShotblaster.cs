@@ -22,7 +22,6 @@ namespace Com.GCTC.ZombCube
                 launchVector = new Vector3(0, 0, launchVelocity);
                 //isFiring = true;
                 fireRate = 0.4f;
-                ammoCap = 40;
                 clipSize = 5;
                 reserveAmmo = 35;
                 currentAmmoInClip = 5;

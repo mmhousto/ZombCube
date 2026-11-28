@@ -17,7 +17,6 @@ namespace Com.GCTC.ZombCube
             launchVelocity = 15000f;
             launchVector = new Vector3(0, 0, launchVelocity);
             //shootProjectile.enabled = false;
-            ammoCap = 25;
             clipSize = 5;
             reserveAmmo = 20;
             currentAmmoInClip = 5;

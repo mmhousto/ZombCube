@@ -19,7 +19,6 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        protected int ammoCap = 120;
         protected int clipSize = 30;
         public int reserveAmmo = 30;
         public int currentAmmoInClip = 30;
@@ -33,7 +32,6 @@ namespace Com.GCTC.ZombCube
             fireRate = 0.2f;
             launchVector = new Vector3(0, 0, launchVelocity);
             //shootProjectile.enabled = false;
-            ammoCap = 120;
             clipSize = 30;
             reserveAmmo = 30;
             currentAmmoInClip = 30;
@@ -130,6 +128,7 @@ namespace Com.GCTC.ZombCube
             }
         }
 
+        /// <summary>Buying the gun or its ammo: a full clip plus <paramref name="reserve"/> more reserve ammo (no cap).</summary>
         public void GetAmmo(int reserve)
         {
             if (currentAmmoInClip == 0 && reserveAmmo == 0)
@@ -138,8 +137,9 @@ namespace Com.GCTC.ZombCube
                 anim.SetTrigger("GotAmmo");
             }
 
+            // No ammo cap: bought ammo fills the clip and adds to the reserve.
             currentAmmoInClip = clipSize;
-            reserveAmmo = reserve;
+            reserveAmmo += reserve;
         }
 
     }
