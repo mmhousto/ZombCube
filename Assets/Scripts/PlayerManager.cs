@@ -35,6 +35,7 @@ namespace Com.GCTC.ZombCube
 
         private SwapManager swapManager;
         private FullyAuto fullyAutoSMB;
+        private HandlePowerups powerups;
         private AssaultBlaster aB;
         private Shotblaster shotblaster;
         private SniperBlaster sniperBlaster;
@@ -87,6 +88,7 @@ namespace Com.GCTC.ZombCube
 
             swapManager = GetComponent<SwapManager>();
             fullyAutoSMB = GetComponent<FullyAuto>();
+            powerups = GetComponent<HandlePowerups>();
             shotblaster = GetComponent<Shotblaster>();
             aB = GetComponent<AssaultBlaster>();
             sniperBlaster = GetComponent<SniperBlaster>();
@@ -170,7 +172,9 @@ namespace Com.GCTC.ZombCube
             if (scoreText != null)
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-            if (ammoText != null && fullyAutoSMB.enabled == true)
+            if (ammoText != null && powerups != null && powerups.FullAutoActive)
+                ammoText.text = "";
+            else if (ammoText != null && fullyAutoSMB.enabled == true)
                 ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
             else if (ammoText != null && aB.enabled == true)
                 ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";

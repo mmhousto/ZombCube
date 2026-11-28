@@ -7,6 +7,18 @@ namespace Com.GCTC.ZombCube
 {
     public class FullyAuto : ShootProjectile
     {
+        private HandlePowerups powerups;
+
+        /// <summary>While the Full Auto powerup is active, shots don't use ammo.</summary>
+        protected bool InfiniteAmmo
+        {
+            get
+            {
+                if (powerups == null) powerups = GetComponent<HandlePowerups>();
+                return powerups != null && powerups.FullAutoActive;
+            }
+        }
+
         protected int ammoCap = 120;
         protected int clipSize = 30;
         public int reserveAmmo = 30;
@@ -45,12 +57,12 @@ namespace Com.GCTC.ZombCube
 
         public override void LaunchProjectile()
         {
-            if (currentAmmoInClip > 0 && reloading == false)
+            if ((currentAmmoInClip > 0 || InfiniteAmmo) && reloading == false)
             {
                 audioSource.Play();
                 anim.SetTrigger("IsFiring");
                 muzzle.Play();
-                currentAmmoInClip--;
+                if (!InfiniteAmmo) currentAmmoInClip--;
 
                 GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
                 clone.GetComponent<Rigidbody>().AddForce(clone.transform.forward * launchVelocity);

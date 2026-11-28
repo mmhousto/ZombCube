@@ -41,12 +41,12 @@ namespace Com.GCTC.ZombCube
 
         public override void LaunchProjectile()
         {
-            if (currentAmmoInClip > 0 && reloading == false)
+            if ((currentAmmoInClip > 0 || InfiniteAmmo) && reloading == false)
             {
                 audioSource.Play();
                 anim.SetTrigger("IsFiring");
                 muzzle.Play();
-                currentAmmoInClip--;
+                if (!InfiniteAmmo) currentAmmoInClip--;
 
                 GameObject clone = Instantiate(projectile, firePosition.position, firePosition.rotation);
                 clone.GetComponent<Rigidbody>().AddRelativeForce(launchVector);

@@ -27,6 +27,7 @@ namespace Com.GCTC.ZombCube
 
         private NetworkSwapManager swapManager;
         private NetworkFullyAuto fullyAutoSMB;
+        private HandlePowerups powerups;
         private NetworkAB aB;
         private NetworkShotblaster shotblaster;
         private NetworkSniper sniper;
@@ -113,6 +114,7 @@ namespace Com.GCTC.ZombCube
                 playerInput = GetComponent<PlayerInput>();
                 
                 fullyAutoSMB = GetComponent<NetworkFullyAuto>();
+                powerups = GetComponent<HandlePowerups>();
                 aB = GetComponent<NetworkAB>();
                 shotblaster = GetComponent<NetworkShotblaster>();
                 sniper = GetComponent<NetworkSniper>();
@@ -659,7 +661,9 @@ namespace Com.GCTC.ZombCube
                 playerHealth.value = healthPoints;
                 scoreText.text = "Score: " + currentPoints.ToString();
 
-                if (ammoText != null && fullyAutoSMB != null && fullyAutoSMB.enabled == true)
+                if (ammoText != null && powerups != null && powerups.FullAutoActive)
+                    ammoText.text = "";
+                else if (ammoText != null && fullyAutoSMB != null && fullyAutoSMB.enabled == true)
                     ammoText.text = $"{fullyAutoSMB.currentAmmoInClip}/{fullyAutoSMB.reserveAmmo}";
                 else if (ammoText != null && aB != null && aB.enabled == true)
                     ammoText.text = $"{aB.currentAmmoInClip}/{aB.reserveAmmo}";

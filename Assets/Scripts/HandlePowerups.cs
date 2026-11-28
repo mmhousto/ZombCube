@@ -29,6 +29,17 @@ namespace Com.GCTC.ZombCube
 
         // When each active powerup runs out (Full Auto and Speed stack, one entry per pickup).
         private readonly List<float> fullAutoEnds = new List<float>();
+
+        /// <summary>True while a Full Auto powerup is running: guns use no ammo and the ammo count is hidden.</summary>
+        public bool FullAutoActive
+        {
+            get
+            {
+                float now = Time.time;
+                foreach (float end in fullAutoEnds) if (end > now) return true;
+                return false;
+            }
+        }
         private readonly List<float> speedEnds = new List<float>();
         private float tripleShotEnds;
         private PowerupIndicator tripleShotIndicator, speedIndicator, fullAutoIndicator;

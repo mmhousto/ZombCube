@@ -84,12 +84,12 @@ namespace Com.GCTC.ZombCube
 
         public override void LaunchProjectile()
         {
-            if (photonView.IsMine && playerManager.isInputDisabled == false && currentAmmoInClip > 0 && reloading == false)
+            if (photonView.IsMine && playerManager.isInputDisabled == false && (currentAmmoInClip > 0 || InfiniteAmmo) && reloading == false)
             {
                 audioSource.Play();
                 anim.SetTrigger("IsFiring");
                 muzzle.Play();
-                currentAmmoInClip--;
+                if (!InfiniteAmmo) currentAmmoInClip--;
 
                 GameObject clone = PhotonNetwork.Instantiate(projectile.name, firePosition.position, firePosition.rotation);
 
