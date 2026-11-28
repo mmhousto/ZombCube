@@ -2,10 +2,12 @@ name: Bot runs
 
 # Long automated play tests: Editor-only bots (Assets/Editor/Bots) play each map with virtual gamepads
 # from wave 1; the boss spawns on wave 5 (reaching it passes, beating it is optional).
-# Solo, Co-op (2 bots) and Party (Photon offline, 1 bot). Multi-player Party runs use the
+# Every run starts at the SignIn screen and goes through the menus like a player (anonymous sign-in on a
+# throwaway account, random name and cosmetics, lobby/room). Solo, Co-op and Chill Co-op (2 bots), Party and
+# Hardcore Party (Photon offline, 1 bot). Multi-player Party runs use the
 # "Bots - Party" Multiplayer Play Mode scenarios in the Editor instead. Manual only, so pull request checks stay fast:
 # run it from the Actions tab, or push a commit whose message contains "[bot-runs]"
-# (or "[bot-runs solo]", "[bot-runs coop]", "[bot-runs party]").
+# (or "[bot-runs solo]", "[bot-runs coop]", "[bot-runs chill]", "[bot-runs party]", "[bot-runs hardcore]").
 on:
   push:
     branches: [Chad]
@@ -15,7 +17,7 @@ on:
         description: "Modes to run"
         type: choice
         default: all
-        options: [all, solo, coop, party]
+        options: [all, solo, coop, chill, party, hardcore]
 
 permissions:
   contents: read
@@ -64,6 +66,8 @@ jobs:
               *"[bot-runs solo]"*)  MODES=solo ;;
               *"[bot-runs coop]"*)  MODES=coop ;;
               *"[bot-runs party]"*) MODES=party ;;
+              *"[bot-runs chill]"*) MODES=chill ;;
+              *"[bot-runs hardcore]"*) MODES=hardcore ;;
               *)                    MODES=all ;;
             esac
           fi
@@ -71,7 +75,9 @@ jobs:
             solo)  modes="Solo" ;;
             coop)  modes="Coop" ;;
             party) modes="PartyOffline" ;;
-            *)     modes="Solo|Coop|PartyOffline" ;;
+            chill) modes="CoopChill" ;;
+            hardcore) modes="PartyHardcore" ;;
+            *)     modes="Solo|Coop|CoopChill|PartyOffline|PartyHardcore" ;;
           esac
           echo "filter=BotRuns\\.(${modes})_${MAP}" >> "$GITHUB_OUTPUT"
           echo "Running bot tests matching \`BotRuns.(${modes})_${MAP}\`" >> "$GITHUB_STEP_SUMMARY"

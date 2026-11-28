@@ -16,7 +16,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 {
     /// <summary>
     /// One bot run in play mode (Editor only; nothing is added to the game's scripts or scenes):
-    /// loads the map in Solo, Co-op or Party, gives every local player a <see cref="VirtualGamepad"/> and a
+    /// starts at the SignIn screen and goes through the menus like a player (see BotRun.Menus.cs), then gives every local player a <see cref="VirtualGamepad"/> and a
     /// <see cref="PlayerBot"/>, plays a normal game from wave 1, spawns the boss when wave 5 starts, presses
     /// Continue after the boss, and records the result.
     ///
@@ -27,7 +27,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
     /// Runs every frame from InputSystem.onBeforeUpdate (so the pads' state is read that frame) and gets
     /// Photon callbacks as a callback target, so it needs no MonoBehaviour.
     /// </summary>
-    public class BotRun : IConnectionCallbacks, IMatchmakingCallbacks, IInRoomCallbacks
+    public partial class BotRun : IConnectionCallbacks, IMatchmakingCallbacks, IInRoomCallbacks
     {
         private const BindingFlags Any = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
@@ -37,7 +37,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         public static string ResultJson { get; private set; }
 
         private readonly float startedAt;
-        private bool bossDefeated, loadingStarted;
+        private bool bossDefeated;
         private float sceneLoadedAt = -1f;
         private int highestWave, lastWave = -1, lastEnemyCount = -1, botsEliminated, padCount;
         private float lastProgressAt, lastDiagnosticsAt;
@@ -76,33 +76,14 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
 
-            if (Player.Instance == null) new GameObject("BotPlayerData").AddComponent<Player>();
-            Player.Instance.playerName = "Bot";
-            LevelSelect.mapSelected = MapIndex(BotSettings.MapId);
-            LevelSelect.levelSelected = 0;
-
             BossCube.bossDead += OnBossDead;
             NetworkBossCube.bossDead += OnBossDead;
             InputSystem.onBeforeUpdate += BeforeInputUpdate;
             SceneManager.sceneLoaded += OnSceneLoaded;
             EditorApplication.playModeStateChanged += OnPlayModeChanged;
 
-            switch (BotSettings.Mode)
-            {
-                case BotSettings.RunMode.Solo:
-                    GameManager.mode = 0;
-                    LoadSoloScene();
-                    break;
-                case BotSettings.RunMode.Coop:
-                    GameManager.mode = 1;
-                    if (!SetUpCoopPlayers()) { Finish(false, "co-op setup failed (prefabs not found)"); return; }
-                    LoadSoloScene();
-                    break;
-                case BotSettings.RunMode.Party:
-                    PhotonNetwork.AddCallbackTarget(this);
-                    StartParty();
-                    break;
-            }
+            if (BotSettings.Mode == BotSettings.RunMode.Party) PhotonNetwork.AddCallbackTarget(this);
+            StartMenus();
         }
 
         public void Stop()
@@ -115,6 +96,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             PhotonNetwork.RemoveCallbackTarget(this);
             foreach (PlayerBot bot in bots.Values) { bot.Dispose(); bot.Pad.Remove(); }
             bots.Clear();
+            RemoveMenuPads();
+            CloudSaveLogin.AnonymousProfile = "default";
             InputSystem.settings.backgroundBehavior = savedBackground;
             InputSystem.settings.editorInputBehaviorInPlayMode = savedEditorInput;
             SaveSystem.WritesDisabled = false;
@@ -137,103 +120,48 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             return 0;
         }
 
-        private void LoadSoloScene()
-        {
-            loadingStarted = true;
-            SceneManager.LoadScene(GameScenes.SelectedSoloScene());
-        }
-
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            if (scene.name == "SignIn") sawSignIn = true;
             if (GameScenes.IsSolo(scene.name) || GameScenes.IsParty(scene.name))
             {
                 sceneLoadedAt = Time.realtimeSinceStartup;
             }
         }
 
-        // The co-op lobby normally creates these: a CoopManager with one PlayerInput object per player.
-        private static bool SetUpCoopPlayers()
-        {
-            var playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Player/CoopPlayer.prefab");
-            var inputPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Managers/InputManager.prefab");
-            if (playerPrefab == null || inputPrefab == null) return false;
+        // ------------------------------------------------------------------ Party (Photon callbacks)
 
-            GameObject existing = GameObject.Find("CoopManager");
-            if (existing != null) UnityEngine.Object.Destroy(existing);
-
-            var go = new GameObject("CoopManager");
-            go.SetActive(false);
-            go.AddComponent<PlayerInputManager>().joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
-            var coop = go.AddComponent<CouchCoopManager>();
-            coop.playerPrefab = playerPrefab;
-            coop.minimaps = new RenderTexture[4];
-            for (int i = 0; i < 4; i++) coop.minimaps[i] = new RenderTexture(256, 256, 16);
-            for (int i = 0; i < BotSettings.Players; i++)
-            {
-                GameObject input = UnityEngine.Object.Instantiate(inputPrefab);
-                input.name = $"Bot {i + 1}";
-                UnityEngine.Object.DontDestroyOnLoad(input);
-                coop.joinedPlayers.Add(input);
-                coop.joinedPlayerIDs.Add(-1000 - i);
-            }
-            go.SetActive(true);
-            return true;
-        }
-
-        // ------------------------------------------------------------------ Party (Photon)
-
-        private void StartParty()
-        {
-            PhotonNetwork.AutomaticallySyncScene = true;
-            PhotonNetwork.NickName = "Bot";
-            PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "UserName", "Bot" }, { "IsReady", true }, { "IsRestricted", false } });
-            if (BotSettings.PartyOffline) PhotonNetwork.OfflineMode = true;   // calls OnConnectedToMaster
-            else if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
-            else OnConnectedToMaster();
-        }
-
-        public void OnConnectedToMaster()
-        {
-            if (Finished || loadingStarted) return;
-            if (BotSettings.PartyOffline) PhotonNetwork.CreateRoom("zcbot-offline");
-            else PhotonNetwork.JoinOrCreateRoom(BotSettings.Room, new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
-        }
+        public void OnConnectedToMaster() { }
 
         public void OnJoinedRoom()
         {
             Log($"Joined room {PhotonNetwork.CurrentRoom.Name} ({PhotonNetwork.CurrentRoom.PlayerCount} player(s))");
-            TryStartPartyGame();
         }
 
         public void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
         {
             Log($"Player joined: {PhotonNetwork.CurrentRoom.PlayerCount} in room");
-            TryStartPartyGame();
         }
 
-        public void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient) => TryStartPartyGame();
-        public void OnJoinRoomFailed(short returnCode, string message) => Finish(false, "couldn't join the Photon room: " + message);
-        public void OnCreateRoomFailed(short returnCode, string message) => Finish(false, "couldn't create the Photon room: " + message);
+        public void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient) { }
+
+        public void OnJoinRoomFailed(short returnCode, string message)
+        {
+            if (roomFailures++ > 20) { Finish(false, "couldn't join or host the Photon room: " + message); return; }
+            RetryRoom(host: returnCode == ErrorCode.GameDoesNotExist);
+        }
+
+        public void OnCreateRoomFailed(short returnCode, string message)
+        {
+            if (roomFailures++ > 20) { Finish(false, "couldn't host the Photon room: " + message); return; }
+            RetryRoom(host: false);
+        }
+
+        private int roomFailures;
 
         public void OnDisconnected(DisconnectCause cause)
         {
             if (!Finished && !BotSettings.PartyOffline) Finish(false, "disconnected from Photon: " + cause);
-        }
-
-        // The first instance in the room starts once all scenario players are in (or straight away offline).
-        private void TryStartPartyGame()
-        {
-            if (loadingStarted || !PhotonNetwork.IsMasterClient || PhotonNetwork.CurrentRoom == null) return;
-            if (PhotonNetwork.CurrentRoom.PlayerCount < (BotSettings.PartyOffline ? 1 : BotSettings.Players)) return;
-
-            loadingStarted = true;
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
-            {
-                { RoomLevelKeys.Map, LevelSelect.mapSelected },
-                { RoomLevelKeys.TexturePack, LevelSelect.levelSelected },
-            });
-            PhotonNetwork.LoadLevel(GameScenes.SelectedPartyScene());
         }
 
         public void OnConnected() { }
@@ -271,8 +199,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
             if (!(GameScenes.IsSoloActive || GameScenes.IsPartyActive))
             {
-                if (BotSettings.Mode == BotSettings.RunMode.Party && !loadingStarted && now - startedAt > 300f)
-                    Finish(false, $"Party: only {(PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.PlayerCount : 0)} of {BotSettings.Players} players joined in 5 minutes");
+                TickMenus(now);
                 return;
             }
 
@@ -442,12 +369,16 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             Passed = passed;
             Time.timeScale = 1f;
             foreach (PlayerBot bot in bots.Values) bot.Pad.Release();
+            DeleteBotAccount();
 
             var sb = new StringBuilder("{");
             sb.Append($"\"outcome\":\"{(passed ? "pass" : "fail")}\",\"reason\":\"{Escape(reason)}\",");
             sb.Append($"\"mode\":\"{BotSettings.Mode.ToString().ToLowerInvariant()}\",\"map\":\"{Escape(BotSettings.MapId)}\",");
             sb.Append($"\"players\":{(BotSettings.Mode == BotSettings.RunMode.Solo ? 1 : BotSettings.Players)},");
             sb.Append($"\"partyOffline\":{(BotSettings.PartyOffline ? "true" : "false")},");
+            sb.Append($"\"chill\":{(BotSettings.Chill ? "true" : "false")},\"hardcore\":{(BotSettings.Hardcore ? "true" : "false")},");
+            if (BotSettings.Hardcore && BotSettings.PartyOffline) sb.Append($"\"hardcoreStartBlockedSolo\":{(hardcoreStartBlocked ? "true" : "false")},");
+            sb.Append($"\"name\":\"{Escape(botName)}\",\"blaster\":{blasterChosen},\"skin\":{skinChosen},\"menuStep\":\"{step}\",");
             sb.Append($"\"startWave\":{BotSettings.StartWave},\"highestWave\":{highestWave},");
             sb.Append($"\"bossSpawned\":{(bossSpawned ? "true" : "false")},\"bossDefeated\":{(bossDefeated ? "true" : "false")},\"botsEliminated\":{botsEliminated},");
             sb.Append($"\"speed\":{BotSettings.Speed.ToString(System.Globalization.CultureInfo.InvariantCulture)},");

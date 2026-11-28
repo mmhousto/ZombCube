@@ -14,6 +14,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
     /// and press Play. Tags (Project Settings > Multiplayer > Player Tags):
     ///   BotSolo, BotCoop2, BotCoop4: the main Editor plays Solo / Co-op with 2 or 4 bots.
     ///   BotParty2, BotParty4: every tagged player joins one Photon room and the game starts when all are in.
+    ///   BotCoopChill2: Chill Co-op with 2 bots.  BotPartyHardcore2: Hardcore Party with 2 players.
+    /// Every bot run starts at the SignIn screen and goes through the menus (see BotRun.Menus.cs).
     /// Map, speed and time limit come from Assets/Editor/Bots/BotRunSettings.asset.
     /// </summary>
     [InitializeOnLoad]
@@ -43,6 +45,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                     case "BotParty2": mode = "party"; players = 2; break;
                     case "BotParty3": mode = "party"; players = 3; break;
                     case "BotParty4": mode = "party"; players = 4; break;
+                    case "BotCoopChill2": mode = "coop -zcbotChill"; players = 2; break;
+                    case "BotPartyHardcore2": mode = "party -zcbotHardcore"; players = 2; break;
                     default: continue;
                 }
 

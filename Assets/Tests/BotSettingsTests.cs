@@ -43,4 +43,21 @@ public class BotSettingsTests
         Call("TryParse", (object)new[] { "-zcbot", "coop", "-zcbotPlayers", "1" });
         Assert.AreEqual(2, Get("Players"));
     }
+
+    [Test]
+    public void ParsesChillAndHardcoreModes()
+    {
+        Call("TryParse", (object)new[] { "-zcbot", "coop", "-zcbotChill" });
+        Assert.IsTrue((bool)Get("Chill"));
+        Assert.IsFalse((bool)Get("Hardcore"));
+
+        Call("TryParse", (object)new[] { "-zcbot", "party", "-zcbotHardcore", "-zcbotOffline" });
+        Assert.IsTrue((bool)Get("Hardcore"));
+        Assert.IsFalse((bool)Get("Chill"));
+
+        // Each flag only applies to its own mode.
+        Call("TryParse", (object)new[] { "-zcbot", "solo", "-zcbotChill", "-zcbotHardcore" });
+        Assert.IsFalse((bool)Get("Chill"));
+        Assert.IsFalse((bool)Get("Hardcore"));
+    }
 }

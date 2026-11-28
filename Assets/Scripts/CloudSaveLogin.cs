@@ -52,6 +52,12 @@ namespace Com.GCTC.ZombCube
 
         public ssoOption currentSSO = ssoOption.Anonymous;
 
+        /// <summary>
+        /// Authentication profile used by anonymous sign-in. Each profile keeps its own anonymous account, so a
+        /// different profile (e.g. for automated test runs) never touches the player's usual "default" account.
+        /// </summary>
+        public static string AnonymousProfile = "default";
+
         private IAppleAuthManager appleAuthManager;
 
         private bool triedQuickLogin = false;
@@ -265,7 +271,11 @@ namespace Com.GCTC.ZombCube
 
             currentSSO = ssoOption.Anonymous;
 
-            AuthenticationService.Instance.SwitchProfile("default");
+            // Leave another profile's session first (switching profiles needs a signed-out player).
+            if (UnityServices.State == ServicesInitializationState.Initialized && AuthenticationService.Instance.IsSignedIn
+                && AuthenticationService.Instance.Profile != AnonymousProfile)
+                AuthenticationService.Instance.SignOut();
+            AuthenticationService.Instance.SwitchProfile(AnonymousProfile);
 
             // Cloud Save needs to be initialized along with the other Unity Services that
             // it depends on (namely, Authentication), and then the user must sign in.

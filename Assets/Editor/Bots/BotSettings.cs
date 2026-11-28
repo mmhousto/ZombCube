@@ -8,7 +8,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
     /// Runs start from a Multiplayer Play Mode scenario ("Bots - ..." in Assets/Settings/PlayMode, see
     /// <see cref="BotScenarioLauncher"/>) or the BotRuns PlayMode tests. Arguments use the same names as before:
     ///   solo|coop|party  -zcbotMap arena|spaceship|theatre  -zcbotPlayers N  -zcbotSpeed X
-    ///   -zcbotRoom NAME  -zcbotOffline  -zcbotResult PATH  -zcbotTimeout MINUTES
+    ///   -zcbotRoom NAME  -zcbotOffline  -zcbotChill (co-op)  -zcbotHardcore (party)  -zcbotResult PATH  -zcbotTimeout MINUTES
+    /// Every run starts at the SignIn screen and goes through the menus (BotRun.Menus.cs).
     /// </summary>
     public static class BotSettings
     {
@@ -21,6 +22,10 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         public static float Speed = 1f;
         public static string Room = "zcbot";
         public static bool PartyOffline;
+        /// <summary>Co-op in Chill mode (eliminated players come back next wave).</summary>
+        public static bool Chill;
+        /// <summary>Party in Hardcore mode (one player out ends the game).</summary>
+        public static bool Hardcore;
         public static string ResultPath;
         public static bool QuitWhenDone;
         public static float TimeoutMinutes = 60f;
@@ -54,6 +59,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                         break;
                     case "-zcbotroom": if (!string.IsNullOrEmpty(v)) Room = v; break;
                     case "-zcbotoffline": PartyOffline = true; break;
+                    case "-zcbotchill": Chill = true; break;
+                    case "-zcbothardcore": Hardcore = true; break;
                     case "-zcbotresult": ResultPath = v; break;
                     case "-zcbotquit": QuitWhenDone = true; break;
                     case "-zcbottimeout":
@@ -62,6 +69,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 }
             }
             if (Mode == RunMode.Coop) Players = Clamp(Players, 2, 4);
+            if (Mode != RunMode.Coop) Chill = false;
+            if (Mode != RunMode.Party) Hardcore = false;
             return true;
         }
 
@@ -81,6 +90,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             Speed = 1f;
             Room = "zcbot";
             PartyOffline = false;
+            Chill = false;
+            Hardcore = false;
             ResultPath = null;
             QuitWhenDone = false;
             TimeoutMinutes = 60f;
