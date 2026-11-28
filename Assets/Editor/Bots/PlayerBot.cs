@@ -193,7 +193,13 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
             if (shopTarget == null && Time.time > shopCooldownUntil && (safe || enemies.Count == 0))
                 shopTarget = ChooseShopTarget();
-            if (shopTarget != null && (nearestDist < PanicDistance || !IsUsable(shopTarget.gameObject) || Time.time - shopStarted > 25f))
+            if (shopTarget != null && !IsUsable(shopTarget.gameObject))
+            {
+                // Bought it (we were holding West at it), or someone else took it.
+                if (atPickupSince >= 0f) BotRun.RecordPurchase(this, shopTarget.tag);
+                StopShopping(1f);
+            }
+            if (shopTarget != null && (nearestDist < PanicDistance || Time.time - shopStarted > 25f))
                 StopShopping(nearestDist < PanicDistance ? 2f : 6f);
 
             if (Time.time >= nextTargetTime || target == null)
@@ -266,7 +272,17 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             // Fire once roughly on target, and never through a teammate.
             Vector3 forward = lookTransform != null ? lookTransform.forward : Root.transform.forward;
             float error = Vector3.Angle(forward, aim - Eye);
-            Pad.Fire = error < 12f && ClearShot(aim);
+            float distance = Vector3.Distance(Eye, aim);
+            // A cube is about 3 units across: close ones fill more of the view, so allow a wider error.
+            float tolerance = Mathf.Clamp(Mathf.Atan2(2.5f, Mathf.Max(distance, 0.1f)) * Mathf.Rad2Deg, 4f, 30f);
+            Pad.Fire = (error < tolerance || CrosshairOnEnemy(forward)) && ClearShot(aim);
+        }
+
+        private bool CrosshairOnEnemy(Vector3 forward)
+        {
+            if (!Physics.Raycast(Eye, forward, out RaycastHit hit, 120f, ~0, QueryTriggerInteraction.Ignore)) return false;
+            Transform t = hit.transform;
+            return t.CompareTag("Enemy") || t.CompareTag("BossCube") || t.root.CompareTag("Enemy") || t.root.CompareTag("BossCube");
         }
 
         private bool ClearShot(Vector3 aim)
@@ -561,10 +577,25 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 Collider c = go.GetComponent<Collider>();
                 if (c == null) continue;
                 if (unreachableUntil.TryGetValue(c, out float until) && Time.time < until) continue;
+                if (!Reachable(c)) { unreachableUntil[c] = Time.time + 60f; continue; }
                 float d = Vector3.Distance(Position, c.bounds.center);
                 if (d < bestDist) { bestDist = d; best = c; }
             }
             return best;
+        }
+
+        // The path must end within reach of the pickup's trigger (wall buys can sit where the NavMesh doesn't go).
+        private bool Reachable(Collider pickup)
+        {
+            if (!navReady) return true;
+            var filter = new NavMeshQueryFilter { agentTypeID = navAgentType, areaMask = NavMesh.AllAreas };
+            Vector3 target = pickup.bounds.center;
+            if (!NavMesh.SamplePosition(Position, out NavMeshHit a, 4f, filter) ||
+                !NavMesh.SamplePosition(target, out NavMeshHit b, 8f, filter)) return false;
+            var test = new NavMeshPath();
+            if (!NavMesh.CalculatePath(a.position, b.position, filter, test) || test.status != NavMeshPathStatus.PathComplete) return false;
+            Vector3 end = test.corners.Length > 0 ? test.corners[test.corners.Length - 1] : a.position;
+            return Flat(pickup.ClosestPoint(end) - end).magnitude < 4f;
         }
 
         private static bool IsUsable(GameObject pickup)
