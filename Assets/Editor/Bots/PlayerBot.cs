@@ -23,8 +23,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         private const BindingFlags Any = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
         // Tuning (world units: the player is about 3.4 tall).
-        private const float SafeDistance = 18f;
-        private const float PanicDistance = 7f;
+        private const float SafeDistance = 28f;       // no cube this close to start shopping mid-wave
+        private const float PanicDistance = 12f;      // a cube this close: stop shopping and fight
         private const float PreferredRange = 16f;
         private const float TeamRadius = 14f;
         private const float HealthToHeal = 60f;
@@ -57,6 +57,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         private float nextTargetTime;
 
         private Collider shopTarget;
+        private float atPickupSince = -1f;
+        private readonly Dictionary<Collider, float> unreachableUntil = new Dictionary<Collider, float>();
         private float shopStarted, westUntil, shopCooldownUntil, swapCooldownUntil;
         private bool holdingToBuy;
         private NavMeshPath path = new NavMeshPath();
@@ -96,7 +98,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             return $"{Name}: pos {Position.x:0},{Position.y:0},{Position.z:0} hp {Health:0} pts {Points} {Activity}" +
                    $" | move {Pad.Move.x:0.00},{Pad.Move.y:0.00} look {Pad.Look.x:0.00},{Pad.Look.y:0.00} fire {(Pad.Fire ? 1 : 0)} west {(Pad.West ? 1 : 0)}" +
                    $" | weapon {(w != null ? w.GetType().Name : "none")} ammo {Ammo(w)} slots [{string.Join(",", Slots())}]" +
-                   $" | enemies {enemies.Count} nearest {(nearestDist < 9999f ? nearestDist.ToString("0") : "-")} target {(target != null ? target.name : "-")} shop {(shopTarget != null ? shopTarget.tag : "-")} nav {(navReady ? navAgentType.ToString() : "none")}";
+                   $" | enemies {enemies.Count} nearest {(nearestDist < 9999f ? nearestDist.ToString("0") : "-")} target {(target != null ? target.name : "-")} shop {(shopTarget != null ? shopTarget.tag + " d" + Flat(shopTarget.ClosestPoint(Position) - Position).magnitude.ToString("0.0") + (atPickupSince >= 0f ? " holding" : "") : "-")} nav {(navReady ? navAgentType.ToString() : "none")}";
         }
 
         public void Dispose()
@@ -543,6 +545,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 if (!go.activeInHierarchy || !IsUsable(go)) continue;
                 Collider c = go.GetComponent<Collider>();
                 if (c == null) continue;
+                if (unreachableUntil.TryGetValue(c, out float until) && Time.time < until) continue;
                 float d = Vector3.Distance(Position, c.bounds.center);
                 if (d < bestDist) { bestDist = d; best = c; }
             }
@@ -578,35 +581,52 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             Pad.Fire = false;
             Vector3 point = shopTarget.ClosestPoint(Position);
             float distance = Flat(point - Position).magnitude;
-            bool inside = shopTarget.bounds.Contains(Position) || distance < 0.6f;
 
-            if (inside)
+            // Wall pickups are triggers on the wall: the player is "at" one when its body overlaps the trigger,
+            // which can be a couple of units from its centre. Walk into it and hold West (the Interact hold).
+            CharacterController body = Root.GetComponent<CharacterController>();
+            float reach = (body != null ? body.radius : 1f) + 1.2f;
+            bool atPickup = distance < reach || (body != null && body.bounds.Intersects(shopTarget.bounds));
+
+            if (atPickup)
             {
-                // Hold West like a player (the Interact action is a hold), then let go and check it bought.
-                if (!holdingToBuy)
+                if (atPickupSince < 0f) atPickupSince = Time.time;
+                float held = Time.time - atPickupSince;
+                // Hold for 1 s, let go for 0.3 s, repeat; the purchase shows as the pickup going unusable.
+                westUntil = (held % 1.3f) < 1.0f ? Time.time + 0.05f : 0f;
+                if (!IsUsable(shopTarget.gameObject))
                 {
-                    holdingToBuy = true;
-                    westUntil = Time.time + 1.0f;
+                    BotRun.RecordPurchase(this, shopTarget.tag);
+                    StopShopping(1f);
+                    return Vector3.zero;
                 }
-                else if (Time.time > westUntil + 0.3f)
+                if (held > 6f)
                 {
-                    holdingToBuy = false;
-                    if (!IsUsable(shopTarget.gameObject))
-                    {
-                        BotRun.RecordPurchase(this, shopTarget.tag);
-                        StopShopping(1f);
-                    }
+                    // Couldn't buy from here (not enough points, or the trigger is out of reach): skip it for a while.
+                    Debug.Log($"[ZCBOT] {Name} couldn't buy {shopTarget.tag} (points {Points}); skipping it for a minute");
+                    unreachableUntil[shopTarget] = Time.time + 60f;
+                    StopShopping(1f);
+                    return Vector3.zero;
                 }
-                return Flat(point - Position) * 0.3f;
+                return Flat(point - Position).normalized * 0.4f;   // keep pressing into the trigger
             }
 
-            holdingToBuy = false;
+            atPickupSince = -1f;
+            westUntil = 0f;
+            if (Time.time - shopStarted > 20f)
+            {
+                Debug.Log($"[ZCBOT] {Name} couldn't reach {shopTarget.tag} (closest {distance:0.0}); skipping it for a minute");
+                unreachableUntil[shopTarget] = Time.time + 60f;   // never got there
+                StopShopping(1f);
+                return Vector3.zero;
+            }
             return distance < 6f ? Flat(point - Position).normalized : PathDirection(shopTarget.bounds.center);
         }
 
         private void StopShopping(float cooldown)
         {
             holdingToBuy = false;
+            atPickupSince = -1f;
             westUntil = 0f;
             shopTarget = null;
             shopCooldownUntil = Time.time + cooldown;
