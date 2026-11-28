@@ -264,6 +264,13 @@ namespace Com.GCTC.ZombCube
             if (hud != null)
                 powerUps = FindChild(hud.rootCanvas.transform, "PowerUps");
 
+            // Co-op players only use their own canvas; the shared one is hidden.
+            if (GameManager.mode == 1 && GameScenes.IsSoloActive)
+            {
+                if (powerUps != null) ShowIndicators(powerUps);
+                return;
+            }
+
             if (powerUps == null)
             {
                 GameObject canvas = GameObject.FindWithTag("Canvas");
@@ -280,7 +287,11 @@ namespace Com.GCTC.ZombCube
                     }
             }
             if (powerUps == null) return;
+            ShowIndicators(powerUps);
+        }
 
+        private void ShowIndicators(Transform powerUps)
+        {
             powerUps.gameObject.SetActive(true);
             tripleShotIndicator = PowerupIndicator.Find(powerUps, "PowerUPIndicatorTripleShot");
             speedIndicator = PowerupIndicator.Find(powerUps, "PowerUPIndicatorSpeed");

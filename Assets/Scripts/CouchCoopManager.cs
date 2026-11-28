@@ -130,6 +130,10 @@ namespace Com.GCTC.ZombCube
                 safeArea.GetChild(9).gameObject.SetActive(false);
                 safeArea.GetChild(11).gameObject.SetActive(false);
 
+                // Each co-op player has PowerUps indicators on their own canvas; hide the shared one.
+                Transform sharedPowerUps = safeArea.Find("PowerUps");
+                if (sharedPowerUps != null) sharedPowerUps.gameObject.SetActive(false);
+
                 
                 // Gets spawn points
                 spawnPoints[0] = GameObject.Find("SP1").transform;
