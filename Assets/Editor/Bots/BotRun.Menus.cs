@@ -25,7 +25,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
     /// </summary>
     public partial class BotRun
     {
-        private enum MenuStep { SignIn, SigningIn, MainMenu, CoopLobby, PartyConnect, PartyLobby, PartyRoom, Loading }
+        private enum MenuStep { Cleanup, SignIn, SigningIn, MainMenu, CoopLobby, PartyConnect, PartyLobby, PartyRoom, Loading }
 
         private MenuStep step = MenuStep.SignIn;
         private float stepStartedAt, nextActionAt;
@@ -45,19 +45,49 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             authProfile = "zcbot_" + Guid.NewGuid().ToString("N").Substring(0, 8);
             botName = "Bot" + UnityEngine.Random.Range(1000, 10000);
             GameManager.chillCoop = false;
-            CleanUpEarlierRun();
-            Step(MenuStep.SignIn);
-            SceneManager.LoadScene(0);   // SignIn
+            // Clear what an earlier run left behind over a few frames (like the game's own Main Menu button), then
+            // load the SignIn screen. Doing it all in one frame froze the editor between back-to-back runs.
+            cleanupPhase = 0;
+            Step(MenuStep.Cleanup);
+            nextActionAt = stepStartedAt;
+        }
+
+        private int cleanupPhase;
+
+        private void TickCleanup(float now)
+        {
+            switch (cleanupPhase++)
+            {
+                case 0:
+                    Log("Cleanup: leaving Photon");
+                    if (PhotonNetwork.IsConnected || PhotonNetwork.OfflineMode) PhotonNetwork.Disconnect();
+                    PhotonNetwork.OfflineMode = false;
+                    nextActionAt = now + 0.5f;
+                    break;
+                case 1:
+                    Log("Cleanup: co-op players (the game's own teardown)");
+                    CleanUpCoopManagers();
+                    nextActionAt = now + 2f;   // CoopPlayerTeardown takes players apart one component per frame
+                    break;
+                case 2:
+                    Log("Cleanup: leftover player inputs");
+                    CleanUpLeftoverInputs();
+                    nextActionAt = now + 1f;
+                    break;
+                default:
+                    Log("Cleanup: done, loading SignIn");
+                    Time.timeScale = 1f;
+                    Step(MenuStep.SignIn);
+                    SceneManager.LoadScene(0);   // SignIn
+                    break;
+            }
         }
 
         // An earlier run in the same play session (the tests run back to back) can leave a Photon connection and
         // co-op players kept across scenes; clear them so this run starts like a fresh launch. Saving is already
         // off, so nothing the game does on the way out reaches the player's save.
-        private static void CleanUpEarlierRun()
+        private static void CleanUpCoopManagers()
         {
-            if (PhotonNetwork.IsConnected || PhotonNetwork.OfflineMode) PhotonNetwork.Disconnect();
-            PhotonNetwork.OfflineMode = false;
-
             // Co-op players must be unhooked from their UI input before they're destroyed (destroying them hooked up
             // freezes the editor, see CouchCoopManager.ReleasePlayerObject); the game's own teardown does that.
             foreach (CouchCoopManager coop in UnityEngine.Object.FindObjectsByType<CouchCoopManager>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -68,6 +98,10 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 coop.joinedPlayerIDs.Clear();
                 UnityEngine.Object.Destroy(coop.gameObject);
             }
+        }
+
+        private static void CleanUpLeftoverInputs()
+        {
             foreach (PlayerInput input in UnityEngine.Object.FindObjectsByType<PlayerInput>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
                 if (input == null || input.gameObject.scene.name != "DontDestroyOnLoad") continue;
@@ -108,6 +142,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             }
 
             if (step == MenuStep.Loading || now < nextActionAt) return;
+            if (step == MenuStep.Cleanup) { TickCleanup(now); return; }
 
             switch (step)
             {

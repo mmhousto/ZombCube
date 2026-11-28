@@ -75,6 +75,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             savedEditorInput = InputSystem.settings.editorInputBehaviorInPlayMode;
             InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
             InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+            Log("Start: input settings set");
 
             BossCube.bossDead += OnBossDead;
             NetworkBossCube.bossDead += OnBossDead;
@@ -88,6 +89,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
         public void Stop()
         {
+            Log("Stop: unhooking the run");
             BossCube.bossDead -= OnBossDead;
             NetworkBossCube.bossDead -= OnBossDead;
             InputSystem.onBeforeUpdate -= BeforeInputUpdate;
@@ -96,6 +98,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             PhotonNetwork.RemoveCallbackTarget(this);
             foreach (PlayerBot bot in bots.Values) { bot.Dispose(); bot.Pad.Remove(); }
             bots.Clear();
+            Log("Stop: removing the virtual gamepads");
             RemoveMenuPads();
             CloudSaveLogin.AnonymousProfile = "default";
             InputSystem.settings.backgroundBehavior = savedBackground;
@@ -103,6 +106,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             SaveSystem.WritesDisabled = false;
             BotSettings.Reset();
             if (Current == this) Current = null;
+            Log("Stop: done");
         }
 
         private void OnPlayModeChanged(PlayModeStateChange change)
@@ -197,7 +201,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 return;
             }
 
-            if (!(GameScenes.IsSoloActive || GameScenes.IsPartyActive))
+            if (step == MenuStep.Cleanup || !(GameScenes.IsSoloActive || GameScenes.IsPartyActive))
             {
                 TickMenus(now);
                 return;
