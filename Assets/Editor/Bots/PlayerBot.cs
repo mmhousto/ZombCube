@@ -58,6 +58,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
         private Collider shopTarget;
         private float atPickupSince = -1f;
+        private float shopBestDistance = float.MaxValue, shopProgressAt;
         private readonly Dictionary<Collider, float> unreachableUntil = new Dictionary<Collider, float>();
         private float shopStarted, westUntil, shopCooldownUntil, swapCooldownUntil;
         private bool holdingToBuy;
@@ -350,6 +351,9 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 if (d > 120f || !CanSee(e)) continue;
                 float score = d;
                 if (e == boss) score = d < 40f ? d * 0.6f : d * 0.9f;
+                // Turning takes time at the player's look speed: prefer cubes already near the crosshair.
+                Vector3 forward = lookTransform != null ? lookTransform.forward : Root.transform.forward;
+                score += Vector3.Angle(forward, Center(e) - Eye) / 6f;
                 foreach (PlayerBot mate in All)
                     if (mate != this && mate.Alive && Vector3.Distance(mate.Position, e.position) < 8f)
                         score -= mate.Health < 50f ? 8f : 4f;   // help a teammate who's being swarmed
@@ -496,7 +500,9 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             int[] slots = Slots();
             Behaviour equipped = EquippedWeapon();
 
-            if (equipped != null && Clip(equipped) == 0 && Ammo(equipped) > 0 && Time.unscaledTime > westUntil)
+            bool calm = target == null || Vector3.Distance(Position, target.position) > 20f;
+            int clip = Clip(equipped);
+            if (equipped != null && Ammo(equipped) > clip && (clip == 0 || (calm && clip < 6)) && Time.unscaledTime > westUntil)
                 westUntil = Time.unscaledTime + 0.1f;   // tap West to reload
 
             bool bossFar = target != null && target == boss && Vector3.Distance(Position, boss.position) > 30f;
@@ -563,6 +569,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         private Collider BeginShopping(Collider c)
         {
             shopStarted = Time.time;
+            shopBestDistance = float.MaxValue;
+            shopProgressAt = Time.unscaledTime;
             pathTime = -1f;
             return c;
         }
@@ -660,6 +668,17 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
             atPickupSince = -1f;
             westUntil = 0f;
+
+            // Not getting closer for 3 real seconds (blocked by a step, rail or wall): try another pickup.
+            if (distance < shopBestDistance - 0.5f) { shopBestDistance = distance; shopProgressAt = Time.unscaledTime; }
+            else if (Time.unscaledTime - shopProgressAt > 3f)
+            {
+                Debug.Log($"[ZCBOT] {Name} is stuck {distance:0.0} from {shopTarget.tag}; skipping it for a minute");
+                unreachableUntil[shopTarget] = Time.time + 60f;
+                StopShopping(0f);
+                return Vector3.zero;
+            }
+
             if (Time.time - shopStarted > 20f)
             {
                 Debug.Log($"[ZCBOT] {Name} couldn't reach {shopTarget.tag} (closest {distance:0.0}); skipping it for a minute");
