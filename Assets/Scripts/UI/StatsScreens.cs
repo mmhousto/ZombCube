@@ -198,7 +198,7 @@ namespace Com.GCTC.ZombCube
             string hex = ColorUtility.ToHtmlStringRGB(textColor);
             var sb = new System.Text.StringBuilder();
             sb.Append("<line-height=140%>");
-            sb.Append($"<color=#{hex}><b><pos=0%>MAP<pos=48%>SOLO<pos=66%>CO-OP<pos=84%>PARTY</b></color>\n");
+            sb.Append($"<color=#{hex}><b><pos=0%>MAP<pos=30%>SOLO<pos=43%>CO-OP<pos=56%>CHILL<pos=70%>PARTY<pos=84%>HARDCORE</b></color>\n");
 
             LevelDatabase db = LevelDatabase.Instance;
             int count = db != null ? db.Count : 0;
@@ -208,9 +208,11 @@ namespace Com.GCTC.ZombCube
                 if (level == null) continue;
                 string name = string.IsNullOrEmpty(level.displayName) ? level.id : level.displayName;
                 sb.Append($"<pos=0%>{name.ToUpperInvariant()}");
-                sb.Append($"<pos=48%>{Wave(player, level.id, WaveMode.Solo)}");
-                sb.Append($"<pos=66%>{Wave(player, level.id, WaveMode.Coop)}");
-                sb.Append($"<pos=84%>{Wave(player, level.id, WaveMode.Party)}\n");
+                sb.Append($"<pos=30%>{Wave(player, level.id, WaveMode.Solo)}");
+                sb.Append($"<pos=43%>{Wave(player, level.id, WaveMode.Coop)}");
+                sb.Append($"<pos=56%>{Wave(player, level.id, WaveMode.CoopChill)}");
+                sb.Append($"<pos=70%>{Wave(player, level.id, WaveMode.Party)}");
+                sb.Append($"<pos=84%>{Wave(player, level.id, WaveMode.PartyHardcore)}\n");
             }
             wavesTableText.alignment = TextAlignmentOptions.TopLeft;
             wavesTableText.text = sb.ToString();
@@ -254,10 +256,10 @@ namespace Com.GCTC.ZombCube
             }
 
             RectTransform modes = TabRow(body, 56f);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < MapModes.Length; i++)
             {
                 int index = i;
-                modeTabs.Add(NewButton(modes, "", () => SelectBoard(mapIndex, index, scopeIndex), 26f));
+                modeTabs.Add(NewButton(modes, "", () => SelectBoard(mapIndex, index, scopeIndex), 22f));
             }
 
             RectTransform scopes = TabRow(body, 56f);
@@ -334,6 +336,10 @@ namespace Com.GCTC.ZombCube
 
         private bool IsOverall(int map) => map >= mapTabs.Count - 1;
 
+        // Mode tabs for a map's wave boards (Overall uses the first three tabs for points, cubes, accuracy).
+        private static readonly WaveMode[] MapModes = { WaveMode.Solo, WaveMode.Coop, WaveMode.CoopChill, WaveMode.Party, WaveMode.PartyHardcore };
+        private static readonly string[] MapModeTabs = { "SOLO", "CO-OP", "CHILL CO-OP", "PARTY", "HARDCORE PARTY" };
+
         private BoardChoice Board(int map, int mode)
         {
             if (IsOverall(map))
@@ -355,10 +361,10 @@ namespace Com.GCTC.ZombCube
 
             LevelEntry level = LevelDatabase.Instance != null ? LevelDatabase.Instance.Get(map) : null;
             string levelId = level != null ? level.id : WaveLeaderboards.Arena;
-            WaveMode waveMode = mode == 1 ? WaveMode.Coop : mode == 2 ? WaveMode.Party : WaveMode.Solo;
+            WaveMode waveMode = MapModes[Mathf.Clamp(mode, 0, MapModes.Length - 1)];
             WaveBoard board = WaveLeaderboards.For(levelId, waveMode);
             string mapName = level != null && !string.IsNullOrEmpty(level.displayName) ? level.displayName : levelId;
-            string modeName = waveMode == WaveMode.Coop ? "CO-OP" : waveMode.ToString().ToUpperInvariant();
+            string modeName = MapModeTabs[Mathf.Clamp(mode, 0, MapModeTabs.Length - 1)];
             return new BoardChoice
             {
                 label = $"HIGHEST {modeName} WAVE - {mapName.ToUpperInvariant()}",
@@ -371,11 +377,17 @@ namespace Com.GCTC.ZombCube
         private void SelectBoard(int map, int mode, int scope)
         {
             mapIndex = Mathf.Clamp(map, 0, Mathf.Max(0, mapTabs.Count - 1));
-            modeIndex = Mathf.Clamp(mode, 0, 2);
+            bool overall = IsOverall(mapIndex);
+            modeIndex = Mathf.Clamp(mode, 0, overall ? 2 : MapModes.Length - 1);
             scopeIndex = Mathf.Clamp(scope, 0, 2);
 
-            string[] modeNames = IsOverall(mapIndex) ? new[] { "POINTS", "CUBES", "ACCURACY" } : new[] { "SOLO", "CO-OP", "PARTY" };
-            for (int i = 0; i < modeTabs.Count; i++) SetLabel(modeTabs[i], modeNames[i]);
+            string[] modeNames = overall ? new[] { "POINTS", "CUBES", "ACCURACY" } : MapModeTabs;
+            for (int i = 0; i < modeTabs.Count; i++)
+            {
+                bool shown = i < modeNames.Length;
+                modeTabs[i].gameObject.SetActive(shown);
+                if (shown) SetLabel(modeTabs[i], modeNames[i]);
+            }
             for (int i = 0; i < mapTabs.Count; i++) SetTab(mapTabs[i], i == mapIndex);
             for (int i = 0; i < modeTabs.Count; i++) SetTab(modeTabs[i], i == modeIndex);
             for (int i = 0; i < scopeTabs.Count; i++) SetTab(scopeTabs[i], i == scopeIndex);

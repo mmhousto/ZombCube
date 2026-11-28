@@ -16,7 +16,7 @@ public class WaveLeaderboardsTests
         for (int i = 0; i < entries.arraySize; i++)
         {
             string id = entries.GetArrayElementAtIndex(i).FindPropertyRelative("id").stringValue;
-            foreach (WaveMode mode in new[] { WaveMode.Solo, WaveMode.Coop, WaveMode.Party })
+            foreach (WaveMode mode in (WaveMode[])System.Enum.GetValues(typeof(WaveMode)))
             {
                 WaveBoard board = WaveLeaderboards.For(id, mode);
                 Assert.IsNotNull(board, $"No {mode} leaderboard for level '{id}'");
@@ -31,6 +31,19 @@ public class WaveLeaderboardsTests
     {
         Assert.AreEqual(WaveLeaderboards.All.Count, WaveLeaderboards.All.Select(b => b.AppleId).Distinct().Count());
         Assert.AreEqual(WaveLeaderboards.All.Count, WaveLeaderboards.All.Select(b => b.SteamName).Distinct().Count());
+    }
+
+    [Test]
+    public void ChillCoopAndHardcorePartyBoards()
+    {
+        Assert.AreEqual("highest_coop_theatre_chill", WaveLeaderboards.For("theatre", WaveMode.CoopChill).AppleId);
+        Assert.AreEqual("Highest COOP Wave - Theatre: Chill", WaveLeaderboards.For("theatre", WaveMode.CoopChill).SteamName);
+        Assert.AreEqual("highest_party_arena_hard", WaveLeaderboards.For("arena", WaveMode.PartyHardcore).AppleId);
+        Assert.AreEqual("Highest Party Wave - Arena: HM", WaveLeaderboards.For("arena", WaveMode.PartyHardcore).SteamName);
+        // Each mode keeps its own record.
+        WaveRecord[] records = WaveLeaderboards.Record(null, "arena", WaveMode.PartyHardcore, 30, out _);
+        Assert.AreEqual(0, WaveLeaderboards.Best(records, "arena", WaveMode.Party));
+        Assert.AreEqual(30, WaveLeaderboards.Best(records, "arena", WaveMode.PartyHardcore));
     }
 
     [Test]

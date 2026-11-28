@@ -694,7 +694,8 @@ namespace Com.GCTC.ZombCube
             if (player == null) return;
 
             player.points += currentPoints;
-            player.RecordWave(GameScenes.ActiveLevelId, WaveMode.Party, wave);
+            WaveMode mode = RoomLevelKeys.IsHardcoreRoom ? WaveMode.PartyHardcore : WaveMode.Party;
+            player.RecordWave(GameScenes.ActiveLevelId, mode, wave);
 
             bool signedIn = Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam;
             if (signedIn && player.totalPointsEarned >= 100000) LeaderboardManager.UnlockPointRackerI();
@@ -704,7 +705,7 @@ namespace Com.GCTC.ZombCube
             if (Social.localUser.authenticated || SteamManager.IsReady)
             {
                 LeaderboardManager.UpdateMostPointsLeaderboard();
-                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, WaveMode.Party);
+                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, mode);
                 LeaderboardManager.UpdateCubesDestroyedLeaderboard();
                 LeaderboardManager.UpdateAccuracyLeaderboard();
             }

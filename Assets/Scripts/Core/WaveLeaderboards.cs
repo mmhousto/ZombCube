@@ -7,8 +7,14 @@ namespace Com.GCTC.ZombCube
     public enum WaveMode
     {
         Solo,
+        /// <summary>Co-op (Hardcore, the default): one player out ends the game.</summary>
         Coop,
-        Party
+        /// <summary>Party (Normal): the game ends when everyone is out.</summary>
+        Party,
+        /// <summary>Chill Co-op: eliminated players respawn next wave.</summary>
+        CoopChill,
+        /// <summary>Hardcore Party: one player out ends the game.</summary>
+        PartyHardcore
     }
 
     /// <summary>One highest-wave leaderboard on each platform. A null ID means that platform has no board.</summary>
@@ -62,6 +68,14 @@ namespace Com.GCTC.ZombCube
             new WaveBoard(Theatre, WaveMode.Solo, "highest_wave_theatre", null, "Highest Solo Wave - Theatre"),
             new WaveBoard(Theatre, WaveMode.Party, "highest_party_wave_theatre", null, "Highest Party Wave - Theatre"),
             new WaveBoard(Theatre, WaveMode.Coop, "highest_coop_wave_theatre", null, "Highest COOP Wave - Theatre"),
+
+            new WaveBoard(Arena, WaveMode.CoopChill, "highest_coop_arena_chill", null, "Highest COOP Wave - Arena: Chill"),
+            new WaveBoard(Spaceship, WaveMode.CoopChill, "highest_coop_spaceship_chill", null, "Highest COOP Wave - Spaceship: Chill"),
+            new WaveBoard(Theatre, WaveMode.CoopChill, "highest_coop_theatre_chill", null, "Highest COOP Wave - Theatre: Chill"),
+
+            new WaveBoard(Arena, WaveMode.PartyHardcore, "highest_party_arena_hard", null, "Highest Party Wave - Arena: HM"),
+            new WaveBoard(Spaceship, WaveMode.PartyHardcore, "highest_party_spaceship_hard", null, "Highest Party Wave - Spaceship: HM"),
+            new WaveBoard(Theatre, WaveMode.PartyHardcore, "highest_party_theatre_hard", null, "Highest Party Wave - Theatre: HM"),
         };
 
         /// <summary>The board for a map and mode, or null if there isn't one.</summary>

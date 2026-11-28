@@ -544,7 +544,7 @@ namespace Com.GCTC.ZombCube
         }
 
         // Couch Co-op has its own records and leaderboards, separate from Solo.
-        private static WaveMode CurrentPlayMode => GameManager.mode == 1 ? WaveMode.Coop : WaveMode.Solo;
+        private static WaveMode CurrentPlayMode => GameManager.mode != 1 ? WaveMode.Solo : GameManager.chillCoop ? WaveMode.CoopChill : WaveMode.Coop;
 
         private void UpdateHighestWave()
         {
