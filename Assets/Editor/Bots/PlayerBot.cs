@@ -88,6 +88,17 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             All.Add(this);
         }
 
+        /// <summary>One line of state for the run log (diagnostics).</summary>
+        public string Describe()
+        {
+            Nearest(Position, out float nearestDist);
+            Behaviour w = EquippedWeapon();
+            return $"{Name}: pos {Position.x:0},{Position.y:0},{Position.z:0} hp {Health:0} pts {Points} {Activity}" +
+                   $" | move {Pad.Move.x:0.00},{Pad.Move.y:0.00} look {Pad.Look.x:0.00},{Pad.Look.y:0.00} fire {(Pad.Fire ? 1 : 0)} west {(Pad.West ? 1 : 0)}" +
+                   $" | weapon {(w != null ? w.GetType().Name : "none")} ammo {Ammo(w)} slots [{string.Join(",", Slots())}]" +
+                   $" | enemies {enemies.Count} nearest {(nearestDist < 9999f ? nearestDist.ToString("0") : "-")} target {(target != null ? target.name : "-")} shop {(shopTarget != null ? shopTarget.tag : "-")} nav {(navReady ? navAgentType.ToString() : "none")}";
+        }
+
         public void Dispose()
         {
             All.Remove(this);
