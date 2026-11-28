@@ -58,10 +58,26 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             if (PhotonNetwork.IsConnected || PhotonNetwork.OfflineMode) PhotonNetwork.Disconnect();
             PhotonNetwork.OfflineMode = false;
 
-            foreach (PlayerInput input in UnityEngine.Object.FindObjectsByType<PlayerInput>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-                if (input.gameObject.scene.name == "DontDestroyOnLoad") UnityEngine.Object.Destroy(input.gameObject);
+            // Co-op players must be unhooked from their UI input before they're destroyed (destroying them hooked up
+            // freezes the editor, see CouchCoopManager.ReleasePlayerObject); the game's own teardown does that.
             foreach (CouchCoopManager coop in UnityEngine.Object.FindObjectsByType<CouchCoopManager>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-                if (coop.gameObject.scene.name == "DontDestroyOnLoad") UnityEngine.Object.Destroy(coop.gameObject);
+            {
+                if (coop.gameObject.scene.name != "DontDestroyOnLoad") continue;
+                coop.DestroyPlayers();
+                coop.joinedPlayers.Clear();
+                coop.joinedPlayerIDs.Clear();
+                UnityEngine.Object.Destroy(coop.gameObject);
+            }
+            foreach (PlayerInput input in UnityEngine.Object.FindObjectsByType<PlayerInput>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (input == null || input.gameObject.scene.name != "DontDestroyOnLoad") continue;
+                input.uiInputModule = null;
+                input.camera = null;
+                foreach (BaseInputModule module in input.GetComponentsInChildren<BaseInputModule>(true)) module.enabled = false;
+                foreach (EventSystem system in input.GetComponentsInChildren<EventSystem>(true)) system.enabled = false;
+                input.gameObject.SetActive(false);
+                UnityEngine.Object.Destroy(input.gameObject);
+            }
         }
 
         private void Step(MenuStep next)
