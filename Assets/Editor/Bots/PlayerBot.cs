@@ -95,7 +95,9 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
         {
             Nearest(Position, out float nearestDist);
             Behaviour w = EquippedWeapon();
-            return $"{Name}: pos {Position.x:0},{Position.y:0},{Position.z:0} hp {Health:0} pts {Points} {Activity}" +
+            FieldInfo held = typeof(PlayerManager).GetField("isInteractHeld", Any);
+            string interact = manager is PlayerManager pm && held != null ? $" interactHeld {held.GetValue(pm)}" : "";
+            return $"{Name}{interact}: pos {Position.x:0},{Position.y:0},{Position.z:0} hp {Health:0} pts {Points} {Activity}" +
                    $" | move {Pad.Move.x:0.00},{Pad.Move.y:0.00} look {Pad.Look.x:0.00},{Pad.Look.y:0.00} fire {(Pad.Fire ? 1 : 0)} west {(Pad.West ? 1 : 0)}" +
                    $" | weapon {(w != null ? w.GetType().Name : "none")} ammo {Ammo(w)} slots [{string.Join(",", Slots())}]" +
                    $" | enemies {enemies.Count} nearest {(nearestDist < 9999f ? nearestDist.ToString("0") : "-")} target {(target != null ? target.name : "-")} shop {(shopTarget != null ? shopTarget.tag + " d" + Flat(shopTarget.ClosestPoint(Position) - Position).magnitude.ToString("0.0") + (atPickupSince >= 0f ? " holding" : "") : "-")} nav {(navReady ? navAgentType.ToString() : "none")}";
@@ -220,7 +222,7 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             Pad.Jump = Time.time < unstickUntil && Random.value < 0.1f;
 
             AimAndFire();
-            Pad.West = Time.time < westUntil;
+            Pad.West = Time.unscaledTime < westUntil;   // the Hold interaction times in real seconds
             Pad.Send();
         }
 
@@ -410,8 +412,9 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
                 pathTime = Time.time;
                 pathCorner = 1;
                 if (!NavMesh.SamplePosition(Position, out NavMeshHit a, 4f, filter) ||
-                    !NavMesh.SamplePosition(destination, out NavMeshHit b, 6f, filter) ||
-                    !NavMesh.CalculatePath(a.position, b.position, filter, path))
+                    !NavMesh.SamplePosition(destination, out NavMeshHit b, 8f, filter) ||
+                    !NavMesh.CalculatePath(a.position, b.position, filter, path) ||
+                    path.status == NavMeshPathStatus.PathInvalid)
                     return Flat(destination - Position).normalized;
             }
             Vector3[] corners = path.corners;
@@ -440,18 +443,30 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
         private static Vector3 Flat(Vector3 v) { v.y = 0f; return v; }
 
+        // The NavMesh the enemies walk on: of the baked agent types, the one that can path from the player to
+        // the most enemy spawn points (a level can have other, partial NavMeshes).
         private void FindNavMeshAgentType()
         {
+            GameObject[] spawns = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            int bestScore = -1;
+            var testPath = new NavMeshPath();
             int count = NavMesh.GetSettingsCount();
             for (int i = 0; i < count; i++)
             {
                 int id = NavMesh.GetSettingsByIndex(i).agentTypeID;
                 var filter = new NavMeshQueryFilter { agentTypeID = id, areaMask = NavMesh.AllAreas };
-                if (NavMesh.SamplePosition(Root.transform.position, out _, 6f, filter))
+                if (!NavMesh.SamplePosition(Root.transform.position, out NavMeshHit start, 6f, filter)) continue;
+                int score = 1;
+                for (int s = 0; s < spawns.Length && s < 12; s++)
+                    if (NavMesh.SamplePosition(spawns[s].transform.position, out NavMeshHit end, 6f, filter)
+                        && NavMesh.CalculatePath(start.position, end.position, filter, testPath)
+                        && testPath.status == NavMeshPathStatus.PathComplete)
+                        score++;
+                if (score > bestScore)
                 {
+                    bestScore = score;
                     navAgentType = id;
                     navReady = true;
-                    return;
                 }
             }
         }
@@ -465,8 +480,8 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
             int[] slots = Slots();
             Behaviour equipped = EquippedWeapon();
 
-            if (equipped != null && Clip(equipped) == 0 && Ammo(equipped) > 0 && Time.time > westUntil)
-                westUntil = Time.time + 0.1f;   // tap West to reload
+            if (equipped != null && Clip(equipped) == 0 && Ammo(equipped) > 0 && Time.unscaledTime > westUntil)
+                westUntil = Time.unscaledTime + 0.1f;   // tap West to reload
 
             bool bossFar = target != null && target == boss && Vector3.Distance(Position, boss.position) > 30f;
             int wantedSlot = bossFar ? SlotWith(slots, 5, true) : -1;
@@ -590,17 +605,18 @@ namespace Com.GCTC.ZombCube.EditorTools.Bots
 
             if (atPickup)
             {
-                if (atPickupSince < 0f) atPickupSince = Time.time;
-                float held = Time.time - atPickupSince;
-                // Hold for 1 s, let go for 0.3 s, repeat; the purchase shows as the pickup going unusable.
-                westUntil = (held % 1.3f) < 1.0f ? Time.time + 0.05f : 0f;
+                // Real time: the Interact action's Hold (0.4 s) and the game's own 0.25 s hold both have to pass,
+                // whatever the game speed. Hold 1.5 s, let go 0.5 s, repeat; a purchase makes the pickup unusable.
+                if (atPickupSince < 0f) atPickupSince = Time.unscaledTime;
+                float held = Time.unscaledTime - atPickupSince;
+                westUntil = (held % 2f) < 1.5f ? Time.unscaledTime + 0.05f : 0f;
                 if (!IsUsable(shopTarget.gameObject))
                 {
                     BotRun.RecordPurchase(this, shopTarget.tag);
                     StopShopping(1f);
                     return Vector3.zero;
                 }
-                if (held > 6f)
+                if (held > 8f)
                 {
                     // Couldn't buy from here (not enough points, or the trigger is out of reach): skip it for a while.
                     Debug.Log($"[ZCBOT] {Name} couldn't buy {shopTarget.tag} (points {Points}); skipping it for a minute");
