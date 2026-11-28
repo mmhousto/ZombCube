@@ -11,16 +11,16 @@ using UnityEngine.TestTools;
 /// "Bot runs" GitHub workflow or on demand from the Test Runner (category BotRun), never in the PR checks.
 ///
 /// Party here is Photon offline mode with one bot (one Unity editor can only be one Photon client).
-/// Real multi-player Party runs use several builds: see Tools/run-party-bots.ps1.
+/// Real multi-player Party runs use the "Bots - Party 2/4" Multiplayer Play Mode scenarios.
 ///
-/// The bot code lives in Assembly-CSharp, which test assemblies can't reference, so it's called by reflection.
+/// The bot code is Editor-only (Assets/Editor/Bots, Assembly-CSharp-Editor), which test assemblies can't
+/// reference, so it's called by reflection.
 /// </summary>
 [Category("BotRun")]
 public class BotRuns
 {
-    private const string Controller = "Com.GCTC.ZombCube.BotRunController, Assembly-CSharp";
-    private const string Settings = "Com.GCTC.ZombCube.BotSettings, Assembly-CSharp";
-
+    private const string Controller = "Com.GCTC.ZombCube.EditorTools.Bots.BotRun, Assembly-CSharp-Editor";
+    
     // Speed and time limit for CI; override with the ZCBOT_SPEED environment variable when running locally.
     private static string Speed => Environment.GetEnvironmentVariable("ZCBOT_SPEED") ?? "2";
     private const float TimeoutMinutes = 40f;
@@ -49,7 +49,7 @@ public class BotRuns
         // Paths with spaces would split the argument string; keep the result path simple.
         args = args.Replace("\"", "");
 
-        bool started = (bool)controller.GetMethod("StartRun", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { args });
+        bool started = (bool)controller.GetMethod("Start", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { args });
         Assert.IsTrue(started, "Bot run didn't start");
 
         PropertyInfo finished = controller.GetProperty("Finished", BindingFlags.Public | BindingFlags.Static);
@@ -63,8 +63,9 @@ public class BotRuns
         bool passed = (bool)controller.GetProperty("Passed", BindingFlags.Public | BindingFlags.Static).GetValue(null);
         string result = (string)controller.GetProperty("ResultJson", BindingFlags.Public | BindingFlags.Static).GetValue(null);
 
-        // Leave the bot-run mode so the next test (and the editor) start clean.
-        Type.GetType(Settings)?.GetMethod("Reset", BindingFlags.Public | BindingFlags.Static)?.Invoke(null, null);
+        // Stop the run (removes the virtual gamepads, re-enables saving) so the next test starts clean.
+        object current = controller.GetProperty("Current", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+        current?.GetType().GetMethod("Stop").Invoke(current, null);
         Time.timeScale = 1f;
 
         Debug.Log("[ZCBOT] " + name + ": " + result);

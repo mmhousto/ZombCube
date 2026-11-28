@@ -49,12 +49,6 @@ namespace Com.GCTC.ZombCube
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             if (!PhotonNetwork.IsMasterClient) { return; }
             cubesToSpawn *= PhotonNetwork.CurrentRoom.PlayerCount;
-            if (BotSettings.Active)
-            {
-                // Bot run: wave 49's enemy count, and time to buy a wall gun first.
-                cubesToSpawn = BotSettings.PartyCubesAtWave(BotSettings.StartWave, PhotonNetwork.CurrentRoom.PlayerCount);
-                photonView.RPC(nameof(SetCountdown), RpcTarget.All, BotSettings.BuyWindowSeconds);
-            }
             gameOver = NetworkGameManager.Instance.IsGameOver();
             countDownLabel.gameObject.SetActive(true);
             isCountingDown = true;
@@ -246,13 +240,6 @@ namespace Com.GCTC.ZombCube
             }
 
             yield return null;
-        }
-
-        // Bot runs: a longer first countdown so bots can buy a wall gun.
-        [PunRPC]
-        private void SetCountdown(int seconds)
-        {
-            timeTilNextWave = seconds;
         }
 
         [PunRPC]

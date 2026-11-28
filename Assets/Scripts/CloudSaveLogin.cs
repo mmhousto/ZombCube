@@ -37,10 +37,10 @@ namespace Com.GCTC.ZombCube
         /// <summary>Sign-in type, or Anonymous when there's no CloudSaveLogin (e.g. bot runs).</summary>
         public static ssoOption CurrentSSO => instance != null ? instance.currentSSO : ssoOption.Anonymous;
 
-        /// <summary>Saves to the cloud if signed in. Bot runs never save.</summary>
+        /// <summary>Saves to the cloud if signed in (nothing happens without a CloudSaveLogin).</summary>
         public static void SaveCloudDataIfSignedIn()
         {
-            if (BotSettings.Active || instance == null) return;
+            if (instance == null) return;
             instance.SaveCloudData();
         }
 

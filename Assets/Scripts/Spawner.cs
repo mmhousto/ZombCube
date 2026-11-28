@@ -27,13 +27,6 @@ namespace Com.GCTC.ZombCube
             cubesToSpawn = (GameObject.Find("CoopManager") != null) ? GameObject.Find("CoopManager").GetComponent<CouchCoopManager>().joinedPlayerIDs.Count * 5 : 5;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             timeTilNextWave = 5;
-            if (BotSettings.Active)
-            {
-                // Bot run: wave 49's enemy count, and time to buy a wall gun first.
-                int players = (GameObject.Find("CoopManager") != null) ? GameObject.Find("CoopManager").GetComponent<CouchCoopManager>().joinedPlayerIDs.Count : 1;
-                cubesToSpawn = BotSettings.SoloCubesAtWave(BotSettings.StartWave, players);
-                timeTilNextWave = BotSettings.BuyWindowSeconds;
-            }
             countDownLabel.gameObject.SetActive(true);
             isCountingDown = true;
             StartCoroutine(CountDownRound());

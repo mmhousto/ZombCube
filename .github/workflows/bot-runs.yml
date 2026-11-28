@@ -1,8 +1,9 @@
 name: Bot runs
 
-# Long automated play tests: bots play each map from wave 49 (10,000 points, 15 s to buy a wall gun)
-# and must defeat the boss on wave 50 and clear wave 51. Solo, Co-op (2 bots) and Party
-# (Photon offline, 1 bot). Manual only, so pull request checks stay fast:
+# Long automated play tests: Editor-only bots (Assets/Editor/Bots) play each map with virtual gamepads
+# from wave 49 (10,000 points, 15 s to buy a wall gun) and must defeat the boss on wave 50 and clear
+# wave 51. Solo, Co-op (2 bots) and Party (Photon offline, 1 bot). Multi-player Party runs use the
+# "Bots - Party" Multiplayer Play Mode scenarios in the Editor instead. Manual only, so pull request checks stay fast:
 # run it from the Actions tab, or push a commit whose message contains "[bot-runs]"
 # (or "[bot-runs solo]", "[bot-runs coop]", "[bot-runs party]").
 on:

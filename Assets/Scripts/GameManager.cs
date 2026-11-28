@@ -78,7 +78,7 @@ namespace Com.GCTC.ZombCube
             pauseScreen.SetActive(false);
             isGameOver = false;
 
-            CurrentRound = BotSettings.Active ? BotSettings.StartWave : 1;   // bot runs start near the boss
+            CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
 
             CustomAnalytics.SendGameStart();

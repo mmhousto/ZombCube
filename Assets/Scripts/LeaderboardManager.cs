@@ -14,7 +14,6 @@ namespace Com.GCTC.ZombCube
 #if !DISABLESTEAMWORKS
         public static void UpdateSteamLeaderboards()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             if (Player.Instance != null)
             {
                 SteamLeaderboardManager.Instance.UpdateScore(Player.Instance.totalPointsEarned, SteamLeaderboardManager.LeaderboardName.MostPoints);
@@ -32,7 +31,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UpdateMostPointsLeaderboard()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportScore(Player.Instance.totalPointsEarned, "CgkI07-ynroOEAIQBQ", (bool success) =>
@@ -61,7 +59,6 @@ namespace Com.GCTC.ZombCube
         /// </summary>
         public static void UpdateWaveLeaderboard(string levelId, WaveMode mode)
         {
-            if (BotSettings.Active) return;   // bot runs never report
             WaveBoard board = WaveLeaderboards.For(levelId, mode);
             if (board == null || Player.Instance == null || CloudSaveLogin.Instance == null) return;
             int best = Player.Instance.BestWave(levelId, mode);
@@ -88,7 +85,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UpdateCubesDestroyedLeaderboard()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportScore(Player.Instance.cubesEliminated, "CgkI07-ynroOEAIQBA", (bool success) =>
@@ -113,7 +109,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UpdateAccuracyLeaderboard()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
                 Social.ReportScore(Player.Instance.cubesEliminated * 100 / Player.Instance.totalProjectilesFired, "CgkI07-ynroOEAIQAw", (bool success) =>
@@ -172,7 +167,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockStayinAlive()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("stayin_alive_solo");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -192,7 +186,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockStayinAliveTogether()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("stayin_alive_party");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -212,7 +205,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockCubeDestroyerI()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("cube_destroyer_i");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -232,7 +224,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockCubeDestroyerII()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("cube_destroyer_ii");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -252,7 +243,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockCubeDestroyerIII()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("cube_destroyer_iii");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -272,7 +262,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockRicochetKing()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("ricochet_king");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -298,7 +287,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockTriggerHappyI()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("trigger_happy_i");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -318,7 +306,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockTriggerHappyII()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("trigger_happy_ii");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -338,7 +325,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockTriggerHappyIII()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("trigger_happy_iii");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -358,7 +344,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockNGamer1()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("n_gamer_1");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -384,7 +369,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockPointRackerI()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("point_racker_i");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -404,7 +388,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockPointRackerII()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("point_racker_ii");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -424,7 +407,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockPointRackerIII()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("point_racker_iii");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -444,7 +426,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockLetsPlay()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("lets_play");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -470,7 +451,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockLetsPlayTogether()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("lets_play_together");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {
@@ -496,7 +476,6 @@ namespace Com.GCTC.ZombCube
 
         public static void UnlockLetsParty()
         {
-            if (BotSettings.Active) return;   // bot runs never report
             RecordLocal("lets_party");
             if (CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Google)
             {

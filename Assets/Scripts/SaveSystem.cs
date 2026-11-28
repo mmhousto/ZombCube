@@ -19,9 +19,12 @@ namespace Com.GCTC.ZombCube
         /// Saves the player's data to a JSON file.
         /// </summary>
         /// <param name="player"></param>
+        /// <summary>Automated tests set this so they never overwrite the player's save file.</summary>
+        public static bool WritesDisabled;
+
         public static void SavePlayer(Player player)
         {
-            if (BotSettings.Active) return;   // bot runs never touch the player's profile
+            if (WritesDisabled) return;
             SaveData data = new SaveData(player);
             File.WriteAllText(JsonPath, JsonUtility.ToJson(data));
         }

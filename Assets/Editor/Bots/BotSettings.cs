@@ -1,23 +1,14 @@
 using System;
 using System.Globalization;
 
-namespace Com.GCTC.ZombCube
+namespace Com.GCTC.ZombCube.EditorTools.Bots
 {
     /// <summary>
-    /// Settings for an automated bot run (a test where bots play a map from wave <see cref="StartWave"/>
-    /// through the boss). While <see cref="Active"/> is true the game starts at that wave, bots start with
-    /// <see cref="StartPoints"/>, and nothing is saved to the player's profile, cloud save or leaderboards.
-    ///
-    /// Command line (builds and batch mode):
-    ///   -zcbot solo|coop|party     start a bot run (required)
-    ///   -zcbotMap arena|spaceship|theatre   (default arena)
-    ///   -zcbotPlayers N            co-op bots (2-4) or Party instances to wait for (default 2)
-    ///   -zcbotSpeed X              Time.timeScale while playing (default 1)
-    ///   -zcbotRoom NAME            Photon room for multi-instance Party (default zcbot)
-    ///   -zcbotOffline              Party in Photon offline mode (one bot, no network)
-    ///   -zcbotResult PATH          write the result JSON here
-    ///   -zcbotQuit                 quit the application when the run ends
-    ///   -zcbotTimeout MINUTES      give up after this long (default 60)
+    /// Settings for a bot run (Editor only): bots play a map from wave <see cref="StartWave"/> through the boss.
+    /// Runs start from a Multiplayer Play Mode scenario ("Bots - ..." in Assets/Settings/PlayMode, see
+    /// <see cref="BotScenarioLauncher"/>) or the BotRuns PlayMode tests. Arguments use the same names as before:
+    ///   solo|coop|party  -zcbotMap arena|spaceship|theatre  -zcbotPlayers N  -zcbotSpeed X
+    ///   -zcbotRoom NAME  -zcbotOffline  -zcbotResult PATH  -zcbotTimeout MINUTES
     /// </summary>
     public static class BotSettings
     {

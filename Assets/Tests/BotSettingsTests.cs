@@ -2,11 +2,11 @@ using System;
 using System.Reflection;
 using NUnit.Framework;
 
-// Bot run settings: command-line parsing and the wave-49 enemy counts (BotSettings is in Assembly-CSharp,
-// reached by reflection). The bot runs themselves are PlayMode tests (BotRuns) in their own workflow.
+// Bot run settings: argument parsing and the wave-49 enemy counts (BotSettings is Editor-only code in
+// Assembly-CSharp-Editor, reached by reflection). The bot runs themselves are PlayMode tests (BotRuns) in their own workflow.
 public class BotSettingsTests
 {
-    private static readonly Type Settings = Type.GetType("Com.GCTC.ZombCube.BotSettings, Assembly-CSharp");
+    private static readonly Type Settings = Type.GetType("Com.GCTC.ZombCube.EditorTools.Bots.BotSettings, Assembly-CSharp-Editor");
 
     private static object Get(string field) => Settings.GetField(field, BindingFlags.Public | BindingFlags.Static).GetValue(null);
     private static object Call(string method, params object[] args) =>

@@ -73,7 +73,7 @@ namespace Com.GCTC.ZombCube
 
             playersSpawned = 0;
             playersEliminated = 0;
-            CurrentRound = BotSettings.Active ? BotSettings.StartWave : 1;   // bot runs start near the boss
+            CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
             isGameOver = false;
 
