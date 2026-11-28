@@ -12,6 +12,11 @@ namespace Com.GCTC.ZombCube
 
         public static GameManager Instance { get { return _instance; } }
         public static int mode;
+        /// <summary>Chill Co-op: eliminated players respawn next wave; the game ends when everyone is down.
+        /// Off (Hardcore Co-op): one player eliminated ends the game. Set in the co-op lobby.</summary>
+        public static bool chillCoop;
+        /// <summary>Raised when a new wave starts (Chill Co-op respawns downed players).</summary>
+        public static event System.Action waveStarted;
         public delegate void EndGame();
         public static event EndGame endGame;
 
@@ -149,6 +154,7 @@ namespace Com.GCTC.ZombCube
         {
             CurrentRound += 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
+            waveStarted?.Invoke();
 
             if (CurrentRound == 50 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
             {

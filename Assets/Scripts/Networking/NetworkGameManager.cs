@@ -76,6 +76,7 @@ namespace Com.GCTC.ZombCube
             CurrentRound = 1;
             waveTxt.text = "Wave: " + CurrentRound.ToString();
             isGameOver = false;
+            NetworkPlayerManager.ResetForNewGame();
 
             Cursor.lockState = CursorLockMode.Locked;
 
@@ -270,6 +271,9 @@ namespace Com.GCTC.ZombCube
         {
             pauseMenu.SetActive(false);
 
+            // Leaving mid-game still keeps this game's points (saved once per game).
+            NetworkPlayerManager.SaveEndOfGame(CurrentRound);
+
             if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.InRoom)
             {
                 PhotonNetwork.LeaveRoom();
@@ -349,6 +353,9 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void GameOver()
         {
+            // Everyone (including eliminated players) saves this game's points and wave once.
+            NetworkPlayerManager.SaveEndOfGame(CurrentRound);
+
             //if(myPlayer != null) { PhotonNetwork.Destroy(myPlayer); }
 
             Time.timeScale = 1.0f;

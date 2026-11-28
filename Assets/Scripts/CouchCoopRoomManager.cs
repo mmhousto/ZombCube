@@ -24,6 +24,40 @@ namespace Com.GCTC.ZombCube
 
         void Start()
         {
+            CreateModeButton();
+        }
+
+        // Co-op mode: Hardcore (one player eliminated ends the game) or Chill (eliminated players respawn next wave;
+        // the game ends when everyone is down). A copy of the Start button, placed above it.
+        private Button modeButton;
+        private TMPro.TMP_Text modeLabelTmp;
+        private Text modeLabel;
+
+        private void CreateModeButton()
+        {
+            if (startButton == null || modeButton != null) return;
+            GameObject copy = Instantiate(startButton.gameObject, startButton.transform.parent);
+            copy.name = "ModeButton";
+            modeButton = copy.GetComponent<Button>();
+            modeButton.onClick = new Button.ButtonClickedEvent();   // drop the Start button's listeners
+            modeButton.onClick.AddListener(() => { GameManager.chillCoop = !GameManager.chillCoop; RefreshModeButton(); });
+            modeButton.interactable = true;
+            modeLabelTmp = copy.GetComponentInChildren<TMPro.TMP_Text>(true);
+            modeLabel = modeLabelTmp == null ? copy.GetComponentInChildren<Text>(true) : null;
+
+            var source = (RectTransform)startButton.transform;
+            var rect = (RectTransform)copy.transform;
+            rect.anchoredPosition = source.anchoredPosition + new Vector2(0f, source.rect.height + 20f);
+            copy.SetActive(true);
+            RefreshModeButton();
+        }
+
+        private void RefreshModeButton()
+        {
+            if (modeButton == null) return;
+            string text = GameManager.chillCoop ? "MODE: CHILL" : "MODE: HARDCORE";
+            if (modeLabelTmp != null) modeLabelTmp.text = text;
+            if (modeLabel != null) modeLabel.text = text;
         }
 
         private void Update()

@@ -61,11 +61,13 @@ namespace Com.GCTC.ZombCube
 
             PhotonNetwork.SetPlayerCustomProperties(hash);
 
-            
+            CreateModeButton();
         }
 
         private void Update()
         {
+            RefreshModeButton();
+
             if (PhotonNetwork.IsMasterClient && (EventSystem.current.currentSelectedGameObject == startGameButton.gameObject || EventSystem.current.currentSelectedGameObject == null) && IsEveryoneReady() == false)
             {
                 EventSystem.current.SetSelectedGameObject(readyButton);
@@ -77,6 +79,47 @@ namespace Com.GCTC.ZombCube
 
 
         #region Private Methods
+
+        // Party mode: Normal (the game ends when everyone is out) or Hardcore (one player out ends it).
+        // A copy of the Ready button, placed above it; only the party leader can change it.
+        private Button modeButton;
+        private TMPro.TMP_Text modeLabelTmp;
+        private Text modeLabel;
+
+        private void CreateModeButton()
+        {
+            if (readyButton == null || modeButton != null) return;
+            GameObject copy = Instantiate(readyButton, readyButton.transform.parent);
+            copy.name = "ModeButton";
+            modeButton = copy.GetComponent<Button>();
+            if (modeButton == null) { Destroy(copy); return; }
+            modeButton.onClick = new Button.ButtonClickedEvent();   // drop the Ready button's listeners
+            modeButton.onClick.AddListener(OnModeClicked);
+            modeLabelTmp = copy.GetComponentInChildren<TMPro.TMP_Text>(true);
+            modeLabel = modeLabelTmp == null ? copy.GetComponentInChildren<Text>(true) : null;
+
+            var source = (RectTransform)readyButton.transform;
+            var rect = (RectTransform)copy.transform;
+            rect.anchoredPosition = source.anchoredPosition + new Vector2(0f, source.rect.height + 20f);
+            copy.SetActive(true);
+            RefreshModeButton();
+        }
+
+        private void OnModeClicked()
+        {
+            if (!PhotonNetwork.IsMasterClient || PhotonNetwork.CurrentRoom == null) return;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable { { RoomLevelKeys.Hardcore, !RoomLevelKeys.IsHardcoreRoom } });
+        }
+
+        private void RefreshModeButton()
+        {
+            if (modeButton == null) return;
+            string text = RoomLevelKeys.IsHardcoreRoom ? "MODE: HARDCORE" : "MODE: NORMAL";
+            if (modeLabelTmp != null && modeLabelTmp.text != text) modeLabelTmp.text = text;
+            if (modeLabel != null && modeLabel.text != text) modeLabel.text = text;
+            bool leader = PhotonNetwork.IsMasterClient;
+            if (modeButton.interactable != leader) modeButton.interactable = leader;
+        }
 
 
         /// <summary>

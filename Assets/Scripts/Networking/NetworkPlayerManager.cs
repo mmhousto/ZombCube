@@ -145,7 +145,7 @@ namespace Com.GCTC.ZombCube
                 healthBar = GameObject.FindWithTag("Health").GetComponent<Slider>();
                 scoreText = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
                 healthPoints = 100f;
-                currentPoints = 0;
+                // Points carry over when respawning; NetworkGameManager resets them when a game starts.
                 holdTime = 0;
                 healthBar.value = healthPoints;
                 playerHealth.value = healthPoints;
@@ -393,9 +393,7 @@ namespace Com.GCTC.ZombCube
         [PunRPC]
         public void SaveDataEndGame()
         {
-            UpdateTotalPoints();
-            UpdateHighestWave();
-            UpdateLeaderboards();
+            SaveEndOfGame(NetworkGameManager.Instance.CurrentRound);
 
 #if (UNITY_IOS || UNITY_ANDROID)
                     
@@ -406,23 +404,6 @@ namespace Com.GCTC.ZombCube
                     
 #endif
 
-            try
-            {
-                SavePlayerData();
-            }
-            catch
-            {
-                Debug.Log("Failed to save local data");
-            }
-
-            try
-            {
-                CloudSaveLogin.SaveCloudDataIfSignedIn();
-            }
-            catch
-            {
-                Debug.Log("Failed to save cloud data");
-            }
 
             //NetworkGameManager.Instance.ActivateCamera();
 
@@ -624,9 +605,7 @@ namespace Com.GCTC.ZombCube
             {
                 if (healthPoints <= 0 && !isGameOver && isAlive == true)
                 {
-                    UpdateTotalPoints();
-                    UpdateHighestWave();
-                    UpdateLeaderboards();
+                    // Points stay with the player through respawns; the profile is saved once, when the game ends.
 
 #if (UNITY_IOS || UNITY_ANDROID)
 
@@ -636,23 +615,6 @@ namespace Com.GCTC.ZombCube
                     }
 #endif
 
-                    try
-                    {
-                        SavePlayerData();
-                    }
-                    catch
-                    {
-                        Debug.Log("Failed to save local data");
-                    }
-
-                    try
-                    {
-                        CloudSaveLogin.SaveCloudDataIfSignedIn();
-                    }
-                    catch
-                    {
-                        Debug.Log("Failed to save cloud data");
-                    }
 
 
                     healthPoints = 0;
@@ -674,7 +636,8 @@ namespace Com.GCTC.ZombCube
                     if (this.gameObject != null)
                         PhotonNetwork.Destroy(this.gameObject);
 
-                    if (NetworkGameManager.Instance.playersEliminated >= PhotonNetwork.CurrentRoom.PlayerCount)
+                    // Everyone is out, or Hardcore Party (one player out ends the game for everyone).
+                    if (NetworkGameManager.Instance.playersEliminated >= PhotonNetwork.CurrentRoom.PlayerCount || RoomLevelKeys.IsHardcoreRoom)
                     {
                         NetworkGameManager.Instance.ActivateCamera();
                         NetworkGameManager.Instance.CallGameOver();
@@ -686,17 +649,6 @@ namespace Com.GCTC.ZombCube
                 }
             }
             
-        }
-
-        private void UpdateLeaderboards()
-        {
-            if (Social.localUser.authenticated || SteamManager.IsReady)
-            {
-                LeaderboardManager.UpdateMostPointsLeaderboard();
-                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, WaveMode.Party);
-                LeaderboardManager.UpdateCubesDestroyedLeaderboard();
-                LeaderboardManager.UpdateAccuracyLeaderboard();
-            }
         }
 
         private void UpdateStats()
@@ -720,35 +672,47 @@ namespace Com.GCTC.ZombCube
             }
         }
 
-        private void UpdateTotalPoints()
+        private static bool endOfGameSaved;
+
+        /// <summary>A new Party game: points start at 0 and the end-of-game save can run again.</summary>
+        public static void ResetForNewGame()
         {
-            if (player == null)
-                player = Player.Instance;
-
-            if(player != null)
-                player.points += currentPoints;
-
-            if (player != null && player.totalPointsEarned >= 100000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
-            {
-                LeaderboardManager.UnlockPointRackerI();
-            }
-            if (player != null && player.totalPointsEarned >= 1000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
-            {
-                LeaderboardManager.UnlockPointRackerII();
-            }
-            if (player != null && player.totalPointsEarned >= 10000000 && (Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam))
-            {
-                LeaderboardManager.UnlockPointRackerIII();
-            }
+            currentPoints = 0;
+            endOfGameSaved = false;
         }
 
-        private void UpdateHighestWave()
+        /// <summary>
+        /// Adds this game's points to the profile, records the wave the party reached, reports leaderboards and
+        /// saves, once per game (called on every client when the game ends, even if this player was eliminated).
+        /// </summary>
+        public static void SaveEndOfGame(int wave)
         {
-            if (player == null)
-                player = Player.Instance;
+            if (endOfGameSaved) return;
+            endOfGameSaved = true;
 
-            if (player != null)
-                player.RecordWave(GameScenes.ActiveLevelId, WaveMode.Party, NetworkGameManager.Instance.CurrentRound);
+            Player player = Player.Instance;
+            if (player == null) return;
+
+            player.points += currentPoints;
+            player.RecordWave(GameScenes.ActiveLevelId, WaveMode.Party, wave);
+
+            bool signedIn = Social.localUser.authenticated || CloudSaveLogin.CurrentSSO == CloudSaveLogin.ssoOption.Steam;
+            if (signedIn && player.totalPointsEarned >= 100000) LeaderboardManager.UnlockPointRackerI();
+            if (signedIn && player.totalPointsEarned >= 1000000) LeaderboardManager.UnlockPointRackerII();
+            if (signedIn && player.totalPointsEarned >= 10000000) LeaderboardManager.UnlockPointRackerIII();
+
+            if (Social.localUser.authenticated || SteamManager.IsReady)
+            {
+                LeaderboardManager.UpdateMostPointsLeaderboard();
+                LeaderboardManager.UpdateWaveLeaderboard(GameScenes.ActiveLevelId, WaveMode.Party);
+                LeaderboardManager.UpdateCubesDestroyedLeaderboard();
+                LeaderboardManager.UpdateAccuracyLeaderboard();
+            }
+
+            try { SaveSystem.SavePlayer(player); }
+            catch { Debug.Log("Failed to save local data"); }
+            try { CloudSaveLogin.SaveCloudDataIfSignedIn(); }
+            catch { Debug.Log("Failed to save cloud data"); }
         }
 
         private void Pause()

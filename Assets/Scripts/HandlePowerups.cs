@@ -27,9 +27,6 @@ namespace Com.GCTC.ZombCube
         public NetworkAB networkAB; // AB
         public NetworkShotblaster networkShotblaster; //Shotblaster
 
-        [Tooltip("PowerUps indicator prefab, added to this player's HUD when the HUD doesn't already have one.")]
-        public GameObject powerupIndicatorsPrefab;
-
         // When each active powerup runs out (Full Auto and Speed stack, one entry per pickup).
         private readonly List<float> fullAutoEnds = new List<float>();
         private readonly List<float> speedEnds = new List<float>();
@@ -255,18 +252,24 @@ namespace Com.GCTC.ZombCube
 
         // ------------------------------------------------------------------ indicators
 
-        // Uses this player's HUD: its own canvas in Co-op (found through its health bar), the scene HUD otherwise.
-        // If that HUD has no PowerUps indicators, adds one from powerupIndicatorsPrefab at the top centre.
+        // The PowerUps indicators on this player's HUD: its own Canvas in Co-op (found through its health bar),
+        // the scene's Canvas in Solo, and the HUDCanvas in Party.
         private void FindIndicators()
         {
             indicatorsSearched = true;
-            Transform hud = null;
+            Transform powerUps = null;
+
             PlayerManager manager = GetComponent<PlayerManager>();
             if (manager != null && manager.healthBar != null && manager.healthBar.canvas != null)
-                hud = manager.healthBar.canvas.rootCanvas.transform;
+                powerUps = FindChild(manager.healthBar.canvas.rootCanvas.transform, "PowerUps");
 
-            Transform powerUps = hud != null ? FindChild(hud, "PowerUps") : null;
-            if (powerUps == null && hud == null)
+            if (powerUps == null)
+            {
+                GameObject canvas = GameObject.FindWithTag("Canvas");
+                if (canvas != null) powerUps = FindChild(canvas.transform, "PowerUps");
+            }
+
+            if (powerUps == null)
             {
                 foreach (RectTransform rect in FindObjectsByType<RectTransform>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                     if (rect.name == "PowerUps" && rect.GetComponentInParent<PlayerManager>(true) == null && rect.GetComponentInParent<NetworkPlayerManager>(true) == null)
@@ -274,26 +277,6 @@ namespace Com.GCTC.ZombCube
                         powerUps = rect;
                         break;
                     }
-            }
-
-            if (powerUps == null && powerupIndicatorsPrefab != null)
-            {
-                Transform parent = hud;
-                if (parent == null)
-                {
-                    Canvas canvas = FindFirstObjectByType<Canvas>();
-                    parent = canvas != null ? canvas.rootCanvas.transform : null;
-                }
-                if (parent != null)
-                {
-                    Transform safeArea = parent.Find("SafeArea");
-                    var rt = (RectTransform)Instantiate(powerupIndicatorsPrefab, safeArea != null ? safeArea : parent, false).transform;
-                    rt.name = "PowerUps";
-                    rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 1f);
-                    rt.pivot = new Vector2(0.5f, 0.5f);
-                    rt.anchoredPosition = new Vector2(0f, -91f);
-                    powerUps = rt;
-                }
             }
             if (powerUps == null) return;
 

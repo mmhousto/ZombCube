@@ -24,6 +24,15 @@ namespace Com.GCTC.ZombCube
 
         public static int currentPoints = 0;
 
+        /// <summary>Players in the current solo / co-op game.</summary>
+        public static readonly System.Collections.Generic.List<PlayerManager> Players = new System.Collections.Generic.List<PlayerManager>();
+
+        /// <summary>Chill Co-op: eliminated and waiting to respawn at the start of the next wave.</summary>
+        public bool IsDown { get; private set; }
+        private readonly System.Collections.Generic.List<Behaviour> disabledWhileDown = new System.Collections.Generic.List<Behaviour>();
+        private readonly System.Collections.Generic.List<Renderer> hiddenWhileDown = new System.Collections.Generic.List<Renderer>();
+        private readonly System.Collections.Generic.List<GameObject> untaggedWhileDown = new System.Collections.Generic.List<GameObject>();
+
         private SwapManager swapManager;
         private FullyAuto fullyAutoSMB;
         private AssaultBlaster aB;
@@ -186,11 +195,15 @@ namespace Com.GCTC.ZombCube
             if (waveText != null && waveText?.text != GameManager.Instance?.waveTxt.text)
                 waveText.text = GameManager.Instance?.waveTxt.text;
 
-            if (healthPoints <= 0 && isGameOver == false)
+            if (healthPoints <= 0 && isGameOver == false && !IsDown)
             {
                 healthPoints = 0;
 
-                SaveDataEndGame();
+                // Chill Co-op: go down and respawn next wave while a teammate is still up.
+                if (GameManager.mode == 1 && GameManager.chillCoop && AnyTeammateUp())
+                    GoDown();
+                else
+                    SaveDataEndGame();
             }
 
         }
@@ -198,11 +211,67 @@ namespace Com.GCTC.ZombCube
         private void OnEnable()
         {
             GameManager.endGame += SaveDataEndGame;
+            GameManager.waveStarted += RespawnIfDown;
+            if (!Players.Contains(this)) Players.Add(this);
         }
 
         private void OnDisable()
         {
             GameManager.endGame -= SaveDataEndGame;
+            GameManager.waveStarted -= RespawnIfDown;
+            Players.Remove(this);
+        }
+
+        private bool AnyTeammateUp()
+        {
+            foreach (PlayerManager p in Players)
+                if (p != null && p != this && !p.IsDown && p.isActiveAndEnabled && p.healthPoints > 0) return true;
+            return false;
+        }
+
+        // Down: hidden, ignored by the cubes (not tagged Player), can't move, shoot or pick things up.
+        // The camera stays, so the player watches their team until the next wave.
+        private void GoDown()
+        {
+            IsDown = true;
+            disabledWhileDown.Clear();
+            hiddenWhileDown.Clear();
+            untaggedWhileDown.Clear();
+
+            foreach (Behaviour b in GetComponents<Behaviour>())
+                if (b != null && b.enabled && (b is PlayerMovement || b is ShootProjectile || b is SwapManager || b is HandlePowerups))
+                {
+                    b.enabled = false;
+                    disabledWhileDown.Add(b);
+                }
+            foreach (Renderer r in GetComponentsInChildren<Renderer>())
+                if (r.enabled) { r.enabled = false; hiddenWhileDown.Add(r); }
+            foreach (Transform t in GetComponentsInChildren<Transform>(true))
+                if (t.CompareTag("Player")) { t.tag = "Untagged"; untaggedWhileDown.Add(t.gameObject); }
+            CharacterController body = GetComponent<CharacterController>();
+            if (body != null) body.enabled = false;
+
+            if (healthBar != null) healthBar.value = 0;
+        }
+
+        private void RespawnIfDown()
+        {
+            if (!IsDown || isGameOver) return;
+
+            // Back at this player's co-op spawn point.
+            int index = CouchCoopManager.Instance != null && transform.parent != null ? CouchCoopManager.Instance.GetPlayerIndex(transform.parent.gameObject) : 0;
+            GameObject spawn = GameObject.Find("SP" + (Mathf.Clamp(index, 0, 3) + 1));
+            if (spawn != null) transform.SetPositionAndRotation(spawn.transform.position, spawn.transform.rotation);
+
+            CharacterController body = GetComponent<CharacterController>();
+            if (body != null) body.enabled = true;
+            foreach (GameObject go in untaggedWhileDown) if (go != null) go.tag = "Player";
+            foreach (Renderer r in hiddenWhileDown) if (r != null) r.enabled = true;
+            foreach (Behaviour b in disabledWhileDown) if (b != null) b.enabled = true;
+
+            healthPoints = 100f;
+            if (healthBar != null) healthBar.value = healthPoints;
+            IsDown = false;
         }
 
         private void OnDestroy()
@@ -272,6 +341,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerEnter(Collider other)
         {
+            if (IsDown) return;
             if (other.CompareTag("Armor"))
             {
                 Destroy(other.transform.root.gameObject);
@@ -290,6 +360,7 @@ namespace Com.GCTC.ZombCube
 
         private void OnTriggerStay(Collider other)
         {
+            if (IsDown) return;
             HealthPack hp;
             other.TryGetComponent<HealthPack>(out hp);
 
